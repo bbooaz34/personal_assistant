@@ -16,6 +16,7 @@ export const enabledTools: UIToolName[] = [
   'show_skill_map',
   'show_cv_section',
   'show_process',
+  'show_transformation',
   'compare_projects',
   // Enable once media and hosting are in place (Phase 3):
   // 'show_video',

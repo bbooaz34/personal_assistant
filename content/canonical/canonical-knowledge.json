@@ -3,10 +3,9 @@
     "schema_version": "0.2",
     "subject_id": "person_boaz_ben_eli",
     "generated_at": "2026-08-26",
-    "generated_by": "human review of cv-extraction-v0.2 + chatgpt-export-v0.2, per canonical-v0.1-changelog",
-    "notes": "CANONICAL. Every entry here was reviewed by the owner. Facts still marked needs_verification are true to the best of current knowledge but lack an authoritative artefact; the agent presents them as unverified. Contact details, compensation and personal information are intentionally absent — they are excluded at the source, not filtered at runtime."
+    "generated_by": "human review of cv-extraction-v0.2 + chatgpt-export-v0.2, per canonical-v0.1-changelog; internship platform added 2026-08-26 from project export + source bundle review",
+    "notes": "CANONICAL. Every entry here was reviewed by the owner. Facts still marked needs_verification are true to the best of current knowledge but lack an authoritative artefact; the agent presents them as unverified. Contact details, compensation and personal information are intentionally absent — they are excluded at the source, not filtered at runtime. The internship platform is present but RESTRICTED: it is an internal Zemingo tool that has not been cleared for public portfolio use, so the public-facing agent never retrieves it. Flip its visibility to \"public\" once Zemingo confirms."
   },
-
   "sources": [
     {
       "id": "source_cv_2025_creative_leader",
@@ -34,60 +33,304 @@
       "uri": null,
       "date": "2026-08-26",
       "notes": "AI memory is a source, not truth. Claims originating here were either confirmed manually or remain needs_verification."
+    },
+    {
+      "id": "source_internship_platform_bundle",
+      "type": "document",
+      "name": "Internship Platform source bundle + Claude project export, 2026-08-26",
+      "authority_level": 2,
+      "uri": null,
+      "date": "2026-08-26",
+      "notes": "Project documentation and application source. Held locally; deliberately not committed, because it is internal Zemingo source for a tool not cleared for public use."
     }
   ],
-
   "entities": [
-    { "id": "person_boaz_ben_eli", "type": "person", "name": "Boaz Ben Eli", "description": "Creative Leader — AI-native multidisciplinary design leader.", "visibility": "public" },
-
-    { "id": "company_zemingo", "type": "company", "name": "Zemingo", "description": "Product and technology studio.", "visibility": "public" },
-    { "id": "company_byondxr", "type": "company", "name": "ByondXR", "aliases": ["Byond XR"], "description": "Immersive 3D e-commerce platform for major retail brands.", "visibility": "public" },
-    { "id": "company_lightricks", "type": "company", "name": "Lightricks", "description": "Creative software company. Context for a creative AI assignment, not an employer.", "visibility": "public" },
-    { "id": "company_hiper_global", "type": "company", "name": "HIPER Global", "visibility": "public" },
-    { "id": "company_mastercard", "type": "company", "name": "Mastercard", "description": "Client of ByondXR.", "visibility": "public" },
-    { "id": "company_caesarstone", "type": "company", "name": "Caesarstone", "description": "Client of ByondXR.", "visibility": "public" },
-
-    { "id": "institution_hit", "type": "institution", "name": "Holon Institute of Technology", "aliases": ["HIT"], "visibility": "public" },
-
-    { "id": "role_design_team_leader", "type": "role", "name": "Design Team Leader", "visibility": "public" },
-    { "id": "role_creative_team_leader", "type": "role", "name": "Creative Team Leader", "visibility": "public" },
-    { "id": "role_junior_product_designer", "type": "role", "name": "Junior Product Designer", "visibility": "public" },
-
-    { "id": "industry_ai", "type": "industry", "name": "Artificial Intelligence", "visibility": "public" },
-    { "id": "industry_fintech", "type": "industry", "name": "Fintech", "visibility": "public" },
-    { "id": "industry_ecommerce", "type": "industry", "name": "E-commerce", "visibility": "public" },
-    { "id": "industry_xr", "type": "industry", "name": "XR / Immersive", "visibility": "public" },
-    { "id": "industry_retail", "type": "industry", "name": "Retail", "visibility": "public" },
-
-    { "id": "tool_figma", "type": "tool", "name": "Figma", "visibility": "public" },
-    { "id": "tool_adobe_suite", "type": "tool", "name": "Adobe Creative Suite", "visibility": "public" },
-    { "id": "tool_after_effects", "type": "tool", "name": "Adobe After Effects", "visibility": "public" },
-    { "id": "tool_blender", "type": "tool", "name": "Blender", "visibility": "public" },
-    { "id": "tool_comfyui", "type": "tool", "name": "ComfyUI", "visibility": "public" },
-    { "id": "tool_automatic1111", "type": "tool", "name": "Automatic1111", "visibility": "public" },
-    { "id": "tool_kohya_ss", "type": "tool", "name": "Kohya_ss", "visibility": "public" },
-    { "id": "tool_ipadapter", "type": "tool", "name": "IPAdapter", "visibility": "public" },
-    { "id": "tool_runway", "type": "tool", "name": "Runway", "visibility": "public" },
-    { "id": "tool_kling", "type": "tool", "name": "Kling", "visibility": "public" },
-    { "id": "tool_suno", "type": "tool", "name": "Suno.ai", "visibility": "public" },
-    { "id": "tool_weavy", "type": "tool", "name": "Weavy", "visibility": "public" },
-    { "id": "tool_claude_code", "type": "tool", "name": "Claude Code", "visibility": "public" },
-    { "id": "tool_higgsfield", "type": "tool", "name": "Higgsfield", "visibility": "public" },
-    { "id": "technology_lora_training", "type": "technology", "name": "LoRA training", "visibility": "public" },
-    { "id": "technology_ai_agents", "type": "technology", "name": "AI agents", "visibility": "public" }
+    {
+      "id": "person_boaz_ben_eli",
+      "type": "person",
+      "name": "Boaz Ben Eli",
+      "description": "Creative Leader — AI-native multidisciplinary design leader.",
+      "visibility": "public"
+    },
+    {
+      "id": "company_zemingo",
+      "type": "company",
+      "name": "Zemingo",
+      "description": "Product and technology studio.",
+      "visibility": "public"
+    },
+    {
+      "id": "company_byondxr",
+      "type": "company",
+      "name": "ByondXR",
+      "aliases": [
+        "Byond XR"
+      ],
+      "description": "Immersive 3D e-commerce platform for major retail brands.",
+      "visibility": "public"
+    },
+    {
+      "id": "company_lightricks",
+      "type": "company",
+      "name": "Lightricks",
+      "description": "Creative software company. Context for a creative AI assignment, not an employer.",
+      "visibility": "public"
+    },
+    {
+      "id": "company_hiper_global",
+      "type": "company",
+      "name": "HIPER Global",
+      "visibility": "public"
+    },
+    {
+      "id": "company_mastercard",
+      "type": "company",
+      "name": "Mastercard",
+      "description": "Client of ByondXR.",
+      "visibility": "public"
+    },
+    {
+      "id": "company_caesarstone",
+      "type": "company",
+      "name": "Caesarstone",
+      "description": "Client of ByondXR.",
+      "visibility": "public"
+    },
+    {
+      "id": "institution_hit",
+      "type": "institution",
+      "name": "Holon Institute of Technology",
+      "aliases": [
+        "HIT"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "role_design_team_leader",
+      "type": "role",
+      "name": "Design Team Leader",
+      "visibility": "public"
+    },
+    {
+      "id": "role_creative_team_leader",
+      "type": "role",
+      "name": "Creative Team Leader",
+      "visibility": "public"
+    },
+    {
+      "id": "role_junior_product_designer",
+      "type": "role",
+      "name": "Junior Product Designer",
+      "visibility": "public"
+    },
+    {
+      "id": "industry_ai",
+      "type": "industry",
+      "name": "Artificial Intelligence",
+      "visibility": "public"
+    },
+    {
+      "id": "industry_fintech",
+      "type": "industry",
+      "name": "Fintech",
+      "visibility": "public"
+    },
+    {
+      "id": "industry_ecommerce",
+      "type": "industry",
+      "name": "E-commerce",
+      "visibility": "public"
+    },
+    {
+      "id": "industry_xr",
+      "type": "industry",
+      "name": "XR / Immersive",
+      "visibility": "public"
+    },
+    {
+      "id": "industry_retail",
+      "type": "industry",
+      "name": "Retail",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_figma",
+      "type": "tool",
+      "name": "Figma",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_adobe_suite",
+      "type": "tool",
+      "name": "Adobe Creative Suite",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_after_effects",
+      "type": "tool",
+      "name": "Adobe After Effects",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_blender",
+      "type": "tool",
+      "name": "Blender",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_comfyui",
+      "type": "tool",
+      "name": "ComfyUI",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_automatic1111",
+      "type": "tool",
+      "name": "Automatic1111",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_kohya_ss",
+      "type": "tool",
+      "name": "Kohya_ss",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_ipadapter",
+      "type": "tool",
+      "name": "IPAdapter",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_runway",
+      "type": "tool",
+      "name": "Runway",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_kling",
+      "type": "tool",
+      "name": "Kling",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_suno",
+      "type": "tool",
+      "name": "Suno.ai",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_weavy",
+      "type": "tool",
+      "name": "Weavy",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_claude_code",
+      "type": "tool",
+      "name": "Claude Code",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_higgsfield",
+      "type": "tool",
+      "name": "Higgsfield",
+      "visibility": "public"
+    },
+    {
+      "id": "technology_lora_training",
+      "type": "technology",
+      "name": "LoRA training",
+      "visibility": "public"
+    },
+    {
+      "id": "technology_ai_agents",
+      "type": "technology",
+      "name": "AI agents",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_nextjs",
+      "type": "tool",
+      "name": "Next.js",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_typescript",
+      "type": "tool",
+      "name": "TypeScript",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_supabase",
+      "type": "tool",
+      "name": "Supabase",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_postgresql",
+      "type": "tool",
+      "name": "PostgreSQL",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_vercel",
+      "type": "tool",
+      "name": "Vercel",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_tailwind",
+      "type": "tool",
+      "name": "Tailwind CSS",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_claude",
+      "type": "tool",
+      "name": "Claude",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_cowork",
+      "type": "tool",
+      "name": "Cowork",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_github",
+      "type": "tool",
+      "name": "GitHub",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_next_intl",
+      "type": "tool",
+      "name": "next-intl",
+      "visibility": "public"
+    },
+    {
+      "id": "technology_row_level_security",
+      "type": "technology",
+      "name": "PostgreSQL row-level security",
+      "visibility": "public"
+    }
   ],
-
   "facts": [
     {
       "id": "fact_positioning_statement",
       "claim": "Boaz Ben Eli is an AI-native multidisciplinary design leader who combines product design, creative direction, team leadership, and generative AI as a core working methodology rather than as experimentation.",
       "category": "identity",
       "knowledge_type": "explicit",
-      "confidence": 1.0,
+      "confidence": 1,
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_manual_confirmation_2026_08_26", "locator": "Positioning approval", "reliability": 1.0 }
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "locator": "Positioning approval",
+          "reliability": 1
+        }
       ],
       "last_verified": "2026-08-26",
       "notes": "Owner-approved positioning. The upgrade from 'experimentation' to 'core methodology' was a deliberate review decision."
@@ -97,11 +340,15 @@
       "claim": "Boaz has over 5 years of professional product design experience.",
       "category": "career",
       "knowledge_type": "explicit",
-      "confidence": 1.0,
+      "confidence": 1,
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_cv_2025_creative_leader", "locator": "Page 1 Summary", "reliability": 1.0 }
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 1 Summary",
+          "reliability": 1
+        }
       ],
       "last_verified": "2026-08-26",
       "notes": "CV authority chosen over a conflicting AI-memory claim of '3+ years'. See conflict_years_of_experience."
@@ -111,13 +358,23 @@
       "claim": "Boaz has been Design Team Leader at Zemingo since January 2025.",
       "category": "career",
       "knowledge_type": "explicit",
-      "confidence": 1.0,
+      "confidence": 1,
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_cv_2025_creative_leader", "locator": "Page 1 Experience — Zemingo", "reliability": 1.0 }
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 1 Experience — Zemingo",
+          "reliability": 1
+        }
       ],
-      "evidence": [{ "type": "role", "reference_id": "role_design_team_leader", "strength": 1.0 }],
+      "evidence": [
+        {
+          "type": "role",
+          "reference_id": "role_design_team_leader",
+          "strength": 1
+        }
+      ],
       "valid_from": "2025-01-01",
       "valid_to": null,
       "last_verified": "2026-08-26"
@@ -127,14 +384,27 @@
       "claim": "At Zemingo, Boaz leads a product design team, aligns creative, product and business needs, oversees strategy, workflows and delivery of user-centric interfaces, implements AI-native workflows and AI solutions, and mentors designers.",
       "category": "responsibility",
       "knowledge_type": "explicit",
-      "confidence": 1.0,
+      "confidence": 1,
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_cv_2025_creative_leader", "locator": "Page 1 Experience — Zemingo", "reliability": 1.0 },
-        { "source_id": "source_manual_confirmation_2026_08_26", "reliability": 1.0 }
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 1 Experience — Zemingo",
+          "reliability": 1
+        },
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "reliability": 1
+        }
       ],
-      "evidence": [{ "type": "role", "reference_id": "role_design_team_leader", "strength": 1.0 }],
+      "evidence": [
+        {
+          "type": "role",
+          "reference_id": "role_design_team_leader",
+          "strength": 1
+        }
+      ],
       "valid_from": "2025-01-01",
       "valid_to": null,
       "last_verified": "2026-08-26"
@@ -148,7 +418,11 @@
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_manual_confirmation_2026_08_26", "locator": "Team scope approval", "reliability": 1.0 }
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "locator": "Team scope approval",
+          "reliability": 1
+        }
       ],
       "valid_from": "2025-01-01",
       "valid_to": null,
@@ -160,11 +434,15 @@
       "claim": "Boaz worked at ByondXR from January 2020 to January 2024.",
       "category": "career",
       "knowledge_type": "explicit",
-      "confidence": 1.0,
+      "confidence": 1,
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_cv_2025_creative_leader", "locator": "Page 1 Experience — ByondXR", "reliability": 1.0 }
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 1 Experience — ByondXR",
+          "reliability": 1
+        }
       ],
       "valid_from": "2020-01-01",
       "valid_to": "2024-01-01",
@@ -179,11 +457,23 @@
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_manual_confirmation_2026_08_26", "locator": "Career path correction", "reliability": 1.0 }
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "locator": "Career path correction",
+          "reliability": 1
+        }
       ],
       "evidence": [
-        { "type": "role", "reference_id": "role_junior_product_designer", "strength": 0.95 },
-        { "type": "role", "reference_id": "role_creative_team_leader", "strength": 0.95 }
+        {
+          "type": "role",
+          "reference_id": "role_junior_product_designer",
+          "strength": 0.95
+        },
+        {
+          "type": "role",
+          "reference_id": "role_creative_team_leader",
+          "strength": 0.95
+        }
       ],
       "valid_from": "2020-01-01",
       "valid_to": "2024-01-01",
@@ -195,11 +485,15 @@
       "claim": "At ByondXR, Boaz led a multidisciplinary team of designers and 3D artists, created immersive 3D e-commerce experiences for major brands, designed cross-platform interfaces aligned with UX/UI best practices, and collaborated with product and marketing teams.",
       "category": "responsibility",
       "knowledge_type": "explicit",
-      "confidence": 1.0,
+      "confidence": 1,
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_cv_2025_creative_leader", "locator": "Page 1 Experience — ByondXR", "reliability": 1.0 }
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 1 Experience — ByondXR",
+          "reliability": 1
+        }
       ],
       "valid_from": "2020-01-01",
       "valid_to": "2024-01-01",
@@ -214,8 +508,15 @@
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_manual_confirmation_2026_08_26", "locator": "Team scope approval", "reliability": 1.0 },
-        { "source_id": "source_chatgpt_memory_2026_08_26", "reliability": 0.6 }
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "locator": "Team scope approval",
+          "reliability": 1
+        },
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.6
+        }
       ],
       "valid_from": "2020-01-01",
       "valid_to": "2024-01-01",
@@ -231,8 +532,16 @@
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_manual_confirmation_2026_08_26", "locator": "Metric attribution correction", "reliability": 1.0 },
-        { "source_id": "source_cv_2025_creative_leader", "locator": "Page 1 Experience — ByondXR", "reliability": 0.8 }
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "locator": "Metric attribution correction",
+          "reliability": 1
+        },
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 1 Experience — ByondXR",
+          "reliability": 0.8
+        }
       ],
       "valid_from": "2020-01-01",
       "valid_to": "2024-01-01",
@@ -244,12 +553,20 @@
       "claim": "Boaz holds a B.Des from Holon Institute of Technology (2015–2019), studying UX/UI, Branding and Digital Storytelling, and graduated with honors.",
       "category": "education",
       "knowledge_type": "explicit",
-      "confidence": 1.0,
+      "confidence": 1,
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_cv_2025_creative_leader", "locator": "Page 2 Education", "reliability": 1.0 },
-        { "source_id": "source_manual_confirmation_2026_08_26", "locator": "Degree title normalization", "reliability": 1.0 }
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 2 Education",
+          "reliability": 1
+        },
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "locator": "Degree title normalization",
+          "reliability": 1
+        }
       ],
       "valid_from": "2015-01-01",
       "valid_to": "2019-12-31",
@@ -260,11 +577,15 @@
       "claim": "Boaz works in Hebrew and English.",
       "category": "other",
       "knowledge_type": "explicit",
-      "confidence": 1.0,
+      "confidence": 1,
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_cv_2025_creative_leader", "locator": "Page 2 Languages", "reliability": 1.0 }
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 2 Languages",
+          "reliability": 1
+        }
       ],
       "last_verified": "2026-08-26"
     },
@@ -277,12 +598,28 @@
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_manual_confirmation_2026_08_26", "locator": "Positioning upgrade", "reliability": 1.0 },
-        { "source_id": "source_cv_2025_creative_leader", "locator": "Page 1 Experience — Zemingo", "reliability": 0.9 }
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "locator": "Positioning upgrade",
+          "reliability": 1
+        },
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 1 Experience — Zemingo",
+          "reliability": 0.9
+        }
       ],
       "evidence": [
-        { "type": "project", "reference_id": "project_lightricks_younger_me", "strength": 0.85 },
-        { "type": "project", "reference_id": "project_hiper_mister_h", "strength": 0.7 }
+        {
+          "type": "project",
+          "reference_id": "project_lightricks_younger_me",
+          "strength": 0.85
+        },
+        {
+          "type": "project",
+          "reference_id": "project_hiper_mister_h",
+          "strength": 0.7
+        }
       ],
       "last_verified": "2026-08-26"
     },
@@ -295,8 +632,16 @@
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_manual_confirmation_2026_08_26", "locator": "Tool approval", "reliability": 1.0 },
-        { "source_id": "source_cv_2025_creative_leader", "locator": "Page 1 — Weavy, LoRA training, AI agents", "reliability": 1.0 }
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "locator": "Tool approval",
+          "reliability": 1
+        },
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 1 — Weavy, LoRA training, AI agents",
+          "reliability": 1
+        }
       ],
       "last_verified": "2026-08-26",
       "notes": "Weavy, LoRA training and AI agents are CV-verified. The remainder came from AI memory and was manually approved for public professional use."
@@ -310,48 +655,171 @@
       "verification_status": "verified",
       "visibility": "public",
       "sources": [
-        { "source_id": "source_cv_2025_creative_leader", "reliability": 1.0 },
-        { "source_id": "source_manual_confirmation_2026_08_26", "reliability": 1.0 }
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "reliability": 1
+        },
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "reliability": 1
+        }
       ],
       "evidence": [
-        { "type": "fact", "reference_id": "fact_zemingo_team_scope", "strength": 1.0 },
-        { "type": "fact", "reference_id": "fact_byondxr_team_scope", "strength": 1.0 }
+        {
+          "type": "fact",
+          "reference_id": "fact_zemingo_team_scope",
+          "strength": 1
+        },
+        {
+          "type": "fact",
+          "reference_id": "fact_byondxr_team_scope",
+          "strength": 1
+        }
       ],
       "last_verified": "2026-08-26",
       "notes": "Derived by combining two verified facts, not independently sourced."
+    },
+    {
+      "id": "fact_internship_platform_ai_native_delivery",
+      "claim": "At Zemingo, Boaz defined and directed the build of an internal internship-management platform using an AI-native delivery loop: product decisions were written as repo-grounded build specifications with migrations and acceptance criteria, and autonomous agents executed them under his direction.",
+      "category": "working_style",
+      "knowledge_type": "explicit",
+      "confidence": 0.9,
+      "verification_status": "verified",
+      "visibility": "restricted",
+      "sources": [
+        {
+          "source_id": "source_internship_platform_bundle",
+          "locator": "Claude project export + application source",
+          "reliability": 0.9
+        },
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "reliability": 0.9
+        }
+      ],
+      "evidence": [
+        {
+          "type": "project",
+          "reference_id": "project_internship_platform_ios26",
+          "strength": 1
+        }
+      ],
+      "valid_from": "2026-07-01",
+      "valid_to": null,
+      "last_verified": "2026-08-26",
+      "notes": "Describe the coding as AI-assisted and agent-directed. Do not present Boaz as having independently implemented the codebase — the evidence supports direction and specification, not hands-on engineering depth."
+    },
+    {
+      "id": "fact_internship_platform_privacy_architecture",
+      "claim": "The internship platform enforces a three-tier role model (intern, mentor, team leader) with mentor feedback privacy applied at the database layer through PostgreSQL row-level security rather than in the interface.",
+      "category": "responsibility",
+      "knowledge_type": "explicit",
+      "confidence": 0.9,
+      "verification_status": "verified",
+      "visibility": "restricted",
+      "sources": [
+        {
+          "source_id": "source_internship_platform_bundle",
+          "locator": "Application source — auth and server actions",
+          "reliability": 0.95
+        }
+      ],
+      "evidence": [
+        {
+          "type": "project",
+          "reference_id": "project_internship_platform_ios26",
+          "strength": 1
+        }
+      ],
+      "valid_from": "2026-07-01",
+      "valid_to": null,
+      "last_verified": "2026-08-26",
+      "notes": "A useful signal for product roles: the privacy model was treated as an architecture decision, not a UI concern."
+    },
+    {
+      "id": "fact_internship_platform_visual_transformation",
+      "claim": "Boaz took the internship platform through a deliberate three-stage visual transformation: a plain Tailwind functional prototype, an iOS 26-inspired design language using grouped surfaces, pill geometry, segmented controls and soft glass shadows, and finally a Zemingo-branded layer with brand typography, selection states and progress treatment.",
+      "category": "portfolio",
+      "knowledge_type": "explicit",
+      "confidence": 0.95,
+      "verification_status": "verified",
+      "visibility": "restricted",
+      "sources": [
+        {
+          "source_id": "source_internship_platform_bundle",
+          "locator": "Making-of implementation and token files",
+          "reliability": 1
+        }
+      ],
+      "evidence": [
+        {
+          "type": "project",
+          "reference_id": "project_internship_platform_ios26",
+          "strength": 1
+        }
+      ],
+      "valid_from": "2026-07-01",
+      "valid_to": null,
+      "last_verified": "2026-08-26",
+      "notes": "The clearest visual-craft evidence in the portfolio: the same product is visible at every stage, so the design decisions are legible rather than asserted."
     }
   ],
-
   "skills": [
     {
       "id": "skill_product_design",
       "name": "Product Design",
       "category": "product",
       "proficiency": "advanced",
-      "confidence": 1.0,
+      "confidence": 1,
       "verification_status": "verified",
       "visibility": "public",
       "evidence": [
-        { "type": "fact", "reference_id": "fact_product_design_over_5_years", "strength": 1.0 },
-        { "type": "role", "reference_id": "role_design_team_leader", "strength": 0.95 }
+        {
+          "type": "fact",
+          "reference_id": "fact_product_design_over_5_years",
+          "strength": 1
+        },
+        {
+          "type": "role",
+          "reference_id": "role_design_team_leader",
+          "strength": 0.95
+        }
       ],
-      "related_tools": ["Figma"],
-      "related_projects": ["project_caesarstone_visualizer"]
+      "related_tools": [
+        "Figma"
+      ],
+      "related_projects": [
+        "project_caesarstone_visualizer"
+      ]
     },
     {
       "id": "skill_ux_ui_design",
       "name": "UX/UI Design",
       "category": "product",
       "proficiency": "advanced",
-      "confidence": 1.0,
+      "confidence": 1,
       "verification_status": "verified",
       "visibility": "public",
       "evidence": [
-        { "type": "source", "reference_id": "source_cv_2025_creative_leader", "strength": 1.0 },
-        { "type": "fact", "reference_id": "fact_byondxr_responsibilities", "strength": 0.9 }
+        {
+          "type": "source",
+          "reference_id": "source_cv_2025_creative_leader",
+          "strength": 1
+        },
+        {
+          "type": "fact",
+          "reference_id": "fact_byondxr_responsibilities",
+          "strength": 0.9
+        }
       ],
-      "related_tools": ["Figma"],
-      "related_projects": ["project_caesarstone_visualizer", "project_mastercard_virtual_city"]
+      "related_tools": [
+        "Figma"
+      ],
+      "related_projects": [
+        "project_caesarstone_visualizer",
+        "project_mastercard_virtual_city"
+      ]
     },
     {
       "id": "skill_creative_direction",
@@ -362,11 +830,26 @@
       "verification_status": "verified",
       "visibility": "public",
       "evidence": [
-        { "type": "role", "reference_id": "role_creative_team_leader", "strength": 0.95 },
-        { "type": "project", "reference_id": "project_mastercard_virtual_city", "strength": 0.85 },
-        { "type": "project", "reference_id": "project_byondxr_rebrand", "strength": 0.85 }
+        {
+          "type": "role",
+          "reference_id": "role_creative_team_leader",
+          "strength": 0.95
+        },
+        {
+          "type": "project",
+          "reference_id": "project_mastercard_virtual_city",
+          "strength": 0.85
+        },
+        {
+          "type": "project",
+          "reference_id": "project_byondxr_rebrand",
+          "strength": 0.85
+        }
       ],
-      "related_projects": ["project_mastercard_virtual_city", "project_byondxr_rebrand"]
+      "related_projects": [
+        "project_mastercard_virtual_city",
+        "project_byondxr_rebrand"
+      ]
     },
     {
       "id": "skill_team_leadership",
@@ -377,9 +860,21 @@
       "verification_status": "verified",
       "visibility": "public",
       "evidence": [
-        { "type": "fact", "reference_id": "fact_leadership_scope", "strength": 1.0 },
-        { "type": "fact", "reference_id": "fact_zemingo_team_scope", "strength": 0.95 },
-        { "type": "fact", "reference_id": "fact_byondxr_team_scope", "strength": 0.9 }
+        {
+          "type": "fact",
+          "reference_id": "fact_leadership_scope",
+          "strength": 1
+        },
+        {
+          "type": "fact",
+          "reference_id": "fact_zemingo_team_scope",
+          "strength": 0.95
+        },
+        {
+          "type": "fact",
+          "reference_id": "fact_byondxr_team_scope",
+          "strength": 0.9
+        }
       ]
     },
     {
@@ -391,12 +886,33 @@
       "verification_status": "verified",
       "visibility": "public",
       "evidence": [
-        { "type": "fact", "reference_id": "fact_genai_core_methodology", "strength": 1.0 },
-        { "type": "fact", "reference_id": "fact_ai_toolchain", "strength": 0.95 },
-        { "type": "project", "reference_id": "project_lightricks_younger_me", "strength": 0.9 }
+        {
+          "type": "fact",
+          "reference_id": "fact_genai_core_methodology",
+          "strength": 1
+        },
+        {
+          "type": "fact",
+          "reference_id": "fact_ai_toolchain",
+          "strength": 0.95
+        },
+        {
+          "type": "project",
+          "reference_id": "project_lightricks_younger_me",
+          "strength": 0.9
+        }
       ],
-      "related_tools": ["ComfyUI", "IPAdapter", "Runway", "Kling", "Weavy"],
-      "related_projects": ["project_lightricks_younger_me", "project_hiper_mister_h"]
+      "related_tools": [
+        "ComfyUI",
+        "IPAdapter",
+        "Runway",
+        "Kling",
+        "Weavy"
+      ],
+      "related_projects": [
+        "project_lightricks_younger_me",
+        "project_hiper_mister_h"
+      ]
     },
     {
       "id": "skill_ai_native_design",
@@ -407,10 +923,20 @@
       "verification_status": "verified",
       "visibility": "public",
       "evidence": [
-        { "type": "fact", "reference_id": "fact_genai_core_methodology", "strength": 1.0 },
-        { "type": "fact", "reference_id": "fact_zemingo_responsibilities", "strength": 0.9 }
+        {
+          "type": "fact",
+          "reference_id": "fact_genai_core_methodology",
+          "strength": 1
+        },
+        {
+          "type": "fact",
+          "reference_id": "fact_zemingo_responsibilities",
+          "strength": 0.9
+        }
       ],
-      "related_projects": ["project_lightricks_younger_me"],
+      "related_projects": [
+        "project_lightricks_younger_me"
+      ],
       "notes": "Distinct from 'Generative AI' — this is about designing products and workflows around AI, not about operating the tools."
     },
     {
@@ -418,14 +944,24 @@
       "name": "Visual Identity Design",
       "category": "creative",
       "proficiency": "advanced",
-      "confidence": 1.0,
+      "confidence": 1,
       "verification_status": "verified",
       "visibility": "public",
       "evidence": [
-        { "type": "source", "reference_id": "source_cv_2025_creative_leader", "strength": 1.0 },
-        { "type": "project", "reference_id": "project_byondxr_rebrand", "strength": 0.9 }
+        {
+          "type": "source",
+          "reference_id": "source_cv_2025_creative_leader",
+          "strength": 1
+        },
+        {
+          "type": "project",
+          "reference_id": "project_byondxr_rebrand",
+          "strength": 0.9
+        }
       ],
-      "related_projects": ["project_byondxr_rebrand"]
+      "related_projects": [
+        "project_byondxr_rebrand"
+      ]
     },
     {
       "id": "skill_workflow_design",
@@ -436,10 +972,19 @@
       "verification_status": "needs_verification",
       "visibility": "public",
       "evidence": [
-        { "type": "project", "reference_id": "project_lightricks_younger_me", "strength": 0.85 }
+        {
+          "type": "project",
+          "reference_id": "project_lightricks_younger_me",
+          "strength": 0.85
+        }
       ],
-      "related_tools": ["ComfyUI", "IPAdapter"],
-      "related_projects": ["project_lightricks_younger_me"],
+      "related_tools": [
+        "ComfyUI",
+        "IPAdapter"
+      ],
+      "related_projects": [
+        "project_lightricks_younger_me"
+      ],
       "notes": "Strongly indicated by the Lightricks assignment. Needs the workflow export attached before it can be called verified."
     },
     {
@@ -451,40 +996,145 @@
       "verification_status": "verified",
       "visibility": "public",
       "evidence": [
-        { "type": "fact", "reference_id": "fact_byondxr_responsibilities", "strength": 0.95 },
-        { "type": "project", "reference_id": "project_mastercard_virtual_city", "strength": 0.85 }
+        {
+          "type": "fact",
+          "reference_id": "fact_byondxr_responsibilities",
+          "strength": 0.95
+        },
+        {
+          "type": "project",
+          "reference_id": "project_mastercard_virtual_city",
+          "strength": 0.85
+        }
       ],
-      "related_tools": ["Blender"],
-      "related_projects": ["project_mastercard_virtual_city", "project_caesarstone_visualizer"]
+      "related_tools": [
+        "Blender"
+      ],
+      "related_projects": [
+        "project_mastercard_virtual_city",
+        "project_caesarstone_visualizer"
+      ]
     },
     {
       "id": "skill_adobe_suite",
       "name": "Adobe Creative Suite",
       "category": "creative",
       "proficiency": "advanced",
-      "confidence": 1.0,
+      "confidence": 1,
       "verification_status": "verified",
       "visibility": "public",
       "evidence": [
-        { "type": "source", "reference_id": "source_cv_2025_creative_leader", "strength": 1.0 }
+        {
+          "type": "source",
+          "reference_id": "source_cv_2025_creative_leader",
+          "strength": 1
+        }
       ],
-      "related_tools": ["Adobe After Effects"]
+      "related_tools": [
+        "Adobe After Effects"
+      ]
+    },
+    {
+      "id": "skill_product_definition",
+      "name": "Product Definition & Scoping",
+      "category": "product",
+      "proficiency": "advanced",
+      "confidence": 0.85,
+      "verification_status": "verified",
+      "visibility": "restricted",
+      "evidence": [
+        {
+          "type": "project",
+          "reference_id": "project_internship_platform_ios26",
+          "strength": 0.95
+        },
+        {
+          "type": "fact",
+          "reference_id": "fact_internship_platform_privacy_architecture",
+          "strength": 0.85
+        }
+      ],
+      "related_projects": [
+        "project_internship_platform_ios26"
+      ],
+      "notes": "Restricted only because its sole documented evidence is an uncleared internal project. Promote to public once the platform is cleared, or once a client project is documented well enough to carry it."
+    },
+    {
+      "id": "skill_agentic_delivery",
+      "name": "Directing Autonomous Implementation",
+      "category": "ai",
+      "proficiency": "advanced",
+      "confidence": 0.85,
+      "verification_status": "verified",
+      "visibility": "restricted",
+      "evidence": [
+        {
+          "type": "fact",
+          "reference_id": "fact_internship_platform_ai_native_delivery",
+          "strength": 1
+        }
+      ],
+      "related_tools": [
+        "Claude",
+        "Cowork",
+        "GitHub"
+      ],
+      "related_projects": [
+        "project_internship_platform_ios26"
+      ],
+      "notes": "Distinct from operating generative AI tools. This is specifying work precisely enough that an agent can execute it, then critiquing and iterating the result — the capability most recruiters mean when they ask what \"AI-native\" involves in practice."
+    },
+    {
+      "id": "skill_design_systems",
+      "name": "Design Systems & Design-Language Adaptation",
+      "category": "product",
+      "proficiency": "advanced",
+      "confidence": 0.85,
+      "verification_status": "verified",
+      "visibility": "restricted",
+      "evidence": [
+        {
+          "type": "fact",
+          "reference_id": "fact_internship_platform_visual_transformation",
+          "strength": 0.95
+        }
+      ],
+      "related_projects": [
+        "project_internship_platform_ios26"
+      ]
     }
   ],
-
   "projects": [
     {
       "id": "project_mastercard_virtual_city",
       "name": "Mastercard Day Virtual City",
       "company_id": "company_byondxr",
-      "role_ids": ["role_creative_team_leader"],
+      "role_ids": [
+        "role_creative_team_leader"
+      ],
       "summary": "A Tel Aviv-inspired interactive virtual city built for Mastercard, combining exploration, gamification and avatar elements.",
-      "skill_ids": ["skill_creative_direction", "skill_ux_ui_design", "skill_3d_immersive"],
-      "tool_ids": ["tool_blender", "tool_figma"],
-      "industry_ids": ["industry_fintech", "industry_xr"],
+      "skill_ids": [
+        "skill_creative_direction",
+        "skill_ux_ui_design",
+        "skill_3d_immersive"
+      ],
+      "tool_ids": [
+        "tool_blender",
+        "tool_figma"
+      ],
+      "industry_ids": [
+        "industry_fintech",
+        "industry_xr"
+      ],
       "sources": [
-        { "source_id": "source_chatgpt_memory_2026_08_26", "reliability": 0.6 },
-        { "source_id": "source_manual_confirmation_2026_08_26", "reliability": 0.9 }
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.6
+        },
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "reliability": 0.9
+        }
       ],
       "verification_status": "needs_verification",
       "visibility": "public",
@@ -494,14 +1144,32 @@
       "id": "project_caesarstone_visualizer",
       "name": "Caesarstone Visualizer",
       "company_id": "company_byondxr",
-      "role_ids": ["role_creative_team_leader"],
+      "role_ids": [
+        "role_creative_team_leader"
+      ],
       "summary": "A product visualization experience spanning multiple styles and layouts — including outdoor kitchens — deployed across several markets.",
-      "skill_ids": ["skill_product_design", "skill_ux_ui_design", "skill_3d_immersive"],
-      "tool_ids": ["tool_figma", "tool_blender"],
-      "industry_ids": ["industry_ecommerce", "industry_retail"],
+      "skill_ids": [
+        "skill_product_design",
+        "skill_ux_ui_design",
+        "skill_3d_immersive"
+      ],
+      "tool_ids": [
+        "tool_figma",
+        "tool_blender"
+      ],
+      "industry_ids": [
+        "industry_ecommerce",
+        "industry_retail"
+      ],
       "sources": [
-        { "source_id": "source_chatgpt_memory_2026_08_26", "reliability": 0.6 },
-        { "source_id": "source_manual_confirmation_2026_08_26", "reliability": 0.9 }
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.6
+        },
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "reliability": 0.9
+        }
       ],
       "verification_status": "needs_verification",
       "visibility": "public",
@@ -511,14 +1179,30 @@
       "id": "project_byondxr_rebrand",
       "name": "ByondXR Rebranding",
       "company_id": "company_byondxr",
-      "role_ids": ["role_creative_team_leader"],
+      "role_ids": [
+        "role_creative_team_leader"
+      ],
       "summary": "A full rebrand covering logo, website and visual language.",
-      "skill_ids": ["skill_visual_identity_design", "skill_creative_direction"],
-      "tool_ids": ["tool_adobe_suite", "tool_figma"],
-      "industry_ids": ["industry_xr"],
+      "skill_ids": [
+        "skill_visual_identity_design",
+        "skill_creative_direction"
+      ],
+      "tool_ids": [
+        "tool_adobe_suite",
+        "tool_figma"
+      ],
+      "industry_ids": [
+        "industry_xr"
+      ],
       "sources": [
-        { "source_id": "source_chatgpt_memory_2026_08_26", "reliability": 0.6 },
-        { "source_id": "source_manual_confirmation_2026_08_26", "reliability": 0.9 }
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.6
+        },
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "reliability": 0.9
+        }
       ],
       "verification_status": "needs_verification",
       "visibility": "public",
@@ -548,11 +1232,23 @@
         "A coherent multi-scene creative concept produced with a custom generative AI workflow.",
         "Demonstrated hands-on control over identity consistency, composition, and image-to-video production."
       ],
-      "skill_ids": ["skill_generative_ai", "skill_ai_native_design", "skill_workflow_design"],
-      "tool_ids": ["tool_comfyui", "tool_ipadapter"],
-      "industry_ids": ["industry_ai"],
+      "skill_ids": [
+        "skill_generative_ai",
+        "skill_ai_native_design",
+        "skill_workflow_design"
+      ],
+      "tool_ids": [
+        "tool_comfyui",
+        "tool_ipadapter"
+      ],
+      "industry_ids": [
+        "industry_ai"
+      ],
       "sources": [
-        { "source_id": "source_manual_confirmation_2026_08_26", "reliability": 0.9 }
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "reliability": 0.9
+        }
       ],
       "verification_status": "needs_verification",
       "visibility": "public",
@@ -563,53 +1259,397 @@
       "name": "HIPER Global / Mister H",
       "company_id": "company_hiper_global",
       "summary": "A recurring AI virtual ambassador concept designed to communicate HIPER Global's expertise through short-form content.",
-      "skill_ids": ["skill_generative_ai", "skill_creative_direction"],
-      "tool_ids": ["tool_comfyui", "tool_runway"],
-      "industry_ids": ["industry_ai"],
+      "skill_ids": [
+        "skill_generative_ai",
+        "skill_creative_direction"
+      ],
+      "tool_ids": [
+        "tool_comfyui",
+        "tool_runway"
+      ],
+      "industry_ids": [
+        "industry_ai"
+      ],
       "sources": [
-        { "source_id": "source_chatgpt_memory_2026_08_26", "reliability": 0.6 },
-        { "source_id": "source_manual_confirmation_2026_08_26", "reliability": 0.9 }
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.6
+        },
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "reliability": 0.9
+        }
       ],
       "verification_status": "needs_verification",
       "visibility": "public",
       "notes": "Concept confirmed; the specific tool chain is inferred from adjacent work and should not be stated as fact."
+    },
+    {
+      "id": "project_internship_platform_ios26",
+      "name": "Internship Platform — iOS 26 × Zemingo",
+      "company_id": "company_zemingo",
+      "role_ids": [
+        "role_design_team_leader"
+      ],
+      "summary": "An internal multi-user platform for running Zemingo’s design internship program, taken from product definition and a functional Tailwind prototype through an iOS 26-inspired redesign to a Zemingo-branded interface.",
+      "problem": "Three interns, their mentors and a team leader needed one shared system for milestones, task progress, hour logging and mentor feedback, with role-based access and real privacy rules around evaluation content.",
+      "responsibilities": [
+        "Owned product concept, requirements and scope.",
+        "Defined roles, permissions, feedback privacy and information architecture.",
+        "Directed AI-assisted implementation through repo-grounded specifications.",
+        "Iterated the product across successive versions.",
+        "Led the visual transformation across two design languages."
+      ],
+      "process": [
+        "Product definition",
+        "Architecture and functional build",
+        "AI-native implementation loop",
+        "UX iteration",
+        "iOS 26 design-language pass",
+        "Zemingo brand layer",
+        "Making-of narrative"
+      ],
+      "outcomes": [
+        "A working multi-user platform supporting intern, mentor and team-leader workflows.",
+        "Feedback privacy enforced at the database layer through row-level security.",
+        "A bilingual feedback and evaluation framework, including RTL."
+      ],
+      "metrics": [
+        {
+          "label": "Interns in the initial program",
+          "value": "3",
+          "source_id": "source_internship_platform_bundle",
+          "verified": true
+        },
+        {
+          "label": "Feedback taxonomy",
+          "value": "11 categories",
+          "source_id": "source_internship_platform_bundle",
+          "verified": true
+        },
+        {
+          "label": "Initial brainstorm to deployed system",
+          "value": "approximately 90 minutes (self-reported)",
+          "source_id": null,
+          "verified": false
+        }
+      ],
+      "skill_ids": [
+        "skill_product_definition",
+        "skill_agentic_delivery",
+        "skill_design_systems",
+        "skill_ai_native_design",
+        "skill_ux_ui_design"
+      ],
+      "tool_ids": [
+        "tool_nextjs",
+        "tool_typescript",
+        "tool_supabase",
+        "tool_postgresql",
+        "tool_vercel",
+        "tool_tailwind",
+        "tool_claude",
+        "tool_cowork",
+        "tool_github",
+        "tool_next_intl"
+      ],
+      "industry_ids": [
+        "industry_ai"
+      ],
+      "sources": [
+        {
+          "source_id": "source_internship_platform_bundle",
+          "reliability": 0.95
+        },
+        {
+          "source_id": "source_manual_confirmation_2026_08_26",
+          "reliability": 0.9
+        }
+      ],
+      "verification_status": "needs_verification",
+      "visibility": "restricted",
+      "notes": "RESTRICTED pending Zemingo clearance for public portfolio use. Claim rules once cleared: (1) never expose intern names, private feedback or evaluation data; (2) the ~90-minute delivery claim is self-reported — attribute it to Boaz explicitly or leave it out; (3) describe the coding as AI-assisted and agent-directed, not independent full-stack engineering; (4) confirm the final redesign shipped before saying it did."
     }
   ],
-
   "relationships": [
-    { "id": "rel_boaz_worked_at_zemingo", "from_id": "person_boaz_ben_eli", "type": "worked_at", "to_id": "company_zemingo", "confidence": 1.0, "source_ids": ["source_cv_2025_creative_leader"] },
-    { "id": "rel_boaz_held_design_team_leader", "from_id": "person_boaz_ben_eli", "type": "held_role", "to_id": "role_design_team_leader", "confidence": 1.0, "source_ids": ["source_cv_2025_creative_leader"] },
-    { "id": "rel_boaz_worked_at_byondxr", "from_id": "person_boaz_ben_eli", "type": "worked_at", "to_id": "company_byondxr", "confidence": 1.0, "source_ids": ["source_cv_2025_creative_leader"] },
-    { "id": "rel_boaz_held_junior_product_designer", "from_id": "person_boaz_ben_eli", "type": "held_role", "to_id": "role_junior_product_designer", "confidence": 0.95, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-    { "id": "rel_boaz_held_creative_team_leader", "from_id": "person_boaz_ben_eli", "type": "held_role", "to_id": "role_creative_team_leader", "confidence": 0.95, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-    { "id": "rel_boaz_studied_hit", "from_id": "person_boaz_ben_eli", "type": "related_to", "to_id": "institution_hit", "confidence": 1.0, "source_ids": ["source_cv_2025_creative_leader"] },
-
-    { "id": "rel_boaz_worked_on_mastercard", "from_id": "person_boaz_ben_eli", "type": "worked_on", "to_id": "project_mastercard_virtual_city", "confidence": 0.9, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-    { "id": "rel_boaz_worked_on_caesarstone", "from_id": "person_boaz_ben_eli", "type": "worked_on", "to_id": "project_caesarstone_visualizer", "confidence": 0.9, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-    { "id": "rel_boaz_worked_on_rebrand", "from_id": "person_boaz_ben_eli", "type": "worked_on", "to_id": "project_byondxr_rebrand", "confidence": 0.9, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-    { "id": "rel_boaz_worked_on_younger_me", "from_id": "person_boaz_ben_eli", "type": "worked_on", "to_id": "project_lightricks_younger_me", "confidence": 0.9, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-    { "id": "rel_boaz_worked_on_mister_h", "from_id": "person_boaz_ben_eli", "type": "worked_on", "to_id": "project_hiper_mister_h", "confidence": 0.85, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-
-    { "id": "rel_mastercard_demonstrates_creative_direction", "from_id": "project_mastercard_virtual_city", "type": "demonstrates_skill", "to_id": "skill_creative_direction", "confidence": 0.85, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-    { "id": "rel_mastercard_demonstrates_3d", "from_id": "project_mastercard_virtual_city", "type": "demonstrates_skill", "to_id": "skill_3d_immersive", "confidence": 0.85, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-    { "id": "rel_caesarstone_demonstrates_product_design", "from_id": "project_caesarstone_visualizer", "type": "demonstrates_skill", "to_id": "skill_product_design", "confidence": 0.85, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-    { "id": "rel_rebrand_demonstrates_visual_identity", "from_id": "project_byondxr_rebrand", "type": "demonstrates_skill", "to_id": "skill_visual_identity_design", "confidence": 0.9, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-    { "id": "rel_younger_me_demonstrates_genai", "from_id": "project_lightricks_younger_me", "type": "demonstrates_skill", "to_id": "skill_generative_ai", "confidence": 0.9, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-    { "id": "rel_younger_me_demonstrates_workflow_design", "from_id": "project_lightricks_younger_me", "type": "demonstrates_skill", "to_id": "skill_workflow_design", "confidence": 0.85, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-    { "id": "rel_mister_h_demonstrates_genai", "from_id": "project_hiper_mister_h", "type": "demonstrates_skill", "to_id": "skill_generative_ai", "confidence": 0.8, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-
-    { "id": "rel_mastercard_industry_fintech", "from_id": "project_mastercard_virtual_city", "type": "belongs_to_industry", "to_id": "industry_fintech", "confidence": 1.0, "source_ids": ["source_chatgpt_memory_2026_08_26"] },
-    { "id": "rel_caesarstone_industry_ecommerce", "from_id": "project_caesarstone_visualizer", "type": "belongs_to_industry", "to_id": "industry_ecommerce", "confidence": 1.0, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-
-    { "id": "rel_team_scope_supported_by_manual", "from_id": "fact_byondxr_team_scope", "type": "supported_by", "to_id": "source_manual_confirmation_2026_08_26", "confidence": 1.0, "source_ids": ["source_manual_confirmation_2026_08_26"] },
-    { "id": "rel_metric_supported_by_manual", "from_id": "fact_byondxr_engagement_metric", "type": "supported_by", "to_id": "source_manual_confirmation_2026_08_26", "confidence": 1.0, "source_ids": ["source_manual_confirmation_2026_08_26"] }
+    {
+      "id": "rel_boaz_worked_at_zemingo",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_at",
+      "to_id": "company_zemingo",
+      "confidence": 1,
+      "source_ids": [
+        "source_cv_2025_creative_leader"
+      ]
+    },
+    {
+      "id": "rel_boaz_held_design_team_leader",
+      "from_id": "person_boaz_ben_eli",
+      "type": "held_role",
+      "to_id": "role_design_team_leader",
+      "confidence": 1,
+      "source_ids": [
+        "source_cv_2025_creative_leader"
+      ]
+    },
+    {
+      "id": "rel_boaz_worked_at_byondxr",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_at",
+      "to_id": "company_byondxr",
+      "confidence": 1,
+      "source_ids": [
+        "source_cv_2025_creative_leader"
+      ]
+    },
+    {
+      "id": "rel_boaz_held_junior_product_designer",
+      "from_id": "person_boaz_ben_eli",
+      "type": "held_role",
+      "to_id": "role_junior_product_designer",
+      "confidence": 0.95,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_boaz_held_creative_team_leader",
+      "from_id": "person_boaz_ben_eli",
+      "type": "held_role",
+      "to_id": "role_creative_team_leader",
+      "confidence": 0.95,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_boaz_studied_hit",
+      "from_id": "person_boaz_ben_eli",
+      "type": "related_to",
+      "to_id": "institution_hit",
+      "confidence": 1,
+      "source_ids": [
+        "source_cv_2025_creative_leader"
+      ]
+    },
+    {
+      "id": "rel_boaz_worked_on_mastercard",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_on",
+      "to_id": "project_mastercard_virtual_city",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_boaz_worked_on_caesarstone",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_on",
+      "to_id": "project_caesarstone_visualizer",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_boaz_worked_on_rebrand",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_on",
+      "to_id": "project_byondxr_rebrand",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_boaz_worked_on_younger_me",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_on",
+      "to_id": "project_lightricks_younger_me",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_boaz_worked_on_mister_h",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_on",
+      "to_id": "project_hiper_mister_h",
+      "confidence": 0.85,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_mastercard_demonstrates_creative_direction",
+      "from_id": "project_mastercard_virtual_city",
+      "type": "demonstrates_skill",
+      "to_id": "skill_creative_direction",
+      "confidence": 0.85,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_mastercard_demonstrates_3d",
+      "from_id": "project_mastercard_virtual_city",
+      "type": "demonstrates_skill",
+      "to_id": "skill_3d_immersive",
+      "confidence": 0.85,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_caesarstone_demonstrates_product_design",
+      "from_id": "project_caesarstone_visualizer",
+      "type": "demonstrates_skill",
+      "to_id": "skill_product_design",
+      "confidence": 0.85,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_rebrand_demonstrates_visual_identity",
+      "from_id": "project_byondxr_rebrand",
+      "type": "demonstrates_skill",
+      "to_id": "skill_visual_identity_design",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_younger_me_demonstrates_genai",
+      "from_id": "project_lightricks_younger_me",
+      "type": "demonstrates_skill",
+      "to_id": "skill_generative_ai",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_younger_me_demonstrates_workflow_design",
+      "from_id": "project_lightricks_younger_me",
+      "type": "demonstrates_skill",
+      "to_id": "skill_workflow_design",
+      "confidence": 0.85,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_mister_h_demonstrates_genai",
+      "from_id": "project_hiper_mister_h",
+      "type": "demonstrates_skill",
+      "to_id": "skill_generative_ai",
+      "confidence": 0.8,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_mastercard_industry_fintech",
+      "from_id": "project_mastercard_virtual_city",
+      "type": "belongs_to_industry",
+      "to_id": "industry_fintech",
+      "confidence": 1,
+      "source_ids": [
+        "source_chatgpt_memory_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_caesarstone_industry_ecommerce",
+      "from_id": "project_caesarstone_visualizer",
+      "type": "belongs_to_industry",
+      "to_id": "industry_ecommerce",
+      "confidence": 1,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_team_scope_supported_by_manual",
+      "from_id": "fact_byondxr_team_scope",
+      "type": "supported_by",
+      "to_id": "source_manual_confirmation_2026_08_26",
+      "confidence": 1,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_metric_supported_by_manual",
+      "from_id": "fact_byondxr_engagement_metric",
+      "type": "supported_by",
+      "to_id": "source_manual_confirmation_2026_08_26",
+      "confidence": 1,
+      "source_ids": [
+        "source_manual_confirmation_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_boaz_worked_on_internship_platform",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_on",
+      "to_id": "project_internship_platform_ios26",
+      "confidence": 0.95,
+      "source_ids": [
+        "source_internship_platform_bundle"
+      ]
+    },
+    {
+      "id": "rel_internship_demonstrates_product_definition",
+      "from_id": "project_internship_platform_ios26",
+      "type": "demonstrates_skill",
+      "to_id": "skill_product_definition",
+      "confidence": 0.95,
+      "source_ids": [
+        "source_internship_platform_bundle"
+      ]
+    },
+    {
+      "id": "rel_internship_demonstrates_agentic_delivery",
+      "from_id": "project_internship_platform_ios26",
+      "type": "demonstrates_skill",
+      "to_id": "skill_agentic_delivery",
+      "confidence": 0.95,
+      "source_ids": [
+        "source_internship_platform_bundle"
+      ]
+    },
+    {
+      "id": "rel_internship_demonstrates_design_systems",
+      "from_id": "project_internship_platform_ios26",
+      "type": "demonstrates_skill",
+      "to_id": "skill_design_systems",
+      "confidence": 0.95,
+      "source_ids": [
+        "source_internship_platform_bundle"
+      ]
+    },
+    {
+      "id": "rel_internship_demonstrates_ai_native",
+      "from_id": "project_internship_platform_ios26",
+      "type": "demonstrates_skill",
+      "to_id": "skill_ai_native_design",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_internship_platform_bundle"
+      ]
+    }
   ],
-
   "conflicts": [
     {
       "id": "conflict_years_of_experience",
       "topic": "Years of product design experience",
-      "candidate_claim_ids": ["fact_product_design_over_5_years"],
+      "candidate_claim_ids": [
+        "fact_product_design_over_5_years"
+      ],
       "status": "resolved",
       "resolution": "CV (level 1) states over 5 years; ChatGPT memory (level 3) said 3+ years. CV wins by authority.",
       "resolved_by": "owner",
@@ -618,7 +1658,9 @@
     {
       "id": "conflict_byondxr_title",
       "topic": "ByondXR title and role progression",
-      "candidate_claim_ids": ["fact_byondxr_role_progression"],
+      "candidate_claim_ids": [
+        "fact_byondxr_role_progression"
+      ],
       "status": "resolved",
       "resolution": "CV listed a single title, 'Creative Director'. ChatGPT memory recalled 'Creative Team Lead' plus an earlier Senior Designer role. Owner review established the actual path as Junior Product Designer → Creative Team Leader. Canonical follows the owner, not the CV, because the CV compressed a progression into one line.",
       "resolved_by": "owner",
@@ -627,7 +1669,9 @@
     {
       "id": "conflict_byondxr_team_size",
       "topic": "ByondXR team size",
-      "candidate_claim_ids": ["fact_byondxr_team_scope"],
+      "candidate_claim_ids": [
+        "fact_byondxr_team_scope"
+      ],
       "status": "resolved",
       "resolution": "CV gave no figures; AI memory said 5 designers + 10 3D artists. Owner confirmed the figures and approved them for public use.",
       "resolved_by": "owner",
@@ -636,7 +1680,9 @@
     {
       "id": "conflict_education_wording",
       "topic": "Degree title",
-      "candidate_claim_ids": ["fact_education_hit_bdes"],
+      "candidate_claim_ids": [
+        "fact_education_hit_bdes"
+      ],
       "status": "resolved",
       "resolution": "Normalization rather than contradiction. 'B.Des' from the CV is canonical; 'Visual Communication Design' from AI memory describes the field, not the degree title.",
       "resolved_by": "owner",
@@ -645,7 +1691,9 @@
     {
       "id": "conflict_engagement_metric_attribution",
       "topic": "Attribution of the 30% engagement increase",
-      "candidate_claim_ids": ["fact_byondxr_engagement_metric"],
+      "candidate_claim_ids": [
+        "fact_byondxr_engagement_metric"
+      ],
       "status": "resolved",
       "resolution": "CV attributed the lift to social media strategy; AI memory attributed it to the rebrand. Owner established that it belongs to client-facing products created at ByondXR. Neither original attribution may be restated without analytics evidence.",
       "resolved_by": "owner",
@@ -654,14 +1702,15 @@
     {
       "id": "conflict_ai_tool_scope",
       "topic": "Extent of the generative AI toolchain",
-      "candidate_claim_ids": ["fact_ai_toolchain"],
+      "candidate_claim_ids": [
+        "fact_ai_toolchain"
+      ],
       "status": "resolved",
       "resolution": "CV verified Weavy, LoRA training and AI agents. The wider toolchain came from AI memory and was manually approved, with Claude Code and Higgsfield added during review.",
       "resolved_by": "owner",
       "resolved_at": "2026-08-26"
     }
   ],
-
   "unknowns": [
     {
       "id": "unknown_byondxr_role_dates",
@@ -686,6 +1735,12 @@
       "topic": "Testimonials and references",
       "reason": "No third-party statements are on record. These would materially strengthen leadership claims, which currently rest on self-report plus the CV.",
       "suggested_source": "LinkedIn recommendations or direct requests to former colleagues"
+    },
+    {
+      "id": "unknown_internship_platform_clearance",
+      "topic": "Public clearance for the internship platform",
+      "reason": "The project is the strongest evidence in the repository for AI-native delivery, product definition and visual craft — and the agent cannot mention it, because it is an internal Zemingo tool with no confirmed permission for portfolio use. This is currently the highest-value unblock available.",
+      "suggested_source": "Written confirmation from Zemingo, plus sanitized screenshots containing no intern data"
     }
   ]
 }

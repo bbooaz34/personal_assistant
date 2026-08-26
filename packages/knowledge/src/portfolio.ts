@@ -80,6 +80,25 @@ export interface ConversationHook {
   recommended_media_ids?: string[];
 }
 
+/**
+ * A staged visual evolution of one product.
+ *
+ * Distinct from `process`, which describes how the work was done. This is the
+ * artefact itself at successive points — the same screens under different
+ * design languages — which is the rare case where before/after carries the
+ * argument better than any description of it.
+ */
+export interface TransformationStage {
+  name: string;
+  caption: string;
+  detail: string;
+  media_id?: string | null;
+}
+
+export interface Transformation {
+  stages: TransformationStage[];
+}
+
 export interface Presentation {
   default_component?: PresentationComponent;
   short_pitch?: string;
@@ -99,6 +118,7 @@ export interface ProjectEvidence {
   objectives?: string[];
   responsibilities?: string[];
   process?: ProcessStep[];
+  transformation?: Transformation;
   skills_demonstrated?: string[];
   tools?: string[];
   outcomes?: string[];

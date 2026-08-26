@@ -12,6 +12,7 @@ export interface PortfolioProject {
   responsibilities: string[];
   outcomes: string[];
   process: Array<{ step: number; title: string; description: string }>;
+  transformation: Array<{ name: string; caption: string; detail: string }>;
   shortPitch: string;
   followups: string[];
   verified: boolean;

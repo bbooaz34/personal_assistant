@@ -39,9 +39,9 @@ assembled, components render.
 | Area | State |
 |---|---|
 | Knowledge schema, validation, provenance | Working |
-| Canonical knowledge base | Populated and human-reviewed |
+| Canonical knowledge base | 43 entities, 18 facts, 13 skills, 6 projects |
 | Ingestion: normalize → dedupe → detect conflicts | Working |
-| Policy engine and visibility model | Working, 23/23 evals passing |
+| Policy engine and visibility model | Working, 27/27 evals passing |
 | Prompt-injection defence | Working |
 | Hybrid retrieval (metadata + lexical + intent) | Working |
 | Agent identity and tone system | Working |
@@ -151,10 +151,11 @@ with a recommendation. A wrong auto-resolution becomes a confident,
 verified-looking falsehood the agent then repeats to recruiters. Every
 resolution is recorded in the knowledge base with who decided it and when.
 
-**Unverified claims are labelled, not hidden.** All five projects currently lack
-case studies. Rather than dropping them, they are marked `needs_verification`
-and the agent is instructed to frame them accordingly. Hiding real work is its
-own kind of dishonesty.
+**Unverified claims are labelled, not hidden.** Projects without case-study
+evidence are marked `needs_verification` and the agent is told to frame them
+accordingly, rather than being dropped. Hiding real work is its own kind of
+dishonesty — but *uncleared* work is different, and that gets `restricted`
+instead, which means the agent cannot mention it at all.
 
 ---
 
@@ -171,10 +172,14 @@ These are real, and worth stating plainly rather than discovering later.
   in English, so a Hebrew question matches nothing lexically and is served by
   intent classification alone. It answers, but less precisely than English.
   Embeddings or a translated knowledge layer fixes this properly.
-- **No case studies exist yet.** Questions like *"did he lead this himself, and
-  how big was the team?"* cannot be answered for any project. The agent says so,
-  which is correct — but it is the single largest gap, and it is what most
-  limits the product today.
+- **The best project cannot be shown.** The internship platform is the only
+  project with documented process, decisions and outcomes — and it is an internal
+  Zemingo tool with no confirmed clearance for portfolio use, so it is
+  `restricted` and the visitor-facing agent never retrieves it. Unblocking that
+  is the highest-value thing available.
+- **The five cleared projects have no case studies.** Questions like *"did he
+  lead this himself, and how big was the team?"* cannot be answered for any of
+  them. The agent says so, which is correct, but it is a real limit.
 - **No project media.** The gallery, video and prototype components have nothing
   to render. `show_video` and `show_prototype` are switched off in
   `config/ui.config.ts` rather than left to resolve to nothing.

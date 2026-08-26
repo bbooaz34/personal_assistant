@@ -1,0 +1,201 @@
+{
+  "id": "project_internship_platform_ios26",
+  "name": "Internship Platform — iOS 26 × Zemingo",
+  "status": "draft",
+  "organization": "Zemingo",
+  "context": "Internal operational product for Zemingo's design internship program. Built July 2026.",
+  "role": "Product design lead / AI-native builder",
+  "summary": "An internal multi-user platform for running Zemingo's design internship program, taken from product definition and a functional Tailwind prototype through an iOS 26-inspired visual redesign and a final Zemingo-branded interface.",
+  "challenge": "Three interns, their mentors and a team leader needed one shared system for program milestones, task progress, hour logging and mentor feedback — with role-based access and real privacy rules around mentor-authored evaluation content.",
+  "objectives": [
+    "Give interns, mentors and team leaders a single operational system.",
+    "Enforce feedback privacy at the database layer rather than in the UI.",
+    "Ship functional behaviour before visual polish, then redesign deliberately.",
+    "Support bilingual use, including RTL."
+  ],
+  "responsibilities": [
+    "Owned product concept, requirements and scope.",
+    "Defined roles, permissions, feedback privacy and core information architecture.",
+    "Designed the internship program structure and mentor feedback framework.",
+    "Directed AI-assisted implementation through repo-grounded specifications and autonomous coding workflows.",
+    "Iterated the product across multiple versions based on product and UX decisions.",
+    "Led the visual transformation from a functional Tailwind UI to an iOS 26-inspired design language and then to a Zemingo-branded system."
+  ],
+  "process": [
+    {
+      "step": 1,
+      "title": "Product definition",
+      "description": "Defined the internship workflow, the three-tier role model, milestones, task tracking, hours logging and mentor feedback requirements.",
+      "tools": [],
+      "media_ids": []
+    },
+    {
+      "step": 2,
+      "title": "Architecture and functional build",
+      "description": "Specified a Next.js / TypeScript / Supabase architecture with PostgreSQL row-level security, Google Workspace authentication and Vercel deployment. Functional behaviour was prioritised over visual polish — the first interface was deliberately plain.",
+      "tools": ["Next.js", "TypeScript", "Supabase", "PostgreSQL", "Google Workspace SSO", "Vercel"],
+      "media_ids": ["media_stage_prototype"]
+    },
+    {
+      "step": 3,
+      "title": "AI-native implementation loop",
+      "description": "Turned product decisions into repo-anchored build instructions with exact implementation details, migrations and acceptance criteria, then directed autonomous agents to execute them. The distinctive part is the loop — decide, specify, execute, critique, iterate — not the code generation itself.",
+      "tools": ["Claude", "Cowork", "GitHub"],
+      "media_ids": []
+    },
+    {
+      "step": 4,
+      "title": "UX iteration",
+      "description": "Simplified the product across successive versions: reorganised the intern experience into Tasks and Feedback, evolved the rating model, removed unnecessary functionality, and preserved existing data through migrations rather than resetting.",
+      "tools": [],
+      "media_ids": []
+    },
+    {
+      "step": 5,
+      "title": "iOS 26 design-language pass",
+      "description": "Transformed the plain functional prototype using an iOS 26-inspired system: grouped surfaces, pill geometry, segmented controls, soft glass-like shadows, system typography and iOS-derived design tokens.",
+      "tools": ["CSS design tokens", "iOS 26 reference system"],
+      "media_ids": ["media_stage_ios26"]
+    },
+    {
+      "step": 6,
+      "title": "Zemingo brand layer",
+      "description": "Applied a brand layer over the iOS-inspired structure: Zemingo typography, brand accents, selection states, progress styling and wordmark treatment.",
+      "tools": ["Rubik", "Zemingo design system"],
+      "media_ids": ["media_stage_zemingo"]
+    },
+    {
+      "step": 7,
+      "title": "Making-of narrative",
+      "description": "Built a dedicated visual narrative presenting the transformation explicitly as Code → First Interface → iOS 26 → Zemingo → Final Product.",
+      "tools": [],
+      "media_ids": ["media_making_of"]
+    }
+  ],
+  "transformation": {
+    "stages": [
+      { "name": "Code", "caption": "It starts with code", "detail": "Next.js · Supabase · TypeScript", "media_id": null },
+      { "name": "Functional prototype", "caption": "First interface", "detail": "A working prototype — plain Tailwind, zero design opinion", "media_id": "media_stage_prototype" },
+      { "name": "iOS 26", "caption": "iOS 26 design language", "detail": "Grouped lists · pills · segmented controls · soft glass shadows", "media_id": "media_stage_ios26" },
+      { "name": "Zemingo", "caption": "The Zemingo layer", "detail": "Sun selection · Neon progress · Rubik · the wordmark moves in", "media_id": "media_stage_zemingo" }
+    ]
+  },
+  "skills_demonstrated": [
+    "Product definition and scoping",
+    "UX and information architecture",
+    "Design leadership",
+    "AI-native product delivery",
+    "Directing autonomous implementation",
+    "Role-based access and privacy design",
+    "Design-system adaptation",
+    "Visual design and UI transformation"
+  ],
+  "tools": [
+    "Claude", "Cowork", "GitHub", "Next.js", "TypeScript", "Tailwind CSS",
+    "Supabase", "PostgreSQL", "Vercel", "Google Workspace SSO", "next-intl", "Figma"
+  ],
+  "outcomes": [
+    "A working multi-user internship-management platform, supporting intern, mentor and team-leader workflows.",
+    "Feedback privacy enforced at the database layer through PostgreSQL row-level security rather than in the interface.",
+    "A bilingual feedback and evaluation framework, including RTL support.",
+    "A functional product transformed into a deliberately branded visual system — not a static portfolio mockup."
+  ],
+  "metrics": [
+    {
+      "label": "Interns in the initial program",
+      "value": "3",
+      "verification_status": "supported_by_project_documentation",
+      "public_use": "unrestricted"
+    },
+    {
+      "label": "Feedback taxonomy",
+      "value": "11 categories",
+      "verification_status": "supported_by_project_documentation",
+      "public_use": "unrestricted"
+    },
+    {
+      "label": "Initial brainstorm to deployed system",
+      "value": "approximately 90 minutes",
+      "verification_status": "self_reported_not_yet_verified",
+      "public_use": "only_with_qualification",
+      "note": "Self-reported. Do not state as fact until commit or deployment history confirms it. If used, attribute it explicitly as Boaz's own account."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence_claude_project_export",
+      "type": "source_document",
+      "label": "Claude project-scoped knowledge export (knowledge-export-claude-2026-08-26.json)",
+      "uri": null,
+      "verification_status": "needs_verification",
+      "visibility": "private",
+      "notes": "Authority level 2 — project documentation. Establishes the product story: role model, milestones, hour tracking, feedback framework, RLS, bilingual/RTL, and the v1/v2/v3 decisions."
+    },
+    {
+      "id": "evidence_source_bundle",
+      "type": "source_document",
+      "label": "iOS26 platform redesign source bundle",
+      "uri": null,
+      "verification_status": "verified",
+      "visibility": "private",
+      "notes": "Internal Zemingo application source: app routes, server actions, auth, components, iOS-derived token files, Zemingo design-system material and the making-of implementation. Held locally and deliberately NOT committed — it is internal source for a tool that has not been cleared for public portfolio use."
+    },
+    {
+      "id": "evidence_making_of",
+      "type": "workflow",
+      "label": "Making-of narrative (Code → Tailwind → iOS 26 → Zemingo)",
+      "uri": null,
+      "verification_status": "verified",
+      "visibility": "restricted",
+      "notes": "The four-stage transformation is verified from the source bundle. Sanitised exports are still needed before anything can be shown publicly."
+    }
+  ],
+  "media": [
+    { "id": "media_stage_prototype", "type": "before_after", "purpose": "Show the plain Tailwind prototype — the deliberate zero-design-opinion starting point.", "uri": null, "caption": "", "visibility": "restricted" },
+    { "id": "media_stage_ios26", "type": "before_after", "purpose": "Show the iOS 26 design-language pass over the same screens.", "uri": null, "caption": "", "visibility": "restricted" },
+    { "id": "media_stage_zemingo", "type": "before_after", "purpose": "Show the final Zemingo brand layer.", "uri": null, "caption": "", "visibility": "restricted" },
+    { "id": "media_making_of", "type": "video", "purpose": "Play the making-of transformation inside the conversation.", "uri": null, "caption": "", "visibility": "restricted" }
+  ],
+  "conversation_hooks": [
+    {
+      "recruiter_intent": "How does Boaz actually use AI in his work?",
+      "trigger_topics": ["ai-native", "ai workflow", "how do you use ai", "generative ai in practice", "agents", "claude", "ai delivery"],
+      "agent_response_goal": "This is the strongest end-to-end evidence: product decisions → implementation-ready spec → autonomous execution → critique → iteration → design-system transformation. Lead with the loop, not the tooling.",
+      "recommended_media_ids": ["media_making_of"]
+    },
+    {
+      "recruiter_intent": "Can Boaz work beyond traditional product design?",
+      "trigger_topics": ["technical", "full stack", "engineering", "architecture", "beyond design", "hands-on"],
+      "agent_response_goal": "Show the span — product definition, UX, architecture, data and privacy decisions, implementation direction, visual design — without overstating independent coding depth. He directed the implementation; he is not being presented as a full-stack engineer.",
+      "recommended_media_ids": []
+    },
+    {
+      "recruiter_intent": "Show me a product-design case study.",
+      "trigger_topics": ["case study", "product design", "product thinking", "ux process", "information architecture"],
+      "agent_response_goal": "Open with the operational problem and the role model, then the UX decisions, then the interface evolution. The technical stack comes last — it is context, not the point.",
+      "recommended_media_ids": ["media_stage_prototype", "media_stage_zemingo"]
+    },
+    {
+      "recruiter_intent": "Show me the visual work.",
+      "trigger_topics": ["visual", "ui", "craft", "design system", "branding", "before and after"],
+      "agent_response_goal": "Show the Code → Tailwind → iOS 26 → Zemingo transformation. This is the clearest visual-craft evidence in the portfolio because the same product is visible at every stage.",
+      "recommended_media_ids": ["media_stage_prototype", "media_stage_ios26", "media_stage_zemingo"]
+    }
+  ],
+  "presentation": {
+    "default_component": "case_study_panel",
+    "short_pitch": "An AI-native internal product taken from requirements and architecture to a working multi-user platform, then redesigned from a functional Tailwind prototype into an iOS 26-inspired, Zemingo-branded experience.",
+    "long_pitch": "The interesting part is not that a dashboard was restyled. It is the sequence: an operational problem became a product definition, then a functional system built through an AI-native delivery loop, then a deliberate visual transformation through two design languages. Boaz owned the product decisions and directed the implementation rather than writing it himself.",
+    "suggested_followups": [
+      "Want the product decisions, or the AI-native workflow behind the build?",
+      "I can show how the interface evolved across the three stages.",
+      "Would a client-facing project be more relevant than an internal one?"
+    ]
+  },
+  "open_questions": [
+    "Confirm whether this internal Zemingo project is approved for public portfolio use. Until then it stays restricted and the agent will not mention it.",
+    "Confirm which screenshots and recordings contain no private intern data.",
+    "Verify the approximately 90-minute initial delivery claim against repository or deployment history before using it publicly.",
+    "Confirm whether the final iOS 26 × Zemingo redesign was deployed or remained a redesign layer."
+  ]
+}

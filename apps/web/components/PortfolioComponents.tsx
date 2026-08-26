@@ -129,6 +129,42 @@ export function ProcessView({ project }: { project: PortfolioProject }) {
   );
 }
 
+export function TransformationView({ project }: { project: PortfolioProject }) {
+  if (project.transformation.length === 0) return null;
+  return (
+    <Panel label={`Visual evolution: ${project.name}`}>
+      <div className="p-4">
+        <h3 className="text-base font-medium">{project.name} — visual evolution</h3>
+        <ol className="mt-3 space-y-0">
+          {project.transformation.map((stage, index) => (
+            <li key={stage.name} className="relative flex gap-3 pb-4 last:pb-0">
+              {index < project.transformation.length - 1 ? (
+                <span
+                  aria-hidden
+                  className="absolute left-[7px] top-4 h-full w-px bg-[var(--color-edge)]"
+                />
+              ) : null}
+              <span className="relative mt-1.5 h-[15px] w-[15px] shrink-0 rounded-full border-2 border-[var(--color-accent-soft)] bg-[var(--color-surface)]" />
+              <div className="min-w-0">
+                <p className="text-sm">
+                  <span className="text-[var(--color-accent)]">{stage.name}</span>
+                  <span className="text-[var(--color-ink-muted)]"> — {stage.caption}</span>
+                </p>
+                <p className="mt-0.5 text-sm leading-relaxed text-[var(--color-ink-faint)]">
+                  {stage.detail}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p className="mt-1 text-xs text-[var(--color-ink-faint)]">
+          Screens for each stage are not attached yet.
+        </p>
+      </div>
+    </Panel>
+  );
+}
+
 export function MediaGallery({ project }: { project: PortfolioProject }) {
   if (project.media.length === 0) {
     return (
@@ -307,6 +343,10 @@ export function renderComponent(
     case 'show_process': {
       const project = projectById(args.project_id);
       return project ? <ProcessView project={project} /> : null;
+    }
+    case 'show_transformation': {
+      const project = projectById(args.project_id);
+      return project ? <TransformationView project={project} /> : null;
     }
     case 'show_gallery': {
       const project = projectById(args.project_id);

@@ -17,6 +17,7 @@ export const UI_TOOL_NAMES = [
   'show_skill_map',
   'show_cv_section',
   'show_process',
+  'show_transformation',
   'compare_projects',
 ] as const;
 
@@ -149,6 +150,18 @@ export const UI_TOOLS: Record<UIToolName, UIToolDefinition> = {
         description: 'Id of the project whose process to show.' },
     ],
     component: 'ProcessView',
+  },
+  show_transformation: {
+    name: 'show_transformation',
+    description:
+      "Render a project's staged visual evolution — the same product under successive design " +
+      'languages. Use when someone is assessing visual craft or design-system thinking, where ' +
+      'seeing the stages side by side argues better than describing them. Only some projects have one.',
+    parameters: [
+      { name: 'project_id', type: 'string', required: true, mustResolveTo: 'project',
+        description: 'Id of the project whose transformation to show.' },
+    ],
+    component: 'TransformationView',
   },
   compare_projects: {
     name: 'compare_projects',

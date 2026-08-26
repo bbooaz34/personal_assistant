@@ -36,6 +36,11 @@ export async function GET(): Promise<Response> {
       process:
         evidence?.process ??
         (project.process ?? []).map((step, i) => ({ step: i + 1, title: step, description: '' })),
+      transformation: evidence?.transformation?.stages.map((stage) => ({
+        name: stage.name,
+        caption: stage.caption,
+        detail: stage.detail,
+      })) ?? [],
       shortPitch: evidence?.presentation?.short_pitch ?? project.summary,
       followups: evidence?.presentation?.suggested_followups ?? [],
       verified: project.verification_status === 'verified',

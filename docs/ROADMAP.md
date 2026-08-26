@@ -13,8 +13,9 @@ personality, tone-of-voice system, visual identity concept, UI tool registry.
 Canonical knowledge exists, is human-reviewed, and validates. The pipeline
 (normalize → dedupe → detect conflicts → human verify → publish) runs.
 
-Thin because the *content* is thin: five projects with no case studies and no
-media. The machinery is ahead of the material.
+Thin because the *content* is thin. Six projects: five with no case studies and
+no media, and one — the internship platform, the only genuinely documented one —
+restricted pending Zemingo clearance. The machinery is ahead of the material.
 
 ## Phase 2 — Text-only agent — **done**
 
@@ -27,7 +28,8 @@ suite.
 
 `show_project`, `show_gallery`, `show_timeline`, `show_skill_map`,
 `show_cv_section`, `show_process`, `compare_projects` are implemented and wired.
-`show_video` and `show_prototype` are switched off until media exists — an
+`show_transformation` was added for the internship platform's staged visual
+evolution. `show_video` and `show_prototype` stay switched off until media exists — an
 approved tool that resolves to nothing is worse than a tool the model never
 reaches for.
 
@@ -79,13 +81,17 @@ providing a template, not refactoring.
 
 Ordered by impact, not by phase number.
 
-1. **Write one case study.** Not the machinery — the content. Right now the
-   agent cannot answer *"did he lead this himself?"* about any project, which is
-   the second question every recruiter asks. One well-documented project changes
-   the product more than any remaining phase.
-2. **Attach media to that project.** Three components are waiting for it.
-3. **Session extraction (Phase 4).** Without it, the personalization that
+1. **Get Zemingo to clear the internship platform.** It is the only project with
+   documented process, decisions, outcomes and metrics — and it is `restricted`,
+   so the agent cannot mention it. Everything needed to publish it is already
+   built; it is waiting on a permission, not on work.
+2. **Attach the stage screenshots.** Sanitized, no intern data. Four components
+   are waiting for them, including `show_transformation`.
+3. **Write one case study for a cleared project.** The five public projects still
+   cannot answer *"did he lead this himself?"*, which is the second question
+   every recruiter asks.
+4. **Session extraction (Phase 4).** Without it, the personalization that
    justifies the whole premise is only half-wired.
-4. **Semantic retrieval.** Mainly for Hebrew, where lexical matching does
+5. **Semantic retrieval.** Mainly for Hebrew, where lexical matching does
    nothing and intent rules carry the whole load.
-5. **An LLM-judged answer-quality suite** on top of the structural evals.
+6. **An LLM-judged answer-quality suite** on top of the structural evals.
