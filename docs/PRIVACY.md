@@ -69,6 +69,32 @@ agent to frame them accordingly.
 `rejected` claims are never presentable to anyone but the owner. A rejected
 claim is one someone already decided was wrong.
 
+## Embedded artifacts
+
+The portfolio embeds real running interfaces, not screenshots — which makes
+them the highest-risk content in the repository, because a design mockup is
+full of realistic sample data.
+
+`scripts/import-artifacts.ts` is the gate. It replaces a reviewed map of names,
+avatar initials and addresses, then **fails the import if any unrecognised
+person-shaped name survives**. That inversion matters: an allowlist of names to
+replace silently passes anyone it does not know about, which is exactly what
+happened on the first pass here — three of seven people were missed because the
+detection regex could not match a hyphenated surname, and the verifier only
+checked the names that same regex had found.
+
+A new bundle containing a new colleague now stops the import rather than
+publishing them.
+
+Two further properties:
+
+- **No third-party requests.** React and Babel are vendored into the repository
+  rather than loaded from unpkg, so an artifact cannot leak a visitor's IP to a
+  CDN and does not break when one is unreachable.
+- **Isolation.** Artifacts need `allow-same-origin` to run at all, so set
+  `ARTIFACT_ORIGIN` in production to serve them from a separate host. Same-origin
+  then means the artifact's origin, not the app's. See `config/ui.config.ts`.
+
 ## Testing it
 
 `evals/recruiter-eval-set.json` covers compensation (direct, indirect, and in

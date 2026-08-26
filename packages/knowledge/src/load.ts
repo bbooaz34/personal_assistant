@@ -59,7 +59,7 @@ export async function loadProjectEvidence(contentRoot: string): Promise<ProjectE
     if (!entry.isDirectory()) continue;
     const file = join(dir, entry.name, 'project.json');
     if (!(await exists(file))) continue;
-    projects.push(await readJson<ProjectEvidence>(file));
+    projects.push({ ...(await readJson<ProjectEvidence>(file)), sourceDir: entry.name });
   }
   return projects.sort((a, b) => a.id.localeCompare(b.id));
 }

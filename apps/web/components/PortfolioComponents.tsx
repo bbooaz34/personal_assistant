@@ -10,6 +10,7 @@
  * is honest and a fabricated one is not.
  */
 
+import { ArtifactViewer } from './ArtifactViewer';
 import type { CVData, Portfolio, PortfolioProject, PortfolioSkill, TimelineEntry } from './portfolio-types';
 
 function Panel({ children, label }: { children: React.ReactNode; label: string }) {
@@ -129,7 +130,13 @@ export function ProcessView({ project }: { project: PortfolioProject }) {
   );
 }
 
-export function TransformationView({ project }: { project: PortfolioProject }) {
+export function TransformationView({
+  project,
+  sandbox,
+}: {
+  project: PortfolioProject;
+  sandbox: string;
+}) {
   if (project.transformation.length === 0) return null;
   return (
     <Panel label={`Visual evolution: ${project.name}`}>
@@ -157,10 +164,23 @@ export function TransformationView({ project }: { project: PortfolioProject }) {
             </li>
           ))}
         </ol>
-        <p className="mt-1 text-xs text-[var(--color-ink-faint)]">
-          Screens for each stage are not attached yet.
-        </p>
+        {project.artifacts.length === 0 ? (
+          <p className="mt-1 text-xs text-[var(--color-ink-faint)]">
+            Screens for each stage are not attached yet.
+          </p>
+        ) : null}
       </div>
+
+      {/* The stages are the argument; the running artifacts are the proof. */}
+      {project.artifacts.length > 0 ? (
+        <div className="border-t border-[var(--color-edge)]">
+          <ArtifactViewer
+            projectName={project.name}
+            artifacts={project.artifacts}
+            sandbox={sandbox}
+          />
+        </div>
+      ) : null}
     </Panel>
   );
 }
@@ -350,9 +370,21 @@ export function renderComponent(
       const project = projectById(args.project_id);
       return project ? <ProcessView project={project} /> : null;
     }
+    case 'show_artifact': {
+      const project = projectById(args.project_id);
+      if (!project || project.artifacts.length === 0) return null;
+      return (
+        <ArtifactViewer
+          projectName={project.name}
+          artifacts={project.artifacts}
+          sandbox={portfolio.embedSandbox}
+          initialArtifactId={typeof args.artifact_id === 'string' ? args.artifact_id : undefined}
+        />
+      );
+    }
     case 'show_transformation': {
       const project = projectById(args.project_id);
-      return project ? <TransformationView project={project} /> : null;
+      return project ? <TransformationView project={project} sandbox={portfolio.embedSandbox} /> : null;
     }
     case 'show_gallery': {
       const project = projectById(args.project_id);

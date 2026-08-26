@@ -168,6 +168,18 @@ function toEvidenceViews(bundle: EvidenceBundle, repository: KnowledgeRepository
       const project = item as { name: string; summary: string; outcomes?: string[] };
       text = `${project.name}: ${project.summary}` +
         (project.outcomes?.length ? `\n  Outcomes: ${project.outcomes.join('; ')}` : '');
+
+      // Surface embeddable artifacts explicitly. Without this the model has no
+      // way to know that `show_artifact` would resolve for this project, so it
+      // falls back to describing work it could have shown running.
+      const artifacts = repository
+        .projectEvidence(scored.id)
+        ?.artifacts?.filter((a) => (a.visibility ?? 'public') === 'public' && a.sanitized);
+      if (artifacts?.length) {
+        text +=
+          `\n  Embeddable artifacts (the real running interface — prefer show_artifact over describing these): ` +
+          artifacts.map((a) => `${a.id} "${a.label}"`).join(', ');
+      }
     }
 
     const verified = (item as { verification_status?: string }).verification_status === 'verified';

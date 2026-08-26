@@ -99,6 +99,26 @@ export interface Transformation {
   stages: TransformationStage[];
 }
 
+/**
+ * A real file produced during the work, embeddable in the conversation.
+ *
+ * Distinct from `media`, which is a picture *of* the work. An artifact is the
+ * work — the actual interface, running. It is also the highest-risk content in
+ * the repository, so `sanitized` records that a human-reviewed substitution
+ * pass ran over it (see `scripts/import-artifacts.ts`).
+ */
+export interface ProjectArtifact {
+  id: string;
+  label: string;
+  /** Filename inside the project's `artifacts/` directory. */
+  file: string;
+  /** Which transformation stage this shows, when it maps to one. */
+  stage?: string;
+  description?: string;
+  sanitized: boolean;
+  visibility?: Exclude<Visibility, 'system'>;
+}
+
 export interface Presentation {
   default_component?: PresentationComponent;
   short_pitch?: string;
@@ -108,6 +128,12 @@ export interface Presentation {
 
 export interface ProjectEvidence {
   id: string;
+  /**
+   * Directory this package was loaded from, e.g. `internship-platform-ios26`.
+   * Populated by the loader, not stored in the file — it is where artifacts
+   * live on disk, and it is deliberately not the same as `id`.
+   */
+  sourceDir?: string;
   name: string;
   status: ProjectStatus;
   organization?: string | null;
@@ -119,6 +145,7 @@ export interface ProjectEvidence {
   responsibilities?: string[];
   process?: ProcessStep[];
   transformation?: Transformation;
+  artifacts?: ProjectArtifact[];
   skills_demonstrated?: string[];
   tools?: string[];
   outcomes?: string[];

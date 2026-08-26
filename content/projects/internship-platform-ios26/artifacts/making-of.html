@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js?v=ae84da089aab"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="icon" type="image/png" href="zemingo/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+  <script>window.OM_SCENES = '[{"name":"Opening","dur":3.5},{"name":"The code","dur":6},{"name":"First interface","dur":5.5},{"name":"iOS 26","dur":6.5},{"name":"Zemingo","dur":5.5},{"name":"Finale","dur":5}]';</script>
+  <script>window.OM_PLAYBACK = '{"mode":"loop"}';</script>
+  <script>window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "motionEditor": true
+  }/*EDITMODE-END*/;</script>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background: #0E0E10; }
+    a, a:hover { color: #FFF282; }
+  </style>
+</helmet>
+<div style="width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; background: #0E0E10;">
+  <x-import component-from-global-scope="MakingOf" from="./animations-v2.jsx ./tweaks-panel.jsx ./making-of.jsx" hint-size="100%,100%"></x-import>
+  <x-import component-from-global-scope="MakingOfTweaks" from="./animations-v2.jsx ./tweaks-panel.jsx ./making-of.jsx" hint-size="0,0"></x-import>
+</div>
+
+</x-dc>
+</body>
+</html>

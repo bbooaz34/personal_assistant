@@ -18,6 +18,7 @@ export const UI_TOOL_NAMES = [
   'show_cv_section',
   'show_process',
   'show_transformation',
+  'show_artifact',
   'compare_projects',
 ] as const;
 
@@ -162,6 +163,21 @@ export const UI_TOOLS: Record<UIToolName, UIToolDefinition> = {
         description: 'Id of the project whose transformation to show.' },
     ],
     component: 'TransformationView',
+  },
+  show_artifact: {
+    name: 'show_artifact',
+    description:
+      'Embed a real, running artifact from the project — the actual interface, not a screenshot of ' +
+      'it. Use when someone wants to see or judge the work itself: visual craft, interaction, or a ' +
+      'before/after between design stages. Only some projects have artifacts; the evidence block ' +
+      'says which. Prefer this over describing what something looked like.',
+    parameters: [
+      { name: 'project_id', type: 'string', required: true, mustResolveTo: 'project',
+        description: 'Id of the project whose artifact to embed.' },
+      { name: 'artifact_id', type: 'string', required: false,
+        description: 'Which artifact to open first, e.g. a specific design stage. Omit for the default.' },
+    ],
+    component: 'ArtifactViewer',
   },
   compare_projects: {
     name: 'compare_projects',

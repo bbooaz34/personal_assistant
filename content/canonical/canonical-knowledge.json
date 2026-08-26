@@ -1393,7 +1393,33 @@
       ],
       "verification_status": "verified",
       "visibility": "public",
-      "notes": "Cleared for public portfolio use by Zemingo (owner-reported, 2026-08-26). Standing claim rules, which the approval does NOT lift: (1) never expose intern names, private feedback or evaluation data; (2) the ~90-minute delivery claim is self-reported and unverified — attribute it explicitly to Boaz or leave it out; (3) describe the coding as AI-assisted and agent-directed, not independent full-stack engineering; (4) do not state that the final iOS 26 x Zemingo redesign shipped — that is still unconfirmed. Project media remains restricted until screenshots are confirmed free of intern data."
+      "notes": "Cleared for public portfolio use by Zemingo (owner-reported, 2026-08-26). Standing claim rules, which the approval does NOT lift: (1) never expose intern names, private feedback or evaluation data; (2) the ~90-minute delivery claim is self-reported and unverified — attribute it explicitly to Boaz or leave it out; (3) describe the coding as AI-assisted and agent-directed, not independent full-stack engineering; (4) do not state that the final iOS 26 x Zemingo redesign shipped — that is still unconfirmed. Media is now public: the real running interface at each design stage is embedded via sanitized artifacts (see scripts/import-artifacts.ts). Names and addresses inside them are fictional replacements.",
+      "media": [
+        {
+          "type": "prototype",
+          "uri": "/api/artifact/internship-platform-ios26/stage-prototype.html",
+          "caption": "Functional prototype — plain Tailwind",
+          "visibility": "public"
+        },
+        {
+          "type": "prototype",
+          "uri": "/api/artifact/internship-platform-ios26/stage-ios26.html",
+          "caption": "iOS 26 design language",
+          "visibility": "public"
+        },
+        {
+          "type": "prototype",
+          "uri": "/api/artifact/internship-platform-ios26/stage-zemingo.html",
+          "caption": "Zemingo brand layer",
+          "visibility": "public"
+        },
+        {
+          "type": "prototype",
+          "uri": "/api/artifact/internship-platform-ios26/making-of.html",
+          "caption": "Making-of narrative",
+          "visibility": "public"
+        }
+      ]
     }
   ],
   "relationships": [
@@ -1762,12 +1788,6 @@
       "suggested_source": "LinkedIn recommendations or direct requests to former colleagues"
     },
     {
-      "id": "unknown_internship_platform_media",
-      "topic": "Sanitized media for the internship platform",
-      "reason": "Zemingo cleared the project, but no screenshot or recording has been confirmed free of intern names, private feedback or evaluation data. Media entries stay restricted until that check happens, so show_transformation, show_gallery and the case study currently render text only.",
-      "suggested_source": "Sanitized screenshots per transformation stage, plus the making-of recording"
-    },
-    {
       "id": "unknown_internship_platform_shipped",
       "topic": "Whether the iOS 26 x Zemingo redesign shipped",
       "reason": "The functional platform was built and deployed according to the project record, but it is unconfirmed whether the final redesigned interface was deployed or remained a redesign layer. The agent must not claim it shipped.",
@@ -1778,6 +1798,12 @@
       "topic": "The approximately 90-minute delivery claim",
       "reason": "Self-reported and not independently verified. It is stored with verified:false and may only be used if attributed explicitly to Boaz.",
       "suggested_source": "Repository commit history or Vercel deployment timestamps"
+    },
+    {
+      "id": "unknown_internship_platform_persona_status",
+      "topic": "Whether the names in the artifacts were real colleagues",
+      "reason": "The published artifacts are sanitized: seven colleagues’ names, avatar initials and company addresses were replaced with fictional personas. If those were demo personas all along, the substitution is unnecessary and the artifacts can show their original content. Until confirmed, the sanitized version ships.",
+      "suggested_source": "Owner confirmation"
     }
   ]
 }

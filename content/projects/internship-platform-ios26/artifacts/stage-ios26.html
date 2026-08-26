@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js?v=ae84da089aab"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="icon" type="image/png" href="zemingo/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&family=Frank+Ruhl+Libre:wght@300&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body {
+      font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif; font-variant-numeric: tabular-nums;
+      background: rgb(242,242,247);
+      color: rgb(0,0,0);
+      -webkit-font-smoothing: antialiased;
+      --tint: #FF8FB0;
+    }
+    input, button, textarea, select { font: inherit; }
+    input::placeholder, textarea::placeholder { color: #A8A8A8; }
+  </style>
+</helmet>
+<div style="display: flex; height: 100vh; overflow: hidden;">
+
+  <sc-if value="{{ showSidebar }}" hint-placeholder-val="{{ true }}">
+  <aside style="width: 292px; flex-shrink: 0; display: flex; flex-direction: column; padding: 24px 16px 16px 20px; box-sizing: border-box;">
+    <div style="display: flex; flex-direction: column; gap: 7px; padding: 4px 12px 0;">
+      <img src="zemingo/assets/zemingo-logo-full.svg" alt="zemingo" style="width: 130px; height: auto; display: block;">
+      <div style="font-size: 11px; font-weight: 500; color: #7D7D7D; text-transform: uppercase; letter-spacing: 0.08em;">Internship program</div>
+    </div>
+
+    <div style="margin: 18px 0 6px; display: flex; align-items: center; gap: 7px; height: 36px; border-radius: 100px; background: rgba(118,118,128,0.12); padding: 0 12px;">
+      <svg width="15" height="15" viewBox="0 0 15 15"><circle cx="6.5" cy="6.5" r="4.75" fill="none" stroke="#7D7D7D" stroke-width="1.5"></circle><line x1="10.2" y1="10.2" x2="13.4" y2="13.4" stroke="#7D7D7D" stroke-width="1.5" stroke-linecap="round"></line></svg>
+      <span style="font-size: 15px; letter-spacing: -0.23px; color: #A8A8A8;">Search</span>
+    </div>
+
+    <nav style="display: flex; flex-direction: column; gap: 2px; overflow-y: auto; flex: 1; margin-top: 8px;">
+      <div style="font-size: 13px; font-weight: 500; color: #7D7D7D; padding: 14px 12px 6px; letter-spacing: -0.08px;">Team Leader</div>
+
+      <div onClick="{{ ovGo }}" style="display: flex; align-items: center; gap: 11px; height: 40px; padding: 0 12px; border-radius: 100px; cursor: pointer; font-size: 15px; letter-spacing: -0.23px; background: {{ ovBg }}; color: {{ ovFg }}; font-weight: {{ ovFw }}; box-shadow: {{ ovSh }};">
+        <svg width="17" height="17" viewBox="0 0 17 17"><rect x="1" y="1" width="6.5" height="6.5" rx="2" fill="#000000"></rect><rect x="9.5" y="1" width="6.5" height="6.5" rx="2" fill="#000000"></rect><rect x="1" y="9.5" width="6.5" height="6.5" rx="2" fill="#000000"></rect><rect x="9.5" y="9.5" width="6.5" height="6.5" rx="2" fill="#000000"></rect></svg>
+        <span>Program overview</span>
+      </div>
+      <div onClick="{{ alGo }}" style="display: flex; align-items: center; gap: 11px; height: 40px; padding: 0 12px; border-radius: 100px; cursor: pointer; font-size: 15px; letter-spacing: -0.23px; background: {{ alBg }}; color: {{ alFg }}; font-weight: {{ alFw }}; box-shadow: {{ alSh }};">
+        <svg width="17" height="17" viewBox="0 0 17 17"><circle cx="6" cy="5.5" r="2.6" fill="#000000"></circle><rect x="1.5" y="9.5" width="9" height="5.5" rx="2.75" fill="#000000"></rect><circle cx="12.6" cy="5.5" r="2.2" fill="#000000" opacity="0.45"></circle><rect x="11" y="9.5" width="4.8" height="5.5" rx="2.4" fill="#000000" opacity="0.45"></rect></svg>
+        <span>People &amp; allocation</span>
+      </div>
+      <div onClick="{{ tpGo }}" style="display: flex; align-items: center; gap: 11px; height: 40px; padding: 0 12px; border-radius: 100px; cursor: pointer; font-size: 15px; letter-spacing: -0.23px; background: {{ tpBg }}; color: {{ tpFg }}; font-weight: {{ tpFw }}; box-shadow: {{ tpSh }};">
+        <svg width="17" height="17" viewBox="0 0 17 17"><rect x="1.5" y="2.5" width="14" height="2.4" rx="1.2" fill="#000000"></rect><rect x="1.5" y="7.3" width="14" height="2.4" rx="1.2" fill="#000000"></rect><rect x="1.5" y="12.1" width="9" height="2.4" rx="1.2" fill="#000000"></rect></svg>
+        <span>Program template</span>
+      </div>
+
+      <div style="font-size: 13px; font-weight: 500; color: #7D7D7D; padding: 18px 12px 6px; letter-spacing: -0.08px;">Mentoring</div>
+
+      <div onClick="{{ miGo }}" style="display: flex; align-items: center; gap: 11px; height: 40px; padding: 0 12px; border-radius: 100px; cursor: pointer; font-size: 15px; letter-spacing: -0.23px; background: {{ miBg }}; color: {{ miFg }}; font-weight: {{ miFw }}; box-shadow: {{ miSh }};">
+        <svg width="17" height="17" viewBox="0 0 17 17"><circle cx="8.5" cy="5" r="3" fill="#000000"></circle><rect x="2.5" y="9.5" width="12" height="6" rx="3" fill="#000000"></rect></svg>
+        <span>My interns</span>
+      </div>
+      <div onClick="{{ idGo }}" style="display: flex; align-items: center; gap: 11px; height: 40px; padding: 0 12px; border-radius: 100px; cursor: pointer; font-size: 15px; letter-spacing: -0.23px; background: {{ idBg }}; color: {{ idFg }}; font-weight: {{ idFw }}; box-shadow: {{ idSh }};">
+        <svg width="17" height="17" viewBox="0 0 17 17"><rect x="1.5" y="1.5" width="14" height="14" rx="4" fill="none" stroke="#000000" stroke-width="1.6"></rect><circle cx="8.5" cy="6.5" r="2" fill="#000000"></circle><rect x="4.5" y="9.8" width="8" height="3.8" rx="1.9" fill="#000000"></rect></svg>
+        <span>Intern · Lena Ortiz</span>
+      </div>
+      <div onClick="{{ smGo }}" style="display: flex; align-items: center; gap: 11px; height: 40px; padding: 0 12px; border-radius: 100px; cursor: pointer; font-size: 15px; letter-spacing: -0.23px; background: {{ smBg }}; color: {{ smFg }}; font-weight: {{ smFw }}; box-shadow: {{ smSh }};">
+        <svg width="17" height="17" viewBox="0 0 17 17"><rect x="2.5" y="1.5" width="12" height="14" rx="3" fill="none" stroke="#000000" stroke-width="1.6"></rect><rect x="5.2" y="5" width="6.6" height="1.8" rx="0.9" fill="#000000"></rect><rect x="5.2" y="8.4" width="6.6" height="1.8" rx="0.9" fill="#000000"></rect></svg>
+        <span>Summary · Lena Ortiz</span>
+      </div>
+
+      <div style="font-size: 13px; font-weight: 500; color: #7D7D7D; padding: 18px 12px 6px; letter-spacing: -0.08px;">Intern</div>
+
+      <div onClick="{{ inGo }}" style="display: flex; align-items: center; gap: 11px; height: 40px; padding: 0 12px; border-radius: 100px; cursor: pointer; font-size: 15px; letter-spacing: -0.23px; background: {{ inBg }}; color: {{ inFg }}; font-weight: {{ inFw }}; box-shadow: {{ inSh }};">
+        <svg width="17" height="17" viewBox="0 0 17 17"><circle cx="8.5" cy="8.5" r="7" fill="none" stroke="#000000" stroke-width="1.6"></circle><line x1="8.5" y1="8.5" x2="12" y2="5.5" stroke="#000000" stroke-width="1.6" stroke-linecap="round"></line><circle cx="8.5" cy="8.5" r="1.3" fill="#000000"></circle></svg>
+        <span>My dashboard</span>
+      </div>
+      <div onClick="{{ lgGo }}" style="display: flex; align-items: center; gap: 11px; height: 40px; padding: 0 12px; border-radius: 100px; cursor: pointer; font-size: 15px; letter-spacing: -0.23px; background: {{ lgBg }}; color: {{ lgFg }}; font-weight: {{ lgFw }}; box-shadow: {{ lgSh }};">
+        <svg width="17" height="17" viewBox="0 0 17 17"><rect x="1.5" y="1.5" width="9" height="14" rx="3" fill="none" stroke="#000000" stroke-width="1.6"></rect><line x1="7" y1="8.5" x2="15" y2="8.5" stroke="#000000" stroke-width="1.6" stroke-linecap="round"></line><path d="M 12.5 6 L 15 8.5 L 12.5 11" fill="none" stroke="#000000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>Sign-in screen</span>
+      </div>
+    </nav>
+
+    <div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 100px; background: rgba(118,118,128,0.12);">
+      <div style="width: 34px; height: 34px; border-radius: 50%; background: #000000; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; flex-shrink: 0;">SO</div>
+      <div style="flex: 1; min-width: 0;">
+        <div style="font-size: 15px; font-weight: 500; letter-spacing: -0.23px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Sam Okafor</div>
+        <div style="font-size: 13px; color: #7D7D7D; letter-spacing: -0.08px;">Team Leader</div>
+      </div>
+      <svg width="15" height="15" viewBox="0 0 15 15" style="flex-shrink: 0; cursor: pointer;"><rect x="1.5" y="1.5" width="8" height="12" rx="2.5" fill="none" stroke="#7D7D7D" stroke-width="1.4"></rect><line x1="6" y1="7.5" x2="13.5" y2="7.5" stroke="#7D7D7D" stroke-width="1.4" stroke-linecap="round"></line><path d="M 11.2 5.3 L 13.5 7.5 L 11.2 9.7" fill="none" stroke="#7D7D7D" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </div>
+  </aside>
+  </sc-if>
+
+  <main style="flex: 1; overflow-y: auto; min-width: 0;">
+
+    <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="Program overview" style="max-width: 980px; padding: 44px 48px 60px; box-sizing: border-box;">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;">
+        <div>
+          <h1 style="margin: 0; font-size: 34px; font-weight: 500; letter-spacing: -0.2px; line-height: 41px;">Program overview</h1>
+          <p style="margin: 6px 0 0; font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D;">Summer 2026 cohort · 4 interns · 2 mentors</p>
+        </div>
+        <div style="display: inline-flex; align-items: center; height: 32px; border-radius: 100px; background: rgba(118,118,128,0.12); padding: 2px; gap: 4px; flex-shrink: 0;">
+          <div style="width: 96px; text-align: center; align-self: stretch; display: flex; align-items: center; justify-content: center; border-radius: 100px; background: #FFF282; font-size: 13px; font-weight: 500; letter-spacing: -0.08px;">All</div>
+          <div style="width: 96px; text-align: center; align-self: stretch; display: flex; align-items: center; justify-content: center; border-radius: 100px; font-size: 13px; font-weight: 400; letter-spacing: -0.08px; color: rgb(0,0,0); cursor: pointer;">Active</div>
+          <div style="width: 96px; text-align: center; align-self: stretch; display: flex; align-items: center; justify-content: center; border-radius: 100px; font-size: 13px; font-weight: 400; letter-spacing: -0.08px; color: rgb(0,0,0); cursor: pointer;">Wrapping up</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 36px; font-size: 11px; font-weight: 500; color: #7D7D7D; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 20px 8px;">Interns</div>
+      <div style="background: rgb(255,255,255); border-radius: 26px; overflow: hidden;">
+        <sc-for list="{{ leaderInterns }}" as="it" hint-placeholder-count="4">
+          <div>
+            <sc-if value="{{ it.showSep }}" hint-placeholder-val="{{ false }}">
+              <div style="height: 1px; background: #E1E1E1; margin-left: 80px;"></div>
+            </sc-if>
+            <div onClick="{{ it.open }}" style="display: flex; align-items: center; gap: 12px; padding: 0 20px; height: 76px; cursor: pointer;" style-hover="background: rgba(118,118,128,0.08);">
+              <div style="width: 44px; height: 44px; border-radius: 50%; background: {{ it.avBg }}; color: {{ it.avFg }}; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500; flex-shrink: 0;">{{ it.initials }}</div>
+              <div style="flex: 1; min-width: 120px;">
+                <div style="font-size: 17px; letter-spacing: -0.43px; line-height: 22px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ it.name }}</div>
+                <div style="font-size: 15px; letter-spacing: -0.23px; line-height: 20px; color: #7D7D7D; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Mentor: {{ it.mentor }}</div>
+              </div>
+              <sc-if value="{{ it.hasPending }}" hint-placeholder-val="{{ false }}">
+                <div style="background: #FF8FB0; color: #000000; font-size: 13px; font-weight: 500; letter-spacing: -0.08px; border-radius: 100px; padding: 3px 10px; flex-shrink: 0; white-space: nowrap;">{{ it.pending }} to review</div>
+              </sc-if>
+              <div style="width: 150px; flex-shrink: 0;">
+                <div style="height: 5px; border-radius: 100px; background: rgba(118,118,128,0.12); overflow: hidden;">
+                  <div style="height: 100%; border-radius: 100px; background: var(--tint); width: {{ it.pct }}%;"></div>
+                </div>
+                <div style="margin-top: 5px; font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D; text-align: right; white-space: nowrap;">{{ it.approved }}/{{ it.total }} tasks · {{ it.hours }}/{{ it.target }} h</div>
+              </div>
+              <svg width="8" height="14" viewBox="0 0 8 14" style="flex-shrink: 0;"><path d="M 1 1 L 7 7 L 1 13" fill="none" stroke="#A8A8A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <p style="margin: 10px 20px 0; font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D;">Hours count toward the 180-hour target. Vacation and sick days push the projected end date instead of reducing the target.</p>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isIntern }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Intern dashboard" style="max-width: 980px; padding: 44px 48px 60px; box-sizing: border-box;">
+      <h1 style="margin: 0; font-size: 34px; font-weight: 500; letter-spacing: -0.2px; line-height: 41px;">Welcome, Noa</h1>
+      <p style="margin: 6px 0 0; font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D;">Track your tasks and log your hours here.</p>
+
+      <div style="margin-top: 32px; background: rgb(255,255,255); border-radius: 26px; padding: 24px 24px 20px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between;">
+          <div style="font-size: 15px; font-weight: 500; letter-spacing: -0.23px;">Internship progress</div>
+          <div style="font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D;">118 of 180 hours · 66%</div>
+        </div>
+        <div style="margin-top: 12px; height: 6px; border-radius: 100px; background: rgba(118,118,128,0.12); overflow: hidden;">
+          <div style="height: 100%; border-radius: 100px; background: var(--tint); width: 66%;"></div>
+        </div>
+        <div style="margin-top: 18px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+          <div style="background: rgba(118,118,128,0.08); border-radius: 16px; padding: 12px 16px;">
+            <div style="font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D;">Worked</div>
+            <div style="margin-top: 2px; font-size: 19px; font-weight: 500; letter-spacing: -0.44px;">118 h</div>
+          </div>
+          <div style="background: rgba(118,118,128,0.08); border-radius: 16px; padding: 12px 16px;">
+            <div style="font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D;">Remaining</div>
+            <div style="margin-top: 2px; font-size: 19px; font-weight: 500; letter-spacing: -0.44px;">62 h</div>
+          </div>
+          <div style="background: rgba(118,118,128,0.08); border-radius: 16px; padding: 12px 16px;">
+            <div style="font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D;">Time off</div>
+            <div style="margin-top: 2px; font-size: 19px; font-weight: 500; letter-spacing: -0.44px;">18 h</div>
+          </div>
+          <div style="background: rgba(118,118,128,0.08); border-radius: 16px; padding: 12px 16px;">
+            <div style="font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D;">Projected end</div>
+            <div style="margin-top: 2px; font-size: 19px; font-weight: 500; letter-spacing: -0.44px;">Aug 13, 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start;">
+        <div>
+          <div style="font-size: 11px; font-weight: 500; color: #7D7D7D; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 20px 8px;">Your program</div>
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <sc-for list="{{ internMilestones }}" as="m" hint-placeholder-count="4">
+              <div style="background: rgb(255,255,255); border-radius: 26px; padding: 18px 20px 8px;">
+                <div style="display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 8px;">
+                  <div style="font-size: 17px; font-weight: 500; letter-spacing: -0.43px;">{{ m.name }}</div>
+                  <div style="font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D;">{{ m.done }} of {{ m.count }} approved</div>
+                </div>
+                <sc-for list="{{ m.tasks }}" as="t" hint-placeholder-count="3">
+                  <div style="display: flex; align-items: center; gap: 12px; min-height: 44px; border-top: 1px solid #E1E1E1;">
+                    <div style="width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; box-sizing: border-box; display: flex; align-items: center; justify-content: center; background: {{ t.cBg }}; border: {{ t.cBorder }};">
+                      <sc-if value="{{ t.checked }}" hint-placeholder-val="{{ false }}">
+                        <svg width="11" height="9" viewBox="0 0 11 9"><path d="M 1 4.5 L 4 7.5 L 10 1" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                      </sc-if>
+                    </div>
+                    <div style="flex: 1; font-size: 15px; letter-spacing: -0.23px; color: {{ t.fg }}; text-decoration: {{ t.deco }};">{{ t.name }}</div>
+                    <sc-if value="{{ t.custom }}" hint-placeholder-val="{{ false }}">
+                      <div style="font-size: 12px; font-weight: 400; color: #C28A1A; background: rgba(194,138,26,0.14); border-radius: 100px; padding: 2px 8px; flex-shrink: 0;">mentor</div>
+                    </sc-if>
+                    <sc-if value="{{ t.showPill }}" hint-placeholder-val="{{ false }}">
+                      <div style="font-size: 12px; font-weight: 400; border-radius: 100px; padding: 2px 8px; flex-shrink: 0; color: {{ t.pillFg }}; background: {{ t.pillBg }};">{{ t.pill }}</div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size: 11px; font-weight: 500; color: #7D7D7D; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 20px 8px;">Hours</div>
+          <div style="background: rgb(255,255,255); border-radius: 26px; padding: 18px 20px 20px;">
+            <div style="font-size: 17px; font-weight: 500; letter-spacing: -0.43px;">Log time</div>
+            <div style="margin-top: 14px; display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap;">
+              <label style="display: block;">
+                <span style="display: block; font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D; margin-bottom: 5px;">Date</span>
+                <div style="height: 36px; border-radius: 100px; background: rgba(118,118,128,0.12); display: flex; align-items: center; padding: 0 14px; font-size: 15px; letter-spacing: -0.23px;">Jul 2, 2026</div>
+              </label>
+              <label style="display: block;">
+                <span style="display: block; font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D; margin-bottom: 5px;">Hours</span>
+                <div style="height: 36px; width: 56px; border-radius: 100px; background: rgba(118,118,128,0.12); display: flex; align-items: center; justify-content: center; font-size: 15px; letter-spacing: -0.23px;">9</div>
+              </label>
+              <div>
+                <span style="display: block; font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D; margin-bottom: 5px;">Type</span>
+                <div style="display: inline-flex; align-items: center; height: 36px; border-radius: 100px; background: rgba(118,118,128,0.12); padding: 2px; gap: 4px; box-sizing: border-box;">
+                  <div style="padding: 0 14px; align-self: stretch; display: flex; align-items: center; border-radius: 100px; background: #FFF282; font-size: 13px; font-weight: 500; letter-spacing: -0.08px;">Work</div>
+                  <div style="padding: 0 14px; align-self: stretch; display: flex; align-items: center; border-radius: 100px; font-size: 13px; font-weight: 400; letter-spacing: -0.08px; cursor: pointer;">Vacation</div>
+                  <div style="padding: 0 14px; align-self: stretch; display: flex; align-items: center; border-radius: 100px; font-size: 13px; font-weight: 400; letter-spacing: -0.08px; cursor: pointer;">Sick</div>
+                </div>
+              </div>
+              <button style="height: 36px; border: none; border-radius: 100px; background: #FFF282; color: #000000; font-size: 15px; font-weight: 500; letter-spacing: -0.23px; padding: 0 20px; cursor: pointer;">Add</button>
+            </div>
+
+            <div style="margin-top: 20px; display: grid; grid-template-columns: 1fr auto auto auto; column-gap: 20px; align-items: center;">
+              <div style="font-size: 11px; font-weight: 500; color: #7D7D7D; text-transform: uppercase; letter-spacing: 0.08em; padding-bottom: 8px;">Date</div>
+              <div style="font-size: 11px; font-weight: 500; color: #7D7D7D; text-transform: uppercase; letter-spacing: 0.08em; padding-bottom: 8px;">Type</div>
+              <div style="font-size: 11px; font-weight: 500; color: #7D7D7D; text-transform: uppercase; letter-spacing: 0.08em; padding-bottom: 8px; text-align: right;">Hours</div>
+              <div></div>
+              <sc-for list="{{ internLogs }}" as="lg" hint-placeholder-count="6">
+                <div style="font-size: 15px; letter-spacing: -0.23px; padding: 10px 0; border-top: 1px solid #E1E1E1;">{{ lg.date }}</div>
+                <div style="font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D; padding: 10px 0; border-top: 1px solid #E1E1E1;">{{ lg.type }}</div>
+                <div style="font-size: 15px; letter-spacing: -0.23px; text-align: right; padding: 10px 0; border-top: 1px solid #E1E1E1;">{{ lg.hours }}</div>
+                <div style="font-size: 13px; letter-spacing: -0.08px; color: #B14A3C; padding: 10px 0 10px 8px; border-top: 1px solid #E1E1E1; cursor: pointer;">Remove</div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isMentor }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Mentor - my interns" style="max-width: 980px; padding: 44px 48px 60px; box-sizing: border-box;">
+      <h1 style="margin: 0; font-size: 34px; font-weight: 500; letter-spacing: -0.2px; line-height: 41px;">Your interns</h1>
+      <p style="margin: 6px 0 0; font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D;">Review completed tasks, keep notes, and track hours.</p>
+
+      <div style="margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div onClick="{{ goDetail }}" style="background: rgb(255,255,255); border-radius: 26px; padding: 22px 24px; cursor: pointer;" style-hover="box-shadow: 0 0 0 1px #E1E1E1;">
+          <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background: #E5E5EA; color: #000000; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 500; flex-shrink: 0;">LO</div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 17px; font-weight: 500; letter-spacing: -0.43px;">Lena Ortiz</div>
+              <div style="font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D;">lena@example.com</div>
+            </div>
+            <div style="background: #FF8FB0; color: #000000; font-size: 13px; font-weight: 500; letter-spacing: -0.08px; border-radius: 100px; padding: 3px 10px;">1 to review</div>
+          </div>
+          <div style="margin-top: 20px; height: 5px; border-radius: 100px; background: rgba(118,118,128,0.12); overflow: hidden;">
+            <div style="height: 100%; border-radius: 100px; background: var(--tint); width: 66%;"></div>
+          </div>
+          <div style="margin-top: 6px; display: flex; justify-content: space-between; font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D;">
+            <span>13 of 16 tasks approved</span><span>118 of 180 h</span>
+          </div>
+        </div>
+
+        <div style="background: rgb(255,255,255); border-radius: 26px; padding: 22px 24px; cursor: pointer;" style-hover="box-shadow: 0 0 0 1px #E1E1E1;">
+          <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background: #E5E5EA; color: #000000; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 500; flex-shrink: 0;">MW</div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 17px; font-weight: 500; letter-spacing: -0.43px;">Marcus Webb</div>
+              <div style="font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D;">marcus@example.com</div>
+            </div>
+          </div>
+          <div style="margin-top: 20px; height: 5px; border-radius: 100px; background: rgba(118,118,128,0.12); overflow: hidden;">
+            <div style="height: 100%; border-radius: 100px; background: var(--tint); width: 96%;"></div>
+          </div>
+          <div style="margin-top: 6px; display: flex; justify-content: space-between; font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D;">
+            <span>15 of 17 tasks approved</span><span>172 of 180 h</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Intern detail" style="max-width: 980px; padding: 44px 48px 60px; box-sizing: border-box;">
+      <div onClick="{{ goMentor }}" style="display: inline-flex; align-items: center; gap: 6px; font-size: 15px; letter-spacing: -0.23px; color: #000000; font-weight: 500; cursor: pointer; margin-bottom: 14px;">
+        <svg width="8" height="14" viewBox="0 0 8 14"><path d="M 7 1 L 1 7 L 7 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>Your interns</span>
+      </div>
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: #E5E5EA; color: #000000; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 500;">LO</div>
+          <div>
+            <h1 style="margin: 0; font-size: 34px; font-weight: 500; letter-spacing: -0.2px; line-height: 41px;">Lena Ortiz</h1>
+            <p style="margin: 2px 0 0; font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D;">lena@example.com · Jun 1 – Aug 21, 2026</p>
+          </div>
+        </div>
+        <div onClick="{{ goSummary }}" style="display: inline-flex; align-items: center; gap: 7px; height: 40px; padding: 0 18px; border-radius: 100px; background: rgba(118,118,128,0.12); color: #000000; font-size: 15px; font-weight: 500; letter-spacing: -0.23px; cursor: pointer; flex-shrink: 0;">
+          <span>Summary document</span>
+          <svg width="7" height="12" viewBox="0 0 7 12"><path d="M 1 1 L 6 6 L 1 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+      </div>
+
+      <div style="margin-top: 28px; background: rgb(255,255,255); border-radius: 26px; padding: 20px 24px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between;">
+          <div style="font-size: 15px; font-weight: 500; letter-spacing: -0.23px;">Hours toward target</div>
+          <div style="font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D;">118 of 180 h · projected end Aug 13, 2026</div>
+        </div>
+        <div style="margin-top: 12px; height: 6px; border-radius: 100px; background: rgba(118,118,128,0.12); overflow: hidden;">
+          <div style="height: 100%; border-radius: 100px; background: var(--tint); width: 66%;"></div>
+        </div>
+      </div>
+
+      <div style="margin-top: 32px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; align-items: start;">
+        <div>
+          <div style="font-size: 11px; font-weight: 500; color: #7D7D7D; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 20px 8px;">Tasks</div>
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <sc-for list="{{ detailMilestones }}" as="m" hint-placeholder-count="4">
+              <div style="background: rgb(255,255,255); border-radius: 26px; padding: 18px 20px 14px;">
+                <div style="display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 8px;">
+                  <div style="font-size: 17px; font-weight: 500; letter-spacing: -0.43px;">{{ m.name }}</div>
+                  <div style="font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D;">{{ m.done }} of {{ m.count }} approved</div>
+                </div>
+                <sc-for list="{{ m.tasks }}" as="t" hint-placeholder-count="3">
+                  <div style="display: flex; align-items: center; gap: 12px; min-height: 46px; border-top: 1px solid #E1E1E1;">
+                    <div style="flex: 1; font-size: 15px; letter-spacing: -0.23px; color: {{ t.fg }};">{{ t.name }}</div>
+                    <sc-if value="{{ t.custom }}" hint-placeholder-val="{{ false }}">
+                      <div style="font-size: 12px; font-weight: 400; color: #C28A1A; background: rgba(194,138,26,0.14); border-radius: 100px; padding: 2px 8px; flex-shrink: 0;">custom</div>
+                    </sc-if>
+                    <div style="font-size: 12px; font-weight: 400; border-radius: 100px; padding: 2px 8px; flex-shrink: 0; color: {{ t.stFg }}; background: {{ t.stBg }};">{{ t.status }}</div>
+                    <div style="font-size: 13px; font-weight: 500; letter-spacing: -0.08px; border-radius: 100px; padding: 5px 14px; flex-shrink: 0; cursor: pointer; color: {{ t.btnFg }}; background: {{ t.btnBg }}; border: {{ t.btnBorder }}; opacity: {{ t.btnOpacity }};">{{ t.btn }}</div>
+                  </div>
+                </sc-for>
+                <div style="padding-top: 10px; border-top: 1px solid #E1E1E1; font-size: 13px; font-weight: 500; letter-spacing: -0.08px; color: #000000; font-weight: 500; cursor: pointer;">+ Add task</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 20px 8px;">
+            <div style="font-size: 11px; font-weight: 500; color: #7D7D7D; text-transform: uppercase; letter-spacing: 0.08em;">Private notes</div>
+            <div style="font-size: 12px; letter-spacing: -0.08px; color: #A8A8A8;">Not visible to the intern</div>
+          </div>
+          <div style="background: rgb(255,255,255); border-radius: 26px; padding: 18px 20px 20px;">
+            <div style="border-radius: 18px; border: 1px solid #E1E1E1; padding: 12px 14px; font-size: 15px; letter-spacing: -0.23px; color: #A8A8A8; min-height: 44px;">Add a note about this intern…</div>
+            <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
+              <button style="height: 34px; border: none; border-radius: 100px; background: #FFF282; color: #000000; font-size: 14px; font-weight: 500; letter-spacing: -0.15px; padding: 0 18px; cursor: pointer;">Add note</button>
+            </div>
+            <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 10px;">
+              <sc-for list="{{ notes }}" as="n" hint-placeholder-count="3">
+                <div style="background: rgba(118,118,128,0.08); border-radius: 16px; padding: 12px 14px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 12px; letter-spacing: -0.08px; color: #7D7D7D;">
+                    <span>{{ n.author }}</span><span>{{ n.date }}</span>
+                  </div>
+                  <p style="margin: 5px 0 0; font-size: 15px; letter-spacing: -0.23px; line-height: 20px;">{{ n.text }}</p>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isAllocation }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="People and allocation" style="max-width: 980px; padding: 44px 48px 60px; box-sizing: border-box;">
+      <h1 style="margin: 0; font-size: 34px; font-weight: 500; letter-spacing: -0.2px; line-height: 41px;">People &amp; allocation</h1>
+      <p style="margin: 6px 0 0; font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D;">Everyone signs in as an intern by default. Set roles, add interns, and assign mentors.</p>
+
+      <div style="margin-top: 36px; font-size: 11px; font-weight: 500; color: #7D7D7D; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 20px 8px;">Roles</div>
+      <div style="background: rgb(255,255,255); border-radius: 26px; overflow: hidden; padding: 4px 20px;">
+        <sc-for list="{{ users }}" as="u" hint-placeholder-count="6">
+          <div style="display: flex; align-items: center; gap: 14px; height: 60px; border-top: {{ u.sep }};">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: {{ u.avBg }}; color: {{ u.avFg }}; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; flex-shrink: 0;">{{ u.initials }}</div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 17px; letter-spacing: -0.43px; line-height: 22px;">{{ u.name }}</div>
+              <div style="font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D;">{{ u.email }}</div>
+            </div>
+            <div style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px 0 14px; border-radius: 100px; background: rgba(118,118,128,0.12); font-size: 14px; font-weight: 400; letter-spacing: -0.15px; cursor: pointer;">
+              <span>{{ u.role }}</span>
+              <svg width="9" height="14" viewBox="0 0 9 14"><path d="M 1.5 5 L 4.5 2 L 7.5 5" fill="none" stroke="#7D7D7D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><path d="M 1.5 9 L 4.5 12 L 7.5 9" fill="none" stroke="#7D7D7D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top: 32px; font-size: 11px; font-weight: 500; color: #7D7D7D; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 20px 8px;">Add an intern</div>
+      <div style="background: rgb(255,255,255); border-radius: 26px; padding: 20px 24px;">
+        <div style="display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap;">
+          <div>
+            <span style="display: block; font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D; margin-bottom: 5px;">Person</span>
+            <div style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px 0 14px; border-radius: 100px; background: rgba(118,118,128,0.12); font-size: 15px; letter-spacing: -0.23px; cursor: pointer;">
+              <span>Elena Duarte</span>
+              <svg width="9" height="14" viewBox="0 0 9 14"><path d="M 1.5 5 L 4.5 2 L 7.5 5" fill="none" stroke="#7D7D7D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><path d="M 1.5 9 L 4.5 12 L 7.5 9" fill="none" stroke="#7D7D7D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+          </div>
+          <div>
+            <span style="display: block; font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D; margin-bottom: 5px;">Start date</span>
+            <div style="height: 36px; border-radius: 100px; background: rgba(118,118,128,0.12); display: flex; align-items: center; padding: 0 14px; font-size: 15px; letter-spacing: -0.23px;">Jul 6, 2026</div>
+          </div>
+          <div>
+            <span style="display: block; font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D; margin-bottom: 5px;">Target hours</span>
+            <div style="height: 36px; width: 56px; border-radius: 100px; background: rgba(118,118,128,0.12); display: flex; align-items: center; justify-content: center; font-size: 15px; letter-spacing: -0.23px;">180</div>
+          </div>
+          <div>
+            <span style="display: block; font-size: 13px; letter-spacing: -0.08px; color: #7D7D7D; margin-bottom: 5px;">Mentor</span>
+            <div style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px 0 14px; border-radius: 100px; background: rgba(118,118,128,0.12); font-size: 15px; letter-spacing: -0.23px; cursor: pointer;">
+              <span>Victor Hale</span>
+              <svg width="9" height="14" viewBox="0 0 9 14"><path d="M 1.5 5 L 4.5 2 L 7.5 5" fill="none" stroke="#7D7D7D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><path d="M 1.5 9 L 4.5 12 L 7.5 9" fill="none" stroke="#7D7D7D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+          </div>
+          <button style="height: 36px; border: none; border-radius: 100px; background: #FFF282; color: #000000; font-size: 15px; font-weight: 500; letter-spacing: -0.23px; padding: 0 20px; cursor: pointer;">Create intern</button>
+        </div>
+      </div>
+
+      <div style="margin-top: 32px; font-size: 11px; font-weight: 500; color: #7D7D7D; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 20px 8px;">Allocation</div>
+      <div style="background: rgb(255,255,255); border-radius: 26px; padding: 4px 24px;">
+        <sc-for list="{{ allocations }}" as="a" hint-placeholder-count="4">
+          <div style="display: flex; align-items: center; gap: 16px; min-height: 64px; border-top: {{ a.sep }};">
+            <div style="flex: 1; font-size: 17px; letter-spacing: -0.43px;">{{ a.name }}</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 15px; letter-spacing: -0.23px;">
+              <div style="height: 32px; border-radius: 100px; background: rgba(118,118,128,0.12); display: flex; align-items: center; padding: 0 12px;">{{ a.start }}</div>
+              <span style="color: #A8A8A8;">–</span>
+              <div style="height: 32px; border-radius: 100px; background: rgba(118,118,128,0.12); display: flex; align-items: center; padding: 0 12px;">{{ a.end }}</div>
+            </div>
+            <div style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px 0 14px; border-radius: 100px; background: rgba(118,118,128,0.12); font-size: 14px; font-weight: 400; letter-spacing: -0.15px; cursor: pointer; width: 130px; justify-content: space-between; box-sizing: border-box;">
+              <span style="color: {{ a.mentorFg }};">{{ a.mentor }}</span>
+              <svg width="9" height="14" viewBox="0 0 9 14"><path d="M 1.5 5 L 4.5 2 L 7.5 5" fill="none" stroke="#7D7D7D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><path d="M 1.5 9 L 4.5 12 L 7.5 9" fill="none" stroke="#7D7D7D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isTemplate }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Program template" style="max-width: 980px; padding: 44px 48px 60px; box-sizing: border-box;">
+      <h1 style="margin: 0; font-size: 34px; font-weight: 500; letter-spacing: -0.2px; line-height: 41px;">Program template</h1>
+      <p style="margin: 6px 0 0; font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D; max-width: 620px;">Changes here define the default program. New tasks apply to interns created afterwards; existing interns keep their current task lists.</p>
+
+      <div style="margin-top: 32px; display: flex; flex-direction: column; gap: 20px;">
+        <sc-for list="{{ templateMilestones }}" as="m" hint-placeholder-count="4">
+          <div style="background: rgb(255,255,255); border-radius: 26px; padding: 20px 24px 16px;">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+              <div style="font-size: 20px; font-weight: 500; letter-spacing: -0.45px; padding-top: 22px;">{{ m.name }}</div>
+              <div style="font-family: 'Frank Ruhl Libre', Georgia, serif; font-weight: 300; font-size: 72px; line-height: 0.9; color: #E5E5EA; user-select: none;">{{ m.num }}</div>
+            </div>
+            <div style="margin-top: 4px; font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D;">{{ m.desc }}</div>
+            <div style="margin-top: 14px;">
+              <sc-for list="{{ m.tasks }}" as="t" hint-placeholder-count="3">
+                <div style="display: flex; align-items: center; gap: 12px; min-height: 44px; border-top: 1px solid #E1E1E1;">
+                  <svg width="12" height="12" viewBox="0 0 12 12" style="flex-shrink: 0; cursor: grab;"><circle cx="3" cy="2.5" r="1.2" fill="#A8A8A8"></circle><circle cx="9" cy="2.5" r="1.2" fill="#A8A8A8"></circle><circle cx="3" cy="6" r="1.2" fill="#A8A8A8"></circle><circle cx="9" cy="6" r="1.2" fill="#A8A8A8"></circle><circle cx="3" cy="9.5" r="1.2" fill="#A8A8A8"></circle><circle cx="9" cy="9.5" r="1.2" fill="#A8A8A8"></circle></svg>
+                  <div style="flex: 1; font-size: 15px; letter-spacing: -0.23px;">{{ t }}</div>
+                  <div style="font-size: 13px; letter-spacing: -0.08px; color: #B14A3C; cursor: pointer;">Delete</div>
+                </div>
+              </sc-for>
+              <div style="display: flex; align-items: center; gap: 10px; padding-top: 12px; border-top: 1px solid #E1E1E1;">
+                <div style="flex: 1; height: 36px; border-radius: 100px; background: rgba(118,118,128,0.12); display: flex; align-items: center; padding: 0 14px; font-size: 15px; letter-spacing: -0.23px; color: #A8A8A8;">New task…</div>
+                <button style="height: 36px; border: none; border-radius: 100px; background: #FFF282; color: #000000; font-size: 15px; font-weight: 500; letter-spacing: -0.23px; padding: 0 18px; cursor: pointer;">Add</button>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isSummary }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Summary document" style="max-width: 980px; padding: 44px 48px 60px; box-sizing: border-box;">
+      <div onClick="{{ goDetail }}" style="display: inline-flex; align-items: center; gap: 6px; font-size: 15px; letter-spacing: -0.23px; color: #000000; font-weight: 500; cursor: pointer; margin-bottom: 14px;">
+        <svg width="8" height="14" viewBox="0 0 8 14"><path d="M 7 1 L 1 7 L 7 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>Lena Ortiz</span>
+      </div>
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;">
+        <div>
+          <h1 style="margin: 0; font-size: 34px; font-weight: 500; letter-spacing: -0.2px; line-height: 41px;">Summary document</h1>
+          <p style="margin: 6px 0 0; font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D;">End-of-internship summary for Lena Ortiz · Draft</p>
+        </div>
+        <div style="display: flex; gap: 8px; flex-shrink: 0;">
+          <div style="height: 38px; display: inline-flex; align-items: center; padding: 0 16px; border-radius: 100px; background: rgb(255,255,255); box-shadow: 0 0 0 1px #E1E1E1; font-size: 15px; font-weight: 500; letter-spacing: -0.23px; cursor: pointer;">Regenerate</div>
+          <div style="height: 38px; display: inline-flex; align-items: center; padding: 0 16px; border-radius: 100px; background: rgb(255,255,255); box-shadow: 0 0 0 1px #E1E1E1; font-size: 15px; font-weight: 500; letter-spacing: -0.23px; cursor: pointer;">Export</div>
+          <div style="height: 38px; display: inline-flex; align-items: center; padding: 0 16px; border-radius: 100px; background: #FFF282; color: #000000; font-size: 15px; font-weight: 500; letter-spacing: -0.23px; cursor: pointer;">Save</div>
+          <div style="height: 38px; display: inline-flex; align-items: center; padding: 0 16px; border-radius: 100px; background: #1F6E47; color: white; font-size: 15px; font-weight: 500; letter-spacing: -0.23px; cursor: pointer;">Finalize</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 28px; background: rgb(255,255,255); border-radius: 26px; padding: 36px 44px; line-height: 1.5;">
+        <div style="font-size: 24px; font-weight: 500; letter-spacing: -0.45px;">Internship Summary — Lena Ortiz</div>
+        <div style="margin-top: 4px; font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D;">Jun 1 – Aug 21, 2026 · Mentor: Priya Raman · 118 of 180 hours logged</div>
+        <div style="margin-top: 24px; font-size: 17px; font-weight: 500; letter-spacing: -0.43px;">Progress by milestone</div>
+        <div style="margin-top: 8px; font-size: 15px; letter-spacing: -0.23px; color: rgb(0,0,0);">
+          <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E1E1E1;"><span>Welcome Day</span><span style="color: #7D7D7D;">3 of 3 approved</span></div>
+          <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E1E1E1;"><span>Figma Alignment</span><span style="color: #7D7D7D;">4 of 6 approved</span></div>
+          <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E1E1E1;"><span>Concept Brief</span><span style="color: #7D7D7D;">2 of 6 approved</span></div>
+          <div style="display: flex; justify-content: space-between; padding: 8px 0;"><span>Presentation Day</span><span style="color: #7D7D7D;">0 of 2 approved</span></div>
+        </div>
+        <div style="margin-top: 24px; font-size: 17px; font-weight: 500; letter-spacing: -0.43px;">Highlights</div>
+        <p style="margin: 8px 0 0; font-size: 15px; letter-spacing: -0.23px; color: rgb(0,0,0);">Noa completed the Figma alignment phase ahead of schedule and showed strong instincts in layout and component structure. Her design-system audit exercise — added by her mentor as a stretch task — is in progress alongside the concept-brief wireframes.</p>
+        <div style="margin-top: 24px; font-size: 17px; font-weight: 500; letter-spacing: -0.43px;">Recommendation</div>
+        <p style="margin: 8px 0 0; font-size: 15px; letter-spacing: -0.23px; color: rgb(0,0,0);">On track to complete the 180-hour target by August 13. Recommend extending a junior-designer trial offer, pending the final project presentation.</p>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Sign in" style="height: 100vh; display: flex; align-items: center; justify-content: center;">
+      <div style="width: 380px; background: rgb(255,255,255); border-radius: 34px; padding: 40px 36px 36px; box-shadow: 0 0 0 1px #E1E1E1; text-align: center;">
+        <div style="width: 64px; height: 64px; border-radius: 16px; overflow: hidden; margin: 0 auto;">
+          <img src="zemingo/assets/zemingo-symbol.jpg" alt="Zemingo" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+        <h1 style="margin: 20px 0 0; font-size: 24px; font-weight: 500; letter-spacing: -0.45px;">Internship Program</h1>
+        <p style="margin: 8px 0 0; font-size: 15px; letter-spacing: -0.23px; color: #7D7D7D; line-height: 20px;">Sign in with your work Google account to continue.</p>
+        <div onClick="{{ goOverview }}" style="margin-top: 28px; height: 48px; border-radius: 100px; background: rgba(118,118,128,0.12); display: flex; align-items: center; justify-content: center; gap: 9px; font-size: 17px; font-weight: 500; letter-spacing: -0.43px; cursor: pointer;" style-hover="background: rgba(0,0,0,0.08);">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path></svg>
+          <span>Continue with Google</span>
+        </div>
+        <p style="margin: 16px 0 0; font-size: 13px; letter-spacing: -0.08px; color: #A8A8A8;">Restricted to the zemingo.com workspace</p>
+      </div>
+    </div>
+    </sc-if>
+
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;accentColor&quot;: { &quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#FF8FB0&quot;, &quot;options&quot;: [&quot;#FF8FB0&quot;, &quot;#E36F92&quot;, &quot;#E8D940&quot;, &quot;#1F6E47&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Theme&quot; }
+}">
+class Component extends DCLogic {
+  state = { screen: "overview" };
+
+  componentDidMount() { this.applyTint(); }
+  componentDidUpdate() { this.applyTint(); }
+  applyTint() {
+    document.body.style.setProperty("--tint", this.props.accentColor ?? "#FF8FB0");
+  }
+
+  go(s) { this.setState({ screen: s }); }
+
+  navVals() {
+    const map = { ov: "overview", al: "allocation", tp: "template", mi: "mentor", id: "detail", sm: "summary", in: "intern", lg: "login" };
+    const out = {};
+    for (const [p, s] of Object.entries(map)) {
+      const sel = this.state.screen === s;
+      out[p + "Bg"] = sel ? "#FFF282" : "transparent";
+      out[p + "Fg"] = sel ? "#000000" : "rgb(0,0,0)";
+      out[p + "Fw"] = sel ? 500 : 400;
+      out[p + "Sh"] = "none";
+      out[p + "Go"] = () => this.go(s);
+    }
+    return out;
+  }
+
+  get leaderInterns() {
+    const rows = [
+      { initials: "LO", av: "0,136,255",  name: "Lena Ortiz",       mentor: "Priya Raman",   approved: 13, total: 16, hours: 118, target: 180, pending: 1 },
+      { initials: "NF", av: "203,48,224", name: "Nadia Farouk",   mentor: "Victor Hale", approved: 7,  total: 16, hours: 64,  target: 180, pending: 2 },
+      { initials: "MW", av: "0,195,208",  name: "Marcus Webb",   mentor: "Priya Raman",   approved: 15, total: 17, hours: 172, target: 180, pending: 0 },
+      { initials: "ED", av: "255,141,40", name: "Elena Duarte", mentor: "Unassigned", approved: 2, total: 16, hours: 18,  target: 180, pending: 0 },
+    ];
+    return rows.map((r, i) => ({
+      ...r,
+      avBg: "#E5E5EA",
+      avFg: "#000000",
+      pct: Math.round((r.hours / r.target) * 100),
+      hasPending: r.pending > 0,
+      showSep: i > 0,
+      open: () => this.go("detail"),
+    }));
+  }
+
+  taskView(t) {
+    const approved = t.s === "a", awaiting = t.s === "w";
+    return {
+      name: t.n,
+      custom: !!t.c,
+      checked: approved || awaiting,
+      cBg: approved ? "#1F6E47" : awaiting ? "#FF8FB0" : "transparent",
+      cBorder: approved || awaiting ? "none" : "1px solid #A8A8A8",
+      fg: approved ? "#7D7D7D" : "rgb(0,0,0)",
+      deco: approved ? "line-through" : "none",
+      showPill: approved || awaiting,
+      pill: approved ? "Approved" : "Awaiting approval",
+      pillFg: approved ? "#1F6E47" : "#000000",
+      pillBg: approved ? "rgba(31,110,71,0.12)" : "rgba(255,143,176,0.4)",
+    };
+  }
+
+  get milestonesData() {
+    return [
+      { name: "Welcome Day", desc: "Introductions and HR onboarding meetings.", tasks: [
+        { n: "Team introductions", s: "a" },
+        { n: "HR onboarding meeting", s: "a" },
+        { n: "Set up accounts and tools", s: "a" },
+      ]},
+      { name: "Figma Alignment", desc: "Align with the studio\u2019s product-design methods and Figma-to-dev handoff practices.", tasks: [
+        { n: "Studio design methodology walkthrough", s: "a" },
+        { n: "Figma fundamentals & file structure", s: "a" },
+        { n: "Components & variants exercise", s: "a" },
+        { n: "Design-to-dev handoff practices", s: "a" },
+        { n: "Accessibility basics", s: "w" },
+        { n: "Design review shadowing", s: "o" },
+      ]},
+      { name: "Concept Brief", desc: "Brainstorm, design, and build your own project.", tasks: [
+        { n: "Brainstorm project ideas", s: "a" },
+        { n: "Define project scope & goals", s: "a" },
+        { n: "Wireframes & low-fidelity design", s: "w" },
+        { n: "Design-system audit exercise", s: "o", c: true },
+        { n: "High-fidelity design in Figma", s: "o" },
+        { n: "Build the prototype", s: "o" },
+      ]},
+      { name: "Presentation Day", desc: "Shared day where all interns present their final projects.", tasks: [
+        { n: "Prepare presentation deck", s: "o" },
+        { n: "Present final project", s: "o" },
+      ]},
+    ];
+  }
+
+  get internMilestones() {
+    return this.milestonesData.map((m) => ({
+      name: m.name,
+      desc: m.desc,
+      done: m.tasks.filter((t) => t.s === "a").length,
+      count: m.tasks.length,
+      tasks: m.tasks.map((t) => this.taskView(t)),
+    }));
+  }
+
+  detailTaskView(t) {
+    const approved = t.s === "a", ready = t.s === "w";
+    return {
+      name: t.n,
+      custom: !!t.c,
+      fg: approved ? "#7D7D7D" : "rgb(0,0,0)",
+      status: approved ? "Approved" : ready ? "Ready to review" : "Not started",
+      stFg: approved ? "#1F6E47" : "#000000",
+      stBg: approved ? "rgba(31,110,71,0.12)" : ready ? "rgba(255,143,176,0.4)" : "rgba(118,118,128,0.12)",
+      btn: approved ? "Undo" : "Approve",
+      btnFg: approved ? "#7D7D7D" : "white",
+      btnBg: approved ? "transparent" : "#1F6E47",
+      btnBorder: approved ? "1px solid #E1E1E1" : "none",
+      btnOpacity: approved || ready ? 1 : 0.35,
+    };
+  }
+
+  get detailMilestones() {
+    return this.milestonesData.map((m) => ({
+      name: m.name,
+      done: m.tasks.filter((t) => t.s === "a").length,
+      count: m.tasks.length,
+      tasks: m.tasks.map((t) => this.detailTaskView(t)),
+    }));
+  }
+
+  get users() {
+    const rows = [
+      { initials: "SO", av: "0,136,255",   name: "Sam Okafor",       email: "sam@example.com",   role: "Team Leader" },
+      { initials: "PR", av: "97,85,245",   name: "Priya Raman",        email: "priya@example.com",   role: "Designer / Mentor" },
+      { initials: "VH", av: "0,200,179",   name: "Victor Hale",      email: "victor@example.com",  role: "Designer / Mentor" },
+      { initials: "LO", av: "0,136,255",   name: "Lena Ortiz",        email: "lena@example.com",    role: "Intern" },
+      { initials: "NF", av: "203,48,224",  name: "Nadia Farouk",    email: "nadia@example.com",   role: "Intern" },
+      { initials: "MW", av: "0,195,208",   name: "Marcus Webb",    email: "marcus@example.com", role: "Intern" },
+      { initials: "ED", av: "255,141,40",  name: "Elena Duarte", email: "elena@example.com",  role: "Intern" },
+    ];
+    return rows.map((r, i) => ({
+      ...r,
+      avBg: "#E5E5EA",
+      avFg: "#000000",
+      sep: i > 0 ? "1px solid #E1E1E1" : "none",
+    }));
+  }
+
+  get allocations() {
+    const rows = [
+      { name: "Lena Ortiz",        start: "Jun 1, 2026",  end: "Aug 21, 2026", mentor: "Priya Raman" },
+      { name: "Nadia Farouk",    start: "Jun 15, 2026", end: "Sep 4, 2026",  mentor: "Victor Hale" },
+      { name: "Marcus Webb",    start: "May 4, 2026",  end: "Jul 24, 2026", mentor: "Priya Raman" },
+      { name: "Elena Duarte", start: "Jun 29, 2026", end: "Sep 18, 2026", mentor: "Unassigned" },
+    ];
+    return rows.map((r, i) => ({
+      ...r,
+      mentorFg: r.mentor === "Unassigned" ? "#A8A8A8" : "rgb(0,0,0)",
+      sep: i > 0 ? "1px solid #E1E1E1" : "none",
+    }));
+  }
+
+  get templateMilestones() {
+    return this.milestonesData.map((m, i) => ({
+      name: m.name,
+      desc: m.desc,
+      seq: i + 1,
+      num: String(i + 1).padStart(2, "0"),
+      tasks: m.tasks.filter((t) => !t.c).map((t) => t.n),
+    }));
+  }
+
+  get notes() {
+    return [
+      { author: "Priya Raman", date: "Jun 28, 2026", text: "Strong instincts on layout. Needs more practice naming components consistently before the handoff exercise." },
+      { author: "Priya Raman", date: "Jun 19, 2026", text: "Picked up auto-layout much faster than expected. Gave her the design-system audit as a stretch task." },
+      { author: "Sam Okafor", date: "Jun 8, 2026", text: "Great energy on Welcome Day. Pair her with Maya for the Figma alignment phase." },
+    ];
+  }
+
+  get internLogs() {
+    return [
+      { date: "Jul 1, 2026", type: "Work", hours: 9 },
+      { date: "Jun 30, 2026", type: "Work", hours: 8.5 },
+      { date: "Jun 29, 2026", type: "Work", hours: 9 },
+      { date: "Jun 26, 2026", type: "Sick", hours: 9 },
+      { date: "Jun 25, 2026", type: "Work", hours: 7.5 },
+      { date: "Jun 24, 2026", type: "Vacation", hours: 9 },
+      { date: "Jun 23, 2026", type: "Work", hours: 9 },
+    ];
+  }
+
+  renderVals() {
+    const s = this.state.screen;
+    return {
+      ...this.navVals(),
+      showSidebar: s !== "login",
+      isOverview: s === "overview",
+      isAllocation: s === "allocation",
+      isTemplate: s === "template",
+      isMentor: s === "mentor",
+      isDetail: s === "detail",
+      isSummary: s === "summary",
+      isIntern: s === "intern",
+      isLogin: s === "login",
+      leaderInterns: this.leaderInterns,
+      internMilestones: this.internMilestones,
+      internLogs: this.internLogs,
+      detailMilestones: this.detailMilestones,
+      notes: this.notes,
+      goMentor: () => this.go("mentor"),
+      users: this.users,
+      allocations: this.allocations,
+      templateMilestones: this.templateMilestones,
+      goDetail: () => this.go("detail"),
+      goSummary: () => this.go("summary"),
+      goIntern: () => this.go("intern"),
+      goOverview: () => this.go("overview"),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -8,7 +8,7 @@
  */
 
 import { PolicyEngine } from '@par/policy';
-import { privacyConfig, identityConfig } from '@par/config';
+import { privacyConfig, identityConfig, uiConfig } from '@par/config';
 import { getAgent } from '@/lib/agent';
 
 export const runtime = 'nodejs';
@@ -41,6 +41,18 @@ export async function GET(): Promise<Response> {
         caption: stage.caption,
         detail: stage.detail,
       })) ?? [],
+      // Only artifacts cleared as public are exposed. `sanitized` is required
+      // as well: an artifact that has not been through the substitution pass in
+      // scripts/import-artifacts.ts must never reach a visitor.
+      artifacts: (evidence?.artifacts ?? [])
+        .filter((a) => (a.visibility ?? 'public') === 'public' && a.sanitized)
+        .map((a) => ({
+          id: a.id,
+          label: a.label,
+          url: `${uiConfig.artifactOrigin}/api/artifact/${evidence?.sourceDir ?? ''}/${a.file}`,
+          ...(a.stage ? { stage: a.stage } : {}),
+          ...(a.description ? { description: a.description } : {}),
+        })),
       shortPitch: evidence?.presentation?.short_pitch ?? project.summary,
       followups: evidence?.presentation?.suggested_followups ?? [],
       verified: project.verification_status === 'verified',
@@ -109,5 +121,5 @@ export async function GET(): Promise<Response> {
   };
   cv.full = [...cv.summary, ...cv.experience, ...cv.education];
 
-  return Response.json({ projects, skills, timeline, cv });
+  return Response.json({ embedSandbox: uiConfig.embedSandbox, projects, skills, timeline, cv });
 }

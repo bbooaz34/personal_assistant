@@ -109,19 +109,19 @@
         "name": "Functional prototype",
         "caption": "First interface",
         "detail": "A working prototype — plain Tailwind, zero design opinion",
-        "media_id": "media_stage_prototype"
+        "media_id": "stage-prototype"
       },
       {
         "name": "iOS 26",
         "caption": "iOS 26 design language",
         "detail": "Grouped lists · pills · segmented controls · soft glass shadows",
-        "media_id": "media_stage_ios26"
+        "media_id": "stage-ios26"
       },
       {
         "name": "Zemingo",
         "caption": "The Zemingo layer",
         "detail": "Sun selection · Neon progress · Rubik · the wordmark moves in",
-        "media_id": "media_stage_zemingo"
+        "media_id": "stage-zemingo"
       }
     ]
   },
@@ -212,6 +212,15 @@
       "verification_status": "verified",
       "visibility": "public",
       "notes": "Clears the project for public presentation. Does not lift the standing claim rules, and does not clear media — screenshots still need an intern-data check."
+    },
+    {
+      "id": "evidence_sanitized_artifacts",
+      "type": "prototype",
+      "label": "Sanitized running artifacts (3 design stages + making-of)",
+      "uri": "/api/artifact/internship-platform-ios26/",
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "The real interface at each stage, extracted from the source bundle by scripts/import-artifacts.ts. The originals named seven colleagues (display names, avatar initials and zemingo.com addresses); all were replaced with fictional personas and example.com addresses, and the import fails if any unrecognised person-shaped name survives. No written feedback, ratings or evaluation content was present in the originals. React and Babel are vendored locally rather than loaded from a CDN."
     }
   ],
   "media": [
@@ -219,33 +228,33 @@
       "id": "media_stage_prototype",
       "type": "before_after",
       "purpose": "Show the plain Tailwind prototype — the deliberate zero-design-opinion starting point.",
-      "uri": null,
+      "uri": "/api/artifact/internship-platform-ios26/stage-prototype.html",
       "caption": "",
-      "visibility": "restricted"
+      "visibility": "public"
     },
     {
       "id": "media_stage_ios26",
       "type": "before_after",
       "purpose": "Show the iOS 26 design-language pass over the same screens.",
-      "uri": null,
+      "uri": "/api/artifact/internship-platform-ios26/stage-ios26.html",
       "caption": "",
-      "visibility": "restricted"
+      "visibility": "public"
     },
     {
       "id": "media_stage_zemingo",
       "type": "before_after",
       "purpose": "Show the final Zemingo brand layer.",
-      "uri": null,
+      "uri": "/api/artifact/internship-platform-ios26/stage-zemingo.html",
       "caption": "",
-      "visibility": "restricted"
+      "visibility": "public"
     },
     {
       "id": "media_making_of",
       "type": "video",
       "purpose": "Play the making-of transformation inside the conversation.",
-      "uri": null,
+      "uri": "/api/artifact/internship-platform-ios26/making-of.html",
       "caption": "",
-      "visibility": "restricted"
+      "visibility": "public"
     }
   ],
   "conversation_hooks": [
@@ -322,8 +331,45 @@
     ]
   },
   "open_questions": [
-    "Confirm which screenshots and recordings contain no private intern data. Media stays restricted until then, so the case study renders text only.",
+    "Confirm the seven names in the original artifacts (Noa Levi, Maya Ron, Daniel Cohen, Shira Ben-David, Tomer Katz, Boaz Aviv, Amit Shapira) are real colleagues rather than demo personas. They are currently replaced with fictional names; if they were always fictional, the PEOPLE map in scripts/import-artifacts.ts can be dropped and the artifacts re-imported.",
     "Verify the approximately 90-minute initial delivery claim against repository or deployment history before stating it as fact.",
     "Confirm whether the final iOS 26 x Zemingo redesign was deployed or remained a redesign layer."
+  ],
+  "artifacts": [
+    {
+      "id": "stage-prototype",
+      "label": "Functional prototype",
+      "file": "stage-prototype.html",
+      "stage": "Functional prototype",
+      "description": "The working system before any design opinion — plain Tailwind. This is the deliberate starting point, not an unfinished draft.",
+      "sanitized": true,
+      "visibility": "public"
+    },
+    {
+      "id": "stage-ios26",
+      "label": "iOS 26 design language",
+      "file": "stage-ios26.html",
+      "stage": "iOS 26",
+      "description": "The same screens under an iOS 26-inspired system: grouped surfaces, pill geometry, segmented controls, soft glass shadows.",
+      "sanitized": true,
+      "visibility": "public"
+    },
+    {
+      "id": "stage-zemingo",
+      "label": "Zemingo brand layer",
+      "file": "stage-zemingo.html",
+      "stage": "Zemingo",
+      "description": "The final layer — Zemingo typography, brand accents, selection states and progress treatment over the iOS-derived structure.",
+      "sanitized": true,
+      "visibility": "public"
+    },
+    {
+      "id": "making-of",
+      "label": "Making of",
+      "file": "making-of.html",
+      "description": "The animated narrative of the transformation: Code → First interface → iOS 26 → Zemingo → Finale.",
+      "sanitized": true,
+      "visibility": "public"
+    }
   ]
 }
