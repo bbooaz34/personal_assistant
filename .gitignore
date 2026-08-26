@@ -23,3 +23,6 @@ content/staging/
 
 # Stray archives dropped into the working directory — not part of the project.
 *.zip
+
+# Local editor/tooling config.
+.claude/

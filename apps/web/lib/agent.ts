@@ -6,6 +6,7 @@
  * invalidate and no reason to reload per request.
  */
 
+import './env';
 import { resolve } from 'node:path';
 import { Agent } from '@par/agent';
 import { loadKnowledge, type KnowledgeRepository } from '@par/knowledge';

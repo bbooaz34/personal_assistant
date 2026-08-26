@@ -6,7 +6,17 @@
  * only carries the result to a provider and streams the answer back.
  */
 
-import { convertToModelMessages, jsonSchema, streamText, tool, type UIMessage } from 'ai';
+// Must come first: puts the root .env on process.env before config is read.
+import '@/lib/env';
+import {
+  convertToModelMessages,
+  createUIMessageStream,
+  createUIMessageStreamResponse,
+  jsonSchema,
+  streamText,
+  tool,
+  type UIMessage,
+} from 'ai';
 import { createSession, applyUpdate, type SessionState } from '@par/analytics';
 import { agentConfig } from '@par/config';
 import { getAgent } from '@/lib/agent';
@@ -64,13 +74,25 @@ export async function POST(request: Request): Promise<Response> {
 
   // A refusal or a detected injection never reaches a model. Answering these
   // from a fixed string is the point: there is no prompt to talk around.
+  //
+  // It still has to come back as a UI message stream. Returning plain text here
+  // meant the client could not parse it and the refusal silently rendered as
+  // nothing — the visitor saw their own question and no reply.
   if (plan.shortCircuit) {
+    const { reason, response } = plan.shortCircuit;
     console.info(
-      `[policy] ${plan.shortCircuit.reason} — ${plan.audit.policyReason}` +
+      `[policy] ${reason} — ${plan.audit.policyReason}` +
         (plan.injection.detected ? ` | injection signals: ${plan.injection.signals.join(', ')}` : ''),
     );
-    return new Response(plan.shortCircuit.response, {
-      headers: { 'content-type': 'text/plain; charset=utf-8', 'x-par-short-circuit': plan.shortCircuit.reason },
+    return createUIMessageStreamResponse({
+      headers: { 'x-par-short-circuit': reason },
+      stream: createUIMessageStream({
+        execute: ({ writer }) => {
+          writer.write({ type: 'text-start', id: 'refusal' });
+          writer.write({ type: 'text-delta', id: 'refusal', delta: response });
+          writer.write({ type: 'text-end', id: 'refusal' });
+        },
+      }),
     });
   }
 

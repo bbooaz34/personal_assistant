@@ -10,6 +10,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^2.0.0",
+    "@ai-sdk/google": "^2.0.0",
+    "@ai-sdk/openai": "^2.0.0",
+    "@ai-sdk/react": "^2.0.0",
     "@par/agent": "*",
     "@par/analytics": "*",
     "@par/config": "*",
@@ -18,10 +22,6 @@
     "@par/policy": "*",
     "@par/retrieval": "*",
     "@par/ui": "*",
-    "@ai-sdk/anthropic": "^2.0.0",
-    "@ai-sdk/openai": "^2.0.0",
-    "@ai-sdk/google": "^2.0.0",
-    "@ai-sdk/react": "^2.0.0",
     "ai": "^5.0.0",
     "next": "^15.5.0",
     "react": "^19.1.0",

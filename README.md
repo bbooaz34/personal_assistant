@@ -68,7 +68,12 @@ cp .env.example .env
 ```
 
 Set `ANTHROPIC_API_KEY` in `.env` (or switch `AGENT_MODEL_PROVIDER` to `openai`
-or `google` and set the matching key), then:
+or `google` and set the matching key). The file goes at the **repository root** —
+`apps/web/lib/env.ts` loads it from there, because Next on its own would only
+look inside `apps/web`. Keep comments on their own line; an inline `# ...`
+becomes part of the value.
+
+Then:
 
 ```bash
 npm run build && npm run dev
