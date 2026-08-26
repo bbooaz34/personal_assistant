@@ -20,6 +20,7 @@ import { DefaultChatTransport } from 'ai';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AgentPresence, type PresenceState } from './AgentPresence';
 import { renderComponent } from './PortfolioComponents';
+import { RichText } from './RichText';
 import type { Portfolio } from './portfolio-types';
 
 interface Opening {
@@ -126,26 +127,31 @@ export function Conversation() {
             <div key={message.id} className="flex gap-3">
               <AgentPresence state="idle" size={28} />
               <div className="min-w-0 flex-1">
-                {text ? (
-                  <p dir={directionOf(text)} className="max-w-prose whitespace-pre-wrap text-[15px] leading-relaxed">
-                    {text}
-                  </p>
-                ) : null}
+                {text ? <RichText text={text} dir={directionOf(text)} /> : null}
 
                 {/*
                   Components render beside the words, in the same turn. The
                   model supplies a name and an id; everything shown comes from
                   the policy-filtered payload.
+
+                  Rendering waits for the server's `rendered: true`. The server
+                  checks the id against the evidence the model was actually
+                  given, which is a narrower set than the whole public
+                  portfolio — so trusting the client's copy alone would quietly
+                  widen what a component call can reach.
                 */}
                 {portfolio
                   ? message.parts
                       .filter((part) => part.type.startsWith('tool-'))
                       .map((part, index) => {
                         const name = part.type.slice('tool-'.length);
-                        const args = (part as { input?: Record<string, unknown> }).input;
-                        if (!args) return null;
+                        const { input, output } = part as {
+                          input?: Record<string, unknown>;
+                          output?: { rendered?: boolean };
+                        };
+                        if (!input || output?.rendered !== true) return null;
                         return (
-                          <div key={`${message.id}-${index}`}>{renderComponent(name, args, portfolio)}</div>
+                          <div key={`${message.id}-${index}`}>{renderComponent(name, input, portfolio)}</div>
                         );
                       })
                   : null}

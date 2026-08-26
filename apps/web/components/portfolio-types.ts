@@ -32,7 +32,8 @@ export interface PortfolioSkill {
 
 export interface TimelineEntry {
   id: string;
-  claim: string;
+  /** One or more claims describing the same period. */
+  claims: string[];
   from: string | null;
   to: string | null;
   ongoing: boolean;

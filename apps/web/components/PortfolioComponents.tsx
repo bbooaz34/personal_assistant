@@ -196,7 +196,8 @@ export function CareerTimeline({ timeline, highlight }: { timeline: TimelineEntr
         <h3 className="text-base font-medium">Career</h3>
         <ol className="mt-3 space-y-3">
           {timeline.map((entry) => {
-            const emphasised = highlight && entry.claim.toLowerCase().includes(highlight.toLowerCase());
+            const emphasised =
+              highlight && entry.claims.some((c) => c.toLowerCase().includes(highlight.toLowerCase()));
             return (
               <li key={entry.id} className="flex gap-3">
                 <span
@@ -204,13 +205,18 @@ export function CareerTimeline({ timeline, highlight }: { timeline: TimelineEntr
                     entry.ongoing ? 'bg-[var(--color-accent)]' : 'bg-[var(--color-ink-faint)]'
                   }`}
                 />
-                <div>
+                <div className="space-y-1">
                   <p className="text-xs text-[var(--color-ink-faint)]">
                     {formatPeriod(entry.from, entry.to)}
                   </p>
-                  <p className={`text-sm leading-relaxed ${emphasised ? 'text-[var(--color-ink)]' : 'text-[var(--color-ink-muted)]'}`}>
-                    {entry.claim}
-                  </p>
+                  {entry.claims.map((claim) => (
+                    <p
+                      key={claim}
+                      className={`text-sm leading-relaxed ${emphasised ? 'text-[var(--color-ink)]' : 'text-[var(--color-ink-muted)]'}`}
+                    >
+                      {claim}
+                    </p>
+                  ))}
                 </div>
               </li>
             );

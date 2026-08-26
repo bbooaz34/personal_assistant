@@ -110,10 +110,31 @@ export async function POST(request: Request): Promise<Response> {
   const tools = Object.fromEntries(
     plan.tools.map((schema) => [
       schema.name,
-      // No `execute`: these are rendered by the client. The server never
-      // resolves them to content, so a hallucinated id yields an empty
-      // component rather than fabricated evidence.
-      tool({ description: schema.description, inputSchema: jsonSchema(schema.inputSchema) }),
+      tool({
+        description: schema.description,
+        inputSchema: jsonSchema(schema.inputSchema),
+        // `execute` does not produce content — the client renders that from
+        // its own policy-filtered payload. It does two other necessary things:
+        //
+        //   1. Enforces that the id was in this turn's evidence. This is the
+        //      containment property that makes model-chosen UI safe (§8), and
+        //      without a call here it was documented but not actually applied.
+        //   2. Produces a tool result. A tool call with no result leaves a
+        //      dangling `tool_use` block, and providers reject the *next*
+        //      request in the conversation — so the thread broke on the message
+        //      after any component rendered.
+        execute: async (args) => {
+          const resolution = agent.resolveComponent(
+            { name: schema.name, args: args as Record<string, unknown> },
+            plan,
+          );
+          if (!resolution.ok) {
+            console.info(`[ui] rejected ${schema.name}: ${resolution.reason}`);
+            return { rendered: false, reason: resolution.reason };
+          }
+          return { rendered: true, component: resolution.call.component };
+        },
+      }),
     ]),
   );
 

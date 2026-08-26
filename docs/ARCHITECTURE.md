@@ -114,11 +114,21 @@ while a single rare-term hit like "fintech" stays strong.
 The model chooses a component name and an id. That is all it can do.
 
 - Component names come from a fixed registry in `packages/ui`.
-- Ids must appear in the turn's evidence bundle (`resolveToolCall`).
+- Ids must appear in the turn's evidence bundle. The tool's `execute` in
+  `apps/web/app/api/chat/route.ts` calls `Agent.resolveComponent` and returns
+  `{rendered: false, reason}` when the id was not in what the model was shown.
+- The client renders only on `rendered: true`. The evidence bundle is narrower
+  than the whole public portfolio, so trusting the client's copy alone would
+  quietly widen what a component call can reach.
 - Content comes from `/api/portfolio`, which is policy-filtered independently.
 
 A hallucinated or injected id fails to resolve and renders nothing. The model
 never emits markup and never supplies content.
+
+`execute` is also what produces the tool *result*. A tool call without one
+leaves a dangling `tool_use` block, and providers reject the next request in the
+conversation — so omitting it broke the thread on the message after any
+component rendered.
 
 ## Swapping the infrastructure
 

@@ -65,17 +65,37 @@ export async function GET(): Promise<Response> {
     projects: repository.projectsDemonstrating(skill.id).map((p) => ({ id: p.id, name: p.name })),
   }));
 
-  const timeline = permitted.facts
-    .filter((fact) => fact.category === 'career' && fact.valid_from)
-    .sort((a, b) => (b.valid_from ?? '').localeCompare(a.valid_from ?? ''))
-    .map((fact) => ({
-      id: fact.id,
-      claim: fact.claim,
-      from: fact.valid_from ?? null,
-      to: fact.valid_to ?? null,
-      ongoing: !fact.valid_to,
-      verified: fact.verification_status === 'verified',
-    }));
+  // Several career facts can describe the same stretch of time — a tenure and
+  // the role progression inside it, for example. Rendered one per row they read
+  // as duplicates, so entries covering an identical period collapse into a
+  // single point on the timeline with each claim beneath it.
+  const timelineByPeriod = new Map<
+    string,
+    { id: string; claims: string[]; from: string | null; to: string | null; ongoing: boolean; verified: boolean }
+  >();
+
+  for (const fact of permitted.facts) {
+    if (fact.category !== 'career' || !fact.valid_from) continue;
+    const key = `${fact.valid_from}|${fact.valid_to ?? ''}`;
+    const existing = timelineByPeriod.get(key);
+    if (existing) {
+      existing.claims.push(fact.claim);
+      existing.verified &&= fact.verification_status === 'verified';
+    } else {
+      timelineByPeriod.set(key, {
+        id: fact.id,
+        claims: [fact.claim],
+        from: fact.valid_from ?? null,
+        to: fact.valid_to ?? null,
+        ongoing: !fact.valid_to,
+        verified: fact.verification_status === 'verified',
+      });
+    }
+  }
+
+  const timeline = [...timelineByPeriod.values()].sort((a, b) =>
+    (b.from ?? '').localeCompare(a.from ?? ''),
+  );
 
   const cv = {
     summary: permitted.facts.filter((f) => f.category === 'identity').map((f) => f.claim),
