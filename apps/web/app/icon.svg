@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!--
+    The agent's presence, reduced to a favicon. Same abstract orb as
+    AgentPresence rather than a monogram or a face: the tab icon is the first
+    place the "represents, does not impersonate" distinction shows up (§21).
+    Colours are hex approximations of the oklch accent tokens in globals.css,
+    since a favicon has to render everywhere.
+  -->
+  <defs>
+    <radialGradient id="orb" cx="38%" cy="32%" r="72%">
+      <stop offset="0%" stop-color="#e8fbff"/>
+      <stop offset="42%" stop-color="#3fc9dc"/>
+      <stop offset="100%" stop-color="#1b5f6b"/>
+    </radialGradient>
+    <radialGradient id="halo" cx="38%" cy="32%" r="60%">
+      <stop offset="0%" stop-color="#3fc9dc" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#3fc9dc" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="#17181d"/>
+  <circle cx="16" cy="16" r="13" fill="url(#halo)"/>
+  <circle cx="16" cy="16" r="8" fill="url(#orb)"/>
+</svg>
