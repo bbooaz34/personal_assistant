@@ -13,9 +13,10 @@ personality, tone-of-voice system, visual identity concept, UI tool registry.
 Canonical knowledge exists, is human-reviewed, and validates. The pipeline
 (normalize → dedupe → detect conflicts → human verify → publish) runs.
 
-Thin because the *content* is thin. Six projects: five with no case studies and
-no media, and one — the internship platform, the only genuinely documented one —
-restricted pending Zemingo clearance. The machinery is ahead of the material.
+Thin because the *content* is thin. Six projects, of which one — the internship
+platform — is genuinely documented and now public. The other five are a name and
+a summary. No project has media. The machinery is still ahead of the material,
+but less so than it was.
 
 ## Phase 2 — Text-only agent — **done**
 
@@ -81,15 +82,16 @@ providing a template, not refactoring.
 
 Ordered by impact, not by phase number.
 
-1. **Get Zemingo to clear the internship platform.** It is the only project with
-   documented process, decisions, outcomes and metrics — and it is `restricted`,
-   so the agent cannot mention it. Everything needed to publish it is already
-   built; it is waiting on a permission, not on work.
-2. **Attach the stage screenshots.** Sanitized, no intern data. Four components
-   are waiting for them, including `show_transformation`.
-3. **Write one case study for a cleared project.** The five public projects still
-   cannot answer *"did he lead this himself?"*, which is the second question
-   every recruiter asks.
+1. **Attach the internship platform's stage screenshots.** Sanitized, no intern
+   data. This is now the top item: the project is cleared and public, it leads
+   retrieval for AI-native questions, and everything about it renders as text
+   because no image has passed an intern-data check. Four components are waiting,
+   including `show_transformation`.
+2. **Write case studies for the other five projects.** They still cannot answer
+   *"did he lead this himself?"*, which is the second question every recruiter
+   asks. The internship platform shows what a documented project buys.
+3. **Close the two open claims** — whether the redesign shipped, and the ~90
+   minute delivery time. Both currently constrain what the agent may say.
 4. **Session extraction (Phase 4).** Without it, the personalization that
    justifies the whole premise is only half-wired.
 5. **Semantic retrieval.** Mainly for Hebrew, where lexical matching does

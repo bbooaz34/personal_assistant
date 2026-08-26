@@ -41,7 +41,7 @@ assembled, components render.
 | Knowledge schema, validation, provenance | Working |
 | Canonical knowledge base | 43 entities, 18 facts, 13 skills, 6 projects |
 | Ingestion: normalize → dedupe → detect conflicts | Working |
-| Policy engine and visibility model | Working, 27/27 evals passing |
+| Policy engine and visibility model | Working, 28/28 evals passing |
 | Prompt-injection defence | Working |
 | Hybrid retrieval (metadata + lexical + intent) | Working |
 | Agent identity and tone system | Working |
@@ -155,7 +155,8 @@ resolution is recorded in the knowledge base with who decided it and when.
 evidence are marked `needs_verification` and the agent is told to frame them
 accordingly, rather than being dropped. Hiding real work is its own kind of
 dishonesty — but *uncleared* work is different, and that gets `restricted`
-instead, which means the agent cannot mention it at all.
+instead, which means the agent cannot mention it at all. Clearance and
+verification are separate axes, and the repository tracks them separately.
 
 ---
 
@@ -172,14 +173,13 @@ These are real, and worth stating plainly rather than discovering later.
   in English, so a Hebrew question matches nothing lexically and is served by
   intent classification alone. It answers, but less precisely than English.
   Embeddings or a translated knowledge layer fixes this properly.
-- **The best project cannot be shown.** The internship platform is the only
-  project with documented process, decisions and outcomes — and it is an internal
-  Zemingo tool with no confirmed clearance for portfolio use, so it is
-  `restricted` and the visitor-facing agent never retrieves it. Unblocking that
-  is the highest-value thing available.
-- **The five cleared projects have no case studies.** Questions like *"did he
-  lead this himself, and how big was the team?"* cannot be answered for any of
-  them. The agent says so, which is correct, but it is a real limit.
+- **Only one project has a case study.** The internship platform is documented
+  end to end; the other five are a name and a summary. Questions like *"did he
+  lead this himself, and how big was the team?"* still cannot be answered for
+  any of those five. The agent says so, which is correct, but it is a real limit.
+- **No project media anywhere.** The internship platform's four transformation
+  stages render as text, and its images stay `restricted` until someone confirms
+  no screenshot contains intern data.
 - **No project media.** The gallery, video and prototype components have nothing
   to render. `show_video` and `show_prototype` are switched off in
   `config/ui.config.ts` rather than left to resolve to nothing.

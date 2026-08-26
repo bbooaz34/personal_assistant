@@ -3,8 +3,8 @@
     "schema_version": "0.2",
     "subject_id": "person_boaz_ben_eli",
     "generated_at": "2026-08-26",
-    "generated_by": "human review of cv-extraction-v0.2 + chatgpt-export-v0.2, per canonical-v0.1-changelog; internship platform added 2026-08-26 from project export + source bundle review",
-    "notes": "CANONICAL. Every entry here was reviewed by the owner. Facts still marked needs_verification are true to the best of current knowledge but lack an authoritative artefact; the agent presents them as unverified. Contact details, compensation and personal information are intentionally absent — they are excluded at the source, not filtered at runtime. The internship platform is present but RESTRICTED: it is an internal Zemingo tool that has not been cleared for public portfolio use, so the public-facing agent never retrieves it. Flip its visibility to \"public\" once Zemingo confirms."
+    "generated_by": "human review of cv-extraction-v0.2 + chatgpt-export-v0.2, per canonical-v0.1-changelog; internship platform added 2026-08-26 from project export + source bundle review; internship platform cleared for public use 2026-08-26",
+    "notes": "CANONICAL. Every entry here was reviewed by the owner. Facts still marked needs_verification are true to the best of current knowledge but lack an authoritative artefact; the agent presents them as unverified. Contact details, compensation and personal information are intentionally absent — they are excluded at the source, not filtered at runtime. The internship platform was cleared for public portfolio use by Zemingo (owner-reported, 2026-08-26) and is now public. Its media stays restricted until screenshots are confirmed free of intern data, and four claim rules still apply — see the project notes."
   },
   "sources": [
     {
@@ -42,6 +42,15 @@
       "uri": null,
       "date": "2026-08-26",
       "notes": "Project documentation and application source. Held locally; deliberately not committed, because it is internal Zemingo source for a tool not cleared for public use."
+    },
+    {
+      "id": "source_zemingo_portfolio_approval",
+      "type": "manual",
+      "name": "Zemingo approval for portfolio use, owner-reported 2026-08-26",
+      "authority_level": 1,
+      "uri": null,
+      "date": "2026-08-26",
+      "notes": "Owner reported that Zemingo approved public portfolio use of the internship platform. Recorded as owner-reported; no written artefact is attached. Attach one if the approval is ever questioned."
     }
   ],
   "entities": [
@@ -686,7 +695,7 @@
       "knowledge_type": "explicit",
       "confidence": 0.9,
       "verification_status": "verified",
-      "visibility": "restricted",
+      "visibility": "public",
       "sources": [
         {
           "source_id": "source_internship_platform_bundle",
@@ -696,6 +705,10 @@
         {
           "source_id": "source_manual_confirmation_2026_08_26",
           "reliability": 0.9
+        },
+        {
+          "source_id": "source_zemingo_portfolio_approval",
+          "reliability": 1
         }
       ],
       "evidence": [
@@ -717,12 +730,16 @@
       "knowledge_type": "explicit",
       "confidence": 0.9,
       "verification_status": "verified",
-      "visibility": "restricted",
+      "visibility": "public",
       "sources": [
         {
           "source_id": "source_internship_platform_bundle",
           "locator": "Application source — auth and server actions",
           "reliability": 0.95
+        },
+        {
+          "source_id": "source_zemingo_portfolio_approval",
+          "reliability": 1
         }
       ],
       "evidence": [
@@ -744,11 +761,15 @@
       "knowledge_type": "explicit",
       "confidence": 0.95,
       "verification_status": "verified",
-      "visibility": "restricted",
+      "visibility": "public",
       "sources": [
         {
           "source_id": "source_internship_platform_bundle",
           "locator": "Making-of implementation and token files",
+          "reliability": 1
+        },
+        {
+          "source_id": "source_zemingo_portfolio_approval",
           "reliability": 1
         }
       ],
@@ -1041,7 +1062,7 @@
       "proficiency": "advanced",
       "confidence": 0.85,
       "verification_status": "verified",
-      "visibility": "restricted",
+      "visibility": "public",
       "evidence": [
         {
           "type": "project",
@@ -1057,7 +1078,7 @@
       "related_projects": [
         "project_internship_platform_ios26"
       ],
-      "notes": "Restricted only because its sole documented evidence is an uncleared internal project. Promote to public once the platform is cleared, or once a client project is documented well enough to carry it."
+      "notes": "Evidenced by the internship platform, which Zemingo cleared for portfolio use on 2026-08-26."
     },
     {
       "id": "skill_agentic_delivery",
@@ -1066,7 +1087,7 @@
       "proficiency": "advanced",
       "confidence": 0.85,
       "verification_status": "verified",
-      "visibility": "restricted",
+      "visibility": "public",
       "evidence": [
         {
           "type": "fact",
@@ -1091,7 +1112,7 @@
       "proficiency": "advanced",
       "confidence": 0.85,
       "verification_status": "verified",
-      "visibility": "restricted",
+      "visibility": "public",
       "evidence": [
         {
           "type": "fact",
@@ -1364,11 +1385,15 @@
         {
           "source_id": "source_manual_confirmation_2026_08_26",
           "reliability": 0.9
+        },
+        {
+          "source_id": "source_zemingo_portfolio_approval",
+          "reliability": 1
         }
       ],
-      "verification_status": "needs_verification",
-      "visibility": "restricted",
-      "notes": "RESTRICTED pending Zemingo clearance for public portfolio use. Claim rules once cleared: (1) never expose intern names, private feedback or evaluation data; (2) the ~90-minute delivery claim is self-reported — attribute it to Boaz explicitly or leave it out; (3) describe the coding as AI-assisted and agent-directed, not independent full-stack engineering; (4) confirm the final redesign shipped before saying it did."
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Cleared for public portfolio use by Zemingo (owner-reported, 2026-08-26). Standing claim rules, which the approval does NOT lift: (1) never expose intern names, private feedback or evaluation data; (2) the ~90-minute delivery claim is self-reported and unverified — attribute it explicitly to Boaz or leave it out; (3) describe the coding as AI-assisted and agent-directed, not independent full-stack engineering; (4) do not state that the final iOS 26 x Zemingo redesign shipped — that is still unconfirmed. Project media remains restricted until screenshots are confirmed free of intern data."
     }
   ],
   "relationships": [
@@ -1737,10 +1762,22 @@
       "suggested_source": "LinkedIn recommendations or direct requests to former colleagues"
     },
     {
-      "id": "unknown_internship_platform_clearance",
-      "topic": "Public clearance for the internship platform",
-      "reason": "The project is the strongest evidence in the repository for AI-native delivery, product definition and visual craft — and the agent cannot mention it, because it is an internal Zemingo tool with no confirmed permission for portfolio use. This is currently the highest-value unblock available.",
-      "suggested_source": "Written confirmation from Zemingo, plus sanitized screenshots containing no intern data"
+      "id": "unknown_internship_platform_media",
+      "topic": "Sanitized media for the internship platform",
+      "reason": "Zemingo cleared the project, but no screenshot or recording has been confirmed free of intern names, private feedback or evaluation data. Media entries stay restricted until that check happens, so show_transformation, show_gallery and the case study currently render text only.",
+      "suggested_source": "Sanitized screenshots per transformation stage, plus the making-of recording"
+    },
+    {
+      "id": "unknown_internship_platform_shipped",
+      "topic": "Whether the iOS 26 x Zemingo redesign shipped",
+      "reason": "The functional platform was built and deployed according to the project record, but it is unconfirmed whether the final redesigned interface was deployed or remained a redesign layer. The agent must not claim it shipped.",
+      "suggested_source": "Deployment history, or owner confirmation"
+    },
+    {
+      "id": "unknown_internship_platform_delivery_time",
+      "topic": "The approximately 90-minute delivery claim",
+      "reason": "Self-reported and not independently verified. It is stored with verified:false and may only be used if attributed explicitly to Boaz.",
+      "suggested_source": "Repository commit history or Vercel deployment timestamps"
     }
   ]
 }

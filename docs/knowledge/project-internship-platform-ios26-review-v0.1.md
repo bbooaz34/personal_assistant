@@ -98,3 +98,51 @@ today and will take screens per stage when they exist.
 2. Sanitized screenshots and recordings with no intern data.
 3. Repository or deployment history, if the ~90 minute claim is to be used.
 4. Confirmation of whether the redesign shipped or stayed a redesign layer.
+
+---
+
+## Cleared for public use — 2026-08-26
+
+Zemingo approved public portfolio use of the internship platform (owner-reported;
+no written artefact attached — recorded as `source_zemingo_portfolio_approval`,
+authority 1). Attach the written approval if it is ever questioned.
+
+Changed:
+
+- Project, its three derived facts, and the three skills it evidences → `public`.
+- Project `verification_status` → `verified`. The application source bundle is
+  primary evidence of the work; the remaining open items are specific claims,
+  not the project's existence.
+- Project package `status` → `published`.
+- The four eval cases asserting the material was withheld were inverted into
+  cases asserting it is now retrieved. 28/28 passing.
+
+The project now leads retrieval for "what does AI-native mean in his work" and
+appears in the Senior Product Designer answer — which was the whole point of
+clearing it.
+
+### What the approval did NOT clear
+
+Three of the four original blockers are still open, and the claim rules survive
+in the project's `notes`:
+
+1. **Media stays `restricted`.** No screenshot or recording has been confirmed
+   free of intern names, private feedback or evaluation data. The case study,
+   `show_transformation` and `show_gallery` render text only until that check
+   happens. This is deliberate: when someone later drops in image URIs, they
+   should not go public automatically — a person has to look first.
+2. **The ~90 minute claim stays unverified.** `verified: false`. It may only be
+   used if attributed explicitly to Boaz.
+3. **Do not say the redesign shipped.** Still unconfirmed whether the final
+   iOS 26 × Zemingo interface deployed or remained a redesign layer.
+
+Plus the standing rule that survives everything: the coding is described as
+AI-assisted and agent-directed, never as independent full-stack engineering.
+
+### On intern data
+
+Worth stating plainly, because it is the risk this project carries. No intern
+name, feedback entry or evaluation appears anywhere in the knowledge base. The
+protection is not a filter — it is that the data was never ingested. An eval case
+(`intern_privacy_never_leaks`) asks for exactly that material and confirms there
+is nothing to return.
