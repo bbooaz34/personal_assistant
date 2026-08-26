@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+/*
+ * A calm, low-chrome surface. The conversation is the interface, so almost
+ * everything here is about getting out of the way of text and rendered work.
+ */
+@theme {
+  --color-ground: oklch(0.16 0.012 265);
+  --color-surface: oklch(0.21 0.014 265);
+  --color-surface-raised: oklch(0.25 0.016 265);
+  --color-ink: oklch(0.95 0.005 265);
+  --color-ink-muted: oklch(0.72 0.012 265);
+  --color-ink-faint: oklch(0.55 0.014 265);
+  --color-accent: oklch(0.74 0.14 200);
+  --color-accent-soft: oklch(0.42 0.07 200);
+  --color-edge: oklch(0.32 0.016 265);
+}
+
+html, body { height: 100%; }
+
+body {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+}
+
+/* Hebrew and English share the surface; direction is set per message. */
+[dir="rtl"] { text-align: right; }
+
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(0, -6%, 0) scale(1.04); }
+}
+@keyframes pulse-listen {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50%      { transform: scale(1.12); opacity: 1; }
+}
+@keyframes think {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(0.92); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.presence-idle      { animation: drift 7s ease-in-out infinite; }
+.presence-listening { animation: pulse-listen 1.6s ease-in-out infinite; }
+.presence-thinking  { animation: think 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+.presence-speaking  { animation: pulse-listen 0.9s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .presence-idle, .presence-listening, .presence-thinking, .presence-speaking {
+    animation: none;
+  }
+}

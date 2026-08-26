@@ -1,0 +1,258 @@
+{
+  "metadata": {
+    "version": "0.1",
+    "subject_id": "person_boaz_ben_eli",
+    "status": "canonical",
+    "created_at": "2026-08-26",
+    "human_reviewed_at": "2026-08-26"
+  },
+  "identity": {
+    "name": "Boaz Ben Eli",
+    "headline": "Creative Leader",
+    "positioning_statement": {
+      "text": "AI-native multidisciplinary design leader combining product design, creative direction, team leadership, and generative AI as a core working methodology.",
+      "status": "approved_concept",
+      "source_type": "manual_confirmation",
+      "notes": "GenAI is a core work methodology, not experimental positioning."
+    }
+  },
+  "career": [
+    {
+      "company": "Zemingo",
+      "role": "Design Team Leader",
+      "start": "2025-01",
+      "end": null,
+      "status": "verified_and_manually_enriched",
+      "sources": [
+        "Resume_2025_creative_leader.pdf",
+        "manual_confirmation_2026_08_26"
+      ],
+      "team_scope": {
+        "product_designers_managed": 8,
+        "status": "manually_verified"
+      },
+      "responsibilities": [
+        "Lead a product design team.",
+        "Align creative, product, and business needs.",
+        "Oversee strategy, workflows, and delivery of user-centric interfaces.",
+        "Implement AI-native workflows and AI solutions.",
+        "Mentor designers and foster continuous learning."
+      ]
+    },
+    {
+      "company": "ByondXR",
+      "role_progression": [
+        {
+          "role": "Junior Product Designer",
+          "sequence": 1,
+          "dates": null,
+          "status": "manually_verified"
+        },
+        {
+          "role": "Creative Team Leader",
+          "sequence": 2,
+          "dates": null,
+          "status": "manually_verified"
+        }
+      ],
+      "overall_period_from_cv": {
+        "start": "2020-01",
+        "end": "2024-01",
+        "status": "cv_verified_period_needs_role_date_breakdown"
+      },
+      "status": "manually_corrected",
+      "sources": [
+        "Resume_2025_creative_leader.pdf",
+        "manual_confirmation_2026_08_26"
+      ],
+      "team_scope": {
+        "designers": 5,
+        "3d_artists": 10,
+        "status": "manually_verified",
+        "public": true
+      },
+      "responsibilities": [
+        "Led a multidisciplinary team of designers and 3D artists.",
+        "Created immersive 3D e-commerce experiences for major brands.",
+        "Designed cross-platform interfaces aligned with UX/UI best practices.",
+        "Collaborated with product and marketing teams."
+      ]
+    }
+  ],
+  "experience": {
+    "product_design": {
+      "claim": "Over 5 years",
+      "status": "verified",
+      "source": "Resume_2025_creative_leader.pdf"
+    }
+  },
+  "education": [
+    {
+      "institution": "Holon Institute of Technology",
+      "degree": "B.Des",
+      "period": "2015–2019",
+      "focus_areas": [
+        "UX/UI",
+        "Branding",
+        "Digital Storytelling"
+      ],
+      "honors": true,
+      "status": "manually_normalized"
+    }
+  ],
+  "skills": [
+    {
+      "name": "UX/UI Design",
+      "status": "verified_from_cv"
+    },
+    {
+      "name": "Visual Identity Design",
+      "status": "verified_from_cv"
+    },
+    {
+      "name": "Adobe Suite",
+      "status": "verified_from_cv"
+    },
+    {
+      "name": "GenAI tools",
+      "status": "verified_from_cv"
+    },
+    {
+      "name": "Creative Direction",
+      "status": "supported_but_needs_manual_approval"
+    },
+    {
+      "name": "Generative AI",
+      "status": "manually_verified_core_methodology",
+      "positioning": "core_working_methodology"
+    },
+    {
+      "name": "AI-native Design",
+      "status": "manually_verified",
+      "positioning": "core_working_methodology"
+    }
+  ],
+  "projects": [
+    {
+      "id": "project_mastercard_virtual_city",
+      "name": "Mastercard Day Virtual City",
+      "summary": "A Tel Aviv-inspired interactive virtual city experience with exploration, gamification and avatar elements.",
+      "status": "provisional_needs_case_study_evidence"
+    },
+    {
+      "id": "project_caesarstone_visualizer",
+      "name": "Caesarstone Visualizer",
+      "summary": "A visualization experience covering multiple styles and layouts, including outdoor kitchens and deployments for multiple markets.",
+      "status": "provisional_needs_case_study_evidence"
+    },
+    {
+      "id": "project_byondxr_rebrand",
+      "name": "ByondXR Rebranding",
+      "summary": "Rebranding work spanning logo, website and visual language.",
+      "status": "provisional_needs_case_study_evidence"
+    },
+    {
+      "id": "project_lightricks_younger_me",
+      "name": "Me & Younger Me",
+      "summary": "A generative AI creative assignment using custom workflows for image consistency and image-to-video production.",
+      "status": "provisional_needs_case_study_evidence"
+    },
+    {
+      "id": "project_hiper_mister_h",
+      "name": "HIPER Global / Mister H",
+      "summary": "A recurring AI virtual ambassador concept designed to communicate HIPER Global's expertise through short-form content.",
+      "status": "provisional_needs_case_study_evidence"
+    }
+  ],
+  "visibility_policy": {
+    "public": [
+      "professional identity",
+      "career history",
+      "approved skills",
+      "approved projects",
+      "approved metrics",
+      "education"
+    ],
+    "restricted_or_not_retrievable_by_default": [
+      "phone",
+      "personal email",
+      "compensation",
+      "family information",
+      "health information",
+      "private conversations"
+    ]
+  },
+  "verified_outcomes": [
+    {
+      "id": "outcome_byondxr_client_engagement_30",
+      "claim": "Products created for ByondXR clients increased engagement by 30%.",
+      "value": "30%",
+      "context": "Client-facing products produced at ByondXR",
+      "status": "manually_verified",
+      "source": "manual_confirmation_2026_08_26",
+      "notes": "Do not attribute this specifically to social media strategy or the rebrand without additional evidence."
+    }
+  ],
+  "tools_and_technologies": [
+    {
+      "name": "ComfyUI",
+      "status": "manually_verified_public"
+    },
+    {
+      "name": "Automatic1111",
+      "status": "manually_verified_public"
+    },
+    {
+      "name": "Kohya_ss",
+      "status": "manually_verified_public"
+    },
+    {
+      "name": "IPAdapter",
+      "status": "manually_verified_public"
+    },
+    {
+      "name": "Runway",
+      "status": "manually_verified_public"
+    },
+    {
+      "name": "Kling",
+      "status": "manually_verified_public"
+    },
+    {
+      "name": "Suno.ai",
+      "status": "manually_verified_public"
+    },
+    {
+      "name": "Blender",
+      "status": "manually_verified_public"
+    },
+    {
+      "name": "Weavy",
+      "status": "cv_verified_public"
+    },
+    {
+      "name": "LoRA training",
+      "status": "cv_verified_public"
+    },
+    {
+      "name": "AI agents",
+      "status": "cv_verified_public"
+    },
+    {
+      "name": "Claude Code",
+      "status": "manually_verified_public"
+    },
+    {
+      "name": "Higgsfield",
+      "status": "manually_verified_public"
+    }
+  ],
+  "open_questions": [
+    {
+      "topic": "ByondXR role dates",
+      "question": "What were the approximate dates for the transition from Junior Product Designer to Creative Team Leader?",
+      "priority": "low",
+      "blocking": false
+    }
+  ]
+}

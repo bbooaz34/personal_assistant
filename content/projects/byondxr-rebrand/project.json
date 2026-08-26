@@ -1,0 +1,46 @@
+{
+  "id": "project_byondxr_rebrand",
+  "name": "ByondXR Rebranding",
+  "status": "draft",
+  "organization": "ByondXR",
+  "context": "Internal brand project.",
+  "role": "Creative lead",
+  "summary": "A full rebrand covering logo, website and visual language.",
+  "skills_demonstrated": ["Visual Identity Design", "Creative Direction"],
+  "tools": ["Adobe Creative Suite", "Figma"],
+  "evidence": [
+    {
+      "id": "evidence_owner_confirmation",
+      "type": "manual_confirmation",
+      "label": "Owner-confirmed project context",
+      "uri": null,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "Scope of the rebrand is confirmed. No outcome metric is attached, deliberately — see the note below."
+    }
+  ],
+  "media": [],
+  "conversation_hooks": [
+    {
+      "recruiter_intent": "Assess brand and visual identity capability",
+      "trigger_topics": ["brand", "branding", "visual identity", "logo", "rebrand", "design system"],
+      "agent_response_goal": "Use as the primary branding evidence. Cover the breadth — identity through to website — rather than the logo alone.",
+      "recommended_media_ids": []
+    }
+  ],
+  "presentation": {
+    "default_component": "project_card",
+    "short_pitch": "A company-wide rebrand: logo, website and visual language.",
+    "long_pitch": "A full rebrand of ByondXR spanning the logo, the website and the surrounding visual language.",
+    "suggested_followups": [
+      "Want to see how the brand work connects to the product work?",
+      "I can show the product side instead if that is closer to your role."
+    ]
+  },
+  "open_questions": [
+    "Ingest before/after visuals — this project is unusually well suited to a before/after component.",
+    "Confirm the brief and what drove the rebrand.",
+    "Confirm Boaz's scope versus any external agency involvement.",
+    "Do NOT attach the 30% engagement metric to this project. Owner review attributed that figure to client-facing products, and re-attaching it here would reintroduce a conflict that has already been resolved."
+  ]
+}

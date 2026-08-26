@@ -1,0 +1,46 @@
+{
+  "id": "project_hiper_mister_h",
+  "name": "HIPER Global / Mister H",
+  "status": "draft",
+  "organization": "HIPER Global",
+  "context": "AI-driven brand content concept.",
+  "role": "Concept and creative lead",
+  "summary": "A recurring AI virtual ambassador designed to communicate HIPER Global's expertise through short-form content.",
+  "challenge": "Give a B2B company a consistent, recognisable on-screen presence without the cost and scheduling of live production.",
+  "skills_demonstrated": ["Generative AI", "Creative Direction"],
+  "tools": [],
+  "evidence": [
+    {
+      "id": "evidence_owner_confirmation",
+      "type": "manual_confirmation",
+      "label": "Owner-confirmed project concept",
+      "uri": null,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "The concept is confirmed. The tool chain is not: any specific tools mentioned elsewhere for this project are inferred from adjacent work and must not be stated as fact."
+    }
+  ],
+  "media": [],
+  "conversation_hooks": [
+    {
+      "recruiter_intent": "Assess applied generative AI in a commercial context",
+      "trigger_topics": ["generative AI", "AI content", "virtual character", "brand content", "short form", "video"],
+      "agent_response_goal": "Show that the AI work is applied to real business communication problems, not only to creative experiments.",
+      "recommended_media_ids": []
+    }
+  ],
+  "presentation": {
+    "default_component": "project_card",
+    "short_pitch": "A recurring AI virtual ambassador for a B2B brand's short-form content.",
+    "long_pitch": "An AI-generated recurring character built to carry HIPER Global's expertise into short-form content with a consistent on-screen presence.",
+    "suggested_followups": [
+      "Want to see the more technical generative AI work behind something like this?"
+    ]
+  },
+  "open_questions": [
+    "Confirm the actual tools and workflow used.",
+    "Attach example content.",
+    "Confirm whether this shipped or remained a concept — this materially changes how the agent should describe it.",
+    "Confirm what may be shown publicly."
+  ]
+}

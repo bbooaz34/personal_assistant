@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*"]
+  ,"references": [
+    { "path": "../knowledge" },
+    { "path": "../policy" },
+    { "path": "../retrieval" },
+    { "path": "../identity" },
+    { "path": "../ui" },
+    { "path": "../analytics" }
+  ]
+}

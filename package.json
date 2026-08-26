@@ -1,0 +1,35 @@
+{
+  "name": "personal-ai-representative",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "An AI-native professional representation layer: a conversational agent that explains and demonstrates a professional's work, grounded in verified knowledge.",
+  "license": "MIT",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "config"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=@par/web",
+    "build": "npm run build --workspace=@par/web",
+    "start": "npm run start --workspace=@par/web",
+    "typecheck": "tsc -b packages/knowledge packages/policy packages/retrieval packages/identity packages/ingestion packages/ui packages/analytics packages/agent packages/voice",
+    "knowledge:validate": "node --experimental-strip-types scripts/validate-knowledge.ts",
+    "knowledge:merge": "node --experimental-strip-types scripts/merge-knowledge.ts",
+    "eval": "node --experimental-strip-types scripts/run-evals.ts",
+    "clean": "rm -rf packages/*/dist packages/*/*.tsbuildinfo apps/web/.next"
+  },
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@types/node": "^22.9.0",
+    "@par/knowledge": "*",
+    "@par/agent": "*",
+    "@par/ingestion": "*",
+    "@par/analytics": "*",
+    "@par/config": "*"
+  }
+}

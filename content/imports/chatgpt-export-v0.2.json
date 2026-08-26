@@ -1,0 +1,689 @@
+{
+  "metadata": {
+    "schema_version": "0.2",
+    "subject_id": "person_boaz_ben_eli",
+    "generated_at": "2026-08-26",
+    "generated_by": "ChatGPT",
+    "notes": "Initial source export generated from remembered professional context. This is source knowledge, not canonical truth."
+  },
+  "entities": [
+    {
+      "id": "person_boaz_ben_eli",
+      "type": "person",
+      "name": "Boaz Ben Eli",
+      "aliases": [],
+      "description": "Multidisciplinary design professional spanning product design, creative leadership, creative technology, XR and generative AI.",
+      "visibility": "public"
+    },
+    {
+      "id": "company_zemingo",
+      "type": "company",
+      "name": "Zemingo",
+      "aliases": [],
+      "visibility": "public"
+    },
+    {
+      "id": "company_byondxr",
+      "type": "company",
+      "name": "ByondXR",
+      "aliases": [],
+      "visibility": "public"
+    },
+    {
+      "id": "institution_hit",
+      "type": "institution",
+      "name": "Holon Institute of Technology (HIT)",
+      "aliases": [
+        "HIT"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "role_design_team_leader",
+      "type": "role",
+      "name": "Design Team Leader",
+      "aliases": [],
+      "visibility": "public"
+    },
+    {
+      "id": "role_creative_team_lead",
+      "type": "role",
+      "name": "Creative Team Lead",
+      "aliases": [],
+      "visibility": "public"
+    },
+    {
+      "id": "role_senior_designer",
+      "type": "role",
+      "name": "Senior Designer",
+      "aliases": [],
+      "visibility": "public"
+    },
+    {
+      "id": "industry_ai",
+      "type": "industry",
+      "name": "Artificial Intelligence",
+      "aliases": [
+        "AI"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "industry_fintech",
+      "type": "industry",
+      "name": "Fintech",
+      "aliases": [],
+      "visibility": "public"
+    },
+    {
+      "id": "tool_figma",
+      "type": "tool",
+      "name": "Figma",
+      "aliases": [],
+      "visibility": "public"
+    },
+    {
+      "id": "tool_comfyui",
+      "type": "tool",
+      "name": "ComfyUI",
+      "aliases": [],
+      "visibility": "public"
+    },
+    {
+      "id": "tool_after_effects",
+      "type": "tool",
+      "name": "Adobe After Effects",
+      "aliases": [
+        "After Effects"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "tool_blender",
+      "type": "tool",
+      "name": "Blender",
+      "aliases": [],
+      "visibility": "public"
+    }
+  ],
+  "facts": [
+    {
+      "id": "fact_current_role_zemingo",
+      "claim": "Boaz works as a Design Team Leader at Zemingo.",
+      "category": "career",
+      "knowledge_type": "explicit",
+      "confidence": 0.95,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.8
+        }
+      ],
+      "evidence": [
+        {
+          "type": "role",
+          "reference_id": "role_design_team_leader",
+          "strength": 0.95
+        }
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": null,
+      "notes": "Current role should be checked against the current CV."
+    },
+    {
+      "id": "fact_design_experience_7_plus",
+      "claim": "Boaz has 7+ years of professional design experience.",
+      "category": "career",
+      "knowledge_type": "explicit",
+      "confidence": 0.85,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.75
+        }
+      ],
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": null,
+      "notes": "Use the current CV as authoritative."
+    },
+    {
+      "id": "fact_product_design_experience_3_plus",
+      "claim": "Boaz has 3+ years of product design experience.",
+      "category": "career",
+      "knowledge_type": "explicit",
+      "confidence": 0.8,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.7
+        }
+      ],
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": null,
+      "notes": "Use the current CV as authoritative."
+    },
+    {
+      "id": "fact_creative_leadership_5_plus",
+      "claim": "Boaz has 5+ years of creative leadership experience.",
+      "category": "career",
+      "knowledge_type": "explicit",
+      "confidence": 0.8,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.7
+        }
+      ],
+      "evidence": [
+        {
+          "type": "role",
+          "reference_id": "role_creative_team_lead",
+          "strength": 0.9
+        }
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": null,
+      "notes": "Use the current CV as authoritative."
+    },
+    {
+      "id": "fact_hit_visual_communication",
+      "claim": "Boaz studied Visual Communication Design at HIT and graduated with honors.",
+      "category": "education",
+      "knowledge_type": "explicit",
+      "confidence": 0.95,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.85
+        }
+      ],
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": null,
+      "notes": "Verify against CV or diploma."
+    },
+    {
+      "id": "fact_byondxr_team_scope",
+      "claim": "As Creative Team Lead at ByondXR, Boaz managed 5 designers and 10 3D artists.",
+      "category": "responsibility",
+      "knowledge_type": "explicit",
+      "confidence": 0.9,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.8
+        }
+      ],
+      "evidence": [
+        {
+          "type": "role",
+          "reference_id": "role_creative_team_lead",
+          "strength": 0.95
+        }
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": null,
+      "notes": "Team scope should be verified against CV or approved career materials."
+    },
+    {
+      "id": "fact_working_style_ai_experimentation",
+      "claim": "Boaz combines design practice with hands-on experimentation in generative AI tools and workflows.",
+      "category": "working_style",
+      "knowledge_type": "derived",
+      "confidence": 0.95,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.8
+        }
+      ],
+      "evidence": [
+        {
+          "type": "project",
+          "reference_id": "project_lightricks_younger_me",
+          "strength": 0.95
+        },
+        {
+          "type": "project",
+          "reference_id": "project_hiper_mister_h",
+          "strength": 0.9
+        }
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": null,
+      "notes": "Derived from repeated project discussions."
+    }
+  ],
+  "skills": [
+    {
+      "id": "skill_product_design",
+      "name": "Product Design",
+      "category": "product",
+      "proficiency": "advanced",
+      "confidence": 0.85,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "evidence": [
+        {
+          "type": "project",
+          "reference_id": "project_caesarstone_visualizer",
+          "strength": 0.85
+        }
+      ],
+      "related_tools": [
+        "tool_figma"
+      ],
+      "related_projects": [
+        "project_caesarstone_visualizer"
+      ],
+      "notes": "Proficiency level should be manually approved."
+    },
+    {
+      "id": "skill_creative_direction",
+      "name": "Creative Direction",
+      "category": "creative",
+      "proficiency": "advanced",
+      "confidence": 0.95,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "evidence": [
+        {
+          "type": "role",
+          "reference_id": "role_creative_team_lead",
+          "strength": 0.95
+        },
+        {
+          "type": "project",
+          "reference_id": "project_mastercard_virtual_city",
+          "strength": 0.9
+        },
+        {
+          "type": "project",
+          "reference_id": "project_byondxr_rebrand",
+          "strength": 0.9
+        }
+      ],
+      "related_tools": [],
+      "related_projects": [
+        "project_mastercard_virtual_city",
+        "project_byondxr_rebrand"
+      ],
+      "notes": "Strongly supported by remembered role and project context."
+    },
+    {
+      "id": "skill_generative_ai",
+      "name": "Generative AI",
+      "category": "ai",
+      "proficiency": "advanced",
+      "confidence": 0.95,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "evidence": [
+        {
+          "type": "project",
+          "reference_id": "project_lightricks_younger_me",
+          "strength": 0.95
+        },
+        {
+          "type": "project",
+          "reference_id": "project_hiper_mister_h",
+          "strength": 0.9
+        }
+      ],
+      "related_tools": [
+        "tool_comfyui"
+      ],
+      "related_projects": [
+        "project_lightricks_younger_me",
+        "project_hiper_mister_h"
+      ],
+      "notes": "Covers practical creative AI workflows; exact proficiency label should be manually approved."
+    },
+    {
+      "id": "skill_team_leadership",
+      "name": "Team Leadership",
+      "category": "leadership",
+      "proficiency": "advanced",
+      "confidence": 0.9,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "evidence": [
+        {
+          "type": "role",
+          "reference_id": "role_creative_team_lead",
+          "strength": 0.95
+        },
+        {
+          "type": "role",
+          "reference_id": "role_design_team_leader",
+          "strength": 0.95
+        }
+      ],
+      "related_tools": [],
+      "related_projects": [],
+      "notes": "Evidence should later include specific leadership outcomes."
+    }
+  ],
+  "projects": [
+    {
+      "id": "project_mastercard_virtual_city",
+      "name": "Mastercard Day Virtual City",
+      "company_id": "company_byondxr",
+      "role_ids": [],
+      "summary": "A Tel Aviv-inspired interactive virtual city experience with exploration, gamification and avatar elements.",
+      "problem": "",
+      "responsibilities": [
+        "Creative direction",
+        "UX-related design",
+        "Gamification and interactive experience design"
+      ],
+      "process": [],
+      "outcomes": [
+        "Interactive virtual event experience"
+      ],
+      "metrics": [
+        {
+          "label": "Treasure hunt completion",
+          "value": "60%+",
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "verified": false
+        },
+        {
+          "label": "Visits",
+          "value": "Approximately 1,000+",
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "verified": false
+        }
+      ],
+      "skill_ids": [
+        "skill_creative_direction"
+      ],
+      "tool_ids": [],
+      "industry_ids": [
+        "industry_fintech"
+      ],
+      "media": [],
+      "sources": [
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.8
+        }
+      ],
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "Case-study source material should be ingested before canonical use."
+    },
+    {
+      "id": "project_caesarstone_visualizer",
+      "name": "Caesarstone Visualizer",
+      "company_id": "company_byondxr",
+      "role_ids": [],
+      "summary": "A visualization experience covering multiple styles and layouts, including outdoor kitchens and deployments for multiple markets.",
+      "problem": "",
+      "responsibilities": [],
+      "process": [],
+      "outcomes": [],
+      "metrics": [],
+      "skill_ids": [
+        "skill_product_design"
+      ],
+      "tool_ids": [
+        "tool_figma"
+      ],
+      "industry_ids": [],
+      "media": [],
+      "sources": [
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.75
+        }
+      ],
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "Exact role and process are not sufficiently known from memory."
+    },
+    {
+      "id": "project_byondxr_rebrand",
+      "name": "ByondXR Rebranding",
+      "company_id": "company_byondxr",
+      "role_ids": [],
+      "summary": "Rebranding work spanning logo, website and visual language.",
+      "problem": "",
+      "responsibilities": [
+        "Branding",
+        "Creative direction",
+        "Visual language development"
+      ],
+      "process": [],
+      "outcomes": [],
+      "metrics": [
+        {
+          "label": "Engagement increase",
+          "value": "+30%",
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "verified": false
+        }
+      ],
+      "skill_ids": [
+        "skill_creative_direction"
+      ],
+      "tool_ids": [],
+      "industry_ids": [],
+      "media": [],
+      "sources": [
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.8
+        }
+      ],
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "Metric requires documentary evidence."
+    },
+    {
+      "id": "project_lightricks_younger_me",
+      "name": "Me & Younger Me",
+      "company_id": null,
+      "role_ids": [],
+      "summary": "A generative AI creative assignment using custom workflows for image consistency and image-to-video production.",
+      "problem": "",
+      "responsibilities": [
+        "Workflow design",
+        "Generative image experimentation",
+        "Character consistency",
+        "Image-to-video experimentation"
+      ],
+      "process": [
+        "ComfyUI workflow",
+        "IPAdapter",
+        "Depth guidance",
+        "Multi-scene generation",
+        "Video generation"
+      ],
+      "outcomes": [],
+      "metrics": [],
+      "skill_ids": [
+        "skill_generative_ai"
+      ],
+      "tool_ids": [
+        "tool_comfyui"
+      ],
+      "industry_ids": [
+        "industry_ai"
+      ],
+      "media": [],
+      "sources": [
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.9
+        }
+      ],
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "Portfolio material should be connected as authoritative evidence."
+    },
+    {
+      "id": "project_hiper_mister_h",
+      "name": "HIPER Global / Mister H",
+      "company_id": null,
+      "role_ids": [],
+      "summary": "A recurring AI virtual ambassador concept designed to communicate HIPER Global's expertise through short-form content.",
+      "problem": "",
+      "responsibilities": [
+        "Character concept development",
+        "Creative strategy",
+        "AI visual direction",
+        "Video experimentation",
+        "Storytelling development"
+      ],
+      "process": [],
+      "outcomes": [],
+      "metrics": [],
+      "skill_ids": [
+        "skill_generative_ai",
+        "skill_creative_direction"
+      ],
+      "tool_ids": [],
+      "industry_ids": [
+        "industry_ai"
+      ],
+      "media": [],
+      "sources": [
+        {
+          "source_id": "source_chatgpt_memory_2026_08_26",
+          "reliability": 0.9
+        }
+      ],
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "Project is known from recent work context and should later be backed by approved project materials."
+    }
+  ],
+  "sources": [
+    {
+      "id": "source_chatgpt_memory_2026_08_26",
+      "type": "ai_memory",
+      "name": "ChatGPT remembered professional context export — 2026-08-26",
+      "authority_level": 3,
+      "uri": null,
+      "date": "2026-08-26",
+      "notes": "AI memory source. Must not override CV, portfolio, approved case studies, or manual corrections."
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel_boaz_zemingo",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_at",
+      "to_id": "company_zemingo",
+      "confidence": 0.95,
+      "source_ids": [
+        "source_chatgpt_memory_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_boaz_role_design_team_leader",
+      "from_id": "person_boaz_ben_eli",
+      "type": "held_role",
+      "to_id": "role_design_team_leader",
+      "confidence": 0.95,
+      "source_ids": [
+        "source_chatgpt_memory_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_boaz_byondxr",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_at",
+      "to_id": "company_byondxr",
+      "confidence": 0.95,
+      "source_ids": [
+        "source_chatgpt_memory_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_boaz_creative_team_lead",
+      "from_id": "person_boaz_ben_eli",
+      "type": "held_role",
+      "to_id": "role_creative_team_lead",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_chatgpt_memory_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_mastercard_creative_direction",
+      "from_id": "project_mastercard_virtual_city",
+      "type": "demonstrates_skill",
+      "to_id": "skill_creative_direction",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_chatgpt_memory_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_lightricks_genai",
+      "from_id": "project_lightricks_younger_me",
+      "type": "demonstrates_skill",
+      "to_id": "skill_generative_ai",
+      "confidence": 0.95,
+      "source_ids": [
+        "source_chatgpt_memory_2026_08_26"
+      ]
+    },
+    {
+      "id": "rel_hiper_genai",
+      "from_id": "project_hiper_mister_h",
+      "type": "demonstrates_skill",
+      "to_id": "skill_generative_ai",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_chatgpt_memory_2026_08_26"
+      ]
+    }
+  ],
+  "conflicts": [],
+  "unknowns": [
+    {
+      "id": "unknown_exact_career_dates",
+      "topic": "Exact start and end dates for historical roles",
+      "reason": "Not reliably available from remembered context.",
+      "suggested_source": "Current CV"
+    },
+    {
+      "id": "unknown_project_roles",
+      "topic": "Exact role and responsibility scope for every project",
+      "reason": "Remembered context is incomplete for some projects.",
+      "suggested_source": "Approved case studies / project documentation"
+    },
+    {
+      "id": "unknown_current_career_goal",
+      "topic": "Current canonical career target",
+      "reason": "Historical target roles should not automatically be treated as current intent.",
+      "suggested_source": "Manual confirmation"
+    }
+  ]
+}

@@ -1,0 +1,376 @@
+{
+  "metadata": {
+    "schema_version": "0.2",
+    "subject_id": "person_boaz_ben_eli",
+    "generated_at": "2026-08-26",
+    "generated_by": "CV extraction",
+    "notes": "Extracted from Resume_2025_creative_leader.pdf. CV is Level 1 authority. Contact details excluded from public agent knowledge by default."
+  },
+  "entities": [
+    {
+      "id": "person_boaz_ben_eli",
+      "type": "person",
+      "name": "Boaz Ben Eli",
+      "aliases": [],
+      "description": "Creative Leader",
+      "visibility": "public"
+    },
+    {
+      "id": "company_zemingo",
+      "type": "company",
+      "name": "Zemingo",
+      "aliases": [],
+      "visibility": "public"
+    },
+    {
+      "id": "company_byondxr",
+      "type": "company",
+      "name": "ByondXR",
+      "aliases": [],
+      "visibility": "public"
+    },
+    {
+      "id": "institution_hit",
+      "type": "institution",
+      "name": "Holon Institute of Technology",
+      "aliases": [
+        "HIT"
+      ],
+      "visibility": "public"
+    },
+    {
+      "id": "role_design_team_leader",
+      "type": "role",
+      "name": "Design Team Leader",
+      "aliases": [],
+      "visibility": "public"
+    },
+    {
+      "id": "role_creative_director",
+      "type": "role",
+      "name": "Creative Director",
+      "aliases": [],
+      "visibility": "public"
+    }
+  ],
+  "facts": [
+    {
+      "id": "fact_product_design_over_5_years",
+      "claim": "Boaz has over 5 years of experience in product design.",
+      "category": "career",
+      "knowledge_type": "explicit",
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 1 Summary",
+          "reliability": 1.0
+        }
+      ],
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": "2026-08-26",
+      "notes": "Authoritative CV claim."
+    },
+    {
+      "id": "fact_current_role_zemingo_cv",
+      "claim": "Boaz has been Design Team Leader at Zemingo since January 2025.",
+      "category": "career",
+      "knowledge_type": "explicit",
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 1 Experience — Zemingo",
+          "reliability": 1.0
+        }
+      ],
+      "evidence": [
+        {
+          "type": "role",
+          "reference_id": "role_design_team_leader",
+          "strength": 1.0
+        }
+      ],
+      "valid_from": "2025-01-01",
+      "valid_to": null,
+      "last_verified": "2026-08-26",
+      "notes": ""
+    },
+    {
+      "id": "fact_zemingo_scope",
+      "claim": "At Zemingo, Boaz leads product design teams, oversees strategy, workflows and user-centric interface delivery, implements AI solutions including Weavy, LoRA training and AI agents, and mentors designers.",
+      "category": "responsibility",
+      "knowledge_type": "explicit",
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 1 Experience — Zemingo",
+          "reliability": 1.0
+        }
+      ],
+      "evidence": [
+        {
+          "type": "role",
+          "reference_id": "role_design_team_leader",
+          "strength": 1.0
+        }
+      ],
+      "valid_from": "2025-01-01",
+      "valid_to": null,
+      "last_verified": "2026-08-26",
+      "notes": ""
+    },
+    {
+      "id": "fact_byondxr_creative_director",
+      "claim": "Boaz worked at ByondXR as Creative Director from January 2020 to January 2024.",
+      "category": "career",
+      "knowledge_type": "explicit",
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 1 Experience — ByondXR",
+          "reliability": 1.0
+        }
+      ],
+      "evidence": [
+        {
+          "type": "role",
+          "reference_id": "role_creative_director",
+          "strength": 1.0
+        }
+      ],
+      "valid_from": "2020-01-01",
+      "valid_to": "2024-01-01",
+      "last_verified": "2026-08-26",
+      "notes": ""
+    },
+    {
+      "id": "fact_byondxr_scope",
+      "claim": "At ByondXR, Boaz led a global team of designers and 3D artists creating immersive 3D e-commerce experiences, designed cross-platform interfaces, collaborated with product and marketing teams, and executed social media strategies that drove 30% higher engagement.",
+      "category": "responsibility",
+      "knowledge_type": "explicit",
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 1 Experience — ByondXR",
+          "reliability": 1.0
+        }
+      ],
+      "evidence": [
+        {
+          "type": "role",
+          "reference_id": "role_creative_director",
+          "strength": 1.0
+        }
+      ],
+      "valid_from": "2020-01-01",
+      "valid_to": "2024-01-01",
+      "last_verified": "2026-08-26",
+      "notes": "CV does not state exact team size."
+    },
+    {
+      "id": "fact_education_hit_bdes",
+      "claim": "Boaz earned a B.Des from Holon Institute of Technology from 2015 to 2019, with UX/UI, Branding and Digital Storytelling listed as study areas, and graduated with honors.",
+      "category": "education",
+      "knowledge_type": "explicit",
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 2 Education",
+          "reliability": 1.0
+        }
+      ],
+      "evidence": [],
+      "valid_from": "2015-01-01",
+      "valid_to": "2019-12-31",
+      "last_verified": "2026-08-26",
+      "notes": ""
+    },
+    {
+      "id": "fact_languages",
+      "claim": "Boaz lists Hebrew and English as languages.",
+      "category": "other",
+      "knowledge_type": "explicit",
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_cv_2025_creative_leader",
+          "locator": "Page 2 Languages",
+          "reliability": 1.0
+        }
+      ],
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": "2026-08-26",
+      "notes": ""
+    }
+  ],
+  "skills": [
+    {
+      "id": "skill_visual_identity_design",
+      "name": "Visual Identity Design",
+      "category": "creative",
+      "proficiency": null,
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "evidence": [
+        {
+          "type": "source",
+          "reference_id": "source_cv_2025_creative_leader",
+          "strength": 1.0
+        }
+      ],
+      "related_tools": [],
+      "related_projects": [],
+      "notes": "Listed in CV."
+    },
+    {
+      "id": "skill_ux_ui_design",
+      "name": "UX/UI Design",
+      "category": "product",
+      "proficiency": null,
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "evidence": [
+        {
+          "type": "source",
+          "reference_id": "source_cv_2025_creative_leader",
+          "strength": 1.0
+        }
+      ],
+      "related_tools": [],
+      "related_projects": [],
+      "notes": "Listed in CV."
+    },
+    {
+      "id": "skill_adobe_suite",
+      "name": "Adobe Suite",
+      "category": "creative",
+      "proficiency": null,
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "evidence": [
+        {
+          "type": "source",
+          "reference_id": "source_cv_2025_creative_leader",
+          "strength": 1.0
+        }
+      ],
+      "related_tools": [],
+      "related_projects": [],
+      "notes": "Listed in CV."
+    },
+    {
+      "id": "skill_genai_tools",
+      "name": "GenAI tools",
+      "category": "ai",
+      "proficiency": null,
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "evidence": [
+        {
+          "type": "source",
+          "reference_id": "source_cv_2025_creative_leader",
+          "strength": 1.0
+        }
+      ],
+      "related_tools": [],
+      "related_projects": [],
+      "notes": "Listed in CV."
+    }
+  ],
+  "projects": [],
+  "sources": [
+    {
+      "id": "source_cv_2025_creative_leader",
+      "type": "cv",
+      "name": "Resume_2025_creative_leader.pdf",
+      "authority_level": 1,
+      "uri": null,
+      "date": null,
+      "notes": "Phone and personal email intentionally excluded from public knowledge."
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel_cv_boaz_zemingo",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_at",
+      "to_id": "company_zemingo",
+      "confidence": 1.0,
+      "source_ids": [
+        "source_cv_2025_creative_leader"
+      ]
+    },
+    {
+      "id": "rel_cv_boaz_design_team_leader",
+      "from_id": "person_boaz_ben_eli",
+      "type": "held_role",
+      "to_id": "role_design_team_leader",
+      "confidence": 1.0,
+      "source_ids": [
+        "source_cv_2025_creative_leader"
+      ]
+    },
+    {
+      "id": "rel_cv_boaz_byondxr",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_at",
+      "to_id": "company_byondxr",
+      "confidence": 1.0,
+      "source_ids": [
+        "source_cv_2025_creative_leader"
+      ]
+    },
+    {
+      "id": "rel_cv_boaz_creative_director",
+      "from_id": "person_boaz_ben_eli",
+      "type": "held_role",
+      "to_id": "role_creative_director",
+      "confidence": 1.0,
+      "source_ids": [
+        "source_cv_2025_creative_leader"
+      ]
+    }
+  ],
+  "conflicts": [],
+  "unknowns": [
+    {
+      "id": "unknown_cv_exact_team_size",
+      "topic": "Exact team size at ByondXR",
+      "reason": "CV says a global team of designers and 3D artists but gives no number.",
+      "suggested_source": "Manual confirmation or case study"
+    },
+    {
+      "id": "unknown_cv_project_details",
+      "topic": "Project-level case studies",
+      "reason": "CV does not break experience into individual projects.",
+      "suggested_source": "Portfolio and project documentation"
+    }
+  ]
+}

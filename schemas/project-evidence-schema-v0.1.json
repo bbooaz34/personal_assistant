@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Portfolio Project Evidence Schema v0.1",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "status",
+    "summary",
+    "evidence",
+    "presentation"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "verified",
+        "published"
+      ]
+    },
+    "organization": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "context": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "challenge": {
+      "type": "string"
+    },
+    "objectives": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "responsibilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "process": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "step",
+          "title",
+          "description"
+        ],
+        "properties": {
+          "step": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "media_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "skills_demonstrated": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "outcomes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "verification_status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "source_document",
+              "image",
+              "video",
+              "prototype",
+              "workflow",
+              "analytics",
+              "manual_confirmation",
+              "external_link"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "uri": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "verification_status": {
+            "enum": [
+              "verified",
+              "needs_verification",
+              "rejected"
+            ]
+          },
+          "visibility": {
+            "enum": [
+              "public",
+              "restricted",
+              "private"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "media": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "purpose"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "hero",
+              "image",
+              "video",
+              "prototype",
+              "diagram",
+              "workflow",
+              "before_after",
+              "gallery"
+            ]
+          },
+          "purpose": {
+            "type": "string"
+          },
+          "uri": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "caption": {
+            "type": "string"
+          },
+          "visibility": {
+            "enum": [
+              "public",
+              "restricted",
+              "private"
+            ]
+          }
+        }
+      }
+    },
+    "conversation_hooks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "recruiter_intent": {
+            "type": "string"
+          },
+          "trigger_topics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "agent_response_goal": {
+            "type": "string"
+          },
+          "recommended_media_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "presentation": {
+      "type": "object",
+      "properties": {
+        "default_component": {
+          "enum": [
+            "project_card",
+            "case_study_panel",
+            "media_gallery",
+            "workflow_view",
+            "prototype_embed",
+            "video_player"
+          ]
+        },
+        "short_pitch": {
+          "type": "string"
+        },
+        "long_pitch": {
+          "type": "string"
+        },
+        "suggested_followups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

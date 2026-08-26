@@ -1,0 +1,213 @@
+{
+  "id": "project_lightricks_younger_me",
+  "name": "Me & Younger Me",
+  "status": "draft",
+  "organization": "Lightricks",
+  "context": "Creative AI home assignment / professional evaluation project.",
+  "role": "AI-native designer and creative technologist",
+  "summary": "A multi-scene generative AI concept built around creating believable interactions between an adult subject and a younger version of the same person while maintaining identity and scene consistency across images and video.",
+  "challenge": "Create a coherent visual story in which two age-separated versions of the same identity appear naturally together across multiple scenes, while solving consistency, composition and controllability problems inherent to generative image workflows.",
+  "objectives": [
+    "Maintain recognizable identity across age-separated character versions.",
+    "Create multiple coherent scenes rather than a single generated image.",
+    "Use controllable AI workflows rather than relying only on prompt-based generation.",
+    "Extend still-image outputs into motion/video."
+  ],
+  "responsibilities": [
+    "Concept development",
+    "Generative AI workflow design",
+    "Image generation and iteration",
+    "Character consistency problem solving",
+    "Composition and depth control",
+    "Image-to-video experimentation"
+  ],
+  "process": [
+    {
+      "step": 1,
+      "title": "Concept and scene definition",
+      "description": "Defined a set of interactions between an adult and younger version of the same identity, including remembered scenes such as 1990s-style gaming, dancing and a pillow fight.",
+      "tools": [],
+      "media_ids": [
+        "media_scene_board"
+      ]
+    },
+    {
+      "step": 2,
+      "title": "Identity and character consistency",
+      "description": "Used a custom ComfyUI-based workflow with IPAdapter-related techniques to preserve identity and visual continuity across generated scenes.",
+      "tools": [
+        "ComfyUI",
+        "IPAdapter"
+      ],
+      "media_ids": [
+        "media_workflow"
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Composition and spatial control",
+      "description": "Used depth guidance and iterative generation to improve pose, placement and interaction between characters.",
+      "tools": [
+        "ComfyUI",
+        "Depth guidance"
+      ],
+      "media_ids": [
+        "media_process_examples"
+      ]
+    },
+    {
+      "step": 4,
+      "title": "Multi-scene generation",
+      "description": "Produced multiple scenes while working to keep the characters visually coherent across different actions and environments.",
+      "tools": [
+        "ComfyUI"
+      ],
+      "media_ids": [
+        "media_final_gallery"
+      ]
+    },
+    {
+      "step": 5,
+      "title": "Image-to-video extension",
+      "description": "Extended selected visual outputs into motion as part of the final creative AI workflow.",
+      "tools": [],
+      "media_ids": [
+        "media_final_video"
+      ]
+    }
+  ],
+  "skills_demonstrated": [
+    "Generative AI",
+    "AI-native Design",
+    "Creative Direction",
+    "Workflow Design",
+    "Visual Storytelling",
+    "Character Consistency",
+    "Rapid Prototyping"
+  ],
+  "tools": [
+    "ComfyUI",
+    "IPAdapter",
+    "Depth guidance"
+  ],
+  "outcomes": [
+    "Created a coherent multi-scene creative concept using a custom generative AI workflow.",
+    "Demonstrated hands-on control over identity consistency, composition and image-to-video production."
+  ],
+  "metrics": [],
+  "evidence": [
+    {
+      "id": "evidence_manual_project_context",
+      "type": "manual_confirmation",
+      "label": "Previously discussed project context",
+      "uri": null,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "The project structure is based on prior project discussions. Original assignment, workflow captures and final assets should be ingested before publication."
+    }
+  ],
+  "media": [
+    {
+      "id": "media_scene_board",
+      "type": "gallery",
+      "purpose": "Show the concept and selected scene directions.",
+      "uri": null,
+      "caption": "",
+      "visibility": "public"
+    },
+    {
+      "id": "media_workflow",
+      "type": "workflow",
+      "purpose": "Explain the controllable ComfyUI / identity consistency workflow.",
+      "uri": null,
+      "caption": "",
+      "visibility": "public"
+    },
+    {
+      "id": "media_process_examples",
+      "type": "before_after",
+      "purpose": "Show iteration, control problems and improvements.",
+      "uri": null,
+      "caption": "",
+      "visibility": "public"
+    },
+    {
+      "id": "media_final_gallery",
+      "type": "gallery",
+      "purpose": "Present final still outputs inside the conversation.",
+      "uri": null,
+      "caption": "",
+      "visibility": "public"
+    },
+    {
+      "id": "media_final_video",
+      "type": "video",
+      "purpose": "Play the resulting motion/video directly inside the conversational interface.",
+      "uri": null,
+      "caption": "",
+      "visibility": "public"
+    }
+  ],
+  "conversation_hooks": [
+    {
+      "recruiter_intent": "Evaluate hands-on generative AI expertise",
+      "trigger_topics": [
+        "generative AI",
+        "AI workflows",
+        "ComfyUI",
+        "AI-native design"
+      ],
+      "agent_response_goal": "Explain that AI is part of Boaz's working methodology and use this project as concrete evidence.",
+      "recommended_media_ids": [
+        "media_workflow",
+        "media_final_gallery"
+      ]
+    },
+    {
+      "recruiter_intent": "Evaluate problem-solving and technical depth",
+      "trigger_topics": [
+        "problem solving",
+        "consistency",
+        "technical workflow",
+        "prototyping"
+      ],
+      "agent_response_goal": "Focus on the identity-consistency and composition challenges rather than merely showing polished outputs.",
+      "recommended_media_ids": [
+        "media_process_examples",
+        "media_workflow"
+      ]
+    },
+    {
+      "recruiter_intent": "See actual work",
+      "trigger_topics": [
+        "show me",
+        "portfolio",
+        "example",
+        "case study"
+      ],
+      "agent_response_goal": "Open the visual case-study panel without forcing the recruiter to leave the conversation.",
+      "recommended_media_ids": [
+        "media_final_gallery",
+        "media_final_video"
+      ]
+    }
+  ],
+  "presentation": {
+    "default_component": "case_study_panel",
+    "short_pitch": "A custom AI-native workflow for creating consistent multi-scene interactions between an adult and a younger version of the same identity.",
+    "long_pitch": "This project demonstrates an AI-native design process rather than prompt-only generation: concept definition, identity consistency, spatial control, multi-scene iteration and image-to-video production were treated as one connected creative workflow.",
+    "suggested_followups": [
+      "Want to see the workflow behind the character consistency?",
+      "I can show you the final scenes or walk through the hardest technical problem.",
+      "Would you like another example focused more on product design or creative leadership?"
+    ]
+  },
+  "open_questions": [
+    "Ingest the original Lightricks assignment brief.",
+    "Attach final images and video.",
+    "Attach screenshots or an export of the actual ComfyUI workflow.",
+    "Confirm the exact image-to-video tools used.",
+    "Confirm which outputs may be shown publicly.",
+    "Add any evaluator feedback or outcome if available."
+  ]
+}

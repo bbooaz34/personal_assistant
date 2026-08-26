@@ -1,0 +1,54 @@
+{
+  "id": "project_caesarstone_visualizer",
+  "name": "Caesarstone Visualizer",
+  "status": "draft",
+  "organization": "ByondXR",
+  "context": "Client product for Caesarstone, delivered at ByondXR.",
+  "role": "Design lead",
+  "summary": "A product visualization experience spanning multiple styles and layouts — including outdoor kitchens — deployed across several markets.",
+  "challenge": "Let customers visualize a physical surface product across many configurations and settings, consistently enough to work as a real purchasing aid rather than a showcase.",
+  "skills_demonstrated": ["Product Design", "UX/UI Design", "3D & Immersive Experience Design"],
+  "tools": ["Figma", "Blender"],
+  "evidence": [
+    {
+      "id": "evidence_owner_confirmation",
+      "type": "manual_confirmation",
+      "label": "Owner-confirmed project context",
+      "uri": null,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "Multi-market deployment is confirmed. Which markets, and the scale of each, are not documented."
+    }
+  ],
+  "media": [],
+  "conversation_hooks": [
+    {
+      "recruiter_intent": "Assess product thinking rather than visual output",
+      "trigger_topics": ["product design", "product thinking", "e-commerce", "conversion", "scale", "multi-market"],
+      "agent_response_goal": "This is the strongest product-side example available: a shipped commercial product with real deployment constraints, not a concept piece.",
+      "recommended_media_ids": []
+    },
+    {
+      "recruiter_intent": "Assess experience shipping to production",
+      "trigger_topics": ["shipped", "production", "real users", "deployment", "localization"],
+      "agent_response_goal": "Emphasise that this ran in multiple markets, which is a different discipline from a one-off experience.",
+      "recommended_media_ids": []
+    }
+  ],
+  "presentation": {
+    "default_component": "project_card",
+    "short_pitch": "A multi-market product visualizer for Caesarstone, covering many styles, layouts and settings.",
+    "long_pitch": "A commercial visualization product built at ByondXR that let customers see Caesarstone surfaces across styles, layouts and environments including outdoor kitchens, deployed across multiple markets.",
+    "suggested_followups": [
+      "Want to go deeper on the product decisions, or see the immersive/brand side of his work?",
+      "I can show how this compares with the Mastercard virtual city."
+    ]
+  },
+  "open_questions": [
+    "Ingest the case study, especially the product decisions and trade-offs.",
+    "Confirm which markets it deployed to.",
+    "Attach approved product screenshots.",
+    "Record any conversion or engagement outcome tied specifically to this product.",
+    "Clarify Boaz's scope versus the wider team's."
+  ]
+}

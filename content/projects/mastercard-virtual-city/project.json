@@ -1,0 +1,53 @@
+{
+  "id": "project_mastercard_virtual_city",
+  "name": "Mastercard Day Virtual City",
+  "status": "draft",
+  "organization": "ByondXR",
+  "context": "Client project for Mastercard, delivered at ByondXR.",
+  "role": "Creative lead",
+  "summary": "A Tel Aviv-inspired interactive virtual city built for Mastercard, combining exploration, gamification and avatar elements.",
+  "skills_demonstrated": ["Creative Direction", "UX/UI Design", "3D & Immersive Experience Design"],
+  "tools": ["Blender", "Figma"],
+  "evidence": [
+    {
+      "id": "evidence_owner_confirmation",
+      "type": "manual_confirmation",
+      "label": "Owner-confirmed project context",
+      "uri": null,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "The project and Boaz's involvement are confirmed. Specific decisions, team structure and outcomes are not yet documented and must not be described until they are."
+    }
+  ],
+  "media": [],
+  "conversation_hooks": [
+    {
+      "recruiter_intent": "Evaluate creative direction and immersive/XR experience",
+      "trigger_topics": ["creative direction", "XR", "3D", "immersive", "gamification", "brand experience"],
+      "agent_response_goal": "Use this as the clearest example of large-brand immersive work, while being explicit that detailed attribution awaits a case study.",
+      "recommended_media_ids": []
+    },
+    {
+      "recruiter_intent": "Assess fintech or financial services exposure",
+      "trigger_topics": ["fintech", "financial services", "payments", "banking"],
+      "agent_response_goal": "Note that the client was Mastercard, but do not overclaim fintech domain depth from a single brand experience project.",
+      "recommended_media_ids": []
+    }
+  ],
+  "presentation": {
+    "default_component": "project_card",
+    "short_pitch": "An interactive virtual city for Mastercard, built around exploration and gamification.",
+    "long_pitch": "A Tel Aviv-inspired virtual environment created for Mastercard at ByondXR, combining spatial exploration, gamification mechanics and avatars into a branded immersive experience.",
+    "suggested_followups": [
+      "Want to see other immersive work, or something more product-focused?",
+      "I can compare this with the Caesarstone Visualizer if you want to see the product side."
+    ]
+  },
+  "open_questions": [
+    "Ingest the case study: goals, constraints, and what Boaz personally decided.",
+    "Attach approved visuals and any demo footage.",
+    "Confirm team structure and Boaz's exact scope on this project.",
+    "Confirm what may be shown publicly given the client relationship.",
+    "Record any measurable outcome, or state explicitly that none is available."
+  ]
+}
