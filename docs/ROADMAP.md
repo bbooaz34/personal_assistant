@@ -46,14 +46,24 @@ extracted from the conversation. That needs a structured-output pass per turn.
 Opening selection, personality configuration, tone rules, and the abstract
 presence with idle/listening/thinking/speaking states.
 
-## Phase 6 — Voice — **contracts only**
+## Phase 6 — Realtime voice — **done**
 
-`packages/voice` defines the STT/TTS boundary and the presence states. Nothing
-is implemented.
+OpenAI Realtime API + Agents SDK + WebRTC, per PRD §23 and §39. Ephemeral
+client secrets minted server-side, `gpt-realtime-2.1`, semantic turn detection
+with barge-in, mixed-language transcription, text input during a voice session,
+component calls during spoken answers, and graceful fallback to text on every
+failure path.
 
-The invariant for whoever builds it: a voice turn goes through the *same*
-`prepareTurn` pipeline. Voice must never become a second path to the knowledge
-base with its own policy story.
+The invariant held: a voice turn reaches the knowledge base through the same
+`prepareTurn` pipeline as text. Voice did not become a second path with its own
+policy story — it became a *thinner* path, because the agent starts with no
+knowledge at all.
+
+Not yet done: transcript persistence for the post-session summary (Phase 7),
+and Hebrew quality has been checked only through the text pipeline.
+
+LiveKit remains deferred, per §23.6 — revisit only for telephony, multi-party
+audio, or provider abstraction.
 
 ## Phase 7 — Conversation intelligence — **types only**
 
@@ -92,8 +102,10 @@ Ordered by impact, not by phase number.
    asks. The internship platform shows what a documented project buys.
 3. **Close the two open claims** — whether the redesign shipped, and the ~90
    minute delivery time. Both currently constrain what the agent may say.
-4. **Session extraction (Phase 4).** Without it, the personalization that
+4. **Persist voice transcripts.** The session captures them; nothing stores
+   them, so Phase 7's summary has no voice input yet.
+5. **Session extraction (Phase 4).** Without it, the personalization that
    justifies the whole premise is only half-wired.
-5. **Semantic retrieval.** Mainly for Hebrew, where lexical matching does
+6. **Semantic retrieval.** Mainly for Hebrew, where lexical matching does
    nothing and intent rules carry the whole load.
-6. **An LLM-judged answer-quality suite** on top of the structural evals.
+7. **An LLM-judged answer-quality suite** on top of the structural evals.

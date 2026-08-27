@@ -19,7 +19,8 @@
     "knowledge:merge": "node --experimental-strip-types scripts/merge-knowledge.ts",
     "eval": "node --experimental-strip-types scripts/run-evals.ts",
     "clean": "rm -rf packages/*/dist packages/*/*.tsbuildinfo apps/web/.next",
-    "artifacts:import": "node --experimental-strip-types scripts/import-artifacts.ts"
+    "artifacts:import": "node --experimental-strip-types scripts/import-artifacts.ts",
+    "voice:smoke": "node scripts/voice-smoke.mjs"
   },
   "engines": {
     "node": ">=22.6.0"

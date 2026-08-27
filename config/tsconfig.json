@@ -9,6 +9,7 @@
     { "path": "../packages/agent" },
     { "path": "../packages/identity" },
     { "path": "../packages/policy" },
-    { "path": "../packages/ui" }
+    { "path": "../packages/ui" },
+    { "path": "../packages/voice" }
   ]
 }

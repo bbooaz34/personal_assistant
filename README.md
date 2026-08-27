@@ -9,7 +9,8 @@ Not a portfolio website with a chatbot attached. An **AI-native professional
 representation layer in which conversation dynamically assembles the most
 relevant portfolio for each visitor.**
 
-Full product and technical design: [`docs/design/personal_ai_representative_design_doc_v0.2.md`](docs/design/personal_ai_representative_design_doc_v0.2.md).
+Full product and technical design: [`docs/design/personal_ai_representative_PRD_v0.3.md`](docs/design/personal_ai_representative_PRD_v0.3.md)
+(v0.2 is kept alongside it for history — see [`docs/design/README.md`](docs/design/README.md)).
 
 ---
 
@@ -48,7 +49,7 @@ assembled, components render.
 | Generative UI registry and components | Working |
 | Conversational web app | Working |
 | Vector/semantic retrieval | Interface only — see *Known limits* |
-| Voice | Contracts only (Phase 6) |
+| Realtime voice (OpenAI Realtime + WebRTC) | Working — see *Voice* |
 | Session persistence, owner dashboard | Not started (Phases 7–8) |
 
 The one thing not verifiable here: an actual model call needs an API key.
@@ -68,7 +69,8 @@ cp .env.example .env
 ```
 
 Set `ANTHROPIC_API_KEY` in `.env` (or switch `AGENT_MODEL_PROVIDER` to `openai`
-or `google` and set the matching key). The file goes at the **repository root** —
+or `google` and set the matching key). Voice additionally needs
+`OPENAI_API_KEY`, whichever provider handles text. The file goes at the **repository root** —
 `apps/web/lib/env.ts` loads it from there, because Next on its own would only
 look inside `apps/web`. Keep comments on their own line; an inline `# ...`
 becomes part of the value.
@@ -86,6 +88,23 @@ npm run knowledge:validate && npm run eval
 ```
 
 ---
+
+## Voice
+
+Voice is a first-class mode, not speech-to-text over a chat box: the browser
+holds a `RealtimeSession` speaking to `gpt-realtime-2.1` over WebRTC, with
+barge-in, turn detection and spoken responses that render components mid-sentence.
+
+The security model is inverted from text and is the interesting part — the
+realtime agent begins with **no professional knowledge**, and every fact must
+come through a server endpoint that enforces policy. See *Voice, and why it is
+inverted* in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+
+Test it without a microphone:
+
+```bash
+npm run voice:smoke -- "How many designers does he manage right now?"
+```
 
 ## How a turn works
 

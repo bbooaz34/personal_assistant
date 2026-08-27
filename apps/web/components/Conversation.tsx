@@ -21,6 +21,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { AgentPresence, type PresenceState } from './AgentPresence';
 import { renderComponent } from './PortfolioComponents';
 import { RichText } from './RichText';
+import { VoiceControls } from './VoiceControls';
+import { useVoiceSession } from './useVoiceSession';
 import type { Portfolio } from './portfolio-types';
 
 interface Opening {
@@ -28,6 +30,11 @@ interface Opening {
   starterPrompts: string[];
   owner: { name: string; short_name: string; headline: string };
   selfReference: string;
+}
+
+interface VoiceSettings {
+  voice: string;
+  enabledComponents: string[];
 }
 
 /** Right-to-left when the text is predominantly Hebrew (§24). */
@@ -43,24 +50,55 @@ export function Conversation() {
   const [input, setInput] = useState('');
   const threadRef = useRef<HTMLDivElement>(null);
 
+  const [voiceSettings, setVoiceSettings] = useState<VoiceSettings | null>(null);
+
   const transport = useMemo(() => new DefaultChatTransport({ api: '/api/chat' }), []);
   const { messages, sendMessage, status, error } = useChat({ transport });
 
   useEffect(() => {
     fetch('/api/opening').then((r) => r.json()).then(setOpening).catch(() => undefined);
     fetch('/api/portfolio').then((r) => r.json()).then(setPortfolio).catch(() => undefined);
+    fetch('/api/realtime/settings').then((r) => r.json()).then(setVoiceSettings).catch(() => undefined);
   }, []);
+
+  // Voice and text share the agent, the policy, and the knowledge — they differ
+  // only in transport (§23.3). Nothing about the representative changes when a
+  // visitor switches from typing to talking.
+  const voice = useVoiceSession({
+    enabledComponents: voiceSettings?.enabledComponents ?? [],
+    voice: voiceSettings?.voice ?? 'marin',
+    agentName: opening?.selfReference ?? 'AI representative',
+    getSessionContext: () => ({}),
+  });
+  const voiceActive = voice.state === 'connected';
 
   useEffect(() => {
     threadRef.current?.scrollTo({ top: threadRef.current.scrollHeight, behavior: 'smooth' });
-  }, [messages, status]);
+  }, [messages, status, voice.transcript]);
 
-  const presence: PresenceState =
-    status === 'submitted' ? 'thinking' : status === 'streaming' ? 'speaking' : 'idle';
+  const presence: PresenceState = voiceActive
+    ? voice.speaking
+      ? 'speaking'
+      : 'listening'
+    : voice.state === 'connecting' || voice.state === 'requesting_permission'
+      ? 'thinking'
+      : status === 'submitted'
+        ? 'thinking'
+        : status === 'streaming'
+          ? 'speaking'
+          : 'idle';
 
   const send = (text: string) => {
     const trimmed = text.trim();
-    if (!trimmed || status === 'streaming' || status === 'submitted') return;
+    if (!trimmed) return;
+    // Typing during a voice call stays in the same conversation rather than
+    // starting a parallel text thread (§23.4).
+    if (voiceActive) {
+      voice.sendText(trimmed);
+      setInput('');
+      return;
+    }
+    if (status === 'streaming' || status === 'submitted') return;
     sendMessage({ text: trimmed });
     setInput('');
   };
@@ -160,6 +198,40 @@ export function Conversation() {
           );
         })}
 
+        {voice.transcript.map((entry) =>
+          entry.role === 'user' ? (
+            <div key={entry.id} className="flex justify-end">
+              <p
+                dir={directionOf(entry.text)}
+                className="max-w-prose rounded-2xl bg-[var(--color-surface-raised)] px-4 py-2.5 text-[15px] leading-relaxed"
+              >
+                {entry.text}
+              </p>
+            </div>
+          ) : (
+            <div key={entry.id} className="flex gap-3">
+              <AgentPresence state="idle" size={28} />
+              <div className="min-w-0 flex-1">
+                {entry.text ? <RichText text={entry.text} dir={directionOf(entry.text)} /> : null}
+                {portfolio
+                  ? entry.components.map((call) => (
+                      <div key={call.id}>{renderComponent(call.name, call.args, portfolio)}</div>
+                    ))
+                  : null}
+              </div>
+            </div>
+          ),
+        )}
+
+        {voiceActive && voice.transcript.length === 0 ? (
+          <div className="flex gap-3">
+            <AgentPresence state={voice.speaking ? 'speaking' : 'listening'} size={28} />
+            <p className="text-sm text-[var(--color-ink-faint)]">
+              {voice.muted ? 'Microphone muted.' : 'Listening — go ahead.'}
+            </p>
+          </div>
+        ) : null}
+
         {status === 'submitted' ? (
           <div className="flex gap-3">
             <AgentPresence state="thinking" size={28} />
@@ -193,7 +265,11 @@ export function Conversation() {
             }}
             rows={1}
             dir={directionOf(input)}
-            placeholder="Ask about his work, or tell me about the role you're hiring for…"
+            placeholder={
+              voiceActive
+                ? 'Type instead of speaking — same conversation…'
+                : "Ask about his work, or tell me about the role you're hiring for…"
+            }
             className="max-h-40 flex-1 resize-none bg-transparent px-2 py-1.5 text-[15px] outline-none placeholder:text-[var(--color-ink-faint)]"
             aria-label="Message"
           />
@@ -205,10 +281,21 @@ export function Conversation() {
             Send
           </button>
         </div>
-        <p className="mt-2 px-2 text-[11px] text-[var(--color-ink-faint)]">
-          An AI representative, not {opening?.owner.short_name ?? 'the person'} himself. Answers come from a
-          verified knowledge base — it will tell you when something is not in there.
-        </p>
+        <div className="mt-2 flex flex-wrap items-start justify-between gap-2 px-1">
+          <VoiceControls
+            state={voice.state}
+            failure={voice.failure}
+            muted={voice.muted}
+            onStart={voice.start}
+            onStop={voice.stop}
+            onToggleMute={voice.toggleMute}
+          />
+          <p className="max-w-md px-1 text-[11px] leading-relaxed text-[var(--color-ink-faint)]">
+            An AI representative, not {opening?.owner.short_name ?? 'the person'} himself — including the
+            voice. Answers come from a verified knowledge base; it will tell you when something is not
+            in there.
+          </p>
+        </div>
       </form>
     </div>
   );

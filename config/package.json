@@ -12,7 +12,9 @@
       "default": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -b",
     "clean": "rm -rf dist *.tsbuildinfo"
@@ -21,6 +23,7 @@
     "@par/agent": "*",
     "@par/identity": "*",
     "@par/policy": "*",
-    "@par/ui": "*"
+    "@par/ui": "*",
+    "@par/voice": "*"
   }
 }

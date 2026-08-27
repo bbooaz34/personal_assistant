@@ -130,6 +130,55 @@ leaves a dangling `tool_use` block, and providers reject the next request in the
 conversation — so omitting it broke the thread on the message after any
 component rendered.
 
+## Voice, and why it is inverted
+
+Text and voice share the agent, the policy, the knowledge and the component
+registry. They differ in *where the choke point is*, and that difference is the
+whole voice design.
+
+In text the server sits between the visitor and the model, so `prepareTurn`
+runs policy before the model sees anything. In voice the browser holds a
+`RealtimeSession` talking to OpenAI over WebRTC — the model hears the
+microphone directly and there is no per-turn server hook.
+
+So the guarantee is preserved differently:
+
+> **The realtime agent starts with no professional knowledge at all.**
+
+Its instructions carry identity, tone and boundaries — never facts. Every
+factual claim requires a `retrieve_evidence` call, which is a *server* endpoint
+running the same pipeline as text. A visitor who talks the model out of its
+instructions still gets nothing: there is no knowledge in the context to reach,
+and the only route to more is a server that will not serve it.
+
+```
+Browser                          Server
+  │ POST /api/realtime/token  →  mints ek_… from OPENAI_API_KEY
+  │                              (instructions pinned to the token)
+  ▼
+RealtimeSession ── WebRTC ──▶ OpenAI Realtime (gpt-realtime-2.1)
+  │
+  ├── retrieve_evidence  ──▶  POST /api/realtime/evidence   [PRIVILEGED]
+  │                             prepareTurn → policy → retrieval
+  └── show_project etc.  ──▶  render locally                [PUBLIC ACTION]
+```
+
+This is PRD §39's rule — privileged operations must not be browser-trusted
+functions — expressed as an architecture rather than a warning.
+
+Two consequences worth knowing:
+
+- **A refusal may never reach the server.** The closed-topic list is in the
+  instructions, so the model often declines without retrieving. That is fine:
+  the server would refuse too, and defence in depth means either layer stopping
+  it is a success. It does mean voice refusals are not all captured in the
+  evidence log.
+- **`npm run voice:smoke` tests this without a microphone.** It drives the same
+  instructions, tool and endpoint over the websocket transport. The failures
+  that matter in a voice agent — does it retrieve before asserting, does it
+  honour a refusal, does it admit when nothing is documented — need no audio to
+  reproduce.
+
 ## Swapping the infrastructure
 
 Each of these is a single seam, by design:
@@ -141,7 +190,7 @@ Each of these is a single seam, by design:
 | Knowledge from Postgres | replace `loadKnowledge`; `KnowledgeRepository` is the contract |
 | Different owner | `config/*` and `content/*` |
 | assistant-ui shell | `apps/web/components/Conversation.tsx` |
-| Voice | implement `packages/voice` contracts against LiveKit |
+| Realtime provider | `config/voice.config.ts` + the two `/api/realtime` routes |
 
 ## Deviation from the design doc
 
