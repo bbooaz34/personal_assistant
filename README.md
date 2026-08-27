@@ -93,8 +93,9 @@ npm run knowledge:validate && npm run eval
 
 The agent starts the conversation. Behind a blurred entry gate — one button,
 which is what buys the browser's permission to play sound — the camera flies in,
-the orb arrives with a chime, and the representative introduces itself over the
-scene with the conversation panel still closed. The panel opens when it reaches
+the orb arrives with a chime, and the representative **speaks** its introduction
+over the scene with the conversation panel still closed — in the same voice the
+live conversation uses, and without needing your microphone to do it. The panel opens when it reaches
 the three project peeks, because that is the first thing that needs somewhere to
 live.
 

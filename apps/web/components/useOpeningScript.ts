@@ -22,7 +22,12 @@ export interface OpeningBeat {
 
 export type OpeningPhase = 'waiting' | 'delivering' | 'peeks' | 'done' | 'abandoned';
 
-/** Roughly reading pace, so beats land as they would be spoken. */
+/**
+ * Fallback pacing when the line is not spoken aloud.
+ *
+ * Only used when speech is muted or unavailable — when the agent is actually
+ * speaking, a beat ends when the sentence ends, which no timer can guess.
+ */
 function beatDelay(text: string): number {
   return Math.min(4200, Math.max(1400, text.length * 32));
 }
@@ -32,6 +37,7 @@ export function useOpeningScript({
   afterPeeks,
   hasPeeks,
   enabled,
+  say,
   onStart,
   onPeeks,
   onFinish,
@@ -41,6 +47,11 @@ export function useOpeningScript({
   hasPeeks: boolean;
   /** False while the opening should not run at all (e.g. voice is driving it). */
   enabled: boolean;
+  /**
+   * Speaks a line and resolves when it finishes. Returns false if nothing was
+   * spoken, in which case the beat falls back to a reading-pace delay.
+   */
+  say?: (text: string) => Promise<boolean>;
   onStart?: () => void;
   /**
    * Fired when the script reaches the project peeks.
@@ -59,6 +70,15 @@ export function useOpeningScript({
   const started = useRef(false);
   const callbacks = useRef({ onStart, onPeeks, onFinish });
   callbacks.current = { onStart, onPeeks, onFinish };
+  /**
+   * Held in a ref, never in the effect's dependencies.
+   *
+   * `say` is rebuilt on every render, and delivering a beat sets state — so
+   * listing it as a dependency made each beat cancel the sequence that was
+   * delivering it. The opening died silently after its first line.
+   */
+  const sayRef = useRef(say);
+  sayRef.current = say;
 
   const interrupt = useCallback(() => {
     if (phase === 'done' || phase === 'abandoned') return;
@@ -87,7 +107,12 @@ export function useOpeningScript({
       for (const [index, text] of beats.entries()) {
         if (cancelled || abandoned.current) return;
         setDelivered((current) => [...current, { id: `beat-${index}`, text }]);
-        await wait(beatDelay(text));
+        // A spoken beat ends when the sentence ends; only a silent one needs
+        // a timer.
+        const spoken = sayRef.current ? await sayRef.current(text) : false;
+        if (cancelled || abandoned.current) return;
+        if (!spoken) await wait(beatDelay(text));
+        else await wait(320); // a breath between thoughts
       }
       if (cancelled || abandoned.current) return;
 
@@ -99,6 +124,7 @@ export function useOpeningScript({
         if (cancelled || abandoned.current) return;
         if (afterPeeks) {
           setDelivered((current) => [...current, { id: 'after-peeks', text: afterPeeks }]);
+          if (sayRef.current) await sayRef.current(afterPeeks);
         }
       }
 

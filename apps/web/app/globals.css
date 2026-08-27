@@ -444,6 +444,10 @@ body {
 }
 #chatForm button:active { transform: scale(0.94); }
 #chatForm button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+#soundBtn[aria-pressed="true"] {
+  color: var(--color-ink-faint);
+  background: rgba(255, 255, 255, 0.3);
+}
 #micBtn.listening {
   background: rgba(255, 94, 200, 0.30);
   border-color: rgba(255, 94, 200, 0.55);

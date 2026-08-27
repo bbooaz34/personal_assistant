@@ -182,6 +182,20 @@ project peeks         panel OPENS — the work needs somewhere to live
 follow-up line        hands the turn back; presence returns to calm
 ```
 
+The agent **speaks** the introduction — that is the default, and the caption
+under the orb is the text variant that appears only when speech is muted or
+unavailable. Synthesis runs server-side through `/api/speech` in the same voice
+the realtime session uses, so the representative sounds like one thing whether
+it is introducing itself or answering a question.
+
+It speaks without a microphone on purpose: speaking is not listening, and
+asking for mic access before saying hello would be the wrong trade. The realtime
+session takes over only when the visitor chooses to talk back.
+
+Beats advance when the *sentence* ends rather than on a timer — but never wait
+on `ended` alone, because a stalled decode or a throttled tab will simply never
+fire it, and one unresolved line hangs the whole introduction on a blank screen.
+
 The entry gate is not ceremony. Browsers refuse audio until the visitor
 interacts, so on autoplay the flight and chime are silently dropped; one click
 buys the sound, and the engine opens a single `AudioContext` inside that

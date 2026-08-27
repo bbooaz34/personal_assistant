@@ -46,7 +46,12 @@ export function OrbStage({
     );
     engineRef.current = engine;
     setWebglOk(engine.webglOk);
-    if (!engine.webglOk) document.body.classList.remove('pre-reveal');
+    if (!engine.webglOk) {
+      // No renderer means no entry flight and therefore no reveal event. The
+      // conversation must not be gated on a frame that will never arrive.
+      document.body.classList.remove('pre-reveal');
+      hooksRef.current.onReveal?.();
+    }
 
     return () => {
       engine.destroy();

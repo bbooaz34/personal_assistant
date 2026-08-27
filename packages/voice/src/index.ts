@@ -72,6 +72,19 @@ export interface VoiceConfig {
   };
   /** Seconds a minted client secret stays valid. Short by design. */
   tokenTtlSeconds: number;
+  /**
+   * Speech synthesis for the scripted opening.
+   *
+   * The agent speaks its introduction before anyone has granted a microphone —
+   * speaking is not listening, and demanding mic access just to be greeted
+   * would be the wrong trade. The realtime session takes over once the visitor
+   * chooses to talk back.
+   */
+  speech: {
+    model: string;
+    /** Delivery note; the same voice as the realtime session carries it. */
+    instructions: string;
+  };
 }
 
 /** What the server returns for a `retrieve_evidence` call. */
@@ -114,4 +127,11 @@ export const DEFAULT_VOICE_CONFIG: VoiceConfig = {
     // product explicitly supports.
   },
   tokenTtlSeconds: 600,
+  speech: {
+    model: 'gpt-4o-mini-tts',
+    instructions:
+      'Warm, calm and unhurried. Professionally informal, the way a thoughtful colleague talks — ' +
+      'confident without selling anything. Land the ends of sentences rather than trailing off, and ' +
+      'leave a small breath between thoughts.',
+  },
 };

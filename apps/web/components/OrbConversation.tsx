@@ -25,6 +25,7 @@ import { EntryScreen } from './EntryScreen';
 import { OrbStage } from './orb/OrbStage';
 import { ProjectPeeks, type PeekCard } from './ProjectPeeks';
 import { useOpeningScript } from './useOpeningScript';
+import { useSpeech } from './useSpeech';
 import type { OrbEngine } from './orb/engine';
 import { renderComponent } from './PortfolioComponents';
 import { RichText } from './RichText';
@@ -93,6 +94,9 @@ export function OrbConversation() {
   const [entered, setEntered] = useState(false);
   const [entryLeaving, setEntryLeaving] = useState(false);
   const [entryReady, setEntryReady] = useState(true);
+  // The orb has to arrive before it starts talking: beats fired during the
+  // camera flight had the agent introducing itself to an empty sky.
+  const [revealed, setRevealed] = useState(false);
 
   const engineRef = useRef<OrbEngine | null>(null);
   // Read at connect time, so hitting Talk mid-conversation does not make the
@@ -104,6 +108,8 @@ export function OrbConversation() {
 
   const transport = useMemo(() => new DefaultChatTransport({ api: '/api/chat' }), []);
   const { messages, sendMessage, status, error } = useChat({ transport });
+
+  const speech = useSpeech();
 
   const voice = useVoiceSession({
     enabledComponents: voiceSettings?.enabledComponents ?? [],
@@ -133,7 +139,13 @@ export function OrbConversation() {
     beats: opening?.beats ?? null,
     afterPeeks: opening?.afterPeeks ?? null,
     hasPeeks: peeks.length > 0,
-    enabled: entered && Boolean(opening) && !voiceActive && voice.state === 'disconnected',
+    enabled:
+      entered && revealed && Boolean(opening) && !voiceActive && voice.state === 'disconnected',
+    say: async (text: string) => {
+      if (speech.muted || !speech.available) return false;
+      await speech.say(text);
+      return !speech.muted && speech.available;
+    },
     onStart: () => {
       // The panel stays closed through the introduction. The agent is speaking
       // over the scene; the orb is the thing to look at, not a chat box.
@@ -148,14 +160,27 @@ export function OrbConversation() {
     },
   });
 
+  // Safety net: the reveal is driven by the render loop, which a browser will
+  // throttle in a background tab. The introduction must not be lost because
+  // the visitor looked away during the flight.
+  useEffect(() => {
+    if (!entered || revealed) return;
+    const timer = setTimeout(() => setRevealed(true), 6000);
+    return () => clearTimeout(timer);
+  }, [entered, revealed]);
+
   const enter = useCallback(() => {
-    // Inside the gesture: this is what unlocks audio for the flight and chime.
+    // Inside the gesture: this is what unlocks audio for the flight, the chime,
+    // and the agent's own voice.
     engineRef.current?.begin();
+    // Warm the first lines during the camera flight so the agent does not
+    // arrive and then pause while the network answers.
+    if (opening) speech.prefetch([...opening.beats, opening.afterPeeks]);
     setEntryLeaving(true);
     setEntered(true);
     // Unmount once the blur has finished lifting.
     setTimeout(() => setEntryReady(false), 1000);
-  }, []);
+  }, [opening, speech]);
 
   const showStatus = useCallback((text: string | null, sticky?: boolean) => {
     clearTimeout(statusTimer.current);
@@ -263,6 +288,7 @@ export function OrbConversation() {
     const trimmed = text.trim();
     if (!trimmed) return;
     script.interrupt();
+    speech.stop();
     refreshPeeks(trimmed);
     setChatOpen(true);
     // Typing during a voice call stays in the same conversation (§23.4).
@@ -282,6 +308,7 @@ export function OrbConversation() {
       showStatus(null);
     } else {
       script.interrupt();
+      speech.stop();
       void voice.start();
     }
   };
@@ -318,6 +345,7 @@ export function OrbConversation() {
         engineRef={engineRef}
         hooks={{
           onStatus: showStatus,
+          onReveal: () => setRevealed(true),
           getDockAnchor: () => {
             const rect = chatRef.current?.getBoundingClientRect();
             // the porthole sits 38px, 35px into the panel (see the CSS mask)
@@ -335,8 +363,10 @@ export function OrbConversation() {
         />
       ) : null}
 
-      {/* The agent speaks over the scene while the panel is still closed. */}
-      {!chatOpen && script.currentBeat ? (
+      {/* The agent speaks over the scene while the panel is still closed.
+          The caption is the text variant: it appears when the line is not
+          being spoken aloud, not alongside it. */}
+      {!chatOpen && script.currentBeat && (speech.muted || !speech.available) ? (
         <div id="caption" aria-live="polite">
           <p key={script.currentBeat.id} dir={directionOf(script.currentBeat.text)}>
             {script.currentBeat.text}
