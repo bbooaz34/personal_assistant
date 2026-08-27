@@ -36,6 +36,12 @@ reaches for.
 
 ## Phase 4 — Recruiter discovery — **partial**
 
+The opening now does half of it without a model: a named role is detected by
+rule table and re-selects the three project peeks (`detectPeekFocus`). What is
+still missing is writing that back into session state so the *answers* narrow
+too, not just the rail.
+
+
 Session state, the update reducer, and the anti-interrogation rule are
 implemented and passed into the prompt. What is missing is the agent *writing*
 back to it: role, company, priorities and concerns are read but not yet

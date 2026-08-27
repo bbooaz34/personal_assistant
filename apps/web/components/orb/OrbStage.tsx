@@ -30,14 +30,20 @@ export function OrbStage({
     // The UI waits for the orb: wordmark and pill rise in at the reveal.
     document.body.classList.add('pre-reveal');
 
-    const engine = new OrbEngine(canvas, {
-      onStatus: (text, sticky) => hooksRef.current.onStatus?.(text, sticky),
-      onReveal: () => {
-        document.body.classList.remove('pre-reveal');
-        hooksRef.current.onReveal?.();
+    const engine = new OrbEngine(
+      canvas,
+      {
+        onStatus: (text, sticky) => hooksRef.current.onStatus?.(text, sticky),
+        onReveal: () => {
+          document.body.classList.remove('pre-reveal');
+          hooksRef.current.onReveal?.();
+        },
+        getDockAnchor: () => hooksRef.current.getDockAnchor?.() ?? null,
       },
-      getDockAnchor: () => hooksRef.current.getDockAnchor?.() ?? null,
-    });
+      // Held on its first frame until the entry gesture, so the flight and its
+      // sound arrive together.
+      { deferStart: true },
+    );
     engineRef.current = engine;
     setWebglOk(engine.webglOk);
     if (!engine.webglOk) document.body.classList.remove('pre-reveal');

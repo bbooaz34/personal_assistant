@@ -164,6 +164,47 @@ and portraits). The body came over; the mind, voice, and evidence stayed ours �
 text through `/api/chat`, voice through the realtime session, components
 resolved only for ids the server returned.
 
+## The opening
+
+The agent starts the conversation rather than waiting to be addressed
+(recruiter script v0.1), and the panel is choreographed to the script rather
+than opening on load:
+
+```
+entry gate            blurred first frame + one button
+   ↓  (click unlocks audio)
+camera flight         whoosh, reveal, chime — now audible
+   ↓
+beats 1–3             spoken over the scene, panel CLOSED, caption under the orb
+   ↓
+project peeks         panel OPENS — the work needs somewhere to live
+   ↓
+follow-up line        hands the turn back; presence returns to calm
+```
+
+The entry gate is not ceremony. Browsers refuse audio until the visitor
+interacts, so on autoplay the flight and chime are silently dropped; one click
+buys the sound, and the engine opens a single `AudioContext` inside that
+gesture which stays unlocked for the chime seconds later.
+
+**The panel stays closed through the introduction.** While the agent is
+introducing itself the orb is the thing to look at, and a chat box would only
+be a container with nothing in it. The peeks are the first content that needs a
+home, so that is where it opens.
+
+**Which three projects appear is selected from evidence** (`selectProjectPeeks`),
+never authored. Axis scores come from the *categories* of the skills a project
+demonstrates, plus the role it was performed in — so a project earns the AI slot
+by demonstrating AI skills, and the leadership slot by having been led. At
+session start the selection is breadth, one per discipline; once a role is named
+the slots dissolve and the top three by focus-weighted score win, which is how
+"Senior Product Designer" replaces the spread with product work.
+
+The whole thing is abandonable. Typing, submitting, opening a peek, or starting
+voice all call `interrupt()`, and the script never resumes — finishing a
+scripted introduction after someone has told you what they need is the rudest
+thing the agent could do.
+
 ## Voice, and why it is inverted
 
 Text and voice share the agent, the policy, the knowledge and the component

@@ -67,6 +67,14 @@ export function buildSystemPrompt(context: PromptContext): string {
   );
 
   blocks.push(section('How you speak', renderVoice(identity.voice)));
+
+  blocks.push(
+    section('What not to do', [
+      'Do not recite the CV, list software, list companies, or lead with years of experience.',
+      'Do not explain how you are built. The visitor came to learn about ' + owner.short_name + '.',
+      'Do not ask the visitor to describe their role before you have shown them anything useful.',
+    ]),
+  );
   blocks.push(section('How you behave', renderBehaviour(identity.behaviour)));
 
   blocks.push(

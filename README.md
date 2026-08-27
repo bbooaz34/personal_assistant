@@ -89,6 +89,20 @@ npm run knowledge:validate && npm run eval
 
 ---
 
+## The opening
+
+The agent starts the conversation. Behind a blurred entry gate — one button,
+which is what buys the browser's permission to play sound — the camera flies in,
+the orb arrives with a chime, and the representative introduces itself over the
+scene with the conversation panel still closed. The panel opens when it reaches
+the three project peeks, because that is the first thing that needs somewhere to
+live.
+
+Which three projects appear is chosen from evidence, not written into a script,
+and re-selects the moment a visitor names the role they are hiring for. The
+whole introduction is abandonable: type, or start talking, and it stops where it
+is and never resumes.
+
 ## The interface
 
 The representative is an orb — a raymarched WebGL2 presence in a daylight

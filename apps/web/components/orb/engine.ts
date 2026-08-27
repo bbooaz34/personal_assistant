@@ -27,6 +27,18 @@ import { VERT, FRAG } from './shaders';
 export type OrbMode = 'calm' | 'speaking' | 'heartbeat' | 'live';
 export type OrbShape = 0 | 1 | 2 | 3 | 4; // orb · question · ball · lava · heart
 
+export interface OrbEngineOptions {
+  /**
+   * Hold the entry flight until `begin()` is called.
+   *
+   * The entry screen exists so the first sound the visitor hears is not
+   * blocked: browsers only allow audio after a user gesture, so the flight's
+   * whoosh and the reveal chime are silent on autoplay. Deferring the intro to
+   * a click means the scene and its sound arrive together.
+   */
+  deferStart?: boolean;
+}
+
 export interface OrbEngineHooks {
   /** Status line for the input placeholder. `null` clears it. */
   onStatus?: (text: string | null, sticky?: boolean) => void;
@@ -127,10 +139,20 @@ export class OrbEngine {
   private pendingShimmer = false;
   private introFly: number;
   private introReveal: number;
+  /** True while waiting for `begin()`: the scene holds on its first frame. */
+  private deferred = false;
+  /**
+   * One AudioContext for the whole session, created inside the entry gesture.
+   * Creating a fresh one per sound worked only when autoplay happened to be
+   * permitted; opened during a click, this one stays unlocked for the chime
+   * that plays seconds later.
+   */
+  private audioCtx: AudioContext | null = null;
 
-  constructor(canvas: HTMLCanvasElement, hooks: OrbEngineHooks = {}) {
+  constructor(canvas: HTMLCanvasElement, hooks: OrbEngineHooks = {}, options: OrbEngineOptions = {}) {
     this.canvas = canvas;
     this.hooks = hooks;
+    this.deferred = options.deferStart === true;
     this.introFly = this.reduceMotion.matches ? 0 : 3.2;
     this.introReveal = this.reduceMotion.matches ? 0.6 : 1.3;
 
@@ -171,8 +193,27 @@ export class OrbEngine {
     this.t0 = performance.now();
     this.lastFrame = this.t0;
     this.lastInteraction = this.t0;
-    if (this.introFly > 0) this.playWhoosh(this.introFly + 0.4);
+    if (!this.deferred) this.begin();
     this.raf = requestAnimationFrame((now) => this.frame(now));
+  }
+
+  /**
+   * Start the entry flight. Call from a user gesture so the sound is allowed.
+   */
+  begin(): void {
+    if (!this.deferred && this.t0 !== 0 && this.revealTriggered) return;
+    this.deferred = false;
+    this.t0 = performance.now();
+    this.lastFrame = this.t0;
+    this.lastInteraction = this.t0;
+    this.revealTriggered = false;
+    // Opened synchronously inside the gesture, which is what unlocks audio.
+    try {
+      const ctx = new AudioContext();
+      void ctx.resume().catch(() => {});
+      this.audioCtx = ctx;
+    } catch { /* no audio: the scene is silent, the world goes on */ }
+    if (this.introFly > 0) this.playWhoosh(this.introFly + 0.4);
   }
 
   destroy(): void {
@@ -180,6 +221,7 @@ export class OrbEngine {
     cancelAnimationFrame(this.raf);
     this.observer?.disconnect();
     this.stopMic();
+    this.audioCtx?.close().catch(() => {});
     for (const cleanup of this.cleanups) cleanup();
     this.cleanups = [];
   }
@@ -368,10 +410,11 @@ export class OrbEngine {
   // the magical chime: a rising pentatonic sparkle, synthesised on the spot
   private playShimmer(): boolean {
     try {
-      const ctx = new AudioContext();
+      const ctx = this.audioCtx;
+      if (!ctx) return true; // nothing to retry
       if (ctx.state === 'suspended') {
-        ctx.close().catch(() => {});
-        return false; // blocked until a user gesture: retry then
+        void ctx.resume().catch(() => {});
+        return false; // still blocked: retry on the next gesture
       }
       const master = ctx.createGain();
       master.gain.value = 0.15;
@@ -391,7 +434,6 @@ export class OrbEngine {
         o.start(at);
         o.stop(at + 1.7);
       });
-      setTimeout(() => ctx.close().catch(() => {}), 3500);
       return true;
     } catch {
       return true;
@@ -401,11 +443,9 @@ export class OrbEngine {
   // a soft whoosh under the camera flight: filtered noise sweeping upward
   private playWhoosh(seconds: number): void {
     try {
-      const ctx = new AudioContext();
-      if (ctx.state === 'suspended') {
-        ctx.close().catch(() => {});
-        return; // autoplay blocked: the flight is silent, the world goes on
-      }
+      const ctx = this.audioCtx;
+      if (!ctx) return;
+      if (ctx.state === 'suspended') void ctx.resume().catch(() => {});
       const len = Math.ceil(ctx.sampleRate * seconds);
       const buf = ctx.createBuffer(1, len, ctx.sampleRate);
       const data = buf.getChannelData(0);
@@ -426,7 +466,6 @@ export class OrbEngine {
       g.connect(ctx.destination);
       src.start();
       src.stop(ctx.currentTime + seconds);
-      setTimeout(() => ctx.close().catch(() => {}), (seconds + 0.5) * 1000);
     } catch { /* sound is a garnish, never an error */ }
   }
 
@@ -437,6 +476,31 @@ export class OrbEngine {
     this.lastFrame = now;
     const speed = this.reduceMotion.matches ? 0.25 : 1.0;
     const t = ((now - this.t0) / 1000) * speed;
+
+    // Before `begin()`, hold the opening frame: the camera far out in the
+    // cloudscape with no orb yet. This is what the entry screen blurs.
+    if (this.deferred) {
+      const gl0 = this.gl!;
+      const U0 = this.uniforms;
+      gl0.uniform2f(U0.uRes!, this.canvas.width, this.canvas.height);
+      gl0.uniform1f(U0.uTime!, t);
+      gl0.uniform1f(U0.uPulse!, 0);
+      gl0.uniform1f(U0.uEnergy!, 0.3);
+      gl0.uniform2f(U0.uLook!, 0.9, -0.38);
+      gl0.uniform1f(U0.uKick!, 0);
+      gl0.uniform1f(U0.uZoom!, ZOOM_FAR);
+      gl0.uniform1f(U0.uDock!, 0);
+      gl0.uniform1f(U0.uReveal!, 0);
+      gl0.uniform1f(U0.uBurst!, 0);
+      gl0.uniform1f(U0.uShift!, 0);
+      gl0.uniform1f(U0.uShiftY!, 0);
+      gl0.uniform1f(U0.uShapeA!, 0);
+      gl0.uniform1f(U0.uShapeB!, 0);
+      gl0.uniform1f(U0.uMorph!, 1);
+      gl0.drawArrays(gl0.TRIANGLES, 0, 3);
+      this.raf = requestAnimationFrame((n) => this.frame(n));
+      return;
+    }
 
     let target: number;
     if (this.mode === 'live' && this.mic) target = this.micEnvelope();

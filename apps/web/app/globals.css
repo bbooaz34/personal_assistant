@@ -449,3 +449,193 @@ body {
   border-color: rgba(255, 94, 200, 0.55);
   color: var(--color-ink);
 }
+
+/* ── project peeks: the three pieces of work offered at the opening ─────── */
+.peeks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 2px 0 6px;
+}
+.peeks-focus {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  padding-inline-start: 2px;
+}
+.peek {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  text-align: start;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 2px 8px rgba(80, 60, 160, 0.07);
+  cursor: pointer;
+  font: inherit;
+  transition: background 180ms var(--ease-out), transform 180ms var(--ease-out),
+    box-shadow 180ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .peek:hover {
+    background: rgba(255, 255, 255, 0.78);
+    transform: translateY(-1px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 6px 16px rgba(80, 60, 160, 0.12);
+  }
+}
+.peek:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.peek:active { transform: scale(0.995); }
+.peek-name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.peek-live {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  background: rgba(89, 232, 255, 0.4);
+  border: 1px solid rgba(89, 232, 255, 0.6);
+  border-radius: 999px;
+  padding: 2px 7px;
+}
+.peek-hook { font-size: 13px; line-height: 1.45; color: var(--color-ink-muted); }
+.peek-supporting { font-size: 11.5px; line-height: 1.5; color: var(--color-ink-faint); }
+.peek-cta {
+  margin-top: 4px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* ── entry gate ────────────────────────────────────────────────────────── */
+#entry {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  /* the held first frame, blurred: the scene is already there, out of focus */
+  backdrop-filter: blur(26px) saturate(1.25);
+  -webkit-backdrop-filter: blur(26px) saturate(1.25);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.5), rgba(238, 240, 247, 0.62));
+  transition: opacity 900ms var(--ease-out), backdrop-filter 900ms var(--ease-out);
+}
+#entry.leaving {
+  opacity: 0;
+  backdrop-filter: blur(0px) saturate(1);
+  -webkit-backdrop-filter: blur(0px) saturate(1);
+  pointer-events: none;
+}
+#entryInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 0 24px;
+}
+#entryInner h1 {
+  font-size: clamp(20px, 3.4vw, 30px);
+  font-weight: 600;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  text-shadow: 0 0 24px rgba(255, 255, 255, 0.9);
+}
+#entryInner > p {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+#entryInner button {
+  appearance: none;
+  margin-top: 22px;
+  padding: 14px 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px) saturate(1.7);
+  -webkit-backdrop-filter: blur(20px) saturate(1.7);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 10px 30px rgba(80, 60, 160, 0.16);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: transform 220ms var(--ease-out), background 220ms var(--ease-out),
+    box-shadow 220ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  #entryInner button:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: translateY(-1px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1), 0 14px 38px rgba(80, 60, 160, 0.2);
+  }
+}
+#entryInner button:active { transform: scale(0.985); }
+#entryInner button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+#entryInner .entryNote {
+  margin-top: 4px;
+  font-family: inherit;
+  font-size: 11.5px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-ink-faint);
+}
+
+/* ── opening caption: the agent speaking while the panel is still closed ── */
+#caption {
+  position: fixed;
+  left: 50%;
+  bottom: 132px;
+  transform: translateX(-50%);
+  z-index: 4;
+  width: min(620px, calc(100vw - 48px));
+  text-align: center;
+  pointer-events: none;
+}
+#caption p {
+  display: inline-block;
+  padding: 14px 22px;
+  border-radius: 22px;
+  font-size: clamp(15px, 1.5vw, 17px);
+  line-height: 1.55;
+  color: var(--color-ink);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(22px) saturate(1.6);
+  -webkit-backdrop-filter: blur(22px) saturate(1.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 14px 40px rgba(80, 60, 160, 0.13);
+  transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out);
+}
+@starting-style {
+  #caption p { opacity: 0; transform: translateY(10px); }
+}
+#caption.fading p { opacity: 0; transform: translateY(-6px); }
+@media (prefers-reduced-motion: reduce) {
+  #caption p { transition: opacity 300ms var(--ease-out); }
+  @starting-style { #caption p { transform: none; } }
+  #caption.fading p { transform: none; }
+}
+@media (max-width: 620px) {
+  #caption { bottom: 116px; }
+}

@@ -14,14 +14,17 @@
 
 import OpenAI from 'openai';
 import { PolicyEngine } from '@par/policy';
-import { buildVoiceInstructions } from '@par/identity';
+import { buildVoiceInstructions, selectOpening } from '@par/identity';
 import { VOICE_TOOL_RETRIEVE } from '@par/voice';
 import { identityConfig, privacyConfig, voiceConfig, enabledTools } from '@par/config';
 import '@/lib/env';
 
 export const runtime = 'nodejs';
 
-export async function POST(): Promise<Response> {
+export async function POST(request: Request): Promise<Response> {
+  const body = (await request.json().catch(() => ({}))) as { conversationStarted?: unknown };
+  const conversationStarted = body.conversationStarted === true;
+
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return Response.json(
@@ -31,8 +34,11 @@ export async function POST(): Promise<Response> {
   }
 
   const policy = new PolicyEngine(privacyConfig);
+  const opening = selectOpening(identityConfig, {});
   const instructions = buildVoiceInstructions({
     identity: identityConfig,
+    openingBeats: opening.beats,
+    conversationStarted,
     closedTopics: policy.closedTopics('public_visitor').map((rule) => ({
       topic: rule.topic,
       ...(rule.refusal ? { refusal: rule.refusal } : {}),

@@ -64,11 +64,14 @@ export function useVoiceSession({
   voice,
   agentName,
   getSessionContext,
+  conversationStarted,
 }: {
   enabledComponents: readonly string[];
   voice: string;
   agentName: string;
   getSessionContext: () => Record<string, unknown>;
+  /** True when the visitor has already been greeted in text. */
+  conversationStarted?: () => boolean;
 }): UseVoiceSession {
   const [state, setState] = useState<VoiceConnectionState>('disconnected');
   const [failure, setFailure] = useState<VoiceFailureReason | null>(null);
@@ -123,7 +126,11 @@ export function useVoiceSession({
 
     let token: TokenResponse;
     try {
-      const response = await fetch('/api/realtime/token', { method: 'POST' });
+      const response = await fetch('/api/realtime/token', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ conversationStarted: conversationStarted?.() ?? false }),
+      });
       token = (await response.json()) as TokenResponse;
       if (!response.ok || !token.value) throw new Error(token.error ?? 'no token');
     } catch {
@@ -209,7 +216,7 @@ export function useVoiceSession({
       setFailure('transport_failed');
       setState('failed');
     }
-  }, [agentName, enabledComponents, voice]);
+  }, [agentName, enabledComponents, voice, conversationStarted]);
 
   const toggleMute = useCallback(() => {
     const session = sessionRef.current;

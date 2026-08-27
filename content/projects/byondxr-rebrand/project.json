@@ -6,8 +6,14 @@
   "context": "Internal brand project.",
   "role": "Creative lead",
   "summary": "A full rebrand covering logo, website and visual language.",
-  "skills_demonstrated": ["Visual Identity Design", "Creative Direction"],
-  "tools": ["Adobe Creative Suite", "Figma"],
+  "skills_demonstrated": [
+    "Visual Identity Design",
+    "Creative Direction"
+  ],
+  "tools": [
+    "Adobe Creative Suite",
+    "Figma"
+  ],
   "evidence": [
     {
       "id": "evidence_owner_confirmation",
@@ -23,7 +29,14 @@
   "conversation_hooks": [
     {
       "recruiter_intent": "Assess brand and visual identity capability",
-      "trigger_topics": ["brand", "branding", "visual identity", "logo", "rebrand", "design system"],
+      "trigger_topics": [
+        "brand",
+        "branding",
+        "visual identity",
+        "logo",
+        "rebrand",
+        "design system"
+      ],
       "agent_response_goal": "Use as the primary branding evidence. Cover the breadth — identity through to website — rather than the logo alone.",
       "recommended_media_ids": []
     }
@@ -42,5 +55,10 @@
     "Confirm the brief and what drove the rebrand.",
     "Confirm Boaz's scope versus any external agency involvement.",
     "Do NOT attach the 30% engagement metric to this project. Owner review attributed that figure to client-facing products, and re-attaching it here would reintroduce a conflict that has already been resolved."
-  ]
+  ],
+  "peek": {
+    "hook": "A company-wide identity, from logo through to the website.",
+    "supporting": "Visual identity, creative direction, and a brand system applied end to end.",
+    "cta": "Take a look"
+  }
 }

@@ -209,5 +209,10 @@
     "Confirm the exact image-to-video tools used.",
     "Confirm which outputs may be shown publicly.",
     "Add any evaluator feedback or outcome if available."
-  ]
+  ],
+  "peek": {
+    "hook": "How Boaz uses AI beyond prompting.",
+    "supporting": "Creative systems, custom AI workflows, identity consistency, and hands-on experimentation turned into method.",
+    "cta": "Show me the AI work"
+  }
 }

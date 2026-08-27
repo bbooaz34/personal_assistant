@@ -21,7 +21,10 @@ import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { VoiceFailureReason } from '@par/voice';
+import { EntryScreen } from './EntryScreen';
 import { OrbStage } from './orb/OrbStage';
+import { ProjectPeeks, type PeekCard } from './ProjectPeeks';
+import { useOpeningScript } from './useOpeningScript';
 import type { OrbEngine } from './orb/engine';
 import { renderComponent } from './PortfolioComponents';
 import { RichText } from './RichText';
@@ -29,8 +32,10 @@ import { useVoiceSession } from './useVoiceSession';
 import type { Portfolio } from './portfolio-types';
 
 interface Opening {
-  text: string;
+  beats: string[];
+  afterPeeks: string;
   starterPrompts: string[];
+  peeks: PeekCard[];
   owner: { name: string; short_name: string; headline: string };
   selfReference: string;
 }
@@ -83,8 +88,16 @@ export function OrbConversation() {
   const [chatOpen, setChatOpen] = useState(false);
   const [expanded, setExpanded] = useState<ExpandedSpec | null>(null);
   const [status_, setStatus] = useState<string | null>(null);
+  const [peeks, setPeeks] = useState<PeekCard[]>([]);
+  const [peekFocus, setPeekFocus] = useState<string | null>(null);
+  const [entered, setEntered] = useState(false);
+  const [entryLeaving, setEntryLeaving] = useState(false);
+  const [entryReady, setEntryReady] = useState(true);
 
   const engineRef = useRef<OrbEngine | null>(null);
+  // Read at connect time, so hitting Talk mid-conversation does not make the
+  // agent introduce itself all over again.
+  const conversationStartedRef = useRef(false);
   const chatRef = useRef<HTMLDivElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
   const statusTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -97,13 +110,51 @@ export function OrbConversation() {
     voice: voiceSettings?.voice ?? 'marin',
     agentName: opening?.selfReference ?? 'AI representative',
     getSessionContext: () => ({}),
+    conversationStarted: () => conversationStartedRef.current,
   });
   const voiceActive = voice.state === 'connected';
 
   useEffect(() => {
-    fetch('/api/opening').then((r) => r.json()).then(setOpening).catch(() => undefined);
+    fetch('/api/opening')
+      .then((r) => r.json())
+      .then((data: Opening) => {
+        setOpening(data);
+        setPeeks(data.peeks ?? []);
+      })
+      .catch(() => undefined);
     fetch('/api/portfolio').then((r) => r.json()).then(setPortfolio).catch(() => undefined);
     fetch('/api/realtime/settings').then((r) => r.json()).then(setVoiceSettings).catch(() => undefined);
+  }, []);
+
+  // The agent opens the conversation itself. Voice, when connected, delivers
+  // its own scripted greeting through the realtime model, so the typed script
+  // stands down rather than talking over it.
+  const script = useOpeningScript({
+    beats: opening?.beats ?? null,
+    afterPeeks: opening?.afterPeeks ?? null,
+    hasPeeks: peeks.length > 0,
+    enabled: entered && Boolean(opening) && !voiceActive && voice.state === 'disconnected',
+    onStart: () => {
+      // The panel stays closed through the introduction. The agent is speaking
+      // over the scene; the orb is the thing to look at, not a chat box.
+      void engineRef.current?.setMode('speaking');
+    },
+    onPeeks: () => {
+      // The work needs somewhere to live: this is where the panel opens.
+      setChatOpen(true);
+    },
+    onFinish: () => {
+      void engineRef.current?.setMode('calm');
+    },
+  });
+
+  const enter = useCallback(() => {
+    // Inside the gesture: this is what unlocks audio for the flight and chime.
+    engineRef.current?.begin();
+    setEntryLeaving(true);
+    setEntered(true);
+    // Unmount once the blur has finished lifting.
+    setTimeout(() => setEntryReady(false), 1000);
   }, []);
 
   const showStatus = useCallback((text: string | null, sticky?: boolean) => {
@@ -124,6 +175,8 @@ export function OrbConversation() {
       if (voice.speaking) void engine.setMode('speaking');
       else if (voice.thinking) void engine.setMode('heartbeat');
       else void engine.setMode('live');
+    } else if (script.running) {
+      void engine.setMode('speaking');
     } else if (status === 'submitted') {
       void engine.setMode('heartbeat');
     } else if (status === 'streaming') {
@@ -131,7 +184,7 @@ export function OrbConversation() {
     } else {
       void engine.setMode('calm');
     }
-  }, [voiceActive, voice.speaking, voice.thinking, status]);
+  }, [voiceActive, voice.speaking, voice.thinking, status, script.running]);
 
   useEffect(() => {
     engineRef.current?.setChatOpen(chatOpen);
@@ -153,13 +206,20 @@ export function OrbConversation() {
   }, [voice.state, voiceActive, voice.failure, showStatus]);
 
   // Voice starts quietly; the panel opens once the conversation has content.
+  const lastVoiceQuestion = useRef<string>('');
   useEffect(() => {
     if (voice.transcript.length > 0) setChatOpen(true);
-  }, [voice.transcript.length]);
+    // Spoken intent narrows the rail exactly as typed intent does.
+    const latest = [...voice.transcript].reverse().find((entry) => entry.role === 'user');
+    if (latest?.text && latest.text !== lastVoiceQuestion.current) {
+      lastVoiceQuestion.current = latest.text;
+      refreshPeeks(latest.text);
+    }
+  }, [voice.transcript]);
 
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight, behavior: 'smooth' });
-  }, [messages, status, voice.transcript]);
+  }, [messages, status, voice.transcript, script.delivered, script.showPeeks]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -171,9 +231,39 @@ export function OrbConversation() {
     return () => document.removeEventListener('keydown', onKey);
   }, [expanded, chatOpen]);
 
+  /**
+   * Re-select the peek rail when the visitor names what they are hiring for.
+   *
+   * Debounced because a live transcript arrives as a stream of deltas, and
+   * re-selecting on every partial word would be a request per keystroke-worth
+   * of speech.
+   */
+  const peekTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const refreshPeeks = (text: string) => {
+    clearTimeout(peekTimer.current);
+    peekTimer.current = setTimeout(() => {
+    fetch('/api/peeks', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ text }),
+    })
+      .then((r) => r.json())
+      .then((data: { cards: PeekCard[]; focus: { label: string } | null }) => {
+        // No recognised emphasis leaves the rail alone, so it does not churn
+        // on every unrelated message.
+        if (!data.focus || data.cards.length === 0) return;
+        setPeeks(data.cards);
+        setPeekFocus(data.focus.label);
+      })
+      .catch(() => undefined);
+    }, 600);
+  };
+
   const send = (text: string) => {
     const trimmed = text.trim();
     if (!trimmed) return;
+    script.interrupt();
+    refreshPeeks(trimmed);
     setChatOpen(true);
     // Typing during a voice call stays in the same conversation (§23.4).
     if (voiceActive) {
@@ -191,6 +281,7 @@ export function OrbConversation() {
       voice.stop();
       showStatus(null);
     } else {
+      script.interrupt();
       void voice.start();
     }
   };
@@ -219,6 +310,7 @@ export function OrbConversation() {
   };
 
   const hasConversation = messages.length > 0 || voice.transcript.length > 0;
+  conversationStartedRef.current = hasConversation || script.delivered.length > 0;
 
   return (
     <>
@@ -233,6 +325,24 @@ export function OrbConversation() {
           },
         }}
       />
+
+      {entryReady ? (
+        <EntryScreen
+          owner={opening?.owner.name ?? 'Boaz Ben Eli'}
+          selfReference={opening?.selfReference ?? 'AI representative'}
+          leaving={entryLeaving}
+          onEnter={enter}
+        />
+      ) : null}
+
+      {/* The agent speaks over the scene while the panel is still closed. */}
+      {!chatOpen && script.currentBeat ? (
+        <div id="caption" aria-live="polite">
+          <p key={script.currentBeat.id} dir={directionOf(script.currentBeat.text)}>
+            {script.currentBeat.text}
+          </p>
+        </div>
+      ) : null}
 
       <div id="wordmark">
         <h1>{opening?.owner.name ?? 'Boaz Ben Eli'}</h1>
@@ -260,15 +370,45 @@ export function OrbConversation() {
         </div>
 
         <div ref={logRef} id="chatLog" role="log" aria-live="polite">
-          {opening ? (
-            <div className="msg orb">
-              <RichText text={opening.text} dir={directionOf(opening.text)} />
+          {/* The introduction, then the work, then the invitation — in that
+              order, because the follow-up line refers to cards the visitor
+              must already be able to see. */}
+          {script.delivered
+            .filter((beat) => beat.id !== 'after-peeks')
+            .map((beat) => (
+              <div key={beat.id} className="msg orb">
+                <RichText text={beat.text} dir={directionOf(beat.text)} />
+              </div>
+            ))}
+
+          {script.running && script.phase === 'delivering' ? (
+            <div className="msg orb typing" aria-label="Speaking">
+              <span /><span /><span />
             </div>
           ) : null}
 
-          {opening && !hasConversation ? (
+          {script.showPeeks ? (
+            <ProjectPeeks
+              cards={peeks}
+              focusLabel={peekFocus}
+              onOpen={(card) => {
+                script.interrupt();
+                send(`Show me ${card.name}.`);
+              }}
+            />
+          ) : null}
+
+          {script.delivered
+            .filter((beat) => beat.id === 'after-peeks')
+            .map((beat) => (
+              <div key={beat.id} className="msg orb">
+                <RichText text={beat.text} dir={directionOf(beat.text)} />
+              </div>
+            ))}
+
+          {script.phase === 'done' && !hasConversation && peeks.length === 0 ? (
             <div className="starters">
-              {opening.starterPrompts.map((prompt) => (
+              {opening?.starterPrompts.map((prompt) => (
                 <button key={prompt} type="button" onClick={() => send(prompt)}>
                   {prompt}
                 </button>
@@ -374,7 +514,11 @@ export function OrbConversation() {
             id="chatInput"
             type="text"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              // Typing is an interruption: the script stops where it is.
+              if (e.target.value) script.interrupt();
+              setInput(e.target.value);
+            }}
             onFocus={() => setChatOpen(true)}
             placeholder={status_ ?? DEFAULT_PLACEHOLDER}
             className={status_ ? 'status' : undefined}

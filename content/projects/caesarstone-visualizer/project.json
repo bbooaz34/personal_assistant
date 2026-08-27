@@ -7,8 +7,15 @@
   "role": "Design lead",
   "summary": "A product visualization experience spanning multiple styles and layouts — including outdoor kitchens — deployed across several markets.",
   "challenge": "Let customers visualize a physical surface product across many configurations and settings, consistently enough to work as a real purchasing aid rather than a showcase.",
-  "skills_demonstrated": ["Product Design", "UX/UI Design", "3D & Immersive Experience Design"],
-  "tools": ["Figma", "Blender"],
+  "skills_demonstrated": [
+    "Product Design",
+    "UX/UI Design",
+    "3D & Immersive Experience Design"
+  ],
+  "tools": [
+    "Figma",
+    "Blender"
+  ],
   "evidence": [
     {
       "id": "evidence_owner_confirmation",
@@ -24,13 +31,26 @@
   "conversation_hooks": [
     {
       "recruiter_intent": "Assess product thinking rather than visual output",
-      "trigger_topics": ["product design", "product thinking", "e-commerce", "conversion", "scale", "multi-market"],
+      "trigger_topics": [
+        "product design",
+        "product thinking",
+        "e-commerce",
+        "conversion",
+        "scale",
+        "multi-market"
+      ],
       "agent_response_goal": "This is the strongest product-side example available: a shipped commercial product with real deployment constraints, not a concept piece.",
       "recommended_media_ids": []
     },
     {
       "recruiter_intent": "Assess experience shipping to production",
-      "trigger_topics": ["shipped", "production", "real users", "deployment", "localization"],
+      "trigger_topics": [
+        "shipped",
+        "production",
+        "real users",
+        "deployment",
+        "localization"
+      ],
       "agent_response_goal": "Emphasise that this ran in multiple markets, which is a different discipline from a one-off experience.",
       "recommended_media_ids": []
     }
@@ -50,5 +70,10 @@
     "Attach approved product screenshots.",
     "Record any conversion or engagement outcome tied specifically to this product.",
     "Clarify Boaz's scope versus the wider team's."
-  ]
+  ],
+  "peek": {
+    "hook": "A product that shipped to several markets, not a concept piece.",
+    "supporting": "Product decisions, UX, and 3D visualization under real commercial constraints.",
+    "cta": "Explore this project"
+  }
 }

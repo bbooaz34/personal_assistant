@@ -19,6 +19,13 @@ import { renderBehaviour, renderVoice } from './voice.js';
 
 export interface VoiceInstructionContext {
   identity: AgentIdentity;
+  /** The scripted opening beats, so voice and text say the same thing. */
+  openingBeats?: string[];
+  /**
+   * True when the visitor has already been greeted in text. The agent picks up
+   * the conversation instead of introducing itself a second time.
+   */
+  conversationStarted?: boolean;
   /** Topics the agent must decline, with the wording to use. */
   closedTopics: Array<{ topic: string; refusal?: string }>;
   /** Names of the UI components available during a spoken turn. */
@@ -112,10 +119,35 @@ export function buildVoiceInstructions(context: VoiceInstructionContext): string
     );
   }
 
+  if (context.conversationStarted) {
+    blocks.push(
+      section('Opening', [
+        'This conversation is already underway — the visitor has been greeted and has seen your ' +
+          'introduction in text. Do not introduce yourself again.',
+        'Open with something short that picks up where things are, then hand the turn back.',
+      ]),
+    );
+  } else {
+    blocks.push(
+      section('Opening — say this, in your own rhythm', [
+        ...(context.openingBeats ?? []).map((beat, index) => `Beat ${index + 1}: ${beat}`),
+        'Deliver it as speech, not as a recital. Pause between beats. The whole introduction should ' +
+          'take twenty to thirty seconds — short enough that they want to answer.',
+        'Then offer to show work, or ask what kind of role they are hiring for. One or the other, not both.',
+        'If they start speaking at any point, abandon the rest of the introduction completely and ' +
+          'respond to what they actually said. Never finish the script after being interrupted — ' +
+          'their context is worth more than your opening.',
+      ]),
+    );
+  }
+
   blocks.push(
-    section('Opening', [
-      `Start by greeting them the way ${identity.self_reference} would: say what you are, and ask what brought them here.`,
-      'Keep the opening to about two sentences. They are waiting to talk, not to be briefed.',
+    section('What the opening must not do', [
+      'Do not read the CV, list software, list companies, or recite years of experience.',
+      'Do not explain how you work or what you are built from.',
+      'Do not ask them to tell you about themselves before you have shown them anything worth their time.',
+      'They should learn three things quickly: who you are, who ' + owner.short_name +
+        ' is, and that they can either talk or look at work right now.',
     ]),
   );
 

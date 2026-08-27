@@ -60,7 +60,18 @@ export interface Opening {
   id: string;
   /** When to prefer this opening: referrer, campaign, or known context (§19). */
   when: 'default' | 'recruiter' | 'returning' | 'direct_link';
-  text: string;
+  /**
+   * Delivered in sequence with a beat between each, spoken or typed.
+   *
+   * Staged rather than one paragraph because the opening has a job: say who
+   * this is, who the owner is, and what the visitor can do here — in about
+   * twenty seconds, and interruptible at any point. A wall of text achieves
+   * none of that.
+   */
+  beats: string[];
+  /** Said once the project peeks have rendered, handing the turn back. */
+  after_peeks: string;
+  /** Fallback affordance when no projects are available to peek at. */
   starter_prompts: string[];
 }
 

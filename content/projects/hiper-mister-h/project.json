@@ -7,7 +7,10 @@
   "role": "Concept and creative lead",
   "summary": "A recurring AI virtual ambassador designed to communicate HIPER Global's expertise through short-form content.",
   "challenge": "Give a B2B company a consistent, recognisable on-screen presence without the cost and scheduling of live production.",
-  "skills_demonstrated": ["Generative AI", "Creative Direction"],
+  "skills_demonstrated": [
+    "Generative AI",
+    "Creative Direction"
+  ],
   "tools": [],
   "evidence": [
     {
@@ -24,7 +27,14 @@
   "conversation_hooks": [
     {
       "recruiter_intent": "Assess applied generative AI in a commercial context",
-      "trigger_topics": ["generative AI", "AI content", "virtual character", "brand content", "short form", "video"],
+      "trigger_topics": [
+        "generative AI",
+        "AI content",
+        "virtual character",
+        "brand content",
+        "short form",
+        "video"
+      ],
       "agent_response_goal": "Show that the AI work is applied to real business communication problems, not only to creative experiments.",
       "recommended_media_ids": []
     }
@@ -42,5 +52,10 @@
     "Attach example content.",
     "Confirm whether this shipped or remained a concept — this materially changes how the agent should describe it.",
     "Confirm what may be shown publicly."
-  ]
+  ],
+  "peek": {
+    "hook": "An AI character built to carry a B2B brand.",
+    "supporting": "Generative AI applied to a real communication problem, not an experiment.",
+    "cta": "Show me the AI work"
+  }
 }

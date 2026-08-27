@@ -6,8 +6,15 @@
   "context": "Client project for Mastercard, delivered at ByondXR.",
   "role": "Creative lead",
   "summary": "A Tel Aviv-inspired interactive virtual city built for Mastercard, combining exploration, gamification and avatar elements.",
-  "skills_demonstrated": ["Creative Direction", "UX/UI Design", "3D & Immersive Experience Design"],
-  "tools": ["Blender", "Figma"],
+  "skills_demonstrated": [
+    "Creative Direction",
+    "UX/UI Design",
+    "3D & Immersive Experience Design"
+  ],
+  "tools": [
+    "Blender",
+    "Figma"
+  ],
   "evidence": [
     {
       "id": "evidence_owner_confirmation",
@@ -23,13 +30,25 @@
   "conversation_hooks": [
     {
       "recruiter_intent": "Evaluate creative direction and immersive/XR experience",
-      "trigger_topics": ["creative direction", "XR", "3D", "immersive", "gamification", "brand experience"],
+      "trigger_topics": [
+        "creative direction",
+        "XR",
+        "3D",
+        "immersive",
+        "gamification",
+        "brand experience"
+      ],
       "agent_response_goal": "Use this as the clearest example of large-brand immersive work, while being explicit that detailed attribution awaits a case study.",
       "recommended_media_ids": []
     },
     {
       "recruiter_intent": "Assess fintech or financial services exposure",
-      "trigger_topics": ["fintech", "financial services", "payments", "banking"],
+      "trigger_topics": [
+        "fintech",
+        "financial services",
+        "payments",
+        "banking"
+      ],
       "agent_response_goal": "Note that the client was Mastercard, but do not overclaim fintech domain depth from a single brand experience project.",
       "recommended_media_ids": []
     }
@@ -49,5 +68,10 @@
     "Confirm team structure and Boaz's exact scope on this project.",
     "Confirm what may be shown publicly given the client relationship.",
     "Record any measurable outcome, or state explicitly that none is available."
-  ]
+  ],
+  "peek": {
+    "hook": "Designing an interactive digital experience at scale.",
+    "supporting": "UX, gamification, 3D environments, creative direction, and interactive storytelling.",
+    "cta": "Take a look"
+  }
 }

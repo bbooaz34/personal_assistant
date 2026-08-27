@@ -107,6 +107,23 @@ export interface Transformation {
  * the repository, so `sanitized` records that a human-reviewed substitution
  * pass ran over it (see `scripts/import-artifacts.ts`).
  */
+/**
+ * Copy for the project's opening "peek" card.
+ *
+ * Optional. Everything here can be derived from the knowledge base, but a
+ * peek is the first thing a recruiter reads, and one authored sentence beats
+ * a generated one. What must never be authored is *which* projects appear —
+ * that is selected from evidence at session start (see `selectProjectPeeks`).
+ */
+export interface ProjectPeek {
+  /** One line, active voice. What the project is. */
+  hook: string;
+  /** The disciplines it evidences. A phrase, not a sentence. */
+  supporting: string;
+  /** Call to action on the card. */
+  cta?: string;
+}
+
 export interface ProjectArtifact {
   id: string;
   label: string;
@@ -146,6 +163,7 @@ export interface ProjectEvidence {
   process?: ProcessStep[];
   transformation?: Transformation;
   artifacts?: ProjectArtifact[];
+  peek?: ProjectPeek;
   skills_demonstrated?: string[];
   tools?: string[];
   outcomes?: string[];
