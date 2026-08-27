@@ -1,54 +1,451 @@
 @import "tailwindcss";
 
 /*
- * A calm, low-chrome surface. The conversation is the interface, so almost
- * everything here is about getting out of the way of text and rendered work.
+ * The orb interface: a daylight cloudscape with a living presence, and one
+ * Liquid Glass element that morphs from a capsule into the conversation panel.
+ * Visual system adapted from the External Brain OS orb; the token names below
+ * are the app's original ones, remapped to the orb's light palette so every
+ * portfolio component restyles itself without being touched.
  */
 @theme {
-  --color-ground: oklch(0.16 0.012 265);
-  --color-surface: oklch(0.21 0.014 265);
-  --color-surface-raised: oklch(0.25 0.016 265);
-  --color-ink: oklch(0.95 0.005 265);
-  --color-ink-muted: oklch(0.72 0.012 265);
-  --color-ink-faint: oklch(0.55 0.014 265);
-  --color-accent: oklch(0.74 0.14 200);
-  --color-accent-soft: oklch(0.42 0.07 200);
-  --color-edge: oklch(0.32 0.016 265);
+  --color-ground: #eef0f7;
+  --color-surface: rgba(255, 255, 255, 0.55);
+  --color-surface-raised: rgba(255, 255, 255, 0.82);
+  --color-ink: #241f3d;
+  --color-ink-muted: #5d5880;
+  --color-ink-faint: #9a95bb;
+  --color-accent: #8c66ff;
+  --color-accent-soft: rgba(140, 102, 255, 0.35);
+  --color-edge: rgba(110, 90, 200, 0.18);
+}
+
+:root {
+  --pink: #ff5ec8;
+  --violet: #8c66ff;
+  --cyan: #59e8ff;
+  --pill-bg: rgba(255, 255, 255, 0.62);
+  --pill-edge: rgba(110, 90, 200, 0.32);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 html, body { height: 100%; }
-
 body {
   background: var(--color-ground);
   color: var(--color-ink);
+  font-family: "Sora", system-ui, -apple-system, sans-serif;
+  overflow: hidden;
   font-synthesis-weight: none;
   text-rendering: optimizeLegibility;
 }
 
-/* Hebrew and English share the surface; direction is set per message. */
 [dir="rtl"] { text-align: right; }
 
-@keyframes drift {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50%      { transform: translate3d(0, -6%, 0) scale(1.04); }
-}
-@keyframes pulse-listen {
-  0%, 100% { transform: scale(1); opacity: 0.85; }
-  50%      { transform: scale(1.12); opacity: 1; }
-}
-@keyframes think {
-  0%   { transform: rotate(0deg) scale(1); }
-  50%  { transform: rotate(180deg) scale(0.92); }
-  100% { transform: rotate(360deg) scale(1); }
+/* ── the scene ─────────────────────────────────────────────────────────── */
+#stage {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
 }
 
-.presence-idle      { animation: drift 7s ease-in-out infinite; }
-.presence-listening { animation: pulse-listen 1.6s ease-in-out infinite; }
-.presence-thinking  { animation: think 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
-.presence-speaking  { animation: pulse-listen 0.9s ease-in-out infinite; }
-
+/* CSS fallback orb, shown only when WebGL2 is unavailable */
+#fallback {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 60%, #ffffff 0%, var(--color-ground) 70%);
+}
+#fallback .orb {
+  width: min(46vmin, 340px);
+  height: min(46vmin, 340px);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(89, 232, 255, 0.85), transparent 45%),
+    radial-gradient(circle at 68% 65%, rgba(255, 94, 200, 0.9), transparent 55%),
+    radial-gradient(circle at 50% 50%, #8c66ff, #241a52 75%);
+  box-shadow:
+    0 0 60px rgba(140, 102, 255, 0.55),
+    0 0 160px rgba(255, 94, 200, 0.3);
+  animation: fallbackPulse 2.2s ease-in-out infinite;
+}
+@keyframes fallbackPulse {
+  0%, 100% { transform: scale(1); filter: brightness(0.85); }
+  50%      { transform: scale(1.06); filter: brightness(1.2); }
+}
 @media (prefers-reduced-motion: reduce) {
-  .presence-idle, .presence-listening, .presence-thinking, .presence-speaking {
-    animation: none;
-  }
+  #fallback .orb { animation: none; }
+}
+
+/* ── wordmark ──────────────────────────────────────────────────────────── */
+#wordmark {
+  position: fixed;
+  top: 28px;
+  left: 32px;
+  user-select: none;
+  pointer-events: none;
+  transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+}
+#wordmark h1 {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.9);
+}
+#wordmark p {
+  margin-top: 7px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-faint);
+}
+@media (max-width: 620px) {
+  #wordmark { top: 20px; left: 20px; }
+}
+
+/* first reveal: the wordmark and the pill rise in as the orb appears */
+.pre-reveal #wordmark, .pre-reveal #chat {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pre-reveal #wordmark, .pre-reveal #chat { transform: none; }
+  #wordmark { transition: opacity 300ms var(--ease-out); }
+}
+
+/* ── Liquid Glass conversation: one element morphs from the closed
+      capsule to the open panel to the expanded stage ─────────────────── */
+#chat {
+  position: fixed;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(155deg,
+    rgba(255, 255, 255, 0.58),
+    rgba(255, 255, 255, 0.30) 45%,
+    rgba(255, 255, 255, 0.44));
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  backdrop-filter: blur(28px) saturate(1.8);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.22),
+    0 24px 60px rgba(80, 60, 160, 0.16),
+    0 2px 10px rgba(80, 60, 160, 0.08);
+  transition:
+    left 460ms var(--ease-drawer),
+    top 460ms var(--ease-drawer),
+    width 460ms var(--ease-drawer),
+    height 460ms var(--ease-drawer),
+    border-radius 460ms var(--ease-drawer),
+    opacity 600ms var(--ease-out) 120ms,
+    transform 600ms var(--ease-out) 120ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  #chat { transition: opacity 300ms var(--ease-out); }
+}
+#chat.closed {
+  --chat-w: min(460px, 86vw);
+  width: var(--chat-w);
+  left: calc(50% - var(--chat-w) / 2);
+  top: calc(100% - 94px);
+  height: 64px;
+  border-radius: 999px;
+  justify-content: center;
+}
+#chat.open {
+  --chat-w: min(420px, calc(100vw - 32px));
+  width: var(--chat-w);
+  left: calc(100% - var(--chat-w) - 24px);
+  top: 24px;
+  height: calc(100% - 48px);
+  border-radius: 30px;
+}
+
+/* expanded asset view: the panel grows to 90% of the screen and the orb
+   docks into a circular porthole cut out of the header glass */
+#chat.open.expanded {
+  --chat-w: 90vw;
+  width: 90vw;
+  left: 5vw;
+  top: 5vh;
+  height: 90vh;
+  border-radius: 30px;
+  -webkit-mask: radial-gradient(circle at 38px 35px, transparent 24px, #000 25px);
+  mask: radial-gradient(circle at 38px 35px, transparent 24px, #000 25px);
+}
+#chat.open.expanded #chatHead { padding-inline-start: 76px; }
+#chat.open.expanded #chatHead::before {
+  /* the avatar ring around the porthole */
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 8px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 10px rgba(80, 60, 160, 0.15), inset 0 0 0 1px rgba(110, 90, 200, 0.14);
+  pointer-events: none;
+}
+#chat.open.expanded #chatLog { display: none; }
+
+/* the header floats over the panel and never affects layout, so the closed
+   capsule centres its input row exactly */
+#chatHead {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 18px 10px;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  opacity: 0;
+  pointer-events: none;
+}
+#chatHead .headTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#chat.open #chatHead {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 240ms var(--ease-out) 470ms; /* once the height settles */
+}
+#chatHead button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+#chatHead #chatClose { font-size: 16px; letter-spacing: 0; line-height: 1; }
+@media (hover: hover) and (pointer: fine) {
+  #chatHead button:hover { color: var(--color-ink); }
+}
+#chatHead button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+
+#chatLog {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 6px 16px;
+  opacity: 0;
+}
+#chat.closed #chatLog {
+  flex: 0 0 0px;
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  pointer-events: none;
+}
+#chat.open #chatLog {
+  opacity: 1;
+  margin-top: 42px; /* clears the floating header */
+  transition: opacity 240ms var(--ease-out) 300ms;
+}
+
+/* ── bubbles ───────────────────────────────────────────────────────────── */
+.msg {
+  max-width: 88%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--color-ink);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+.msg.user {
+  align-self: flex-end;
+  background: rgba(140, 102, 255, 0.20);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  border-bottom-right-radius: 6px;
+  transform-origin: bottom right;
+}
+.msg.orb {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  border-bottom-left-radius: 6px;
+  transform-origin: bottom left;
+}
+.msg.has-ui { max-width: 100%; width: 100%; }
+@starting-style {
+  .msg { opacity: 0; transform: translateY(8px) scale(0.97); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .msg { transition: opacity 200ms var(--ease-out); }
+  @starting-style { .msg { transform: none; } }
+}
+
+/* typing indicator: the orb composing */
+.msg.typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 16px;
+}
+.msg.typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-ink-muted);
+  animation: typingPulse 1.2s var(--ease-in-out) infinite;
+}
+.msg.typing span:nth-child(2) { animation-delay: 160ms; }
+.msg.typing span:nth-child(3) { animation-delay: 320ms; }
+@keyframes typingPulse {
+  0%, 60%, 100% { opacity: 0.35; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .msg.typing span { animation-name: typingFade; }
+}
+@keyframes typingFade {
+  0%, 60%, 100% { opacity: 0.35; }
+  30% { opacity: 1; }
+}
+
+/* starter chips inside the freshly-opened panel */
+.starters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 2px 2px 6px;
+}
+.starters button {
+  appearance: none;
+  border: 1px solid var(--pill-edge);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--color-ink-muted);
+  font: inherit;
+  font-size: 12px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 160ms ease, background 160ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .starters button:hover { color: var(--color-ink); background: rgba(255, 255, 255, 0.85); }
+}
+.starters button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+
+/* ── generated portfolio evidence inside bubbles ───────────────────────── */
+.gen-ui { margin-top: 4px; display: flex; flex-direction: column; gap: 8px; }
+.gen-cta {
+  appearance: none;
+  width: 100%;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(110, 90, 200, 0.32);
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--color-ink-muted);
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 160ms ease, background 160ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .gen-cta:hover { color: var(--color-ink); background: rgba(255, 255, 255, 0.85); }
+}
+.gen-cta:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+
+/* the expanded stage */
+#chatStage { display: none; }
+#chat.open.expanded #chatStage {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  margin: 48px 14px 8px;
+  overflow-y: auto;
+}
+#chatStage > * { flex: 1; min-height: 0; }
+/* an expanded artifact's iframe grows to the stage */
+#chatStage iframe { height: 100% !important; min-height: 60vh; }
+
+/* ── input row ─────────────────────────────────────────────────────────── */
+#chatForm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  flex: none;
+}
+#chat.open #chatForm {
+  margin: 8px 12px 12px;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+#chatInput {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  outline: none;
+  font: inherit;
+  /* 16px floor: anything smaller makes iOS Safari zoom in on focus */
+  font-size: 16px;
+  color: var(--color-ink);
+  padding: 8px 6px;
+}
+#chatInput::placeholder { color: var(--color-ink-faint); }
+#chatInput.status::placeholder { color: var(--color-ink-muted); }
+#chatForm button {
+  appearance: none;
+  flex: none;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--color-ink-muted);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 2px 6px rgba(80, 60, 160, 0.10);
+  transition: color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  #chatForm button:hover { color: var(--color-ink); background: rgba(255, 255, 255, 0.78); }
+}
+#chatForm button:active { transform: scale(0.94); }
+#chatForm button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+#micBtn.listening {
+  background: rgba(255, 94, 200, 0.30);
+  border-color: rgba(255, 94, 200, 0.55);
+  color: var(--color-ink);
 }

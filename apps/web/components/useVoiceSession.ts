@@ -26,6 +26,8 @@ export interface UseVoiceSession {
   failure: VoiceFailureReason | null;
   /** True while the agent is producing audio. */
   speaking: boolean;
+  /** True while the agent is inside a tool call — retrieving evidence. */
+  thinking: boolean;
   muted: boolean;
   transcript: VoiceTranscriptEntry[];
   start: () => Promise<void>;
@@ -71,6 +73,7 @@ export function useVoiceSession({
   const [state, setState] = useState<VoiceConnectionState>('disconnected');
   const [failure, setFailure] = useState<VoiceFailureReason | null>(null);
   const [speaking, setSpeaking] = useState(false);
+  const [thinking, setThinking] = useState(false);
   const [muted, setMuted] = useState(false);
   const [transcript, setTranscript] = useState<VoiceTranscriptEntry[]>([]);
 
@@ -164,6 +167,10 @@ export function useVoiceSession({
     session.on('audio_start', () => setSpeaking(true));
     session.on('audio_stopped', () => setSpeaking(false));
     session.on('audio_interrupted', () => setSpeaking(false));
+    // Tool calls are the agent's reasoning beat: the presence shows a
+    // heartbeat while evidence is being retrieved (§21: thinking state).
+    session.on('agent_tool_start', () => setThinking(true));
+    session.on('agent_tool_end', () => setThinking(false));
     session.on('error', (event) => {
       console.error('[voice] session error', event);
     });
@@ -218,5 +225,5 @@ export function useVoiceSession({
     sessionRef.current.sendMessage(trimmed);
   }, []);
 
-  return { state, failure, speaking, muted, transcript, start, stop, toggleMute, sendText };
+  return { state, failure, speaking, thinking, muted, transcript, start, stop, toggleMute, sendText };
 }

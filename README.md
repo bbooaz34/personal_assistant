@@ -89,6 +89,16 @@ npm run knowledge:validate && npm run eval
 
 ---
 
+## The interface
+
+The representative is an orb — a raymarched WebGL2 presence in a daylight
+cloudscape, with a Liquid Glass panel that morphs out of a capsule. It breathes
+while idle, shows a heartbeat while the agent retrieves evidence, flutters
+while it answers, and during a voice session it reacts to the visitor's actual
+voice. Portfolio evidence renders inside the conversation and expands to a
+stage where the orb docks into a porthole in the header glass. Where WebGL2 is
+missing, a CSS orb stands in and everything else keeps working.
+
 ## Voice
 
 Voice is a first-class mode, not speech-to-text over a chat box: the browser

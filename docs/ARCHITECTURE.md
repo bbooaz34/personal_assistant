@@ -130,6 +130,40 @@ leaves a dangling `tool_use` block, and providers reject the next request in the
 conversation — so omitting it broke the thread on the message after any
 component rendered.
 
+## The face: the orb
+
+The interface is a raymarched WebGL2 presence in a daylight cloudscape — the
+abstract visual identity §21 calls for, adopted from the owner's External Brain
+OS orb project. One fragment shader draws the whole scene; one Liquid Glass
+element morphs from a capsule into the conversation panel, and portfolio
+evidence renders inside the bubbles, expandable to a stage where the orb docks
+into a porthole cut out of the header glass.
+
+```
+apps/web/components/orb/
+  shaders.ts    the fragment shader, lifted verbatim — this file IS the design
+  engine.ts     rhythm/shape/entry/dock state machines, framework-free
+  OrbStage.tsx  canvas lifecycle + CSS fallback when WebGL2 is missing
+OrbConversation.tsx   the shell: chat, voice, components, choreography
+```
+
+The presence choreography maps conversation state onto the orb's four rhythm
+modes:
+
+| State | Orb |
+|---|---|
+| idle | `calm` — slow breathing; after a quiet minute it daydreams into another shape |
+| agent retrieving (text submitted, or a voice tool call) | `heartbeat` |
+| agent answering (streaming, or realtime audio) | `speaking` |
+| visitor speaking in a voice session | `live` — a second analyser on the already-granted microphone, so the orb breathes with the visitor's actual voice |
+
+What was deliberately left behind from the source project: its placeholder
+keyword-router mind, its SpeechSynthesis/SpeechRecognition voice, and its demo
+design-system registry (another company's brand, another project's prototype
+and portraits). The body came over; the mind, voice, and evidence stayed ours —
+text through `/api/chat`, voice through the realtime session, components
+resolved only for ids the server returned.
+
 ## Voice, and why it is inverted
 
 Text and voice share the agent, the policy, the knowledge and the component
@@ -189,7 +223,7 @@ Each of these is a single seam, by design:
 | Add semantic retrieval | implement `EmbeddingProvider`, pass a `VectorIndex` |
 | Knowledge from Postgres | replace `loadKnowledge`; `KnowledgeRepository` is the contract |
 | Different owner | `config/*` and `content/*` |
-| assistant-ui shell | `apps/web/components/Conversation.tsx` |
+| conversational shell | `apps/web/components/OrbConversation.tsx` |
 | Realtime provider | `config/voice.config.ts` + the two `/api/realtime` routes |
 
 ## Deviation from the design doc

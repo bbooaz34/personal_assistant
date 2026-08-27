@@ -1,5 +1,5 @@
-import { Conversation } from '@/components/Conversation';
+import { OrbConversation } from '@/components/OrbConversation';
 
 export default function Page() {
-  return <Conversation />;
+  return <OrbConversation />;
 }

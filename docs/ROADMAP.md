@@ -43,8 +43,12 @@ extracted from the conversation. That needs a structured-output pass per turn.
 
 ## Phase 5 — Agent identity experience — **done**
 
-Opening selection, personality configuration, tone rules, and the abstract
-presence with idle/listening/thinking/speaking states.
+Opening selection, personality configuration, tone rules — and the visual
+identity is now the raymarched orb (adopted from the owner's External Brain OS
+project): a living presence that breathes while idle, shows a heartbeat while
+retrieving, flutters while answering, and reacts to the visitor's actual voice
+during a realtime session. Liquid Glass conversation shell with an expandable
+evidence stage where the orb docks into a porthole.
 
 ## Phase 6 — Realtime voice — **done**
 
