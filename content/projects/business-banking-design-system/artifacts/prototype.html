@@ -40,15 +40,10 @@
   #swipe::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
     background:rgba(0,102,255,.22);outline:2px solid rgba(0,102,255,.55);opacity:0;transition:opacity .3s ease}
   #stage.hint #swipe::after{opacity:1}
-  #restart{position:fixed;bottom:18px;inset-inline-start:18px;z-index:9;border:0;border-radius:999px;
-    width:42px;height:42px;background:#1d1d20;color:#fff;font-size:17px;cursor:pointer;opacity:.85;
-    transition:transform .16s var(--ease-out)}
-  @media (hover:hover) and (pointer:fine){ #restart:hover{transform:scale(1.08)} }
 </style>
 </head>
 <body>
 <div id="stage" aria-label="אב־טיפוס אינטראקטיבי. לחיצה על אזור ריק מציגה את האזורים הפעילים."></div>
-<button id="restart" title="התחלה מחדש" aria-label="התחלה מחדש">⟲</button>
 
 <script>
 /* The flow, verbatim from the Figma prototype graph (frame ids in comments).
@@ -130,11 +125,6 @@ stage.addEventListener('click', e => {
   stage.classList.add('hint');
   setTimeout(() => stage.classList.remove('hint'), 650);
 });
-document.getElementById('restart').addEventListener('click', () => {
-  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('on'); s.style.zIndex=''; });
-  current = null; go(START);
-});
-
 /* ── the 'cancel order' swipe component (2013:31670) ─────────────────────
    Geometry from the variants: default = card at 0; hint = card +82 with the
    action strip revealed; swipe = card +326, strip fully open. The strip and
