@@ -8,6 +8,14 @@
  * If the model asks for something that is not in the payload, the component
  * renders nothing rather than inventing a placeholder, because an empty card
  * is honest and a fabricated one is not.
+ *
+ * Responsive rule — every project, every visual component: the inline chat
+ * column is phone-width, so it shows the MOBILE rendition of the work; the
+ * expanded stage is desktop-width, so it switches to the DESKTOP rendition.
+ * `renderComponent`'s `expanded` flag carries the mode. Images implement it
+ * with the media item's `mobile_uri`/`uri` pair; embedded HTML artifacts
+ * implement it with viewport size — a phone-portrait iframe inline, a wide
+ * stage when expanded, and the responsive artifact reflows on its own.
  */
 
 import { ArtifactViewer } from './ArtifactViewer';
@@ -133,9 +141,11 @@ export function ProcessView({ project }: { project: PortfolioProject }) {
 export function TransformationView({
   project,
   sandbox,
+  expanded = false,
 }: {
   project: PortfolioProject;
   sandbox: string;
+  expanded?: boolean;
 }) {
   if (project.transformation.length === 0) return null;
   return (
@@ -178,6 +188,7 @@ export function TransformationView({
             projectName={project.name}
             artifacts={project.artifacts}
             sandbox={sandbox}
+            expanded={expanded}
           />
         </div>
       ) : null}
@@ -187,9 +198,11 @@ export function TransformationView({
 
 export function MediaGallery({
   project,
+  sandbox,
   expanded = false,
 }: {
   project: PortfolioProject;
+  sandbox: string;
   expanded?: boolean;
 }) {
   if (project.media.length === 0) {
@@ -209,6 +222,22 @@ export function MediaGallery({
           // that ships a mobile rendition uses it inline and switches to the
           // desktop rendition when expanded.
           const src = expanded ? item.uri : (item.mobile_uri ?? item.uri);
+          // HTML media is a running artifact, not a picture: an <img> pointed
+          // at it never loads. Embed it in the same sandbox ArtifactViewer
+          // uses, spanning the full row so it stays usable.
+          if (/\.html?($|\?)/.test(src)) {
+            return (
+              <figure key={item.uri} className="col-span-full overflow-hidden rounded-lg bg-[var(--color-ground)]">
+                <iframe
+                  title={item.caption || project.name}
+                  src={src}
+                  sandbox={sandbox}
+                  loading="lazy"
+                  className={`${expanded ? 'h-[460px]' : 'h-[300px]'} w-full rounded-lg border border-[var(--color-edge)] bg-white`}
+                />
+              </figure>
+            );
+          }
           return (
             <figure key={item.uri} className="overflow-hidden rounded-lg bg-[var(--color-ground)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -392,16 +421,21 @@ export function renderComponent(
           artifacts={project.artifacts}
           sandbox={portfolio.embedSandbox}
           initialArtifactId={typeof args.artifact_id === 'string' ? args.artifact_id : undefined}
+          expanded={expanded}
         />
       );
     }
     case 'show_transformation': {
       const project = projectById(args.project_id);
-      return project ? <TransformationView project={project} sandbox={portfolio.embedSandbox} /> : null;
+      return project ? (
+        <TransformationView project={project} sandbox={portfolio.embedSandbox} expanded={expanded} />
+      ) : null;
     }
     case 'show_gallery': {
       const project = projectById(args.project_id);
-      return project ? <MediaGallery project={project} expanded={expanded} /> : null;
+      return project ? (
+        <MediaGallery project={project} sandbox={portfolio.embedSandbox} expanded={expanded} />
+      ) : null;
     }
     case 'show_timeline':
       return (

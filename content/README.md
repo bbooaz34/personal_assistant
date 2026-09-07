@@ -38,3 +38,16 @@ Compensation, contact details, home address, family, health, and anything else
 in the `never` list in `config/privacy.config.ts`. Those are excluded at the
 source rather than filtered at runtime — knowledge that was never ingested
 cannot leak.
+
+## Project media in the generative UI
+
+The chat renders every project's visuals under one responsive rule: the inline
+conversation column is phone-width and shows the **mobile** rendition; the
+expanded stage is desktop-width and switches to the **desktop** rendition.
+
+- **Images** — give each media item both renditions: `uri` (desktop) and
+  `mobile_uri` (mobile), exported from the design source. The gallery picks
+  per mode. An item without `mobile_uri` shows its `uri` everywhere.
+- **HTML artifacts** — build them responsive; the viewer gives them a
+  phone-portrait viewport inline and a wide stage when expanded, and the
+  artifact reflows on its own. No second file needed.

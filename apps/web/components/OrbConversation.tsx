@@ -63,6 +63,8 @@ interface ExpandedSpec {
 interface ProjectReveal {
   id: string;
   projectId: string;
+  /** What to show: live artifacts when the project ships them, else media. */
+  component: 'show_artifact' | 'show_gallery';
   atMessageIndex: number;
 }
 
@@ -351,7 +353,14 @@ export function OrbConversation() {
     if (status === 'streaming' || status === 'submitted') return;
     setReveals((prior) => [
       ...prior,
-      { id: `reveal-${card.projectId}-${Date.now()}`, projectId: card.projectId, atMessageIndex: messages.length },
+      {
+        id: `reveal-${card.projectId}-${Date.now()}`,
+        projectId: card.projectId,
+        // A project with sanitized running artifacts shows the real thing;
+        // otherwise its media gallery. HTML media inside the gallery embeds.
+        component: project.artifacts.length > 0 ? 'show_artifact' : 'show_gallery',
+        atMessageIndex: messages.length,
+      },
     ]);
     // The description is spoken, not printed — the gallery is what the visitor
     // reads. Muted or unavailable synthesis skips straight to the summary.
@@ -388,7 +397,7 @@ export function OrbConversation() {
     reveals
       .filter((r) => r.atMessageIndex === index)
       .map((r) => {
-        const node = evidence(r.id, 'show_gallery', { project_id: r.projectId });
+        const node = evidence(r.id, r.component, { project_id: r.projectId });
         return node ? (
           <div key={r.id} className="msg orb has-ui">
             {node}

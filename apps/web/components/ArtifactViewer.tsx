@@ -12,6 +12,11 @@
  * artifact runs in an opaque origin and cannot read cookies, storage, or the
  * surrounding DOM. The serving route adds a CSP with `connect-src 'none'`, so
  * it cannot send anything anywhere either.
+ *
+ * Responsive rule (applies to every project's generative UI): inline, the
+ * chat column is phone-width, so the artifact gets a phone-portrait viewport
+ * and renders its mobile layout; the expanded stage is desktop-width, so the
+ * same artifact reflows into its desktop layout with more height to use.
  */
 
 import { useState } from 'react';
@@ -22,11 +27,13 @@ export function ArtifactViewer({
   artifacts,
   initialArtifactId,
   sandbox,
+  expanded = false,
 }: {
   projectName: string;
   artifacts: ProjectArtifact[];
   initialArtifactId?: string;
   sandbox: string;
+  expanded?: boolean;
 }) {
   const initial =
     artifacts.find((a) => a.id === initialArtifactId) ?? artifacts[0];
@@ -76,7 +83,7 @@ export function ArtifactViewer({
           src={active.url}
           sandbox={sandbox}
           loading="lazy"
-          className="h-[460px] w-full rounded-lg border border-[var(--color-edge)] bg-white"
+          className={`${expanded ? 'h-[68vh]' : 'h-[520px]'} w-full rounded-lg border border-[var(--color-edge)] bg-white`}
         />
       </div>
 
