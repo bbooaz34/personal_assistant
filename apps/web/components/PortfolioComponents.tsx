@@ -393,13 +393,16 @@ export function CareerExpanded({
         ? { name: 'show_gallery', args: { project_id: p.id } }
         : { name: 'show_project', args: { project_id: p.id } };
 
-  // An era claims the projects whose company it names. What no era claims
-  // lands in a trailing group rather than disappearing.
+  // An era claims the projects whose company — or delivery org, for client
+  // work done through a studio — it names. What no era claims lands in a
+  // trailing group rather than disappearing.
+  const belongsTo = (p: PortfolioProject, claims: string[]) =>
+    [p.company, p.via].some(
+      (name) => name && claims.some((c) => c.toLowerCase().includes(name.toLowerCase())),
+    );
   const eras = portfolio.timeline.map((entry) => ({
     entry,
-    projects: portfolio.projects.filter(
-      (p) => p.company && entry.claims.some((c) => c.toLowerCase().includes(p.company!.toLowerCase())),
-    ),
+    projects: portfolio.projects.filter((p) => belongsTo(p, entry.claims)),
   }));
   const claimed = new Set(eras.flatMap((e) => e.projects.map((p) => p.id)));
   const unclaimed = portfolio.projects.filter((p) => !claimed.has(p.id));

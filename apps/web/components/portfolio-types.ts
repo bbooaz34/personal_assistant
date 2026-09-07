@@ -10,6 +10,8 @@ export interface ProjectArtifact {
 }
 
 export interface PortfolioProject {
+  /** Organization the work was delivered through, when company is the client. */
+  via?: string | null;
   id: string;
   name: string;
   summary: string;

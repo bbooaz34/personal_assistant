@@ -179,6 +179,9 @@ export interface Project {
   id: string;
   name: string;
   company_id?: string | null;
+  /** The organization the work was delivered through, when the client above
+   *  is not the employer — e.g. client work done at an agency or studio. */
+  delivered_via_company_id?: string | null;
   role_ids?: string[];
   summary: string;
   problem?: string;

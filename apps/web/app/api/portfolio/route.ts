@@ -26,6 +26,11 @@ export async function GET(): Promise<Response> {
       summary: project.summary,
       problem: project.problem ?? null,
       company: project.company_id ? (repository.entity(project.company_id)?.name ?? null) : null,
+      // The org the work was delivered through (client work at a studio) —
+      // what ties a client project to the right era of the career story.
+      via: project.delivered_via_company_id
+        ? (repository.entity(project.delivered_via_company_id)?.name ?? null)
+        : null,
       industries: (project.industry_ids ?? [])
         .map((id) => repository.entity(id)?.name)
         .filter(Boolean),
