@@ -24,7 +24,7 @@
       "uri": "https://www.figma.com/design/m0OXA1pyrIm0M7VSgAfYG7/Heights-Website-Final",
       "verification_status": "verified",
       "visibility": "private",
-      "notes": "Full working file: both site phases, iterations, styleguide sections (buttons, icons, components, color palette, fonts), the Heights Brandbook 25.5, storyboard and moodboard pages. All public media assets were exported directly from this file."
+      "notes": "Full working file: both site phases, iterations, styleguide sections (buttons, icons, components, color palette, fonts), the Heights Brandbook 25.5, storyboard and moodboard pages. Static section exports were retired 2026-09-07 in favor of embedding the live site."
     },
     {
       "id": "evidence_zemingo_case_study",
@@ -56,33 +56,6 @@
   ],
   "media": [
     {
-      "id": "media_hero",
-      "type": "hero",
-      "purpose": "Lead with the launched homepage hero — desktop rendition, with a mobile rendition for narrow contexts.",
-      "uri": "/api/artifact/heights-telecom-website/hero-desktop.jpg",
-      "mobile_uri": "/api/artifact/heights-telecom-website/hero-mobile.jpg",
-      "caption": "Homepage hero — 'Your Network, Your Rules' with the interactive 3D workspace",
-      "visibility": "public"
-    },
-    {
-      "id": "media_products",
-      "type": "image",
-      "purpose": "Show the products section of the new homepage.",
-      "uri": "/api/artifact/heights-telecom-website/products-desktop.jpg",
-      "mobile_uri": "/api/artifact/heights-telecom-website/products-mobile.jpg",
-      "caption": "Products section — the gateway and extender line-up as a browsable catalogue",
-      "visibility": "public"
-    },
-    {
-      "id": "media_solutions",
-      "type": "image",
-      "purpose": "Show the solutions section of the new homepage.",
-      "uri": "/api/artifact/heights-telecom-website/solutions-desktop.jpg",
-      "mobile_uri": "/api/artifact/heights-telecom-website/solutions-mobile.jpg",
-      "caption": "Solutions section — operator use cases as a card carousel",
-      "visibility": "public"
-    },
-    {
       "id": "media_live_site",
       "type": "prototype",
       "purpose": "Let the visitor use the launched site itself, inside the conversation — the strongest possible evidence that the work shipped.",
@@ -106,7 +79,6 @@
       ],
       "agent_response_goal": "Lead with the new homepage: launched 2026-09-06 at heights-t.com, desktop and mobile, with Boaz as design team lead and art director. This is the freshest shipped evidence in the portfolio — show the design next to the live link.",
       "recommended_media_ids": [
-        "media_hero",
         "media_live_site"
       ]
     },
@@ -124,9 +96,7 @@
       ],
       "agent_response_goal": "Use as the primary full-website evidence: seven page templates plus form states designed on a styleguide and brandbook, then a second phase that relaunched the homepage. Emphasise the B2B storytelling — hardware plus open software platform, ARPU and churn — not just the visuals.",
       "recommended_media_ids": [
-        "media_hero",
-        "media_products",
-        "media_solutions"
+        "media_live_site"
       ]
     },
     {
@@ -140,8 +110,7 @@
       ],
       "agent_response_goal": "Explain that the site is built on a documented styleguide and the Heights Brandbook 25.5 (buttons, icons, components, color palette, type), and that the new homepage phase evolved that system rather than discarding it. The showable sections demonstrate the system's consistency.",
       "recommended_media_ids": [
-        "media_solutions",
-        "media_hero"
+        "media_live_site"
       ]
     }
   ],

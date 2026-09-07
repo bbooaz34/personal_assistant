@@ -1612,27 +1612,6 @@
       "notes": "Owner-confirmed 2026-09-07: role (design team lead & art director), scope (new homepage phase, desktop + mobile) and timeline (started ~June 2026, launched 2026-09-06). Live at heights-t.com. No outcome metrics yet — do not claim any. The shipped hero copy differs slightly from the working file.",
       "media": [
         {
-          "type": "image",
-          "uri": "/api/artifact/heights-telecom-website/hero-desktop.jpg",
-          "mobile_uri": "/api/artifact/heights-telecom-website/hero-mobile.jpg",
-          "caption": "Homepage hero — 'Your Network, Your Rules' with the interactive 3D workspace",
-          "visibility": "public"
-        },
-        {
-          "type": "image",
-          "uri": "/api/artifact/heights-telecom-website/products-desktop.jpg",
-          "mobile_uri": "/api/artifact/heights-telecom-website/products-mobile.jpg",
-          "caption": "Products section — the gateway and extender line-up as a browsable catalogue",
-          "visibility": "public"
-        },
-        {
-          "type": "image",
-          "uri": "/api/artifact/heights-telecom-website/solutions-desktop.jpg",
-          "mobile_uri": "/api/artifact/heights-telecom-website/solutions-mobile.jpg",
-          "caption": "Solutions section — operator use cases as a card carousel",
-          "visibility": "public"
-        },
-        {
           "type": "prototype",
           "uri": "https://heights-t.com",
           "caption": "The live site, running — scroll and click around; it responds like the real thing because it is",
