@@ -1,0 +1,204 @@
+<!doctype html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>סינון — התנהגות שדות ותגיות</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --color-primary:#0066ff;
+    --color-ink:#1d1d20;
+    --color-ink-muted:#5f6470;
+    --color-surface:#ffffff;
+    --color-ground:#f4f6fa;
+    --color-edge:#e6e9f0;
+    --color-chip:#f2f6fb;
+    --color-disabled:#e3e6ec;
+    font-family:'Heebo',-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--color-surface);color:var(--color-ink);max-width:420px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+  header{display:flex;align-items:center;justify-content:space-between;padding:16px;font-weight:700;font-size:16px}
+  header .reset{color:var(--color-primary);font-weight:500;font-size:14px;cursor:pointer}
+  header .close{color:var(--color-ink-muted);font-size:18px}
+  main{flex:1;overflow-y:auto;padding-bottom:96px}
+  section{border-top:1px solid var(--color-edge)}
+  .sechead{display:flex;justify-content:space-between;align-items:center;padding:15px 16px;font-size:15px;font-weight:500;cursor:pointer}
+  .sechead .val{font-weight:400;font-size:13px;color:var(--color-ink-muted);max-width:55%;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .chev{transition:transform .22s;color:var(--color-ink-muted)}
+  section.open .chev{transform:rotate(180deg)}
+  .body{max-height:0;overflow:hidden;transition:max-height .28s cubic-bezier(.2,.8,.2,1);padding:0 16px}
+  section.open .body{max-height:320px;padding-bottom:16px}
+  .dates{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+  .dfield{flex:1;background:var(--color-chip);border-radius:10px;padding:9px 12px;font-size:13.5px;display:flex;gap:6px}
+  .dfield b{font-weight:500;color:var(--color-ink-muted)}
+  .dfield input{border:0;background:none;font:inherit;width:100%;color:var(--color-ink);outline:none}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--color-edge);border-radius:10px;padding:7px 14px;font-size:13.5px;cursor:pointer;transition:all .15s}
+  .chip.on{border-color:var(--color-primary);color:var(--color-primary);font-weight:700}
+  .opt{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:14px;cursor:pointer}
+  .box{width:18px;height:18px;border:1.5px solid #c3c9d4;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:12px;transition:all .12s}
+  .opt.on .box{background:var(--color-primary);border-color:var(--color-primary)}
+  footer{position:fixed;bottom:0;inset-inline:0;max-width:420px;margin:0 auto;padding:14px 16px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--color-surface) 30%)}
+  .cta{width:100%;border:0;border-radius:12px;padding:14px;font:inherit;font-size:15px;font-weight:500;background:var(--color-disabled);color:var(--color-ink-muted);transition:all .2s}
+  .cta.live{background:var(--color-primary);color:#fff}
+  /* applied-filter tags (post-filter state, incl. delete / more / less) */
+  .tags{display:none;flex-wrap:wrap;gap:8px;padding:12px 16px;border-top:1px solid var(--color-edge)}
+  body.filtered .tags{display:flex}
+  .tag{display:inline-flex;align-items:center;gap:6px;background:var(--color-chip);border-radius:999px;padding:6px 12px;font-size:12.5px;animation:pop .18s}
+  .tag button{border:0;background:none;font:inherit;color:var(--color-ink-muted);cursor:pointer;padding:0}
+  .more{color:var(--color-primary);font-size:12.5px;border:0;background:none;font-family:inherit;cursor:pointer}
+  @keyframes pop{from{transform:scale(.85);opacity:0}}
+</style>
+</head>
+<body>
+<header>
+  <span class="reset" id="reset">איפוס</span>
+  <span>סינון</span>
+  <span class="close">✕</span>
+</header>
+
+<div class="tags" id="tags"></div>
+
+<main id="sections"></main>
+
+<footer><button class="cta" id="cta" disabled>סינון</button></footer>
+
+<script>
+/* Behaviors specified on the Transitions page:
+   - tapping a preset date chip rewrites the from/to fields' content
+   - typing a custom date releases the chip
+   - what open/close looks like per section (accordion)
+   - the CTA arms only once something changed; איפוס returns everything
+   - after filtering: tags per selection, deletable, collapsing to "עוד" */
+const fmt = d => String(d.getDate()).padStart(2,'0') + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + String(d.getFullYear()).slice(2);
+const today = new Date();
+const ago = n => { const d = new Date(); d.setDate(d.getDate()-n); return d; };
+const CHIPS = [
+  { label:'הכל', from:'', to:'' },
+  { label:'היום', from:fmt(today), to:fmt(today) },
+  { label:'אתמול', from:fmt(ago(1)), to:fmt(ago(1)) },
+  { label:'7 ימים אחרונים', from:fmt(ago(7)), to:fmt(today) },
+  { label:'14 ימים אחרונים', from:fmt(ago(14)), to:fmt(today) },
+  { label:'חודש אחרון', from:fmt(ago(30)), to:fmt(today) },
+];
+const LISTS = {
+  'סכום ומטבע': ['עד 5,000 ₪','5,000–50,000 ₪','מעל 50,000 ₪'],
+  'סוג הוראה': ['העברה לחשבונות אחרים','אישור למוביל א״ד יבוא','הפקדת שיקים','משכורות'],
+  'הוזן ונחתם ע״י': ['רנה לוי','שי אזיזה','דנה כהן'],
+};
+
+const root = document.getElementById('sections');
+const cta = document.getElementById('cta');
+const tags = document.getElementById('tags');
+const state = { chip: 0, from:'', to:'', picks:{} };
+
+function arm(){ const dirty = state.chip !== 0 || state.from || state.to || Object.values(state.picks).some(s=>s.size);
+  cta.classList.toggle('live', dirty); cta.disabled = !dirty; }
+
+function dateSection(){
+  const sec = document.createElement('section');
+  sec.className = 'open';
+  sec.innerHTML = `<div class="sechead"><span>תאריך הזנה</span><span style="display:flex;gap:8px;align-items:center"><span class="val"></span><span class="chev">⌄</span></span></div>
+  <div class="body">
+    <div class="dates">
+      <label class="dfield"><b>מ:</b><input id="from" placeholder="dd.mm.yy" inputmode="numeric"></label>
+      —
+      <label class="dfield"><b>עד:</b><input id="to" placeholder="dd.mm.yy" inputmode="numeric"></label>
+    </div>
+    <div class="chips">${CHIPS.map((c,i)=>`<span class="chip${i===0?' on':''}" data-i="${i}">${c.label}</span>`).join('')}</div>
+  </div>`;
+  root.appendChild(sec);
+  const from = sec.querySelector('#from'), to = sec.querySelector('#to');
+  sec.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
+    sec.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+    ch.classList.add('on');
+    const c = CHIPS[ch.dataset.i];
+    state.chip = Number(ch.dataset.i);
+    // the spec: the preset rewrites the fields' content
+    from.value = state.from = c.from;
+    to.value = state.to = c.to;
+    arm(); syncVal(sec, c.from && `${c.from} – ${c.to}`);
+  }));
+  [from, to].forEach(inp => inp.addEventListener('input', () => {
+    // typing a custom range releases the preset
+    sec.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+    state.chip = -1; state.from = from.value; state.to = to.value;
+    arm(); syncVal(sec, from.value && `${from.value} – ${to.value||'…'}`);
+  }));
+  wireHead(sec);
+}
+
+function listSection(title, options){
+  const sec = document.createElement('section');
+  sec.innerHTML = `<div class="sechead"><span>${title}</span><span style="display:flex;gap:8px;align-items:center"><span class="val"></span><span class="chev">⌄</span></span></div>
+  <div class="body">${options.map(o=>`<div class="opt" data-label="${o}"><span class="box">✓</span>${o}</div>`).join('')}</div>`;
+  root.appendChild(sec);
+  state.picks[title] = new Set();
+  sec.querySelectorAll('.opt').forEach(opt => opt.addEventListener('click', () => {
+    opt.classList.toggle('on');
+    const label = opt.dataset.label;
+    state.picks[title].has(label) ? state.picks[title].delete(label) : state.picks[title].add(label);
+    syncVal(sec, [...state.picks[title]].join(', '));
+    arm();
+  }));
+  wireHead(sec);
+}
+
+function wireHead(sec){ sec.querySelector('.sechead').addEventListener('click', e => { if (e.target.tagName==='INPUT') return; sec.classList.toggle('open'); }); }
+function syncVal(sec, text){ sec.querySelector('.val').textContent = text || ''; }
+
+function selections(){
+  const out = [];
+  if (state.chip > 0) out.push(CHIPS[state.chip].label);
+  else if (state.from) out.push(`${state.from} – ${state.to || '…'}`);
+  for (const set of Object.values(state.picks)) out.push(...set);
+  return out;
+}
+
+const MAX_TAGS = 3;
+let tagsOpen = false;
+function renderTags(){
+  const sel = selections();
+  document.body.classList.toggle('filtered', sel.length > 0);
+  const visible = tagsOpen ? sel : sel.slice(0, MAX_TAGS);
+  tags.innerHTML = visible.map(s => `<span class="tag">${s}<button data-x="${s}">✕</button></span>`).join('')
+    + (sel.length > MAX_TAGS && !tagsOpen ? `<button class="more">עוד +${sel.length - MAX_TAGS}</button>` : '')
+    + (tagsOpen && sel.length > MAX_TAGS ? `<button class="more">פחות</button>` : '');
+  tags.querySelectorAll('[data-x]').forEach(b => b.addEventListener('click', () => removeSelection(b.dataset.x)));
+  const more = tags.querySelector('.more');
+  if (more) more.addEventListener('click', () => { tagsOpen = !tagsOpen; renderTags(); });
+}
+function removeSelection(label){
+  // deleting one tag reveals the next hidden one (the spec's tag behavior)
+  if (state.chip > 0 && CHIPS[state.chip].label === label) { state.chip = 0; state.from = state.to = ''; document.getElementById('from').value = document.getElementById('to').value = ''; }
+  if (`${state.from} – ${state.to || '…'}` === label) { state.chip = 0; state.from = state.to = ''; document.getElementById('from').value = document.getElementById('to').value = ''; }
+  for (const [title, set] of Object.entries(state.picks)) if (set.has(label)) {
+    set.delete(label);
+    document.querySelectorAll('.opt.on').forEach(o => { if (o.dataset.label === label) o.classList.remove('on'); });
+  }
+  document.querySelectorAll('section').forEach(sec => {
+    const t = sec.querySelector('.sechead span').textContent;
+    if (state.picks[t]) syncVal(sec, [...state.picks[t]].join(', '));
+  });
+  renderTags(); arm();
+}
+
+cta.addEventListener('click', () => { renderTags(); document.querySelectorAll('section.open').forEach(s=>s.classList.remove('open')); });
+document.getElementById('reset').addEventListener('click', () => {
+  state.chip = 0; state.from = state.to = ''; Object.values(state.picks).forEach(s=>s.clear());
+  document.querySelectorAll('.opt.on').forEach(o=>o.classList.remove('on'));
+  document.querySelectorAll('.chip').forEach((c,i)=>c.classList.toggle('on', c.dataset.i==='0'));
+  document.getElementById('from').value = document.getElementById('to').value = '';
+  document.querySelectorAll('.val').forEach(v=>v.textContent='');
+  tagsOpen = false; renderTags(); arm();
+});
+
+dateSection();
+Object.entries(LISTS).forEach(([t,o]) => listSection(t,o));
+arm();
+</script>
+</body>
+</html>

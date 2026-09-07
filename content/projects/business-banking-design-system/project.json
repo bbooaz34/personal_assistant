@@ -1,0 +1,118 @@
+{
+  "id": "project_business_banking_design_system",
+  "name": "Business Banking App — Design System",
+  "status": "verified",
+  "organization": "A major Israeli bank (client, via Zemingo)",
+  "context": "A client engagement at Zemingo for one of Israel's major banks (name withheld — confidential client work): the design system for the bank's business-banking app. The client is never named publicly; the agent says 'a major Israeli bank'.",
+  "role": "Design team lead",
+  "summary": "The design system for a major Israeli bank's business-banking app, built by Boaz's design team at Zemingo and now delivered and in the development team's hands. An atomic library — colors and type through text fields, tables, filters, date pickers, cards, modals and system pages — with dedicated accessibility tracks, and a Transitions layer that specifies micro-interaction behavior. On top of it, an AI workflow: the interaction specs become running, near-production prototypes, so developers receive behavior they can run, inspect and lift from — not static annotations they have to interpret.",
+  "skills_demonstrated": [
+    "Design Systems",
+    "UX/UI Design",
+    "Team Leadership",
+    "Agentic Delivery"
+  ],
+  "tools": [
+    "Figma",
+    "Claude Code"
+  ],
+  "evidence": [
+    {
+      "id": "evidence_figma_ds_file",
+      "type": "source_document",
+      "label": "Figma design-system file (client confidential)",
+      "uri": null,
+      "verification_status": "verified",
+      "visibility": "private",
+      "notes": "The full design system: atomic pages (atoms/molecules/organisms), accessibility update tracks, and a Transitions page (~286 nodes) of micro-interaction specs the prototypes were built from. Held by the owner; not linked because the client is confidential. All data in the file is placeholder."
+    },
+    {
+      "id": "evidence_owner_confirmation",
+      "type": "manual_confirmation",
+      "label": "Owner-confirmed role, team, status and presentation rule (2026-09-07)",
+      "uri": null,
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Boaz confirmed: his Zemingo design team built the system with him leading; the work is delivered / mostly done; the dev team receives running prototypes plus specs; and the client is shown publicly only as 'a major Israeli bank'."
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "signatures-swipe",
+      "label": "חתימות — פעולות בסוויפ",
+      "file": "signatures-swipe.html",
+      "description": "The signatures queue with the swipe spec implemented: a partial drag reveals sign/reject, continuing the drag makes the sign action take over the surface, and a full swipe commits — badge count and card state update live. Placeholder data only.",
+      "sanitized": true,
+      "visibility": "public"
+    },
+    {
+      "id": "filters",
+      "label": "סינון — שדות, צ׳יפים ותגיות",
+      "file": "filters.html",
+      "description": "The filter sheet's specified behaviors, running: date presets rewrite the from/to fields, custom typing releases the preset, the CTA arms only when something changed, reset returns everything, and applied filters collapse to tags where deleting one reveals the next.",
+      "sanitized": true,
+      "visibility": "public"
+    },
+    {
+      "id": "account-picker",
+      "label": "בחירת חשבון — חיפוש ובחירה",
+      "file": "account-picker.html",
+      "description": "The account-picker bottom sheet: slide-up over the dimmed page, live search over name and number, radio selection, and favorite pinning. Placeholder accounts only.",
+      "sanitized": true,
+      "visibility": "public"
+    }
+  ],
+  "media": [],
+  "conversation_hooks": [
+    {
+      "recruiter_intent": "Assess design-system building at scale",
+      "trigger_topics": [
+        "design system",
+        "component library",
+        "atomic design",
+        "tokens",
+        "accessibility",
+        "documentation",
+        "banking",
+        "fintech",
+        "enterprise"
+      ],
+      "agent_response_goal": "Use as the flagship design-system evidence: a full atomic library for a major Israeli bank's business app — atoms through organisms, accessibility tracks, and a Transitions layer that specifies behavior, not just looks. Never name the bank. Show the running prototypes as proof the system is executable, not a sticker sheet.",
+      "recommended_media_ids": []
+    },
+    {
+      "recruiter_intent": "Assess AI-assisted design-to-development handoff",
+      "trigger_topics": [
+        "handoff",
+        "design to code",
+        "developer",
+        "prototype",
+        "ai workflow",
+        "production ready",
+        "specs",
+        "micro-interactions"
+      ],
+      "agent_response_goal": "Tell the workflow story: the system's Transitions page documents interaction specs as annotated frames; with AI those become interactive, near-production prototypes — real RTL Hebrew markup on the system's tokens — that developers run, inspect and lift from, alongside the specs. Show the prototypes and invite the visitor to actually use them. Never name the bank.",
+      "recommended_media_ids": []
+    }
+  ],
+  "presentation": {
+    "default_component": "show_artifact",
+    "short_pitch": "A full design system for a major Israeli bank's business app, led by Boaz at Zemingo — with an AI workflow that hands developers running prototypes, not static specs.",
+    "long_pitch": "A design system for a major Israeli bank's business-banking app, built by the Zemingo design team Boaz leads and now delivered: an atomic library from tokens to system pages, dedicated accessibility tracks, and a Transitions layer specifying micro-interaction behavior. The AI workflow on top turns those specs into interactive prototypes in near-production code — developers receive behavior they can run and lift from, together with the specs, instead of interpreting static frames.",
+    "suggested_followups": [
+      "Want to try the swipe-to-sign prototype, or see how the filter spec behaves?",
+      "I can also walk through how the design system is structured, from tokens to organisms."
+    ]
+  },
+  "open_questions": [
+    "Timeframe dates — 'delivered / mostly done' is confirmed, but start and delivery dates are not documented yet.",
+    "Any adoption or outcome signal (screens shipped on the system, dev-time saved) — none claimed until Boaz provides one.",
+    "The client's identity is deliberately withheld everywhere public — the agent says 'a major Israeli bank' and must not confirm or deny guesses."
+  ],
+  "peek": {
+    "hook": "A bank-grade design system — with specs that run.",
+    "supporting": "An atomic library for a major Israeli bank's business app, and AI-built prototypes that hand developers behavior, not annotations.",
+    "cta": "Try the prototypes"
+  }
+}

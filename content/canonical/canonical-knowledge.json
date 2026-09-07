@@ -3,7 +3,7 @@
     "schema_version": "0.2",
     "subject_id": "person_boaz_ben_eli",
     "generated_at": "2026-08-26",
-    "generated_by": "human review of cv-extraction-v0.2 + chatgpt-export-v0.2, per canonical-v0.1-changelog; internship platform added 2026-08-26 from project export + source bundle review; internship platform cleared for public use 2026-08-26; Heights Telecom website added 2026-09-07 from the owner's Figma file at the owner's request (assets exported from Figma), pending owner confirmation of role and scope; Heights website confirmed and verified 2026-09-07 by owner (role, new-homepage phase, launch date) with Zemingo case-study and live-site sources; LinkedIn layer added 2026-09-07 at the owner's request (headline, posts, article) — career title/date conflicts with the CV left OPEN, not merged; owner decisions 2026-09-07: canonical always wins over LinkedIn on career facts (both conflicts resolved), the GPT-coach article dropped from agent knowledge, LEGO Christmas house added",
+    "generated_by": "human review of cv-extraction-v0.2 + chatgpt-export-v0.2, per canonical-v0.1-changelog; internship platform added 2026-08-26 from project export + source bundle review; internship platform cleared for public use 2026-08-26; Heights Telecom website added 2026-09-07 from the owner's Figma file at the owner's request (assets exported from Figma), pending owner confirmation of role and scope; Heights website confirmed and verified 2026-09-07 by owner (role, new-homepage phase, launch date) with Zemingo case-study and live-site sources; LinkedIn layer added 2026-09-07 at the owner's request (headline, posts, article) — career title/date conflicts with the CV left OPEN, not merged; owner decisions 2026-09-07: canonical always wins over LinkedIn on career facts (both conflicts resolved), the GPT-coach article dropped from agent knowledge, LEGO Christmas house added; business-banking design system added 2026-09-07 from the owner's Figma file at the owner's request (prototypes generated from its Transitions page); owner confirmed role, delivery status and the confidential-client presentation rule same day",
     "notes": "CANONICAL. Every entry here was reviewed by the owner. Facts still marked needs_verification are true to the best of current knowledge but lack an authoritative artefact; the agent presents them as unverified. Contact details, compensation and personal information are intentionally absent — they are excluded at the source, not filtered at runtime. The internship platform was cleared for public portfolio use by Zemingo (owner-reported, 2026-08-26) and is now public. Its media stays restricted until screenshots are confirmed free of intern data, and four claim rules still apply — see the project notes."
   },
   "sources": [
@@ -87,6 +87,15 @@
       "uri": "https://www.linkedin.com/in/bbooaz/",
       "date": "2026-09-07",
       "notes": "Self-authored public professional profile: headline, experience entries, posts and reposts. Read via the owner's own browser session at the owner's request."
+    },
+    {
+      "id": "source_figma_banking_ds_2026_09_07",
+      "type": "document",
+      "name": "Figma design-system file (confidential banking client), read 2026-09-07",
+      "authority_level": 2,
+      "uri": null,
+      "date": "2026-09-07",
+      "notes": "The design-system source: atomic pages (atoms/molecules/organisms), accessibility update tracks, and the Transitions micro-interaction spec page the public prototypes were generated from. Held by the owner; not linked because the client is confidential."
     }
   ],
   "entities": [
@@ -371,6 +380,13 @@
       "id": "industry_telecom",
       "type": "industry",
       "name": "Telecom",
+      "visibility": "public"
+    },
+    {
+      "id": "company_confidential_bank",
+      "type": "company",
+      "name": "A major Israeli bank",
+      "description": "Confidential banking client of Zemingo. The client's identity is deliberately withheld from all public presentation; the agent must not confirm or deny guesses.",
       "visibility": "public"
     }
   ],
@@ -1649,6 +1665,61 @@
       "verification_status": "needs_verification",
       "visibility": "public",
       "notes": "Owner asked to add this 2026-09-07. Participation is public: the client-side FMG post names Boaz on the team, and Boaz reposted it. Exact role scope, timeframe (~Christmas 2023, within his ByondXR tenure) and any media still need owner confirmation. The public experience link (byondxr.link/LEGO-holiday-eng) no longer resolves."
+    },
+    {
+      "id": "project_business_banking_design_system",
+      "name": "Business Banking App — Design System",
+      "company_id": "company_confidential_bank",
+      "role_ids": [
+        "role_design_team_leader"
+      ],
+      "summary": "The design system for a major Israeli bank's business-banking app, built by Boaz's design team at Zemingo and delivered: an atomic library with accessibility tracks and a Transitions layer of micro-interaction specs, plus an AI workflow that turns those specs into running, near-production prototypes for the development team.",
+      "skill_ids": [
+        "skill_design_systems",
+        "skill_ux_ui_design",
+        "skill_team_leadership",
+        "skill_agentic_delivery"
+      ],
+      "tool_ids": [
+        "tool_figma",
+        "tool_claude_code"
+      ],
+      "industry_ids": [
+        "industry_fintech"
+      ],
+      "sources": [
+        {
+          "source_id": "source_manual_confirmation_2026_09_07",
+          "reliability": 0.95
+        },
+        {
+          "source_id": "source_figma_banking_ds_2026_09_07",
+          "reliability": 0.85
+        }
+      ],
+      "verification_status": "verified",
+      "visibility": "public",
+      "media": [
+        {
+          "type": "prototype",
+          "uri": "/api/artifact/business-banking-design-system/signatures-swipe.html",
+          "caption": "חתימות — the swipe-to-sign spec, running: partial drag reveals sign/reject, full drag commits",
+          "visibility": "public"
+        },
+        {
+          "type": "prototype",
+          "uri": "/api/artifact/business-banking-design-system/filters.html",
+          "caption": "סינון — date presets rewriting the fields, tag deletion revealing the next tag, reset behavior",
+          "visibility": "public"
+        },
+        {
+          "type": "prototype",
+          "uri": "/api/artifact/business-banking-design-system/account-picker.html",
+          "caption": "בחירת חשבון — bottom sheet with live search, selection and favorites",
+          "visibility": "public"
+        }
+      ],
+      "notes": "Owner-confirmed 2026-09-07: built by his Zemingo design team with him leading; delivered / mostly done; developers receive running prototypes plus specs. PRESENTATION RULE: the client is confidential — say 'a major Israeli bank', never a name, and do not confirm or deny guesses. Prototypes contain placeholder data only. No outcome metrics — do not claim any."
     }
   ],
   "relationships": [
@@ -2004,6 +2075,36 @@
       "confidence": 0.9,
       "source_ids": [
         "source_linkedin_profile_2026_09_07"
+      ]
+    },
+    {
+      "id": "rel_boaz_worked_on_banking_ds",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_on",
+      "to_id": "project_business_banking_design_system",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_manual_confirmation_2026_09_07"
+      ]
+    },
+    {
+      "id": "rel_banking_ds_demonstrates_design_systems",
+      "from_id": "project_business_banking_design_system",
+      "type": "demonstrates_skill",
+      "to_id": "skill_design_systems",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_figma_banking_ds_2026_09_07"
+      ]
+    },
+    {
+      "id": "rel_banking_ds_demonstrates_agentic",
+      "from_id": "project_business_banking_design_system",
+      "type": "demonstrates_skill",
+      "to_id": "skill_agentic_delivery",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_manual_confirmation_2026_09_07"
       ]
     }
   ],

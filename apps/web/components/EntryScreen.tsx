@@ -36,7 +36,7 @@ export function EntryScreen({
         <button type="button" onClick={onEnter} autoFocus>
           Start the conversation
         </button>
-        <p className="entryNote">Sound on, if you can — it is part of it.</p>
+        <p className="entryNote">Sound on, if you can. It is part of it.</p>
       </div>
     </div>
   );
