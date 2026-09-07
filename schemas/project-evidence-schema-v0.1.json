@@ -209,6 +209,13 @@
               "restricted",
               "private"
             ]
+          },
+          "mobile_uri": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Optional portrait/mobile rendition of the same visual, used by narrow rendering contexts."
           }
         }
       }

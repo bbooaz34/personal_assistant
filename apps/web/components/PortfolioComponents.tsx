@@ -185,7 +185,13 @@ export function TransformationView({
   );
 }
 
-export function MediaGallery({ project }: { project: PortfolioProject }) {
+export function MediaGallery({
+  project,
+  expanded = false,
+}: {
+  project: PortfolioProject;
+  expanded?: boolean;
+}) {
   if (project.media.length === 0) {
     return (
       <Panel label={`Gallery: ${project.name}`}>
@@ -197,13 +203,19 @@ export function MediaGallery({ project }: { project: PortfolioProject }) {
   }
   return (
     <Panel label={`Gallery: ${project.name}`}>
-      <div className="grid grid-cols-2 gap-1 p-1">
-        {project.media.map((item) => (
-          <figure key={item.uri} className="overflow-hidden rounded-lg bg-[var(--color-ground)]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={item.uri} alt={item.caption ?? project.name} className="h-full w-full object-cover" />
-          </figure>
-        ))}
+      <div className={`grid gap-1 p-1 ${expanded ? 'grid-cols-1' : 'grid-cols-2'}`}>
+        {project.media.map((item) => {
+          // The chat column is phone-width; the expanded overlay is not. Media
+          // that ships a mobile rendition uses it inline and switches to the
+          // desktop rendition when expanded.
+          const src = expanded ? item.uri : (item.mobile_uri ?? item.uri);
+          return (
+            <figure key={item.uri} className="overflow-hidden rounded-lg bg-[var(--color-ground)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={src} alt={item.caption ?? project.name} className="h-auto w-full" />
+            </figure>
+          );
+        })}
       </div>
     </Panel>
   );
@@ -355,6 +367,7 @@ export function renderComponent(
   name: string,
   args: Record<string, unknown>,
   portfolio: Portfolio,
+  expanded = false,
 ): React.ReactNode {
   const projectById = (id: unknown): PortfolioProject | undefined =>
     typeof id === 'string' ? portfolio.projects.find((p) => p.id === id) : undefined;
@@ -388,7 +401,7 @@ export function renderComponent(
     }
     case 'show_gallery': {
       const project = projectById(args.project_id);
-      return project ? <MediaGallery project={project} /> : null;
+      return project ? <MediaGallery project={project} expanded={expanded} /> : null;
     }
     case 'show_timeline':
       return (

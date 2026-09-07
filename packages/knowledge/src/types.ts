@@ -169,6 +169,8 @@ export interface Metric {
 export interface Media {
   type: MediaType;
   uri: string;
+  /** Portrait/mobile rendition of the same visual, shown in narrow contexts. */
+  mobile_uri?: string;
   caption?: string;
   visibility?: Visibility;
 }

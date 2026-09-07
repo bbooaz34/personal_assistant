@@ -27,7 +27,7 @@ export interface PortfolioProject {
   followups: string[];
   verified: boolean;
   openQuestions: string[];
-  media: Array<{ type: string; uri: string; caption?: string }>;
+  media: Array<{ type: string; uri: string; mobile_uri?: string; caption?: string }>;
   sources: Array<{ name: string; authority: number }>;
 }
 

@@ -3,7 +3,7 @@
     "schema_version": "0.2",
     "subject_id": "person_boaz_ben_eli",
     "generated_at": "2026-08-26",
-    "generated_by": "human review of cv-extraction-v0.2 + chatgpt-export-v0.2, per canonical-v0.1-changelog; internship platform added 2026-08-26 from project export + source bundle review; internship platform cleared for public use 2026-08-26",
+    "generated_by": "human review of cv-extraction-v0.2 + chatgpt-export-v0.2, per canonical-v0.1-changelog; internship platform added 2026-08-26 from project export + source bundle review; internship platform cleared for public use 2026-08-26; Heights Telecom website added 2026-09-07 from the owner's Figma file at the owner's request (assets exported from Figma), pending owner confirmation of role and scope; Heights website confirmed and verified 2026-09-07 by owner (role, new-homepage phase, launch date) with Zemingo case-study and live-site sources",
     "notes": "CANONICAL. Every entry here was reviewed by the owner. Facts still marked needs_verification are true to the best of current knowledge but lack an authoritative artefact; the agent presents them as unverified. Contact details, compensation and personal information are intentionally absent — they are excluded at the source, not filtered at runtime. The internship platform was cleared for public portfolio use by Zemingo (owner-reported, 2026-08-26) and is now public. Its media stays restricted until screenshots are confirmed free of intern data, and four claim rules still apply — see the project notes."
   },
   "sources": [
@@ -51,6 +51,33 @@
       "uri": null,
       "date": "2026-08-26",
       "notes": "Owner reported that Zemingo approved public portfolio use of the internship platform. Recorded as owner-reported; no written artefact is attached. Attach one if the approval is ever questioned."
+    },
+    {
+      "id": "source_figma_heights_website_2026_09_07",
+      "type": "document",
+      "name": "Figma file 'Heights Website Final', read 2026-09-07",
+      "authority_level": 2,
+      "uri": "https://www.figma.com/design/m0OXA1pyrIm0M7VSgAfYG7/Heights-Website-Final",
+      "date": "2026-09-07",
+      "notes": "Design source of truth: final page designs (home, products, services, solutions, about, contact, press room), styleguide sections and the Heights Brandbook 25.5. Public media assets were exported directly from this file. Role, timeframe and shipped status are NOT established by this source."
+    },
+    {
+      "id": "source_zemingo_heights_case_study",
+      "type": "document",
+      "name": "Zemingo case study — Heights Telecom rebranding",
+      "authority_level": 2,
+      "uri": "https://www.zemingo.com/en/projects/heights-telecom",
+      "date": "2026-09-07",
+      "notes": "Public Zemingo client-project page. Scope: visual identity, interaction design, web development & PWA. Establishes Heights Telecom as a Zemingo client and the background of the engagement."
+    },
+    {
+      "id": "source_manual_confirmation_2026_09_07",
+      "type": "manual",
+      "name": "Owner review session, 2026-09-07",
+      "authority_level": 1,
+      "uri": null,
+      "date": "2026-09-07",
+      "notes": "Boaz confirmed the Heights Telecom website project: the latest phase designed and developed a fresh new homepage (desktop and mobile); his role was design team lead and art director; the phase started roughly June 2026 and launched 2026-09-06 at heights-t.com."
     }
   ],
   "entities": [
@@ -322,6 +349,19 @@
       "id": "technology_row_level_security",
       "type": "technology",
       "name": "PostgreSQL row-level security",
+      "visibility": "public"
+    },
+    {
+      "id": "company_heights_telecom",
+      "type": "company",
+      "name": "Heights Telecom",
+      "description": "Israeli CPE telecom company expanding globally — gateways and Wi-Fi hardware with an open software platform for service providers. Client of Zemingo.",
+      "visibility": "public"
+    },
+    {
+      "id": "industry_telecom",
+      "type": "industry",
+      "name": "Telecom",
       "visibility": "public"
     }
   ],
@@ -1420,6 +1460,68 @@
           "visibility": "public"
         }
       ]
+    },
+    {
+      "id": "project_heights_telecom_website",
+      "name": "Heights Telecom Website",
+      "company_id": "company_heights_telecom",
+      "role_ids": [
+        "role_design_team_leader"
+      ],
+      "summary": "Website design for Heights Telecom, a Zemingo client: a full marketing site built on a documented styleguide and brandbook, and a new-homepage phase (desktop and mobile) that Boaz led as design team lead and art director, launched 2026-09-06 at heights-t.com.",
+      "skill_ids": [
+        "skill_ux_ui_design",
+        "skill_visual_identity_design",
+        "skill_design_systems",
+        "skill_creative_direction",
+        "skill_team_leadership"
+      ],
+      "tool_ids": [
+        "tool_figma"
+      ],
+      "industry_ids": [
+        "industry_telecom"
+      ],
+      "sources": [
+        {
+          "source_id": "source_manual_confirmation_2026_09_07",
+          "reliability": 0.95
+        },
+        {
+          "source_id": "source_zemingo_heights_case_study",
+          "reliability": 0.85
+        },
+        {
+          "source_id": "source_figma_heights_website_2026_09_07",
+          "reliability": 0.8
+        }
+      ],
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Owner-confirmed 2026-09-07: role (design team lead & art director), scope (new homepage phase, desktop + mobile) and timeline (started ~June 2026, launched 2026-09-06). Live at heights-t.com. No outcome metrics yet — do not claim any. The shipped hero copy differs slightly from the working file.",
+      "media": [
+        {
+          "type": "image",
+          "uri": "/api/artifact/heights-telecom-website/hero-desktop.jpg",
+          "mobile_uri": "/api/artifact/heights-telecom-website/hero-mobile.jpg",
+          "caption": "Homepage hero — 'Your Network, Your Rules' with the interactive 3D workspace",
+          "visibility": "public"
+        },
+        {
+          "type": "image",
+          "uri": "/api/artifact/heights-telecom-website/products-desktop.jpg",
+          "mobile_uri": "/api/artifact/heights-telecom-website/products-mobile.jpg",
+          "caption": "Products section — the gateway and extender line-up as a browsable catalogue",
+          "visibility": "public"
+        },
+        {
+          "type": "image",
+          "uri": "/api/artifact/heights-telecom-website/solutions-desktop.jpg",
+          "mobile_uri": "/api/artifact/heights-telecom-website/solutions-mobile.jpg",
+          "caption": "Solutions section — operator use cases as a card carousel",
+          "visibility": "public"
+        }
+      ]
     }
   ],
   "relationships": [
@@ -1691,6 +1793,49 @@
       "confidence": 0.9,
       "source_ids": [
         "source_internship_platform_bundle"
+      ]
+    },
+    {
+      "id": "rel_boaz_worked_on_heights_website",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_on",
+      "to_id": "project_heights_telecom_website",
+      "confidence": 1,
+      "source_ids": [
+        "source_manual_confirmation_2026_09_07",
+        "source_figma_heights_website_2026_09_07"
+      ]
+    },
+    {
+      "id": "rel_heights_demonstrates_uxui",
+      "from_id": "project_heights_telecom_website",
+      "type": "demonstrates_skill",
+      "to_id": "skill_ux_ui_design",
+      "confidence": 1,
+      "source_ids": [
+        "source_manual_confirmation_2026_09_07",
+        "source_figma_heights_website_2026_09_07"
+      ]
+    },
+    {
+      "id": "rel_heights_demonstrates_design_systems",
+      "from_id": "project_heights_telecom_website",
+      "type": "demonstrates_skill",
+      "to_id": "skill_design_systems",
+      "confidence": 1,
+      "source_ids": [
+        "source_manual_confirmation_2026_09_07",
+        "source_figma_heights_website_2026_09_07"
+      ]
+    },
+    {
+      "id": "rel_heights_demonstrates_creative_direction",
+      "from_id": "project_heights_telecom_website",
+      "type": "demonstrates_skill",
+      "to_id": "skill_creative_direction",
+      "confidence": 1,
+      "source_ids": [
+        "source_manual_confirmation_2026_09_07"
       ]
     }
   ],

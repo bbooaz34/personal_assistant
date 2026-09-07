@@ -1,0 +1,158 @@
+{
+  "id": "project_heights_telecom_website",
+  "name": "Heights Telecom Website",
+  "status": "verified",
+  "organization": "Heights Telecom (client, via Zemingo)",
+  "context": "Client project at Zemingo for Heights Telecom, an Israeli CPE telecom company expanding globally — gateways and Wi-Fi hardware paired with an open software platform for service providers. Zemingo's engagement covers visual identity, interaction design and web development (PWA); see the Zemingo case study.",
+  "role": "Design team lead & art director",
+  "summary": "Two phases of website design for Heights Telecom. The original engagement produced the full site on a documented styleguide and the Heights brandbook: home, products, services, solutions, about, contact and press room. The latest phase — started around June 2026 and launched on 2026-09-06 — is a fresh new homepage, desktop and mobile, that Boaz led as design team lead and art director: an animated hero, product catalogue by category, solutions, press room and contact, now live at heights-t.com.",
+  "skills_demonstrated": [
+    "UX/UI Design",
+    "Visual Identity Design",
+    "Design Systems",
+    "Creative Direction",
+    "Team Leadership"
+  ],
+  "tools": [
+    "Figma"
+  ],
+  "evidence": [
+    {
+      "id": "evidence_figma_source",
+      "type": "external_link",
+      "label": "Figma source file — Heights Website Final",
+      "uri": "https://www.figma.com/design/m0OXA1pyrIm0M7VSgAfYG7/Heights-Website-Final",
+      "verification_status": "verified",
+      "visibility": "private",
+      "notes": "Full working file: both site phases, iterations, styleguide sections (buttons, icons, components, color palette, fonts), the Heights Brandbook 25.5, storyboard and moodboard pages. All public media assets were exported directly from this file."
+    },
+    {
+      "id": "evidence_zemingo_case_study",
+      "type": "external_link",
+      "label": "Zemingo case study — Heights Telecom rebranding",
+      "uri": "https://www.zemingo.com/en/projects/heights-telecom",
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Public client-project page. Scope: visual identity, interaction design, web development & PWA. Background: Heights Telecom needed an identity to expand from a strong domestic reputation to global markets."
+    },
+    {
+      "id": "evidence_live_site",
+      "type": "external_link",
+      "label": "Live site — heights-t.com (new homepage launched 2026-09-06)",
+      "uri": "https://heights-t.com",
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "The new homepage is live: animated hero (Tailor Made / WiFi 7), product catalogue by category, solutions, press room, contact. Footer shows © 2026. Structure matches the Figma design; final shipped copy differs slightly from the working file."
+    },
+    {
+      "id": "evidence_owner_confirmation",
+      "type": "manual_confirmation",
+      "label": "Owner-confirmed role, scope and timeline (2026-09-07)",
+      "uri": null,
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Boaz confirmed: this phase designed and developed a fresh new homepage (desktop and mobile); his role was design team lead and art director; the phase started roughly June 2026 and launched 2026-09-06."
+    }
+  ],
+  "media": [
+    {
+      "id": "media_hero",
+      "type": "hero",
+      "purpose": "Lead with the launched homepage hero — desktop rendition, with a mobile rendition for narrow contexts.",
+      "uri": "/api/artifact/heights-telecom-website/hero-desktop.jpg",
+      "mobile_uri": "/api/artifact/heights-telecom-website/hero-mobile.jpg",
+      "caption": "Homepage hero — 'Your Network, Your Rules' with the interactive 3D workspace",
+      "visibility": "public"
+    },
+    {
+      "id": "media_products",
+      "type": "image",
+      "purpose": "Show the products section of the new homepage.",
+      "uri": "/api/artifact/heights-telecom-website/products-desktop.jpg",
+      "mobile_uri": "/api/artifact/heights-telecom-website/products-mobile.jpg",
+      "caption": "Products section — the gateway and extender line-up as a browsable catalogue",
+      "visibility": "public"
+    },
+    {
+      "id": "media_solutions",
+      "type": "image",
+      "purpose": "Show the solutions section of the new homepage.",
+      "uri": "/api/artifact/heights-telecom-website/solutions-desktop.jpg",
+      "mobile_uri": "/api/artifact/heights-telecom-website/solutions-mobile.jpg",
+      "caption": "Solutions section — operator use cases as a card carousel",
+      "visibility": "public"
+    }
+  ],
+  "conversation_hooks": [
+    {
+      "recruiter_intent": "Assess shipped, recent work and art direction",
+      "trigger_topics": [
+        "recent work",
+        "shipped",
+        "launch",
+        "homepage",
+        "redesign",
+        "art direction",
+        "responsive",
+        "mobile"
+      ],
+      "agent_response_goal": "Lead with the new homepage: launched 2026-09-06 at heights-t.com, desktop and mobile, with Boaz as design team lead and art director. This is the freshest shipped evidence in the portfolio — show the design next to the live link.",
+      "recommended_media_ids": [
+        "media_hero"
+      ]
+    },
+    {
+      "recruiter_intent": "Assess end-to-end website design capability",
+      "trigger_topics": [
+        "website",
+        "web design",
+        "landing page",
+        "marketing site",
+        "b2b",
+        "telecom",
+        "ui",
+        "ux"
+      ],
+      "agent_response_goal": "Use as the primary full-website evidence: seven page templates plus form states designed on a styleguide and brandbook, then a second phase that relaunched the homepage. Emphasise the B2B storytelling — hardware plus open software platform, ARPU and churn — not just the visuals.",
+      "recommended_media_ids": [
+        "media_hero",
+        "media_products",
+        "media_solutions"
+      ]
+    },
+    {
+      "recruiter_intent": "Assess design-system thinking",
+      "trigger_topics": [
+        "design system",
+        "styleguide",
+        "components",
+        "brandbook",
+        "consistency"
+      ],
+      "agent_response_goal": "Explain that the site is built on a documented styleguide and the Heights Brandbook 25.5 (buttons, icons, components, color palette, type), and that the new homepage phase evolved that system rather than discarding it. The showable sections demonstrate the system's consistency.",
+      "recommended_media_ids": [
+        "media_solutions",
+        "media_hero"
+      ]
+    }
+  ],
+  "presentation": {
+    "default_component": "media_gallery",
+    "short_pitch": "A fresh homepage for Heights Telecom — desktop and mobile — art-directed by Boaz and launched September 2026, on top of a full B2B site built on one styleguide and brandbook.",
+    "long_pitch": "Website design for Heights Telecom, a Zemingo client expanding its telecom hardware-and-software business globally. The original engagement built the full marketing site — seven page templates on a documented styleguide and brandbook. In the latest phase Boaz led the design team and art direction for a completely new homepage, desktop and mobile, launched on 2026-09-06 at heights-t.com: an animated hero, a product catalogue, solutions and press room, selling the ARPU-and-churn story to operators.",
+    "suggested_followups": [
+      "Want to see the new homepage next to the live site, or the previous version it replaced?",
+      "I can also show the styleguide and brandbook the whole site is built on."
+    ]
+  },
+  "open_questions": [
+    "Team composition for the homepage phase — how many designers/developers worked under Boaz's direction?",
+    "No outcome metrics yet — the launch was 2026-09-06; ask Boaz later whether post-launch numbers exist before claiming any.",
+    "The shipped hero copy differs slightly from the working file ('Tailor Made' / 'WiFi 7' vs 'Your Network Your Rules') — fine to show, but don't quote the Figma headline as the live one."
+  ],
+  "peek": {
+    "hook": "A brand-new homepage for a global telecom player — launched September 2026.",
+    "supporting": "Boaz art-directed the redesign, desktop and mobile, on top of a full B2B site he designed on one styleguide and brandbook.",
+    "cta": "See it live"
+  }
+}
