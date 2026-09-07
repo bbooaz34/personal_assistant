@@ -5,7 +5,7 @@
   "organization": "A major Israeli bank (client, via Zemingo)",
   "context": "A client engagement at Zemingo for one of Israel's major banks (name withheld — confidential client work): the design system for the bank's business-banking app. The client is never named publicly; the agent says 'a major Israeli bank'.",
   "role": "Design team lead",
-  "summary": "The design system for a major Israeli bank's business-banking app, built by Boaz's design team at Zemingo and now delivered and in the development team's hands. An atomic library — colors and type through text fields, tables, filters, date pickers, cards, modals and system pages — with dedicated accessibility tracks, and a Transitions layer that specifies micro-interaction behavior. On top of it, an AI workflow: the interaction specs become running, near-production prototypes, so developers receive behavior they can run, inspect and lift from — not static annotations they have to interpret.",
+  "summary": "The design system for a major Israeli bank's business-banking app, built by Boaz's design team at Zemingo and delivered. An atomic library — colors and type through text fields, tables, filters, date pickers, cards, modals and system pages — with dedicated accessibility tracks and a Transitions layer that specifies micro-interaction behavior. The showcase piece is a marketing clip designed with AI from the app's store screens, closing on a CTA to launch an interactive prototype built the same way.",
   "skills_demonstrated": [
     "Design Systems",
     "UX/UI Design",
@@ -38,26 +38,10 @@
   ],
   "artifacts": [
     {
-      "id": "signatures-swipe",
-      "label": "חתימות — פעולות בסוויפ",
-      "file": "signatures-swipe.html",
-      "description": "The signatures queue with the swipe spec implemented: a partial drag reveals sign/reject, continuing the drag makes the sign action take over the surface, and a full swipe commits — badge count and card state update live. Placeholder data only.",
-      "sanitized": true,
-      "visibility": "public"
-    },
-    {
-      "id": "filters",
-      "label": "סינון — שדות, צ׳יפים ותגיות",
-      "file": "filters.html",
-      "description": "The filter sheet's specified behaviors, running: date presets rewrite the from/to fields, custom typing releases the preset, the CTA arms only when something changed, reset returns everything, and applied filters collapse to tags where deleting one reveals the next.",
-      "sanitized": true,
-      "visibility": "public"
-    },
-    {
-      "id": "account-picker",
-      "label": "בחירת חשבון — חיפוש ובחירה",
-      "file": "account-picker.html",
-      "description": "The account-picker bottom sheet: slide-up over the dimmed page, live search over name and number, radio selection, and favorite pinning. Placeholder accounts only.",
+      "id": "marketing-clip",
+      "label": "הקליפ השיווקי",
+      "file": "marketing-clip.html",
+      "description": "An auto-playing marketing clip designed from the app's store screens — six scenes with cinematic transitions and a closing CTA to launch the interactive prototype (in the works). Click skips ahead; the end card replays.",
       "sanitized": true,
       "visibility": "public"
     }
@@ -77,7 +61,7 @@
         "fintech",
         "enterprise"
       ],
-      "agent_response_goal": "Use as the flagship design-system evidence: a full atomic library for a major Israeli bank's business app — atoms through organisms, accessibility tracks, and a Transitions layer that specifies behavior, not just looks. Never name the bank. Show the running prototypes as proof the system is executable, not a sticker sheet.",
+      "agent_response_goal": "Use as the flagship design-system evidence: a full atomic library for a major Israeli bank's business app — atoms through organisms, accessibility tracks, and a Transitions layer that specifies behavior, not just looks. Never name the bank. Show the marketing clip; it is built from the app's own store screens.",
       "recommended_media_ids": []
     },
     {
@@ -92,27 +76,28 @@
         "specs",
         "micro-interactions"
       ],
-      "agent_response_goal": "Tell the workflow story: the system's Transitions page documents interaction specs as annotated frames; with AI those become interactive, near-production prototypes — real RTL Hebrew markup on the system's tokens — that developers run, inspect and lift from, alongside the specs. Show the prototypes and invite the visitor to actually use them. Never name the bank.",
+      "agent_response_goal": "Tell the workflow story: the design system's specs and the app's marketing screens become working artifacts with AI — the showcase clip was designed and built from the store screens in one session, and an interactive prototype (reachable from the clip's CTA) is next. Show the clip and let it play. Never name the bank.",
       "recommended_media_ids": []
     }
   ],
   "presentation": {
     "default_component": "show_artifact",
-    "short_pitch": "A full design system for a major Israeli bank's business app, led by Boaz at Zemingo — with an AI workflow that hands developers running prototypes, not static specs.",
-    "long_pitch": "A design system for a major Israeli bank's business-banking app, built by the Zemingo design team Boaz leads and now delivered: an atomic library from tokens to system pages, dedicated accessibility tracks, and a Transitions layer specifying micro-interaction behavior. The AI workflow on top turns those specs into interactive prototypes in near-production code — developers receive behavior they can run and lift from, together with the specs, instead of interpreting static frames.",
+    "short_pitch": "A full design system for a major Israeli bank's business app, led by Boaz at Zemingo — showcased by an AI-crafted marketing clip of the app, with a prototype on the way.",
+    "long_pitch": "A design system for a major Israeli bank's business-banking app, built by the Zemingo design team Boaz leads and delivered: an atomic library from tokens to system pages, accessibility tracks, and a Transitions layer specifying micro-interaction behavior. The showcase is a marketing clip designed with AI from the app's store screens — six scenes, cinematic motion, and a closing CTA that will launch an interactive prototype built on the same system.",
     "suggested_followups": [
-      "Want to try the swipe-to-sign prototype, or see how the filter spec behaves?",
+      "Want to watch the marketing clip? It's built from the app's actual store screens.",
       "I can also walk through how the design system is structured, from tokens to organisms."
     ]
   },
   "open_questions": [
+    "Interactive prototypes are being rebuilt to match the design system precisely — the first pass was retired 2026-09-07; the clip's CTA will point at the new one when it lands.",
     "Timeframe dates — 'delivered / mostly done' is confirmed, but start and delivery dates are not documented yet.",
     "Any adoption or outcome signal (screens shipped on the system, dev-time saved) — none claimed until Boaz provides one.",
     "The client's identity is deliberately withheld everywhere public — the agent says 'a major Israeli bank' and must not confirm or deny guesses."
   ],
   "peek": {
-    "hook": "A bank-grade design system — with specs that run.",
-    "supporting": "An atomic library for a major Israeli bank's business app, and AI-built prototypes that hand developers behavior, not annotations.",
-    "cta": "Try the prototypes"
+    "hook": "A bank-grade design system, told as a clip.",
+    "supporting": "An atomic library for a major Israeli bank's business app — showcased by an AI-crafted marketing clip, prototype on the way.",
+    "cta": "Watch the clip"
   }
 }

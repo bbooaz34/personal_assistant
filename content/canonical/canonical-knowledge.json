@@ -1673,7 +1673,7 @@
       "role_ids": [
         "role_design_team_leader"
       ],
-      "summary": "The design system for a major Israeli bank's business-banking app, built by Boaz's design team at Zemingo and delivered: an atomic library with accessibility tracks and a Transitions layer of micro-interaction specs, plus an AI workflow that turns those specs into running, near-production prototypes for the development team.",
+      "summary": "The design system for a major Israeli bank's business-banking app, built by Boaz's design team at Zemingo and delivered. An atomic library — colors and type through text fields, tables, filters, date pickers, cards, modals and system pages — with dedicated accessibility tracks and a Transitions layer that specifies micro-interaction behavior. The showcase piece is a marketing clip designed with AI from the app's store screens, closing on a CTA to launch an interactive prototype built the same way.",
       "skill_ids": [
         "skill_design_systems",
         "skill_ux_ui_design",
@@ -1701,25 +1701,13 @@
       "visibility": "public",
       "media": [
         {
-          "type": "prototype",
-          "uri": "/api/artifact/business-banking-design-system/signatures-swipe.html",
-          "caption": "חתימות — the swipe-to-sign spec, running: partial drag reveals sign/reject, full drag commits",
-          "visibility": "public"
-        },
-        {
-          "type": "prototype",
-          "uri": "/api/artifact/business-banking-design-system/filters.html",
-          "caption": "סינון — date presets rewriting the fields, tag deletion revealing the next tag, reset behavior",
-          "visibility": "public"
-        },
-        {
-          "type": "prototype",
-          "uri": "/api/artifact/business-banking-design-system/account-picker.html",
-          "caption": "בחירת חשבון — bottom sheet with live search, selection and favorites",
+          "type": "video",
+          "uri": "/api/artifact/business-banking-design-system/marketing-clip.html",
+          "caption": "The marketing clip — six store screens, cinematic scenes, and a CTA to the upcoming interactive prototype",
           "visibility": "public"
         }
       ],
-      "notes": "Owner-confirmed 2026-09-07: built by his Zemingo design team with him leading; delivered / mostly done; developers receive running prototypes plus specs. PRESENTATION RULE: the client is confidential — say 'a major Israeli bank', never a name, and do not confirm or deny guesses. Prototypes contain placeholder data only. No outcome metrics — do not claim any."
+      "notes": "Owner-confirmed 2026-09-07: built by his Zemingo design team with him leading; delivered / mostly done. PRESENTATION RULE: the client is confidential — say 'a major Israeli bank', never a name, and do not confirm or deny guesses. The first prototype pass was retired same day as off-spec; the marketing clip (built from the app's store screens, placeholder data only) is the showcase, its CTA reserved for the rebuilt prototype. No outcome metrics — do not claim any."
     }
   ],
   "relationships": [

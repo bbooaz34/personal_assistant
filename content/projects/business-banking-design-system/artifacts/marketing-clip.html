@@ -1,0 +1,172 @@
+<!doctype html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>הקליפ השיווקי — אפליקציית הבנקאות העסקית</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#0066ff;
+    --ink:#1d1d20;
+    --ease-out:cubic-bezier(0.23,1,0.32,1);
+    --ease-in-out:cubic-bezier(0.77,0,0.175,1);
+    font-family:'Heebo',-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  html,body{height:100%}
+  body{background:#0a1430;color:#fff;overflow:hidden;-webkit-user-select:none;user-select:none}
+
+  /* the stage — its wash drifts with the scenes */
+  #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  #wash{position:absolute;inset:-20%;background:
+      radial-gradient(60% 50% at 30% 20%, rgba(0,102,255,.55), transparent 60%),
+      radial-gradient(50% 45% at 75% 85%, rgba(64,150,255,.35), transparent 65%),
+      linear-gradient(160deg,#0a1430 10%,#10225c 55%,#0a1430 100%);
+    transform:translateX(0);transition:transform 3s var(--ease-in-out)}
+
+  /* scenes stack; a scene is a floating slide card */
+  .scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    opacity:0;transform:translateY(6%) scale(.94);
+    transition:opacity .7s var(--ease-out),transform .7s var(--ease-out);
+    pointer-events:none;will-change:transform,opacity}
+  .scene.on{opacity:1;transform:none}
+  .scene.gone{opacity:0;transform:translateY(-5%) scale(.96);transition-duration:.55s}
+
+  .card{height:min(86vh,760px);aspect-ratio:746/1325;border-radius:4.5cqi;border-radius:24px;
+    overflow:hidden;box-shadow:0 40px 90px rgba(2,8,30,.6),0 0 0 1px rgba(255,255,255,.07);
+    transform:rotate(0.001deg)}
+  .card img{width:100%;height:100%;object-fit:cover;display:block;
+    transform:scale(1);transition:transform 4.2s linear}
+  .scene.on .card img{transform:scale(1.055)}
+
+  /* kicker line under each scene */
+  .kick{position:absolute;bottom:5.5%;inset-inline:0;text-align:center;font-size:clamp(12px,2.2vh,15px);
+    letter-spacing:.14em;color:rgba(255,255,255,.65);opacity:0;transform:translateY(10px);
+    transition:opacity .6s var(--ease-out) .25s,transform .6s var(--ease-out) .25s}
+  .scene.on .kick{opacity:1;transform:none}
+
+  /* progress rail */
+  #rail{position:fixed;top:0;inset-inline:0;display:flex;gap:5px;padding:12px 14px;z-index:5}
+  #rail i{flex:1;height:2.5px;border-radius:2px;background:rgba(255,255,255,.18);overflow:hidden;position:relative}
+  #rail i::after{content:'';position:absolute;inset:0;background:#fff;transform:translateX(100%);/* rtl: fills right→left */}
+  #rail i.done::after{transform:none}
+  #rail i.run::after{transition:transform var(--t,3s) linear;transform:none}
+
+  /* end card */
+  #end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+    text-align:center;opacity:0;transform:scale(.96);pointer-events:none;
+    transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+  #end.on{opacity:1;transform:none;pointer-events:auto}
+  #end h1{font-size:clamp(26px,6vh,44px);font-weight:800;line-height:1.25;max-width:15ch}
+  #end p{color:rgba(255,255,255,.7);font-size:clamp(13px,2.4vh,16px);max-width:34ch}
+  .cta{border:0;border-radius:999px;padding:15px 34px;font:inherit;font-size:clamp(14px,2.6vh,17px);font-weight:500;
+    background:#fff;color:var(--blue);cursor:pointer;box-shadow:0 12px 40px rgba(0,102,255,.45);
+    transition:transform .16s var(--ease-out)}
+  @media (hover:hover) and (pointer:fine){ .cta:hover{transform:scale(1.045)} }
+  .cta:active{transform:scale(.97)}
+  .again{background:none;border:0;color:rgba(255,255,255,.65);font:inherit;font-size:13.5px;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+  #toast{position:fixed;bottom:26px;inset-inline:0;display:flex;justify-content:center;pointer-events:none}
+  #toast span{background:rgba(255,255,255,.95);color:var(--ink);border-radius:999px;padding:10px 20px;font-size:13.5px;
+    opacity:0;transform:translateY(12px);transition:opacity .35s var(--ease-out),transform .35s var(--ease-out)}
+  #toast.on span{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion: reduce){
+    .scene,.scene.gone{transform:none;transition:opacity .5s ease}
+    .scene .card img,.scene.on .card img{transform:none;transition:none}
+    .kick{transform:none}
+    #wash{transition:none}
+    #end{transform:none}
+  }
+</style>
+</head>
+<body>
+<div id="stage" aria-label="קליפ שיווקי — לחיצה מדלגת לסצנה הבאה">
+  <div id="wash"></div>
+  <div id="rail" aria-hidden="true"></div>
+  <div id="scenes"></div>
+  <div id="end">
+    <h1>הבנקאות העסקית,<br>בכף היד</h1>
+    <p>עוצב ונבנה על מערכת עיצוב מלאה — מהטוקנים ועד המיקרו־אינטראקציות</p>
+    <button class="cta" id="launch">השקת אב־טיפוס</button>
+    <button class="again" id="again">▶ צפו שוב</button>
+  </div>
+</div>
+<div id="toast"><span>האב־טיפוס האינטראקטיבי בדרך — בקרוב ממש כאן</span></div>
+
+<script>
+const SCENES = [
+  { img:'slide-cover.jpg',      kick:'הדרך הנוחה לנהל את העסק',       hold:3400 },
+  { img:'slide-signatures.jpg', kick:'חתימה על הוראות במקום אחד',      hold:3000 },
+  { img:'slide-sharing.jpg',    kick:'שיתוף דוחות ומסמכים בלחיצה',     hold:3000 },
+  { img:'slide-transfers.jpg',  kick:'העברות זה״ב, בלי סניף',          hold:3000 },
+  { img:'slide-checks.jpg',     kick:'הפקדת שיקים מרובים ברצף',        hold:3000 },
+  { img:'slide-english.jpg',    kick:'וגם באנגלית, לעסקים גלובליים',   hold:3000 },
+];
+const scenesEl = document.getElementById('scenes');
+const rail = document.getElementById('rail');
+const wash = document.getElementById('wash');
+const end = document.getElementById('end');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+SCENES.forEach((s, i) => {
+  scenesEl.insertAdjacentHTML('beforeend',
+    `<div class="scene" id="sc${i}">
+       <figure class="card"><img src="${s.img}" alt="${s.kick}"></figure>
+       <p class="kick">${s.kick}</p>
+     </div>`);
+  rail.insertAdjacentHTML('beforeend', `<i id="bar${i}"></i>`);
+});
+
+let i = -1, timer = null;
+function show(n){
+  clearTimeout(timer);
+  if (i >= 0) {
+    const prev = document.getElementById('sc'+i);
+    prev.classList.remove('on'); prev.classList.add('gone');
+    document.getElementById('bar'+i).className = 'done';
+  }
+  if (n >= SCENES.length) return finale();
+  i = n;
+  const sc = document.getElementById('sc'+i);
+  sc.classList.remove('gone');
+  // force a style flush so re-entry (replay) animates from the start state
+  void sc.offsetWidth;
+  sc.classList.add('on');
+  const bar = document.getElementById('bar'+i);
+  bar.style.setProperty('--t', SCENES[i].hold + 'ms');
+  bar.className = ''; void bar.offsetWidth; bar.className = 'run';
+  // the wash drifts sideways a little further each scene
+  wash.style.transform = `translateX(${(i % 2 ? -1 : 1) * (4 + i)}%)`;
+  timer = setTimeout(() => show(i + 1), reduce ? Math.min(SCENES[i].hold, 2400) : SCENES[i].hold);
+}
+function finale(){
+  end.classList.add('on');
+  document.querySelectorAll('#rail i').forEach(b => b.className = 'done');
+}
+function replay(){
+  end.classList.remove('on');
+  document.querySelectorAll('.scene').forEach(s => s.classList.remove('on','gone'));
+  document.querySelectorAll('#rail i').forEach(b => b.className = '');
+  i = -1; show(0);
+}
+
+document.getElementById('stage').addEventListener('click', e => {
+  if (e.target.closest('#end')) return;
+  show(i + 1); // a click skips forward; the timeline keeps flowing
+});
+document.getElementById('again').addEventListener('click', replay);
+document.getElementById('launch').addEventListener('click', () => {
+  // CTA stub — the interactive prototype ships separately and will be wired here.
+  const t = document.getElementById('toast');
+  t.classList.add('on');
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('on'), 2600);
+});
+
+// preload, then roll
+let loaded = 0;
+SCENES.forEach(s => { const im = new Image(); im.onload = im.onerror = () => { if (++loaded === SCENES.length) show(0); }; im.src = s.img; });
+</script>
+</body>
+</html>

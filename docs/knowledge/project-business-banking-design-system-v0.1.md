@@ -29,3 +29,14 @@ All three verified by driving their interactions in a browser.
 
 - Start and delivery dates (status is confirmed; dates are not documented).
 - Adoption/outcome signals — none claimed.
+
+---
+
+# v0.2 — The marketing clip replaces the first prototype pass, 2026-09-07
+
+Owner feedback: the three spec prototypes didn't match the Figma designs accurately enough. They were retired the same day (recoverable from git history; a faithful rebuild is planned). The owner pointed the Figma bridge at the app's **marketing-screens file** and asked for a marketing clip.
+
+- Exported the six store screens (cover, signatures, sharing, RTGS transfers, multiple checks, English variant — 1242×2208 App Store format, placeholder data, no client branding) to `slide-*.jpg`.
+- Built **marketing-clip.html**: an auto-playing six-scene clip — floating slide cards with slow Ken Burns drift, strong-ease entrances/exits, per-scene kicker captions, a top progress rail, a drifting background wash, click-to-skip, reduced-motion crossfade variant — ending on a card with a **"השקת אב־טיפוס" CTA** (stubbed to a "coming soon" toast until the rebuilt prototype lands) and a replay control.
+- The clip is now the project's sole artifact and media (`type: video`); hooks, pitches and the peek were rewritten around it.
+- Identifier sweep re-run: no client-identifying strings anywhere in the repo or API payloads.
