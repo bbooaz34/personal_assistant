@@ -425,7 +425,8 @@ export function OrbConversation() {
       <div key={key} className="gen-ui">
         {node}
         <button type="button" className="gen-cta" onClick={() => expandSpec(expandName ?? name, args)}>
-          Expand
+          <span className="spark" aria-hidden>✦</span>
+          Generate live view
         </button>
       </div>
     );
