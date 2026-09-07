@@ -158,10 +158,8 @@ document.getElementById('stage').addEventListener('click', e => {
 });
 document.getElementById('again').addEventListener('click', replay);
 document.getElementById('launch').addEventListener('click', () => {
-  // CTA stub — the interactive prototype ships separately and will be wired here.
-  const t = document.getElementById('toast');
-  t.classList.add('on');
-  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('on'), 2600);
+  // The interactive prototype lives beside this clip in the artifact store.
+  location.href = 'prototype.html';
 });
 
 // preload, then roll

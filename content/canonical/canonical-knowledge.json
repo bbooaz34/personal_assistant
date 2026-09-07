@@ -1673,7 +1673,7 @@
       "role_ids": [
         "role_design_team_leader"
       ],
-      "summary": "The design system for a major Israeli bank's business-banking app, built by Boaz's design team at Zemingo and delivered. An atomic library — colors and type through text fields, tables, filters, date pickers, cards, modals and system pages — with dedicated accessibility tracks and a Transitions layer that specifies micro-interaction behavior. The showcase piece is a marketing clip designed with AI from the app's store screens, closing on a CTA to launch an interactive prototype built the same way.",
+      "summary": "The design system for a major Israeli bank's business-banking app, built by Boaz's design team at Zemingo and delivered. An atomic library — colors and type through text fields, tables, filters, date pickers, cards, modals and system pages — with dedicated accessibility tracks and a Transitions layer that specifies micro-interaction behavior. The showcase piece is a marketing clip designed with AI from the app's store screens, and an interactive prototype of the cancel-instruction flow whose screens are 1:1 exports of the Figma frames, wired from the authored prototype graph — the clip's CTA launches it.",
       "skill_ids": [
         "skill_design_systems",
         "skill_ux_ui_design",
@@ -1701,13 +1701,19 @@
       "visibility": "public",
       "media": [
         {
+          "type": "prototype",
+          "uri": "/api/artifact/business-banking-design-system/prototype.html",
+          "caption": "The interactive prototype — 1:1 Figma frame exports wired with the authored hotspots, transitions and timers",
+          "visibility": "public"
+        },
+        {
           "type": "video",
           "uri": "/api/artifact/business-banking-design-system/marketing-clip.html",
-          "caption": "The marketing clip — six store screens, cinematic scenes, and a CTA to the upcoming interactive prototype",
+          "caption": "The marketing clip — six store screens, cinematic scenes, CTA launches the prototype",
           "visibility": "public"
         }
       ],
-      "notes": "Owner-confirmed 2026-09-07: built by his Zemingo design team with him leading; delivered / mostly done. PRESENTATION RULE: the client is confidential — say 'a major Israeli bank', never a name, and do not confirm or deny guesses. The first prototype pass was retired same day as off-spec; the marketing clip (built from the app's store screens, placeholder data only) is the showcase, its CTA reserved for the rebuilt prototype. No outcome metrics — do not claim any."
+      "notes": "Owner-confirmed 2026-09-07: built by his Zemingo design team with him leading; delivered / mostly done. PRESENTATION RULE: the client is confidential — say 'a major Israeli bank', never a name, and do not confirm or deny guesses. The showcase is the marketing clip (built from the app's store screens) plus an interactive prototype whose screens are 1:1 Figma exports wired from the authored prototype graph; the clip's CTA launches the prototype. All data is placeholder. No outcome metrics — do not claim any."
     }
   ],
   "relationships": [

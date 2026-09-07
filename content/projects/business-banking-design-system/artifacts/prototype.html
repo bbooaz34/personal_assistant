@@ -1,0 +1,124 @@
+<!doctype html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>אב־טיפוס — ביטול ופירוט הוראות</title>
+<style>
+  /* The screens ARE the Figma frames, exported 1:1 at 2x. This player adds
+     only what Figma's own player adds: the authored hotspots, transitions
+     and timers, read from the prototype graph — nothing redrawn by hand. */
+  :root{
+    --blue:#0066ff;
+    --ease-out:cubic-bezier(0.23,1,0.32,1);
+  }
+  *{box-sizing:border-box;margin:0}
+  html,body{height:100%}
+  body{background:#e9edf3;display:flex;align-items:center;justify-content:center;overflow:hidden;
+    font-family:-apple-system,'Heebo',sans-serif;-webkit-user-select:none;user-select:none}
+  #stage{position:relative;aspect-ratio:375/812;height:min(100vh,900px);max-width:100vw;
+    background:#fff;overflow:hidden;box-shadow:0 10px 60px rgba(20,30,60,.18)}
+  @media (min-width:460px){ #stage{border-radius:28px;height:min(94vh,860px)} }
+  .screen{position:absolute;inset:0;visibility:hidden;will-change:transform,opacity}
+  .screen img{width:100%;height:100%;display:block;pointer-events:none}
+  .screen.on{visibility:visible}
+  .hot{position:absolute;cursor:pointer;border-radius:8px}
+  .hot::after{content:'';position:absolute;inset:0;border-radius:inherit;background:rgba(0,102,255,.22);
+    outline:2px solid rgba(0,102,255,.55);opacity:0;transition:opacity .3s ease}
+  #stage.hint .hot::after{opacity:1}
+  #restart{position:fixed;bottom:18px;inset-inline-start:18px;z-index:9;border:0;border-radius:999px;
+    width:42px;height:42px;background:#1d1d20;color:#fff;font-size:17px;cursor:pointer;opacity:.85;
+    transition:transform .16s var(--ease-out)}
+  @media (hover:hover) and (pointer:fine){ #restart:hover{transform:scale(1.08)} }
+</style>
+</head>
+<body>
+<div id="stage" aria-label="אב־טיפוס אינטראקטיבי. לחיצה על אזור ריק מציגה את האזורים הפעילים."></div>
+<button id="restart" title="התחלה מחדש" aria-label="התחלה מחדש">⟲</button>
+
+<script>
+/* The flow, verbatim from the Figma prototype graph (frame ids in comments).
+   Rects are in the 375x812 frame space; transitions carry the authored
+   direction and duration. */
+const SCREENS = {
+  list:    { img:'scr-list.png',    hots:[ {r:[16,254,343,206], to:'cancel', t:'movein-left', d:400} ],
+             auto:{ after:3000, to:'cancel', t:'movein-left', d:400 } },                       // 2037:18734
+  cancel:  { img:'scr-cancel.png',  hots:[ {r:[0,60,60,24],    to:'list',    t:'moveout-right', d:383},
+                                           {r:[16,358,343,56], to:'payees',  t:'movein-top',    d:511},
+                                           {r:[24,714,327,48], to:'summary', t:'movein-left',   d:383} ] }, // 2037:19513
+  summary: { img:'scr-summary.png', hots:[ {r:[24,714,327,48], to:'toastA',  t:'movein-left',   d:383} ] }, // 2037:19601
+  payees:  { img:'scr-payees.png',  hots:[ {r:[0,0,375,252],   to:'cancel',  t:'slideout-bottom', d:640} ] }, // 2037:19316
+  toastA:  { img:'scr-toast-a.png', hots:[], auto:{ after:1200, to:'toastB', t:'dissolve', d:1022 } },      // 2037:19882
+  toastB:  { img:'scr-toast-b.png', hots:[ {r:[0,0,375,812], to:'list', t:'dissolve', d:400} ] },           // 2037:20063
+};
+const START = 'list';
+const stage = document.getElementById('stage');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+for (const [key, s] of Object.entries(SCREENS)) {
+  const el = document.createElement('div');
+  el.className = 'screen'; el.id = 'scr-' + key;
+  el.innerHTML = `<img src="${s.img}" alt="">` + s.hots.map((h, j) =>
+    `<div class="hot" data-k="${key}" data-j="${j}" style="left:${(h.r[0]/375*100).toFixed(2)}%;top:${(h.r[1]/812*100).toFixed(2)}%;width:${(h.r[2]/375*100).toFixed(2)}%;height:${(h.r[3]/812*100).toFixed(2)}%"></div>`
+  ).join('');
+  stage.appendChild(el);
+}
+
+let current = null, timer = null, busy = false;
+
+function animate(el, frames, dur){
+  return new Promise(res => {
+    if (reduce) return res();
+    const a = el.animate(frames, { duration: dur, easing: 'cubic-bezier(0.23,1,0.32,1)', fill: 'both' });
+    a.onfinish = () => { a.cancel(); res(); };
+  });
+}
+
+async function go(key, t = 'dissolve', dur = 300){
+  if (busy || key === current) return;
+  busy = true;
+  clearTimeout(timer);
+  const from = current ? document.getElementById('scr-' + current) : null;
+  const to = document.getElementById('scr-' + key);
+  to.classList.add('on');
+
+  if (from){
+    if (t === 'movein-left'){        to.style.zIndex = 2; await animate(to, [{transform:'translateX(100%)'},{transform:'translateX(0)'}], dur); }
+    else if (t === 'movein-top'){    to.style.zIndex = 2; await animate(to, [{transform:'translateY(100%)'},{transform:'translateY(0)'}], dur); }
+    else if (t === 'moveout-right'){ from.style.zIndex = 2; to.style.zIndex = 1; await animate(from, [{transform:'translateX(0)'},{transform:'translateX(100%)'}], dur); }
+    else if (t === 'slideout-bottom'){ from.style.zIndex = 2; to.style.zIndex = 1; await animate(from, [{transform:'translateY(0)'},{transform:'translateY(100%)'}], dur); }
+    else { to.style.zIndex = 2; await animate(to, [{opacity:0},{opacity:1}], dur); }
+    from.classList.remove('on'); from.style.zIndex = '';
+  }
+  to.style.zIndex = '';
+  current = key; busy = false;
+  const auto = SCREENS[key].auto;
+  if (auto) timer = setTimeout(() => go(auto.to, auto.t, auto.d), auto.after);
+}
+
+/* Directions are Figma's, taken literally so the player matches the authored
+   prototype exactly: MOVE_IN LEFT travels leftward (enters from the right
+   edge), MOVE_OUT RIGHT exits rightward — back leaves the way forward came. */
+
+stage.addEventListener('click', e => {
+  const hot = e.target.closest('.hot');
+  if (hot){
+    const h = SCREENS[hot.dataset.k].hots[hot.dataset.j];
+    go(h.to, h.t, h.d);
+    return;
+  }
+  // Figma-player behavior: a click on a dead area flashes the live areas.
+  stage.classList.add('hint');
+  setTimeout(() => stage.classList.remove('hint'), 650);
+});
+document.getElementById('restart').addEventListener('click', () => {
+  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('on'); s.style.zIndex=''; });
+  current = null; go(START);
+});
+
+let loaded = 0;
+const all = Object.values(SCREENS);
+all.forEach(s => { const im = new Image(); im.onload = im.onerror = () => { if (++loaded === all.length) go(START); }; im.src = s.img; });
+</script>
+</body>
+</html>

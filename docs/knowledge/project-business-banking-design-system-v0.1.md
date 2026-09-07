@@ -40,3 +40,17 @@ Owner feedback: the three spec prototypes didn't match the Figma designs accurat
 - Built **marketing-clip.html**: an auto-playing six-scene clip — floating slide cards with slow Ken Burns drift, strong-ease entrances/exits, per-scene kicker captions, a top progress rail, a drifting background wash, click-to-skip, reduced-motion crossfade variant — ending on a card with a **"השקת אב־טיפוס" CTA** (stubbed to a "coming soon" toast until the rebuilt prototype lands) and a replay control.
 - The clip is now the project's sole artifact and media (`type: video`); hooks, pitches and the peek were rewritten around it.
 - Identifier sweep re-run: no client-identifying strings anywhere in the repo or API payloads.
+
+---
+
+# v0.3 — The design-accurate interactive prototype, 2026-09-07
+
+Owner pointed the Figma bridge at the app's cancel-instruction prototype file (a six-screen wired flow) and asked for a rebuild with guaranteed design accuracy.
+
+**Approach — the design itself is what runs.** Instead of re-implementing the UI (where the first pass drifted), the player works the way Figma's own does:
+- Each screen is a **1:1 export of the Figma frame** (2x PNG, cropped to exact frame bounds — the raw exports include unclipped overflow, offset (44,40) logical).
+- The **interaction graph was read from the prototype wiring itself**: every reaction's hotspot rect, destination, transition type, direction and authored duration (MOVE_IN LEFT 400ms, MOVE_OUT RIGHT 383ms, MOVE_IN TOP 511ms, SLIDE_OUT BOTTOM, SMART_ANIMATE≈dissolve 1022ms, plus two AFTER_TIMEOUT steps at 3s and 1.2s).
+- Transitions reproduce Figma's literal direction semantics; a click on a dead area flashes the live hotspots, exactly like Figma's player; ⟲ restarts; reduced-motion gets instant swaps.
+- Flow verified end-to-end in a browser: list → cancel → payees modal → close → back → summary → confirmation toast pair.
+
+The marketing clip's CTA now launches the prototype (verified). The owner also provided a local .fig copy of the design system as backup design data; it was not needed — the live bridge supplied everything.

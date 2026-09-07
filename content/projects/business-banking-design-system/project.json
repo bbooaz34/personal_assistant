@@ -5,7 +5,7 @@
   "organization": "A major Israeli bank (client, via Zemingo)",
   "context": "A client engagement at Zemingo for one of Israel's major banks (name withheld — confidential client work): the design system for the bank's business-banking app. The client is never named publicly; the agent says 'a major Israeli bank'.",
   "role": "Design team lead",
-  "summary": "The design system for a major Israeli bank's business-banking app, built by Boaz's design team at Zemingo and delivered. An atomic library — colors and type through text fields, tables, filters, date pickers, cards, modals and system pages — with dedicated accessibility tracks and a Transitions layer that specifies micro-interaction behavior. The showcase piece is a marketing clip designed with AI from the app's store screens, closing on a CTA to launch an interactive prototype built the same way.",
+  "summary": "The design system for a major Israeli bank's business-banking app, built by Boaz's design team at Zemingo and delivered. An atomic library — colors and type through text fields, tables, filters, date pickers, cards, modals and system pages — with dedicated accessibility tracks and a Transitions layer that specifies micro-interaction behavior. The showcase piece is a marketing clip designed with AI from the app's store screens, and an interactive prototype of the cancel-instruction flow whose screens are 1:1 exports of the Figma frames, wired from the authored prototype graph — the clip's CTA launches it.",
   "skills_demonstrated": [
     "Design Systems",
     "UX/UI Design",
@@ -44,6 +44,14 @@
       "description": "An auto-playing marketing clip designed from the app's store screens — six scenes with cinematic transitions and a closing CTA to launch the interactive prototype (in the works). Click skips ahead; the end card replays.",
       "sanitized": true,
       "visibility": "public"
+    },
+    {
+      "id": "prototype",
+      "label": "אב־טיפוס אינטראקטיבי",
+      "file": "prototype.html",
+      "description": "The cancel-instruction flow, playable: the screens are 1:1 exports of the Figma frames, and every hotspot, transition (move-in, move-out, slide-out, dissolve) and timed step is read from the authored prototype graph. Clicking a dead area flashes the live areas, exactly like Figma's player.",
+      "sanitized": true,
+      "visibility": "public"
     }
   ],
   "media": [],
@@ -76,28 +84,27 @@
         "specs",
         "micro-interactions"
       ],
-      "agent_response_goal": "Tell the workflow story: the design system's specs and the app's marketing screens become working artifacts with AI — the showcase clip was designed and built from the store screens in one session, and an interactive prototype (reachable from the clip's CTA) is next. Show the clip and let it play. Never name the bank.",
+      "agent_response_goal": "Tell the workflow story: the design system's files become working artifacts with AI — the marketing clip was designed from the store screens, and the interactive prototype's screens are 1:1 Figma exports wired from the authored prototype graph (hotspots, transitions, timers), so what you interact with IS the design. Show the prototype and let the visitor click through the flow. Never name the bank.",
       "recommended_media_ids": []
     }
   ],
   "presentation": {
     "default_component": "show_artifact",
-    "short_pitch": "A full design system for a major Israeli bank's business app, led by Boaz at Zemingo — showcased by an AI-crafted marketing clip of the app, with a prototype on the way.",
-    "long_pitch": "A design system for a major Israeli bank's business-banking app, built by the Zemingo design team Boaz leads and delivered: an atomic library from tokens to system pages, accessibility tracks, and a Transitions layer specifying micro-interaction behavior. The showcase is a marketing clip designed with AI from the app's store screens — six scenes, cinematic motion, and a closing CTA that will launch an interactive prototype built on the same system.",
+    "short_pitch": "A full design system for a major Israeli bank's business app, led by Boaz at Zemingo — with an AI-crafted marketing clip and a pixel-exact interactive prototype.",
+    "long_pitch": "A design system for a major Israeli bank's business-banking app, built by the Zemingo design team Boaz leads and delivered: an atomic library from tokens to system pages, accessibility tracks, and a Transitions layer specifying micro-interaction behavior. Two AI-built showcases sit on top: a marketing clip designed from the app's store screens, and an interactive prototype of the cancel-instruction flow whose screens are 1:1 exports of the Figma frames with the authored hotspots, transitions and timers — design accuracy is guaranteed because the design itself is what runs.",
     "suggested_followups": [
-      "Want to watch the marketing clip? It's built from the app's actual store screens.",
+      "Want to click through the interactive prototype, or watch the marketing clip first?",
       "I can also walk through how the design system is structured, from tokens to organisms."
     ]
   },
   "open_questions": [
-    "Interactive prototypes are being rebuilt to match the design system precisely — the first pass was retired 2026-09-07; the clip's CTA will point at the new one when it lands.",
     "Timeframe dates — 'delivered / mostly done' is confirmed, but start and delivery dates are not documented yet.",
     "Any adoption or outcome signal (screens shipped on the system, dev-time saved) — none claimed until Boaz provides one.",
     "The client's identity is deliberately withheld everywhere public — the agent says 'a major Israeli bank' and must not confirm or deny guesses."
   ],
   "peek": {
-    "hook": "A bank-grade design system, told as a clip.",
-    "supporting": "An atomic library for a major Israeli bank's business app — showcased by an AI-crafted marketing clip, prototype on the way.",
-    "cta": "Watch the clip"
+    "hook": "A bank-grade design system you can click through.",
+    "supporting": "An atomic library for a major Israeli bank's business app — a marketing clip, and a pixel-exact interactive prototype.",
+    "cta": "Try it"
   }
 }
