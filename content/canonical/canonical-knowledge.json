@@ -96,6 +96,15 @@
       "uri": null,
       "date": "2026-09-07",
       "notes": "The design-system source: atomic pages (atoms/molecules/organisms), accessibility update tracks, and the Transitions micro-interaction spec page the public prototypes were generated from. Held by the owner; not linked because the client is confidential."
+    },
+    {
+      "id": "source_byondxr_youtube_videos",
+      "type": "external",
+      "name": "ByondXR official YouTube videos (Mastercard virtual city; LEGO Christmas house)",
+      "authority_level": 2,
+      "uri": "https://www.youtube.com/@ByondXR",
+      "date": "2026-09-07",
+      "notes": "Public videos on ByondXR's channel showing both experiences running; provided by the owner as project media. Mastercard: youtube.com/watch?v=3SNXfebPrQI. LEGO: youtube.com/watch?v=X8s90JGfaBY."
     }
   ],
   "entities": [
@@ -1329,7 +1338,16 @@
       ],
       "verification_status": "needs_verification",
       "visibility": "public",
-      "notes": "The project is real and owner-confirmed. Responsibilities, outcomes and metrics await a written case study, so the agent must not attribute specific decisions or results to Boaz beyond the creative lead role."
+      "notes": "The project is real and owner-confirmed. Responsibilities, outcomes and metrics await a written case study, so the agent must not attribute specific decisions or results to Boaz beyond the creative lead role.",
+      "thumbnail": "/api/artifact/mastercard-virtual-city/thumb.jpg",
+      "media": [
+        {
+          "type": "video",
+          "uri": "https://www.youtube-nocookie.com/embed/3SNXfebPrQI",
+          "caption": "ByondXR's official video of the Mastercard Day virtual city — a Tel Aviv-inspired interactive experience",
+          "visibility": "public"
+        }
+      ]
     },
     {
       "id": "project_caesarstone_visualizer",
@@ -1667,7 +1685,16 @@
       ],
       "verification_status": "needs_verification",
       "visibility": "public",
-      "notes": "Owner asked to add this 2026-09-07. Participation is public: the client-side FMG post names Boaz on the team, and Boaz reposted it. Exact role scope, timeframe (~Christmas 2023, within his ByondXR tenure) and any media still need owner confirmation. The public experience link (byondxr.link/LEGO-holiday-eng) no longer resolves."
+      "notes": "Owner asked to add this 2026-09-07. Participation is public: the client-side FMG post names Boaz on the team, and Boaz reposted it. Exact role scope, timeframe (~Christmas 2023, within his ByondXR tenure) and any media still need owner confirmation. The public experience link (byondxr.link/LEGO-holiday-eng) no longer resolves.",
+      "thumbnail": "/api/artifact/byondxr-lego-christmas-house/thumb.jpg",
+      "media": [
+        {
+          "type": "video",
+          "uri": "https://www.youtube-nocookie.com/embed/X8s90JGfaBY",
+          "caption": "ByondXR's official launch video of the LEGO Immersive Christmas Shopping House",
+          "visibility": "public"
+        }
+      ]
     },
     {
       "id": "project_business_banking_design_system",

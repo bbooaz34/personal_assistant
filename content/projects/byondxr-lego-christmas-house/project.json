@@ -38,6 +38,15 @@
       "verification_status": "verified",
       "visibility": "public",
       "notes": "Boaz confirmed the project belongs in his portfolio. Exact role scope and timeframe still to be confirmed."
+    },
+    {
+      "id": "evidence_youtube_X8s90JGfaBY",
+      "type": "video",
+      "label": "ByondXR official launch video — LEGO Immersive Christmas House",
+      "uri": "https://www.youtube.com/watch?v=X8s90JGfaBY",
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Public video on ByondXR's official channel, provided by the owner 2026-09-07; embedded as the project's media."
     }
   ],
   "media": [],
@@ -70,7 +79,6 @@
   "open_questions": [
     "Confirm Boaz's exact role and scope on this project (creative team lead is inferred from his ByondXR role at the time).",
     "Confirm the timeframe — the launch posts sit ~2 years back in the feed, pointing at the 2023 holiday season, inside his ByondXR tenure (ended January 2024 per canonical).",
-    "Ingest visuals — the launch post carried a video; screenshots or a capture would make this showable. The live experience link is dead.",
     "No outcome metrics attached — ask Boaz whether any exist before claiming any."
   ],
   "peek": {

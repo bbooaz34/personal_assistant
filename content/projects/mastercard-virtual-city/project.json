@@ -24,6 +24,15 @@
       "verification_status": "needs_verification",
       "visibility": "public",
       "notes": "The project and Boaz's involvement are confirmed. Specific decisions, team structure and outcomes are not yet documented and must not be described until they are."
+    },
+    {
+      "id": "evidence_youtube_3SNXfebPrQI",
+      "type": "video",
+      "label": "ByondXR official video — Mastercard Day virtual city",
+      "uri": "https://www.youtube.com/watch?v=3SNXfebPrQI",
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Public video on ByondXR's official channel, provided by the owner 2026-09-07; embedded as the project's media."
     }
   ],
   "media": [],

@@ -196,9 +196,9 @@ export function TransformationView({
   );
 }
 
-/** Media that runs rather than displays: an HTML artifact, or a live site. */
+/** Media that runs rather than displays: an HTML artifact, a live site, a video embed. */
 function isEmbeddableMedia(item: { type: string; uri: string }): boolean {
-  return item.type === 'prototype' || /\.html?($|\?)/.test(item.uri);
+  return item.type === 'prototype' || item.type === 'video' || /\.html?($|\?)/.test(item.uri);
 }
 
 export function MediaGallery({
