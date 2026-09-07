@@ -1,0 +1,190 @@
+{
+  "metadata": {
+    "schema_version": "0.2",
+    "subject_id": "person_boaz_ben_eli",
+    "generated_at": "2026-09-07",
+    "generated_by": "LinkedIn extraction (profile, activity feed and articles read via the owner's own browser session, at the owner's request)",
+    "notes": "Source: https://www.linkedin.com/in/bbooaz/. Self-authored public professional profile — authority level 2. Post texts quoted are public. Follower/impression counts deliberately not ingested as facts; they age instantly."
+  },
+  "entities": [],
+  "facts": [
+    {
+      "id": "fact_linkedin_headline",
+      "claim": "Boaz presents himself publicly as 'Product Design Leader | GenAI Specialist | ProductAI builder'.",
+      "category": "identity",
+      "knowledge_type": "explicit",
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_linkedin_profile_2026_09_07",
+          "locator": "Profile headline",
+          "reliability": 1.0
+        }
+      ],
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": "2026-09-07",
+      "notes": "Self-authored headline, read directly from the live profile."
+    },
+    {
+      "id": "fact_linkedin_post_internship_build",
+      "claim": "Boaz wrote publicly on LinkedIn about building the internship platform: a full multi-user system specified and built in roughly ninety minutes of conversation with Claude — a vocal brainstorm instead of a written spec, a functional-first design approach (working product before pixels), and three live iterations including structured feedback categories, full Hebrew/RTL, and a simplification to tabs and star ratings.",
+      "category": "working_style",
+      "knowledge_type": "explicit",
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_linkedin_profile_2026_09_07",
+          "locator": "Activity feed, post from ~August 2026 (Hebrew)",
+          "reliability": 1.0
+        }
+      ],
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": "2026-09-07",
+      "notes": "Matches the verified internship platform project. Key line: 'הפער בין רעיון למוצר עובד הצטמצם לשיחה טובה ולכושר החלטה' — the gap between an idea and a working product has shrunk to a good conversation and decisiveness."
+    },
+    {
+      "id": "fact_linkedin_post_context_engineering",
+      "claim": "Boaz wrote publicly on LinkedIn about context engineering at Zemingo: when someone on the team cracks a good way of working with AI, it does not stay in their chat history — it becomes a shared, peer-reviewed knowledge unit that spreads to the whole team automatically.",
+      "category": "working_style",
+      "knowledge_type": "explicit",
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_linkedin_profile_2026_09_07",
+          "locator": "Activity feed, post from ~late August 2026 (Hebrew, the monkey-and-butterfly parable)",
+          "reliability": 1.0
+        }
+      ],
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": "2026-09-07",
+      "notes": "The parable: a butterfly keeps fetching the wrong animal because the monkey describes attributes instead of giving context. Punchline: 'ה-AI שלכם לא מטומטם. הבריף שלכם קצר.' Post credits the idea to Yair Nissimi."
+    },
+    {
+      "id": "fact_linkedin_post_conversational_interfaces",
+      "claim": "Boaz publicly engages with conversational and voice interfaces as the next design frontier — he amplified a Zemingo studio workshop on the shift from touch screens to spoken conversation with the line 'Conversational interface it's the thing', a shift whose design question becomes when a screen is justified at all.",
+      "category": "preference",
+      "knowledge_type": "explicit",
+      "confidence": 0.9,
+      "verification_status": "verified",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_linkedin_profile_2026_09_07",
+          "locator": "Activity feed, repost from ~August 2026 of Assaf Yogev's workshop post",
+          "reliability": 0.9
+        }
+      ],
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": "2026-09-07",
+      "notes": "Directly relevant when a visitor is talking to the voice-driven representative itself."
+    },
+    {
+      "id": "fact_linkedin_post_trip_planner",
+      "claim": "Boaz wrote publicly on LinkedIn about designing and shipping a full-stack multi-user trip-planning app (Next.js, Supabase, magic-link auth, realtime sync, MapLibre maps, live flight status) hands-off — no Figma screens and no hand-written code — using Claude Code with Claude Design, applying an iOS 26 'Liquid Glass' design system directly onto the live app.",
+      "category": "working_style",
+      "knowledge_type": "explicit",
+      "confidence": 1.0,
+      "verification_status": "verified",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_linkedin_profile_2026_09_07",
+          "locator": "Activity feed, post from ~July 2026 (Hebrew), public repo linked",
+          "reliability": 1.0
+        }
+      ],
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "last_verified": "2026-09-07",
+      "notes": "Key line: 'לעצב ולפתח עם הראש והבטן – לחלוטין ללא ידיים' — designing and building with head and gut, entirely without hands."
+    },
+    {
+      "id": "fact_linkedin_article_gpt_coach",
+      "claim": "A five-minute Hebrew article published under Boaz's LinkedIn profile (2025-02-27), 'כיצד להפוך את צ׳אט GPT למאמן אישי?', lays out a six-step, psychology-grounded framework for using ChatGPT as a personal coach — each prompt built on a named theory (self-determination, possible selves, SMART goals, limiting beliefs, success patterns, prospect theory).",
+      "category": "portfolio",
+      "knowledge_type": "explicit",
+      "confidence": 0.7,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "sources": [
+        {
+          "source_id": "source_linkedin_article_gpt_coach",
+          "locator": "Full article text",
+          "reliability": 0.7
+        }
+      ],
+      "evidence": [],
+      "valid_from": "2025-02-27",
+      "valid_to": null,
+      "last_verified": "2026-09-07",
+      "notes": "AUTHORSHIP NEEDS OWNER CONFIRMATION: the LinkedIn article is published under Boaz's profile, but the body credits 'ירדן להבי | 24 פברואר 2025' and says it originally appeared in the Mehut HaHaim magazine email edition. Until Boaz clarifies his role (author, co-author, or republisher), the agent must not claim he wrote it — only that it was published on his LinkedIn."
+    }
+  ],
+  "skills": [],
+  "projects": [],
+  "sources": [
+    {
+      "id": "source_linkedin_profile_2026_09_07",
+      "type": "external",
+      "name": "LinkedIn profile and activity of Boaz Ben Eli, read 2026-09-07",
+      "authority_level": 2,
+      "uri": "https://www.linkedin.com/in/bbooaz/",
+      "date": "2026-09-07",
+      "notes": "Self-authored public professional profile: headline, experience entries, posts and reposts. Read via the owner's own browser session at the owner's request."
+    },
+    {
+      "id": "source_linkedin_article_gpt_coach",
+      "type": "external",
+      "name": "LinkedIn article: כיצד להפוך את צ׳אט GPT למאמן אישי? (2025-02-27)",
+      "authority_level": 2,
+      "uri": "https://www.linkedin.com/pulse/%D7%9B%D7%99%D7%A6%D7%93-%D7%9C%D7%94%D7%A4%D7%95%D7%9A-%D7%90%D7%AA-%D7%A6%D7%90%D7%98-gpt-%D7%9C%D7%9E%D7%90%D7%9E%D7%9F-%D7%90%D7%99%D7%A9%D7%99-boaz-ben-eli-wnpke/",
+      "date": "2025-02-27",
+      "notes": "Published under Boaz's LinkedIn profile; body byline credits Yarden Lahavi and Mehut HaHaim magazine — authorship pending owner confirmation."
+    }
+  ],
+  "relationships": [],
+  "conflicts": [
+    {
+      "id": "conflict_zemingo_title_and_start",
+      "topic": "Zemingo role title and start date",
+      "candidate_claim_ids": [
+        "fact_linkedin_headline"
+      ],
+      "status": "open",
+      "resolution": null,
+      "resolved_by": null,
+      "resolved_at": null
+    },
+    {
+      "id": "conflict_byondxr_end_date",
+      "topic": "ByondXR end date",
+      "candidate_claim_ids": [],
+      "status": "open",
+      "resolution": null,
+      "resolved_by": null,
+      "resolved_at": null
+    }
+  ],
+  "unknowns": [
+    "LinkedIn experience says 'Product Design Manager' at Zemingo from March 2025; canonical (from the CV and owner review) says Design Team Leader since January 2025. Which title and date does Boaz want the agent to use?",
+    "LinkedIn experience shows ByondXR roles running to August 2024; canonical says January 2024. Owner must resolve before canonical career facts change.",
+    "Authorship of the GPT-coach article: published under Boaz's profile, but the inner byline credits Yarden Lahavi / Mehut HaHaim magazine.",
+    "The LEGO immersive Christmas house (ByondXR × LEGO, ~2024) appears in a repost tagging Boaz — a potential portfolio project not yet in the knowledge base.",
+    "No LinkedIn post about the Heights Telecom homepage launch (2026-09-06) exists yet — when Boaz posts it, attach it as owner commentary on that project."
+  ]
+}

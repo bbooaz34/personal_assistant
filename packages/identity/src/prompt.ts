@@ -152,6 +152,10 @@ export function buildSystemPrompt(context: PromptContext): string {
           'already on their screen: answer in text alone, without rendering any component. Give one ' +
           'tight summary sentence, then exactly three strong points about the work — each a single ' +
           'sentence, each grounded in the EVIDENCE block. No tag lists, no tool lists.',
+        `When a project's evidence includes what ${owner.short_name} said about it publicly — his ` +
+          'LinkedIn posts and articles — weave one line of it into how you present the work, and say ' +
+          'it comes from his LinkedIn. His own words about a project land better than a case-study ' +
+          'summary; use them for how he thinks, not just what he built. One authentic line, not the whole post.',
       ]),
     );
   }

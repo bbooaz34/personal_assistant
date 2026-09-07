@@ -278,6 +278,57 @@
       "items": {
         "type": "string"
       }
+    },
+    "owner_commentary": {
+      "type": "array",
+      "description": "What the owner has said publicly about this work — LinkedIn posts, articles, talks. The agent weaves these into how it presents the project.",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "source_label",
+          "summary"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "source_label": {
+            "type": "string",
+            "description": "Where it was said, e.g. 'LinkedIn post' or 'LinkedIn article'."
+          },
+          "uri": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "language": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string",
+            "description": "What he said, in English, for the agent to draw on."
+          },
+          "quote": {
+            "type": "string",
+            "description": "A short verbatim line worth repeating, in its original language."
+          },
+          "visibility": {
+            "enum": [
+              "public",
+              "restricted",
+              "private"
+            ]
+          }
+        }
+      }
     }
   }
 }

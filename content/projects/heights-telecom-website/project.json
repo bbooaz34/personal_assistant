@@ -148,7 +148,8 @@
   "open_questions": [
     "Team composition for the homepage phase — how many designers/developers worked under Boaz's direction?",
     "No outcome metrics yet — the launch was 2026-09-06; ask Boaz later whether post-launch numbers exist before claiming any.",
-    "The shipped hero copy differs slightly from the working file ('Tailor Made' / 'WiFi 7' vs 'Your Network Your Rules') — fine to show, but don't quote the Figma headline as the live one."
+    "The shipped hero copy differs slightly from the working file ('Tailor Made' / 'WiFi 7' vs 'Your Network Your Rules') — fine to show, but don't quote the Figma headline as the live one.",
+    "No LinkedIn post about the homepage launch yet — when Boaz publishes one, attach it here as owner_commentary so the agent can quote him on the launch."
   ],
   "peek": {
     "hook": "A brand-new homepage for a global telecom player — launched September 2026.",

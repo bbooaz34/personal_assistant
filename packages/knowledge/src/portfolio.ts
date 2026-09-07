@@ -143,6 +143,26 @@ export interface Presentation {
   suggested_followups?: string[];
 }
 
+/**
+ * Something the owner said publicly about this work — a LinkedIn post, an
+ * article, a talk. The agent weaves a line of it into how it presents the
+ * project, because "here is what he himself said about it" lands differently
+ * than a third-person summary.
+ */
+export interface OwnerCommentary {
+  id: string;
+  /** Where it was said, e.g. "LinkedIn post" or "LinkedIn article". */
+  source_label: string;
+  uri?: string | null;
+  date?: string | null;
+  language?: string;
+  /** What he said, in English, for the agent to draw on. */
+  summary: string;
+  /** A short verbatim line worth repeating, in its original language. */
+  quote?: string;
+  visibility?: Exclude<Visibility, 'system'>;
+}
+
 export interface ProjectEvidence {
   id: string;
   /**
@@ -170,6 +190,7 @@ export interface ProjectEvidence {
   metrics?: Array<Record<string, unknown>>;
   evidence: EvidenceItem[];
   media?: MediaSlot[];
+  owner_commentary?: OwnerCommentary[];
   conversation_hooks?: ConversationHook[];
   presentation: Presentation;
   open_questions?: string[];

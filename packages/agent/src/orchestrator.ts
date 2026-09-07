@@ -180,6 +180,24 @@ function toEvidenceViews(bundle: EvidenceBundle, repository: KnowledgeRepository
           `\n  Embeddable artifacts (the real running interface — prefer show_artifact over describing these): ` +
           artifacts.map((a) => `${a.id} "${a.label}"`).join(', ');
       }
+
+      // What the owner said publicly about this work. Handing the model his
+      // own words is what lets it present a project the way he talks about
+      // it, instead of paraphrasing a case study at him.
+      const commentary = repository
+        .projectEvidence(scored.id)
+        ?.owner_commentary?.filter((c) => (c.visibility ?? 'public') === 'public');
+      if (commentary?.length) {
+        text +=
+          `\n  What he said about it publicly:` +
+          commentary
+            .map(
+              (c) =>
+                `\n    - [${c.source_label}${c.date ? `, ${c.date}` : ''}] ${c.summary}` +
+                (c.quote ? ` His words: "${c.quote}"` : ''),
+            )
+            .join('');
+      }
     }
 
     const verified = (item as { verification_status?: string }).verification_status === 'verified';

@@ -376,5 +376,17 @@
     "hook": "From product idea to working platform with AI agents.",
     "supporting": "Product definition, UX, architecture, AI-assisted implementation, and a full visual redesign.",
     "cta": "Explore"
-  }
+  },
+  "owner_commentary": [
+    {
+      "id": "commentary_linkedin_build_post",
+      "source_label": "LinkedIn post",
+      "uri": "https://www.linkedin.com/in/bbooaz/recent-activity/all/",
+      "date": "2026-08",
+      "language": "he",
+      "summary": "Boaz wrote about this exact build: a full multi-user system in roughly ninety minutes of conversation with Claude. He started with a vocal brainstorm instead of a written spec — who the users are, what each sees, what each may do — and the stack (Next.js, Supabase with RLS, domain-limited Google auth, Vercel) emerged from the conversation. The decision he credits most is 'functional first': don't get stuck on pixels before there's a working product. Three live iterations followed: structured feedback categories, full Hebrew/RTL, then a simplification to tabs and star ratings. Every iteration was a conversation, not a project.",
+      "quote": "הפער בין רעיון למוצר עובד הצטמצם לשיחה טובה ולכושר החלטה",
+      "visibility": "public"
+    }
+  ]
 }
