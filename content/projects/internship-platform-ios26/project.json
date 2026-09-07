@@ -337,6 +337,14 @@
   ],
   "artifacts": [
     {
+      "id": "making-of",
+      "label": "Making of",
+      "file": "making-of.html",
+      "description": "The animated narrative of the transformation: Code → First interface → iOS 26 → Zemingo → Finale.",
+      "sanitized": true,
+      "visibility": "public"
+    },
+    {
       "id": "stage-prototype",
       "label": "Functional prototype",
       "file": "stage-prototype.html",
@@ -360,14 +368,6 @@
       "file": "stage-zemingo.html",
       "stage": "Zemingo",
       "description": "The final layer — Zemingo typography, brand accents, selection states and progress treatment over the iOS-derived structure.",
-      "sanitized": true,
-      "visibility": "public"
-    },
-    {
-      "id": "making-of",
-      "label": "Making of",
-      "file": "making-of.html",
-      "description": "The animated narrative of the transformation: Code → First interface → iOS 26 → Zemingo → Finale.",
       "sanitized": true,
       "visibility": "public"
     }
