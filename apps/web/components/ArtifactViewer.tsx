@@ -103,7 +103,7 @@ export function ArtifactViewer({
         {expanded ? (
           <div
             ref={stageRef}
-            className={`overflow-hidden border border-[var(--color-edge)] bg-white ${
+            className={`relative overflow-hidden border border-[var(--color-edge)] bg-white ${
               active.viewport === 'mobile' ? 'mx-auto rounded-[26px]' : 'rounded-lg'
             }`}
             style={
@@ -115,12 +115,17 @@ export function ArtifactViewer({
             <iframe
               // Remounting on change avoids showing the previous stage while
               // the next one loads, which reads as a flicker between designs.
+              // Absolutely anchored: in this RTL document the unscaled frame
+              // would otherwise lay out flush right and clip once scaled.
               key={active.id}
               title={`${projectName} — ${active.label}`}
               src={active.url}
               sandbox={sandbox}
               loading="lazy"
               style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
                 width: viewport.width,
                 height: viewport.height,
                 transform: `scale(${scale || 0.5})`,

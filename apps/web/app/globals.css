@@ -444,8 +444,9 @@ body {
   overflow-y: auto;
 }
 #chatStage > * { flex: 1; min-height: 0; }
-/* an expanded artifact's iframe grows to the stage */
-#chatStage iframe { height: 100% !important; min-height: 60vh; }
+/* Expanded artifacts size their own iframes: the viewer renders each one at
+   its true viewport (phone or desktop) and scales it to the stage. A blanket
+   height override here breaks that math — do not reintroduce one. */
 
 /* ── input row ─────────────────────────────────────────────────────────── */
 #chatForm {
