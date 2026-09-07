@@ -367,6 +367,123 @@ export function CVSection({ cv, section }: { cv: CVData; section: string }) {
   );
 }
 
+/**
+ * The expanded rendition of the résumé components (§8, revised at the
+ * owner's request): where the inline card shows the bullets, the stage tells
+ * the career as a story — each era with its highlight projects, and every
+ * project one click from its actual showcase. `onOpen` swaps the stage to the
+ * chosen project's evidence; without it the cards render inert.
+ */
+export function CareerExpanded({
+  portfolio,
+  intro,
+  introTitle,
+  onOpen,
+}: {
+  portfolio: Portfolio;
+  /** The compact lines the inline card showed — kept on top for continuity. */
+  intro?: string[];
+  introTitle?: string;
+  onOpen?: (name: string, args: Record<string, unknown>) => void;
+}) {
+  const showcaseOf = (p: PortfolioProject): { name: string; args: Record<string, unknown> } =>
+    p.artifacts.length > 0
+      ? { name: 'show_artifact', args: { project_id: p.id } }
+      : p.media.length > 0
+        ? { name: 'show_gallery', args: { project_id: p.id } }
+        : { name: 'show_project', args: { project_id: p.id } };
+
+  // An era claims the projects whose company it names. What no era claims
+  // lands in a trailing group rather than disappearing.
+  const eras = portfolio.timeline.map((entry) => ({
+    entry,
+    projects: portfolio.projects.filter(
+      (p) => p.company && entry.claims.some((c) => c.toLowerCase().includes(p.company!.toLowerCase())),
+    ),
+  }));
+  const claimed = new Set(eras.flatMap((e) => e.projects.map((p) => p.id)));
+  const unclaimed = portfolio.projects.filter((p) => !claimed.has(p.id));
+
+  const card = (p: PortfolioProject) => {
+    const thumb = p.media.find((m) => !/\.html?($|\?)/.test(m.mobile_uri ?? m.uri) && m.type !== 'prototype');
+    const interactive = p.artifacts.length > 0 || p.media.some((m) => m.type === 'prototype' || m.type === 'video');
+    return (
+      <button
+        key={p.id}
+        type="button"
+        onClick={() => onOpen?.(showcaseOf(p).name, showcaseOf(p).args)}
+        className="group flex w-full items-stretch gap-3 rounded-xl border border-[var(--color-edge)] bg-[var(--color-surface)] p-3 text-start transition-colors hover:border-[var(--color-accent-soft)]"
+      >
+        <span className="h-20 w-24 shrink-0 overflow-hidden rounded-lg bg-[var(--color-ground)]">
+          {thumb ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={thumb.mobile_uri ?? thumb.uri} alt="" className="h-full w-full object-cover object-top" />
+          ) : (
+            <span className="flex h-full w-full items-center justify-center text-lg text-[var(--color-accent)]">
+              {interactive ? '▶' : '❖'}
+            </span>
+          )}
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="flex items-baseline justify-between gap-2">
+            <span className="truncate text-sm font-medium">{p.name}</span>
+            {interactive ? (
+              <span className="shrink-0 rounded-full bg-[var(--color-accent-soft)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-accent)]">
+                interactive
+              </span>
+            ) : null}
+          </span>
+          <span className="mt-1 line-clamp-2 block text-xs leading-relaxed text-[var(--color-ink-muted)]">
+            {p.shortPitch}
+          </span>
+          <span className="mt-1.5 block text-xs font-medium text-[var(--color-accent)] opacity-0 transition-opacity group-hover:opacity-100">
+            Open the showcase →
+          </span>
+        </span>
+      </button>
+    );
+  };
+
+  return (
+    <Panel label="Career, expanded">
+      <div className="p-4">
+        {intro && intro.length > 0 ? (
+          <>
+            <h3 className="text-base font-medium capitalize">{introTitle ?? 'Résumé'}</h3>
+            <ul className="mt-2 space-y-1.5">
+              {intro.map((line) => (
+                <li key={line} className="text-sm leading-relaxed text-[var(--color-ink-muted)]">{line}</li>
+              ))}
+            </ul>
+            <hr className="my-4 border-[var(--color-edge)]" />
+          </>
+        ) : null}
+
+        <h3 className="text-base font-medium">The career, with the work to show for it</h3>
+        <div className="mt-3 space-y-5">
+          {eras.map(({ entry, projects }) => (
+            <section key={entry.id}>
+              <p className="text-xs text-[var(--color-ink-faint)]">{formatPeriod(entry.from, entry.to)}</p>
+              {entry.claims.map((claim) => (
+                <p key={claim} className="mt-0.5 text-sm leading-relaxed">{claim}</p>
+              ))}
+              {projects.length > 0 ? (
+                <div className="mt-2.5 grid gap-2 sm:grid-cols-2">{projects.map(card)}</div>
+              ) : null}
+            </section>
+          ))}
+          {unclaimed.length > 0 ? (
+            <section>
+              <p className="text-xs text-[var(--color-ink-faint)]">Client &amp; independent work</p>
+              <div className="mt-2.5 grid gap-2 sm:grid-cols-2">{unclaimed.map(card)}</div>
+            </section>
+          ) : null}
+        </div>
+      </div>
+    </Panel>
+  );
+}
+
 export function ProjectComparison({
   projects,
   dimension,
@@ -411,6 +528,7 @@ export function renderComponent(
   args: Record<string, unknown>,
   portfolio: Portfolio,
   expanded = false,
+  onOpen?: (name: string, args: Record<string, unknown>) => void,
 ): React.ReactNode {
   const projectById = (id: unknown): PortfolioProject | undefined =>
     typeof id === 'string' ? portfolio.projects.find((p) => p.id === id) : undefined;
@@ -452,6 +570,9 @@ export function renderComponent(
       ) : null;
     }
     case 'show_timeline':
+      // Expanded, the résumé becomes the career story: eras with their
+      // highlight projects, each one click from its showcase (owner request).
+      if (expanded) return <CareerExpanded portfolio={portfolio} onOpen={onOpen} />;
       return (
         <CareerTimeline
           timeline={portfolio.timeline}
@@ -465,8 +586,19 @@ export function renderComponent(
           categories={Array.isArray(args.categories) ? (args.categories as string[]) : undefined}
         />
       );
-    case 'show_cv_section':
-      return typeof args.section === 'string' ? <CVSection cv={portfolio.cv} section={args.section} /> : null;
+    case 'show_cv_section': {
+      if (typeof args.section !== 'string') return null;
+      if (expanded)
+        return (
+          <CareerExpanded
+            portfolio={portfolio}
+            intro={(portfolio.cv as unknown as Record<string, string[]>)[args.section] ?? []}
+            introTitle={args.section}
+            onOpen={onOpen}
+          />
+        );
+      return <CVSection cv={portfolio.cv} section={args.section} />;
+    }
     case 'compare_projects': {
       const ids = Array.isArray(args.project_ids) ? (args.project_ids as string[]) : [];
       const projects = ids.map(projectById).filter((p): p is PortfolioProject => Boolean(p));

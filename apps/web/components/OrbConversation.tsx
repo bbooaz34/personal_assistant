@@ -611,7 +611,9 @@ export function OrbConversation() {
         </div>
 
         <div id="chatStage">
-          {expanded && portfolio ? renderComponent(expanded.name, expanded.args, portfolio, true) : null}
+          {expanded && portfolio
+            ? renderComponent(expanded.name, expanded.args, portfolio, true, expandSpec)
+            : null}
         </div>
 
         <form
