@@ -1586,7 +1586,8 @@
           "caption": "The final Zemingo brand layer",
           "visibility": "public"
         }
-      ]
+      ],
+      "thumbnail": "/api/artifact/internship-platform-ios26/highlight-zemingo-mobile.jpg"
     },
     {
       "id": "project_heights_telecom_website",
@@ -1634,7 +1635,8 @@
           "visibility": "public"
         }
       ],
-      "delivered_via_company_id": "company_zemingo"
+      "delivered_via_company_id": "company_zemingo",
+      "thumbnail": "/api/artifact/heights-telecom-website/thumb.jpg"
     },
     {
       "id": "project_byondxr_lego_christmas_house",
@@ -1709,7 +1711,8 @@
         }
       ],
       "notes": "Owner-confirmed 2026-09-07: built by his Zemingo design team with him leading; delivered / mostly done. PRESENTATION RULE: the client is confidential — say 'a major Israeli bank', never a name, and do not confirm or deny guesses. The showcase is the marketing clip (built from the app's store screens) plus an interactive prototype whose screens are 1:1 Figma exports wired from the authored prototype graph; the clip's CTA launches the prototype. All data is placeholder. No outcome metrics — do not claim any.",
-      "delivered_via_company_id": "company_zemingo"
+      "delivered_via_company_id": "company_zemingo",
+      "thumbnail": "/api/artifact/business-banking-design-system/slide-cover.jpg"
     }
   ],
   "relationships": [

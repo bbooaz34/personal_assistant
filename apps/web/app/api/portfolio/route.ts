@@ -31,6 +31,7 @@ export async function GET(): Promise<Response> {
       via: project.delivered_via_company_id
         ? (repository.entity(project.delivered_via_company_id)?.name ?? null)
         : null,
+      thumbnail: project.thumbnail ?? null,
       industries: (project.industry_ids ?? [])
         .map((id) => repository.entity(id)?.name)
         .filter(Boolean),

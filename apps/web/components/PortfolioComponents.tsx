@@ -408,8 +408,14 @@ export function CareerExpanded({
   const unclaimed = portfolio.projects.filter((p) => !claimed.has(p.id));
 
   const card = (p: PortfolioProject) => {
-    const thumb = p.media.find((m) => !/\.html?($|\?)/.test(m.mobile_uri ?? m.uri) && m.type !== 'prototype');
+    const mediaThumb = p.media.find(
+      (m) => !/\.html?($|\?)/.test(m.mobile_uri ?? m.uri) && m.type !== 'prototype',
+    );
+    const thumbSrc = p.thumbnail ?? (mediaThumb ? (mediaThumb.mobile_uri ?? mediaThumb.uri) : null);
     const interactive = p.artifacts.length > 0 || p.media.some((m) => m.type === 'prototype' || m.type === 'video');
+    // No honest imagery yet: a monogram tile, deterministic per project, that
+    // still fills the box — decorative identity, never fabricated evidence.
+    const hue = [...p.id].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7);
     return (
       <button
         key={p.id}
@@ -418,12 +424,17 @@ export function CareerExpanded({
         className="group flex w-full items-stretch gap-3 rounded-xl border border-[var(--color-edge)] bg-[var(--color-surface)] p-3 text-start transition-colors hover:border-[var(--color-accent-soft)]"
       >
         <span className="h-20 w-24 shrink-0 overflow-hidden rounded-lg bg-[var(--color-ground)]">
-          {thumb ? (
+          {thumbSrc ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={thumb.mobile_uri ?? thumb.uri} alt="" className="h-full w-full object-cover object-top" />
+            <img src={thumbSrc} alt="" className="h-full w-full object-cover object-top" />
           ) : (
-            <span className="flex h-full w-full items-center justify-center text-lg text-[var(--color-accent)]">
-              {interactive ? '▶' : '❖'}
+            <span
+              className="flex h-full w-full items-center justify-center text-xl font-semibold text-white"
+              style={{
+                background: `linear-gradient(140deg, hsl(${hue} 65% 58%), hsl(${(hue + 45) % 360} 70% 42%))`,
+              }}
+            >
+              {p.name.trim().charAt(0)}
             </span>
           )}
         </span>

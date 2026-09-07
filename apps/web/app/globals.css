@@ -464,7 +464,9 @@ body {
   margin: 48px 14px 8px;
   overflow-y: auto;
 }
-#chatStage > * { flex: 1; min-height: 0; }
+/* Children keep their natural height so long content (the expanded career
+   story) actually scrolls; artifacts size their own frames explicitly. */
+#chatStage > * { flex: 0 0 auto; }
 /* Expanded artifacts size their own iframes: the viewer renders each one at
    its true viewport (phone or desktop) and scales it to the stage. A blanket
    height override here breaks that math — do not reintroduce one. */

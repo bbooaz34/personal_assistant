@@ -182,6 +182,8 @@ export interface Project {
   /** The organization the work was delivered through, when the client above
    *  is not the employer — e.g. client work done at an agency or studio. */
   delivered_via_company_id?: string | null;
+  /** A representative image for compact cards, served from the artifact store. */
+  thumbnail?: string | null;
   role_ids?: string[];
   summary: string;
   problem?: string;
