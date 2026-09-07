@@ -3,7 +3,7 @@
     "schema_version": "0.2",
     "subject_id": "person_boaz_ben_eli",
     "generated_at": "2026-08-26",
-    "generated_by": "human review of cv-extraction-v0.2 + chatgpt-export-v0.2, per canonical-v0.1-changelog; internship platform added 2026-08-26 from project export + source bundle review; internship platform cleared for public use 2026-08-26; Heights Telecom website added 2026-09-07 from the owner's Figma file at the owner's request (assets exported from Figma), pending owner confirmation of role and scope; Heights website confirmed and verified 2026-09-07 by owner (role, new-homepage phase, launch date) with Zemingo case-study and live-site sources; LinkedIn layer added 2026-09-07 at the owner's request (headline, posts, article) — career title/date conflicts with the CV left OPEN, not merged",
+    "generated_by": "human review of cv-extraction-v0.2 + chatgpt-export-v0.2, per canonical-v0.1-changelog; internship platform added 2026-08-26 from project export + source bundle review; internship platform cleared for public use 2026-08-26; Heights Telecom website added 2026-09-07 from the owner's Figma file at the owner's request (assets exported from Figma), pending owner confirmation of role and scope; Heights website confirmed and verified 2026-09-07 by owner (role, new-homepage phase, launch date) with Zemingo case-study and live-site sources; LinkedIn layer added 2026-09-07 at the owner's request (headline, posts, article) — career title/date conflicts with the CV left OPEN, not merged; owner decisions 2026-09-07: canonical always wins over LinkedIn on career facts (both conflicts resolved), the GPT-coach article dropped from agent knowledge, LEGO Christmas house added",
     "notes": "CANONICAL. Every entry here was reviewed by the owner. Facts still marked needs_verification are true to the best of current knowledge but lack an authoritative artefact; the agent presents them as unverified. Contact details, compensation and personal information are intentionally absent — they are excluded at the source, not filtered at runtime. The internship platform was cleared for public portfolio use by Zemingo (owner-reported, 2026-08-26) and is now public. Its media stays restricted until screenshots are confirmed free of intern data, and four claim rules still apply — see the project notes."
   },
   "sources": [
@@ -87,15 +87,6 @@
       "uri": "https://www.linkedin.com/in/bbooaz/",
       "date": "2026-09-07",
       "notes": "Self-authored public professional profile: headline, experience entries, posts and reposts. Read via the owner's own browser session at the owner's request."
-    },
-    {
-      "id": "source_linkedin_article_gpt_coach",
-      "type": "external",
-      "name": "LinkedIn article: כיצד להפוך את צ׳אט GPT למאמן אישי? (2025-02-27)",
-      "authority_level": 2,
-      "uri": "https://www.linkedin.com/pulse/%D7%9B%D7%99%D7%A6%D7%93-%D7%9C%D7%94%D7%A4%D7%95%D7%9A-%D7%90%D7%AA-%D7%A6%D7%90%D7%98-gpt-%D7%9C%D7%9E%D7%90%D7%9E%D7%9F-%D7%90%D7%99%D7%A9%D7%99-boaz-ben-eli-wnpke/",
-      "date": "2025-02-27",
-      "notes": "Published under Boaz's LinkedIn profile; body byline credits Yarden Lahavi and Mehut HaHaim magazine — authorship pending owner confirmation."
     }
   ],
   "entities": [
@@ -947,27 +938,6 @@
       "valid_to": null,
       "last_verified": "2026-09-07",
       "notes": "Key line: 'לעצב ולפתח עם הראש והבטן – לחלוטין ללא ידיים' — designing and building with head and gut, entirely without hands."
-    },
-    {
-      "id": "fact_linkedin_article_gpt_coach",
-      "claim": "A five-minute Hebrew article published under Boaz's LinkedIn profile (2025-02-27), 'כיצד להפוך את צ׳אט GPT למאמן אישי?', lays out a six-step, psychology-grounded framework for using ChatGPT as a personal coach — each prompt built on a named theory (self-determination, possible selves, SMART goals, limiting beliefs, success patterns, prospect theory).",
-      "category": "portfolio",
-      "knowledge_type": "explicit",
-      "confidence": 0.7,
-      "verification_status": "needs_verification",
-      "visibility": "public",
-      "sources": [
-        {
-          "source_id": "source_linkedin_article_gpt_coach",
-          "locator": "Full article text",
-          "reliability": 0.7
-        }
-      ],
-      "evidence": [],
-      "valid_from": "2025-02-27",
-      "valid_to": null,
-      "last_verified": "2026-09-07",
-      "notes": "AUTHORSHIP NEEDS OWNER CONFIRMATION: the LinkedIn article is published under Boaz's profile, but the body credits 'ירדן להבי | 24 פברואר 2025' and says it originally appeared in the Mehut HaHaim magazine email edition. Until Boaz clarifies his role (author, co-author, or republisher), the agent must not claim he wrote it — only that it was published on his LinkedIn."
     }
   ],
   "skills": [
@@ -1663,6 +1633,37 @@
           "visibility": "public"
         }
       ]
+    },
+    {
+      "id": "project_byondxr_lego_christmas_house",
+      "name": "LEGO Immersive Christmas House",
+      "company_id": "company_byondxr",
+      "role_ids": [
+        "role_creative_team_leader"
+      ],
+      "summary": "An immersive, gamified holiday shopping experience built with the LEGO Group on ByondXR's platform: a virtual Christmas house with twinkling lights and a cozy fireplace, rooms filled with LEGO builds, and a treasure quest unlocking a special dream zone.",
+      "skill_ids": [
+        "skill_3d_immersive",
+        "skill_creative_direction"
+      ],
+      "tool_ids": [],
+      "industry_ids": [
+        "industry_retail",
+        "industry_xr"
+      ],
+      "sources": [
+        {
+          "source_id": "source_manual_confirmation_2026_09_07",
+          "reliability": 0.9
+        },
+        {
+          "source_id": "source_linkedin_profile_2026_09_07",
+          "reliability": 0.85
+        }
+      ],
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "Owner asked to add this 2026-09-07. Participation is public: the client-side FMG post names Boaz on the team, and Boaz reposted it. Exact role scope, timeframe (~Christmas 2023, within his ByondXR tenure) and any media still need owner confirmation. The public experience link (byondxr.link/LEGO-holiday-eng) no longer resolves."
     }
   ],
   "relationships": [
@@ -2000,13 +2001,24 @@
       ]
     },
     {
-      "id": "rel_linkedin_article_supported",
-      "from_id": "fact_linkedin_article_gpt_coach",
-      "type": "supported_by",
-      "to_id": "source_linkedin_article_gpt_coach",
-      "confidence": 0.7,
+      "id": "rel_boaz_worked_on_lego_house",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_on",
+      "to_id": "project_byondxr_lego_christmas_house",
+      "confidence": 0.9,
       "source_ids": [
-        "source_linkedin_article_gpt_coach"
+        "source_manual_confirmation_2026_09_07",
+        "source_linkedin_profile_2026_09_07"
+      ]
+    },
+    {
+      "id": "rel_lego_demonstrates_3d_immersive",
+      "from_id": "project_byondxr_lego_christmas_house",
+      "type": "demonstrates_skill",
+      "to_id": "skill_3d_immersive",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_linkedin_profile_2026_09_07"
       ]
     }
   ],
@@ -2083,19 +2095,19 @@
       "candidate_claim_ids": [
         "fact_linkedin_headline"
       ],
-      "status": "open",
-      "resolution": null,
-      "resolved_by": null,
-      "resolved_at": null
+      "status": "resolved",
+      "resolution": "Canonical wins. Owner rule (2026-09-07): the CV-derived, owner-reviewed canonical always beats LinkedIn on career facts. Zemingo = Design Team Leader since January 2025; ByondXR = January 2020 to January 2024.",
+      "resolved_by": "owner",
+      "resolved_at": "2026-09-07"
     },
     {
       "id": "conflict_byondxr_end_date",
       "topic": "ByondXR end date",
       "candidate_claim_ids": [],
-      "status": "open",
-      "resolution": null,
-      "resolved_by": null,
-      "resolved_at": null
+      "status": "resolved",
+      "resolution": "Canonical wins. Owner rule (2026-09-07): the CV-derived, owner-reviewed canonical always beats LinkedIn on career facts. Zemingo = Design Team Leader since January 2025; ByondXR = January 2020 to January 2024.",
+      "resolved_by": "owner",
+      "resolved_at": "2026-09-07"
     }
   ],
   "unknowns": [
@@ -2141,10 +2153,6 @@
       "reason": "The published artifacts are sanitized: seven colleagues’ names, avatar initials and company addresses were replaced with fictional personas. If those were demo personas all along, the substitution is unnecessary and the artifacts can show their original content. Until confirmed, the sanitized version ships.",
       "suggested_source": "Owner confirmation"
     },
-    "LinkedIn experience says 'Product Design Manager' at Zemingo from March 2025; canonical (from the CV and owner review) says Design Team Leader since January 2025. Which title and date does Boaz want the agent to use?",
-    "LinkedIn experience shows ByondXR roles running to August 2024; canonical says January 2024. Owner must resolve before canonical career facts change.",
-    "Authorship of the GPT-coach article: published under Boaz's profile, but the inner byline credits Yarden Lahavi / Mehut HaHaim magazine.",
-    "The LEGO immersive Christmas house (ByondXR × LEGO, ~2024) appears in a repost tagging Boaz — a potential portfolio project not yet in the knowledge base.",
     "No LinkedIn post about the Heights Telecom homepage launch (2026-09-06) exists yet — when Boaz posts it, attach it as owner commentary on that project."
   ]
 }

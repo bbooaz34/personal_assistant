@@ -26,3 +26,11 @@
 ## Deliberately not ingested
 
 Follower counts and post impressions (they age instantly), connection lists, and the "open to work" 2yr-old post's framing (superseded by current employment).
+
+---
+
+# Owner decisions, 2026-09-07 (same day)
+
+1. **"Canonical wins all time."** Both career conflicts resolved in canonical's favor: Zemingo = Design Team Leader since January 2025; ByondXR = January 2020 to January 2024. This is a standing rule — future imports that contradict canonical career facts lose by default; only the owner changes canonical.
+2. **The GPT-coach article is skipped.** Its fact, source and relationship were removed from canonical; the agent does not know it. The extraction record here keeps it for history.
+3. **The LEGO Immersive Christmas House was added** as a project (canonical entry + `content/projects/byondxr-lego-christmas-house/`, status draft): a LEGO Group holiday experience on ByondXR's platform, participation evidenced by the public launch/team posts and owner confirmation. Role scope, timeframe (~2023 holiday season) and visuals still open; the public experience link is dead.

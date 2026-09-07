@@ -1,0 +1,81 @@
+{
+  "id": "project_byondxr_lego_christmas_house",
+  "name": "LEGO Immersive Christmas House",
+  "status": "draft",
+  "organization": "The LEGO Group (client, via ByondXR)",
+  "context": "Client project at ByondXR for the LEGO Group: a holiday-season immersive shopping experience on ByondXR's user-engagement platform.",
+  "role": "Creative team lead",
+  "summary": "An immersive, gamified holiday shopping experience built with the LEGO Group: a virtual Christmas house — twinkling lights, a cozy fireplace — with rooms full of LEGO builds and a treasure quest that unlocks a special dream zone. Experiential and gamified shopping in one branded world, in the spirit of 'play well'.",
+  "skills_demonstrated": [
+    "3D & Immersive Experiences",
+    "Creative Direction"
+  ],
+  "tools": [],
+  "evidence": [
+    {
+      "id": "evidence_byondxr_lego_post",
+      "type": "external_link",
+      "label": "ByondXR launch post and client-side FMG post naming Boaz on the team",
+      "uri": "https://www.linkedin.com/in/bbooaz/recent-activity/all/",
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Public LinkedIn posts (~2 years back in the activity feed): ByondXR's launch post for the LEGO immersive Christmas house, and FMG's Jane Pang crediting the team — 'Shoutout to our amazing team Tal Busheri, Cheli Saban, Boaz Ben Eli, Aviv Hod.'"
+    },
+    {
+      "id": "evidence_experience_link",
+      "type": "external_link",
+      "label": "The immersive experience (historical link)",
+      "uri": "https://byondxr.link/LEGO-holiday-eng",
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "The public experience link from the launch post. It no longer resolves — seasonal experiences are taken down; do not offer it as a live link."
+    },
+    {
+      "id": "evidence_owner_confirmation",
+      "type": "manual_confirmation",
+      "label": "Owner asked to add this project (2026-09-07)",
+      "uri": null,
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Boaz confirmed the project belongs in his portfolio. Exact role scope and timeframe still to be confirmed."
+    }
+  ],
+  "media": [],
+  "conversation_hooks": [
+    {
+      "recruiter_intent": "Assess immersive / 3D / experiential commerce capability",
+      "trigger_topics": [
+        "immersive",
+        "3d",
+        "virtual store",
+        "experiential",
+        "gamification",
+        "retail",
+        "ecommerce",
+        "lego",
+        "brand experience"
+      ],
+      "agent_response_goal": "Use as brand-name evidence of immersive commerce work: a LEGO Group holiday experience on ByondXR's platform, combining experiential shopping with gamification (a treasure quest). Pairs naturally with the Mastercard virtual city and Caesarstone visualizer as the ByondXR immersive body of work.",
+      "recommended_media_ids": []
+    }
+  ],
+  "presentation": {
+    "default_component": "project_card",
+    "short_pitch": "A gamified immersive Christmas house built with the LEGO Group on ByondXR's platform.",
+    "long_pitch": "A holiday-season immersive shopping experience for the LEGO Group: a virtual Christmas house with rooms full of LEGO builds and a treasure quest unlocking a dream zone — experiential commerce and gamification in one branded world, built on ByondXR's user-engagement platform with Boaz on the creative team.",
+    "suggested_followups": [
+      "Want to see the other immersive commerce work from the same period — Mastercard's virtual city or the Caesarstone visualizer?"
+    ]
+  },
+  "open_questions": [
+    "Confirm Boaz's exact role and scope on this project (creative team lead is inferred from his ByondXR role at the time).",
+    "Confirm the timeframe — the launch posts sit ~2 years back in the feed, pointing at the 2023 holiday season, inside his ByondXR tenure (ended January 2024 per canonical).",
+    "Ingest visuals — the launch post carried a video; screenshots or a capture would make this showable. The live experience link is dead.",
+    "No outcome metrics attached — ask Boaz whether any exist before claiming any."
+  ],
+  "peek": {
+    "hook": "A gamified Christmas house for the LEGO Group.",
+    "supporting": "Immersive commerce with a treasure quest, built on ByondXR's platform.",
+    "cta": "Hear the story"
+  }
+}
