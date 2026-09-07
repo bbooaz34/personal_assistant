@@ -47,7 +47,22 @@ export interface AgentIdentity {
   /** The agent represents; it never claims to be the owner (§3.3, §17). */
   relationship: 'represents_owner';
   owner: OwnerProfile;
-  /** How the agent names itself, e.g. "Boaz's AI representative". */
+  /**
+   * The agent's own name, e.g. "EBOS".
+   *
+   * An agent with a name is a thing you talk to; an agent without one is a
+   * feature of a website. It is also what keeps the line between agent and
+   * owner audible in every sentence.
+   */
+  name: string;
+  /**
+   * What the name stands for, when it stands for something.
+   *
+   * Never volunteered — the opening has twenty seconds and an acronym is not
+   * what they are worth spending on. Said only when someone asks (script §8).
+   */
+  name_meaning?: string;
+  /** How the agent describes its role, e.g. "Boaz's AI agent". */
   self_reference: string;
   voice: VoiceProfile;
   behaviour: BehaviourProfile;
@@ -69,9 +84,13 @@ export interface Opening {
    * none of that.
    */
   beats: string[];
-  /** Said once the project peeks have rendered, handing the turn back. */
-  after_peeks: string;
-  /** Fallback affordance when no projects are available to peek at. */
+  /**
+   * Fallback affordance when no projects are available to peek at.
+   *
+   * There is deliberately no line after the peeks. Once the work is on screen
+   * the agent stops talking (script §5): "which one would you like to see?"
+   * is a sentence the interface has already answered.
+   */
   starter_prompts: string[];
 }
 

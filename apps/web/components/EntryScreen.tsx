@@ -13,11 +13,14 @@
 
 export function EntryScreen({
   owner,
+  agentName,
   selfReference,
   leaving,
   onEnter,
 }: {
   owner: string;
+  /** The agent's own name. Shown, never explained — the acronym stays offstage. */
+  agentName: string;
   selfReference: string;
   /** True once dismissed: the overlay fades and unblurs before unmounting. */
   leaving: boolean;
@@ -27,7 +30,9 @@ export function EntryScreen({
     <div id="entry" className={leaving ? 'leaving' : undefined} aria-hidden={leaving}>
       <div id="entryInner">
         <h1>{owner}</h1>
-        <p>{selfReference}</p>
+        <p>
+          {agentName} — {selfReference}
+        </p>
         <button type="button" onClick={onEnter} autoFocus>
           Start the conversation
         </button>

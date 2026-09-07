@@ -1,5 +1,5 @@
 /**
- * Speech for the scripted opening (recruiter script v0.1).
+ * Speech for the scripted opening (recruiter script v0.2).
  *
  * The agent speaks its introduction aloud. It does this without a microphone
  * on purpose: speaking is not listening, and asking a visitor for mic access
@@ -27,7 +27,6 @@ function speakableLines(): Set<string> {
   const lines = new Set<string>();
   for (const variant of identityConfig.openings.variants) {
     for (const beat of variant.beats) lines.add(beat);
-    lines.add(variant.after_peeks);
   }
   return lines;
 }

@@ -1,5 +1,5 @@
 /**
- * The conversation opening (design doc §19, recruiter script v0.1).
+ * The conversation opening (design doc §19, recruiter script v0.2).
  *
  * Returns the staged beats plus the three project peeks selected from
  * evidence. Served rather than hardcoded in the client so the copy stays in
@@ -29,11 +29,11 @@ export async function GET(request: Request): Promise<Response> {
 
   return Response.json({
     beats: opening.beats,
-    afterPeeks: opening.after_peeks,
     starterPrompts: opening.starter_prompts,
     peeks: peeks.cards,
     focus: peeks.focus,
     owner: identityConfig.owner,
+    agentName: identityConfig.name,
     selfReference: identityConfig.self_reference,
   });
 }

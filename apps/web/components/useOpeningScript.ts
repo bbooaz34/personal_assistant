@@ -1,12 +1,16 @@
 'use client';
 
 /**
- * Runs the scripted opening (recruiter script v0.1).
+ * Runs the scripted opening (recruiter script v0.2).
  *
  * The agent starts the conversation rather than waiting to be addressed: a
  * short beat after load, it introduces itself, says who the owner is, and
  * offers three pieces of work. The point is that a visitor understands who
  * this is and what they can do here before deciding whether to type anything.
+ *
+ * Then it stops. Nothing is said after the peeks appear (script §5) — the
+ * cards are the invitation, and "which one would you like to see?" would only
+ * be the agent asking a question the interface has already answered.
  *
  * The whole thing is abandonable. `interrupt()` stops delivery wherever it has
  * got to and never resumes — if someone starts talking during the introduction,
@@ -34,7 +38,6 @@ function beatDelay(text: string): number {
 
 export function useOpeningScript({
   beats,
-  afterPeeks,
   hasPeeks,
   enabled,
   say,
@@ -43,7 +46,6 @@ export function useOpeningScript({
   onFinish,
 }: {
   beats: string[] | null;
-  afterPeeks: string | null;
   hasPeeks: boolean;
   /** False while the opening should not run at all (e.g. voice is driving it). */
   enabled: boolean;
@@ -119,13 +121,10 @@ export function useOpeningScript({
       if (hasPeeks) {
         setPhase('peeks');
         callbacks.current.onPeeks?.();
-        // Let the panel finish its morph before the follow-up line lands in it.
+        // The panel morph is the last thing that happens. Nothing is said over
+        // it: the agent has stopped talking, and the work is what is left.
         await wait(900);
         if (cancelled || abandoned.current) return;
-        if (afterPeeks) {
-          setDelivered((current) => [...current, { id: 'after-peeks', text: afterPeeks }]);
-          if (sayRef.current) await sayRef.current(afterPeeks);
-        }
       }
 
       if (cancelled || abandoned.current) return;
@@ -137,7 +136,7 @@ export function useOpeningScript({
       cancelled = true;
       for (const timer of timers) clearTimeout(timer);
     };
-  }, [enabled, beats, afterPeeks, hasPeeks]);
+  }, [enabled, beats, hasPeeks]);
 
   return {
     delivered,

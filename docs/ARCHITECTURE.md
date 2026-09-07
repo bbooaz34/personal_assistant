@@ -167,7 +167,7 @@ resolved only for ids the server returned.
 ## The opening
 
 The agent starts the conversation rather than waiting to be addressed
-(recruiter script v0.1), and the panel is choreographed to the script rather
+(recruiter script v0.2), and the panel is choreographed to the script rather
 than opening on load:
 
 ```
@@ -175,12 +175,19 @@ entry gate            blurred first frame + one button
    ↓  (click unlocks audio)
 camera flight         whoosh, reveal, chime — now audible
    ↓
-beats 1–3             spoken over the scene, panel CLOSED, caption under the orb
+beats 1–4             spoken over the scene, panel CLOSED, caption under the orb
+                      (beat 2 is the Hebrew line — its own breath, its own direction)
    ↓
 project peeks         panel OPENS — the work needs somewhere to live
    ↓
-follow-up line        hands the turn back; presence returns to calm
+silence               the agent stops talking; presence returns to calm
 ```
+
+Nothing is said after the peeks (script §5). "Which one would you like to see?"
+is a question the interface has already answered, so `Opening` has no
+`after_peeks` field to fill and `/api/speech` has no such line to synthesize.
+The agent is called **EBOS**; what the name stands for is in the identity
+config and is spoken only when a visitor asks.
 
 The agent **speaks** the introduction — that is the default, and the caption
 under the orb is the text variant that appears only when speech is muted or

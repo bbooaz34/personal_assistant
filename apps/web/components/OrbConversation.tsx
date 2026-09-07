@@ -34,10 +34,10 @@ import type { Portfolio } from './portfolio-types';
 
 interface Opening {
   beats: string[];
-  afterPeeks: string;
   starterPrompts: string[];
   peeks: PeekCard[];
   owner: { name: string; short_name: string; headline: string };
+  agentName: string;
   selfReference: string;
 }
 
@@ -114,7 +114,7 @@ export function OrbConversation() {
   const voice = useVoiceSession({
     enabledComponents: voiceSettings?.enabledComponents ?? [],
     voice: voiceSettings?.voice ?? 'marin',
-    agentName: opening?.selfReference ?? 'AI representative',
+    agentName: opening?.agentName ?? 'EBOS',
     getSessionContext: () => ({}),
     conversationStarted: () => conversationStartedRef.current,
   });
@@ -137,7 +137,6 @@ export function OrbConversation() {
   // stands down rather than talking over it.
   const script = useOpeningScript({
     beats: opening?.beats ?? null,
-    afterPeeks: opening?.afterPeeks ?? null,
     hasPeeks: peeks.length > 0,
     enabled:
       entered && revealed && Boolean(opening) && !voiceActive && voice.state === 'disconnected',
@@ -175,7 +174,7 @@ export function OrbConversation() {
     engineRef.current?.begin();
     // Warm the first lines during the camera flight so the agent does not
     // arrive and then pause while the network answers.
-    if (opening) speech.prefetch([...opening.beats, opening.afterPeeks]);
+    if (opening) speech.prefetch(opening.beats);
     setEntryLeaving(true);
     setEntered(true);
     // Unmount once the blur has finished lifting.
@@ -357,7 +356,8 @@ export function OrbConversation() {
       {entryReady ? (
         <EntryScreen
           owner={opening?.owner.name ?? 'Boaz Ben Eli'}
-          selfReference={opening?.selfReference ?? 'AI representative'}
+          agentName={opening?.agentName ?? 'EBOS'}
+          selfReference={opening?.selfReference ?? "Boaz's AI agent"}
           leaving={entryLeaving}
           onEnter={enter}
         />
@@ -376,7 +376,7 @@ export function OrbConversation() {
 
       <div id="wordmark">
         <h1>{opening?.owner.name ?? 'Boaz Ben Eli'}</h1>
-        <p>{(opening?.selfReference ?? 'AI representative').toUpperCase()}</p>
+        <p>{opening?.agentName ?? 'EBOS'}</p>
       </div>
 
       <div ref={chatRef} id="chat" className={`${chatOpen ? 'open' : 'closed'}${expanded ? ' expanded' : ''}`}>
@@ -400,16 +400,13 @@ export function OrbConversation() {
         </div>
 
         <div ref={logRef} id="chatLog" role="log" aria-live="polite">
-          {/* The introduction, then the work, then the invitation — in that
-              order, because the follow-up line refers to cards the visitor
-              must already be able to see. */}
-          {script.delivered
-            .filter((beat) => beat.id !== 'after-peeks')
-            .map((beat) => (
-              <div key={beat.id} className="msg orb">
-                <RichText text={beat.text} dir={directionOf(beat.text)} />
-              </div>
-            ))}
+          {/* The introduction, then the work — and then nothing. The agent
+              stops talking once the peeks are on screen (script §5). */}
+          {script.delivered.map((beat) => (
+            <div key={beat.id} className="msg orb">
+              <RichText text={beat.text} dir={directionOf(beat.text)} />
+            </div>
+          ))}
 
           {script.running && script.phase === 'delivering' ? (
             <div className="msg orb typing" aria-label="Speaking">
@@ -427,14 +424,6 @@ export function OrbConversation() {
               }}
             />
           ) : null}
-
-          {script.delivered
-            .filter((beat) => beat.id === 'after-peeks')
-            .map((beat) => (
-              <div key={beat.id} className="msg orb">
-                <RichText text={beat.text} dir={directionOf(beat.text)} />
-              </div>
-            ))}
 
           {script.phase === 'done' && !hasConversation && peeks.length === 0 ? (
             <div className="starters">

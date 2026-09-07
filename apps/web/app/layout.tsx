@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Boaz Ben Eli — AI Representative',
+  title: 'Boaz Ben Eli — EBOS',
   description:
-    'A conversational AI representative that explains and demonstrates the work of Boaz Ben Eli, grounded in verified professional knowledge.',
+    "EBOS is Boaz Ben Eli's AI agent: it explains and demonstrates his work in conversation, " +
+    'grounded in verified professional knowledge.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

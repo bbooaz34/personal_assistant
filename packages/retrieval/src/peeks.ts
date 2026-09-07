@@ -45,9 +45,9 @@ const CATEGORY_AXES: Record<SkillCategory, Partial<Record<PeekAxis, number>>> = 
 
 /** The three opening slots, in the order the script presents them. */
 const SLOTS: Array<{ axes: PeekAxis[]; cta: string }> = [
-  { axes: ['product'], cta: 'Explore this project' },
+  { axes: ['product'], cta: 'Explore' },
   { axes: ['leadership', 'creative'], cta: 'Take a look' },
-  { axes: ['ai'], cta: 'Show me the AI work' },
+  { axes: ['ai'], cta: 'Show me' },
 ];
 
 export interface PeekCard {
