@@ -410,13 +410,13 @@ body {
   transition: opacity 250ms ease;
 }
 .gen-cta::after {
-  /* the glass fill — a visible 2.5px of ring stays exposed */
+  /* the glass fill — translucent enough for the gradient to bloom through */
   content: '';
   position: absolute;
   inset: 2.5px;
   z-index: -1;
   border-radius: inherit;
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.7);
   transition: background 250ms ease;
 }
 .gen-cta .spark {
@@ -437,7 +437,7 @@ body {
 @media (hover: hover) and (pointer: fine) {
   .gen-cta:hover { color: var(--color-ink); transform: translateY(-1px); }
   .gen-cta:hover::before { opacity: 1; }
-  .gen-cta:hover::after { background: rgba(255, 255, 255, 0.74); }
+  .gen-cta:hover::after { background: rgba(255, 255, 255, 0.6); }
   /* the spark spins under the cursor — the invitation gets literal */
   .gen-cta:hover .spark { animation: gen-spark-spin 1.1s linear infinite; }
 }
