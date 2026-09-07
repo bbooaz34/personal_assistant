@@ -72,7 +72,7 @@ interface ProjectReveal {
   atMessageIndex: number;
 }
 
-const DEFAULT_PLACEHOLDER = "Ask about his work, or the role you're hiring for…";
+const DEFAULT_PLACEHOLDER = "Ask about Boaz's work…";
 
 const VOICE_FAILURE_STATUS: Record<VoiceFailureReason, string> = {
   microphone_denied: 'microphone was blocked — typing works just as well',

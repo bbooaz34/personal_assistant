@@ -1631,6 +1631,12 @@
           "mobile_uri": "/api/artifact/heights-telecom-website/solutions-mobile.jpg",
           "caption": "Solutions section — operator use cases as a card carousel",
           "visibility": "public"
+        },
+        {
+          "type": "prototype",
+          "uri": "https://heights-t.com",
+          "caption": "The live site, running — scroll and click around; it responds like the real thing because it is",
+          "visibility": "public"
         }
       ]
     },

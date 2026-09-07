@@ -196,6 +196,11 @@ export function TransformationView({
   );
 }
 
+/** Media that runs rather than displays: an HTML artifact, or a live site. */
+function isEmbeddableMedia(item: { type: string; uri: string }): boolean {
+  return item.type === 'prototype' || /\.html?($|\?)/.test(item.uri);
+}
+
 export function MediaGallery({
   project,
   sandbox,
@@ -216,17 +221,25 @@ export function MediaGallery({
   }
   return (
     <Panel label={`Gallery: ${project.name}`}>
-      {/* A short set reads better stacked full-width; a long one as a grid. */}
-      <div className={`grid gap-1 p-1 ${expanded || project.media.length <= 3 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+      {/* A short set reads better stacked full-width; a long one as a grid.
+          Embeds always span the full row, so only images count here. */}
+      <div
+        className={`grid gap-1 p-1 ${
+          expanded || project.media.filter((m) => !isEmbeddableMedia(m)).length <= 3
+            ? 'grid-cols-1'
+            : 'grid-cols-2'
+        }`}
+      >
         {project.media.map((item) => {
           // The chat column is phone-width; the expanded overlay is not. Media
           // that ships a mobile rendition uses it inline and switches to the
           // desktop rendition when expanded.
           const src = expanded ? item.uri : (item.mobile_uri ?? item.uri);
-          // HTML media is a running artifact, not a picture: an <img> pointed
-          // at it never loads. Embed it in the same sandbox ArtifactViewer
-          // uses, spanning the full row so it stays usable.
-          if (/\.html?($|\?)/.test(src)) {
+          // Running media — an HTML artifact or a live site — is not a
+          // picture: embed it in the same sandbox ArtifactViewer uses. The
+          // phone-portrait frame inline and the wide expanded stage give a
+          // responsive page its mobile and desktop layouts for free.
+          if (isEmbeddableMedia(item)) {
             return (
               <figure key={item.uri} className="col-span-full overflow-hidden rounded-lg bg-[var(--color-ground)]">
                 <iframe
@@ -234,7 +247,7 @@ export function MediaGallery({
                   src={src}
                   sandbox={sandbox}
                   loading="lazy"
-                  className={`${expanded ? 'h-[460px]' : 'h-[300px]'} w-full rounded-lg border border-[var(--color-edge)] bg-white`}
+                  className={`${expanded ? 'h-[68vh]' : 'h-[520px]'} w-full rounded-lg border border-[var(--color-edge)] bg-white`}
                 />
               </figure>
             );

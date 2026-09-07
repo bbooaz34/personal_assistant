@@ -81,6 +81,14 @@
       "mobile_uri": "/api/artifact/heights-telecom-website/solutions-mobile.jpg",
       "caption": "Solutions section — operator use cases as a card carousel",
       "visibility": "public"
+    },
+    {
+      "id": "media_live_site",
+      "type": "prototype",
+      "purpose": "Let the visitor use the launched site itself, inside the conversation — the strongest possible evidence that the work shipped.",
+      "uri": "https://heights-t.com",
+      "caption": "The live site, running — scroll and click around; it responds like the real thing because it is",
+      "visibility": "public"
     }
   ],
   "conversation_hooks": [
@@ -98,7 +106,8 @@
       ],
       "agent_response_goal": "Lead with the new homepage: launched 2026-09-06 at heights-t.com, desktop and mobile, with Boaz as design team lead and art director. This is the freshest shipped evidence in the portfolio — show the design next to the live link.",
       "recommended_media_ids": [
-        "media_hero"
+        "media_hero",
+        "media_live_site"
       ]
     },
     {
