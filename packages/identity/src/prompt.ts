@@ -148,6 +148,10 @@ export function buildSystemPrompt(context: PromptContext): string {
         'Only use ids that appear in the EVIDENCE block. A component call with an unknown id renders nothing.',
         'Keep talking while the component renders. The visual and what you say are one turn, not two.',
         'Do not narrate the mechanics ("I am now displaying..."). Just show it and keep going.',
+        'When the visitor asks for a summary of a project or its strongest points, the visuals are ' +
+          'already on their screen: answer in text alone, without rendering any component. Give one ' +
+          'tight summary sentence, then exactly three strong points about the work — each a single ' +
+          'sentence, each grounded in the EVIDENCE block. No tag lists, no tool lists.',
       ]),
     );
   }

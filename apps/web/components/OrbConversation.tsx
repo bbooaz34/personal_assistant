@@ -19,7 +19,7 @@
 
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { VoiceFailureReason } from '@par/voice';
 import { EntryScreen } from './EntryScreen';
 import { OrbStage } from './orb/OrbStage';
@@ -50,6 +50,20 @@ interface ExpandedSpec {
   name: string;
   args: Record<string, unknown>;
   label: string;
+}
+
+/**
+ * A project opened from the peek rail (§22.3, revised).
+ *
+ * Opening a peek is a scripted reveal, not a chat turn: the gallery renders
+ * immediately, the description is spoken over it, and only then is the model
+ * asked — for a text summary alone, since the visuals are already on screen.
+ * `atMessageIndex` pins the reveal where it happened in the conversation.
+ */
+interface ProjectReveal {
+  id: string;
+  projectId: string;
+  atMessageIndex: number;
 }
 
 const DEFAULT_PLACEHOLDER = "Ask about his work, or the role you're hiring for…";
@@ -91,6 +105,7 @@ export function OrbConversation() {
   const [status_, setStatus] = useState<string | null>(null);
   const [peeks, setPeeks] = useState<PeekCard[]>([]);
   const [peekFocus, setPeekFocus] = useState<string | null>(null);
+  const [reveals, setReveals] = useState<ProjectReveal[]>([]);
   const [entered, setEntered] = useState(false);
   const [entryLeaving, setEntryLeaving] = useState(false);
   const [entryReady, setEntryReady] = useState(true);
@@ -159,6 +174,18 @@ export function OrbConversation() {
     },
   });
 
+  // Warm the peek descriptions: opening a project speaks its summary, and the
+  // reveal should not stall on synthesis when the visitor has just clicked.
+  useEffect(() => {
+    if (!portfolio || peeks.length === 0) return;
+    const summaries = peeks
+      .map((card) => portfolio.projects.find((p) => p.id === card.projectId)?.summary)
+      .filter((s): s is string => Boolean(s));
+    if (summaries.length > 0) speech.prefetch(summaries);
+    // speech.prefetch is stable; peeks/portfolio are what actually change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [portfolio, peeks]);
+
   // Safety net: the reveal is driven by the render loop, which a browser will
   // throttle in a background tab. The introduction must not be lost because
   // the visitor looked away during the flight.
@@ -199,7 +226,7 @@ export function OrbConversation() {
       if (voice.speaking) void engine.setMode('speaking');
       else if (voice.thinking) void engine.setMode('heartbeat');
       else void engine.setMode('live');
-    } else if (script.running) {
+    } else if (script.running || speech.speaking) {
       void engine.setMode('speaking');
     } else if (status === 'submitted') {
       void engine.setMode('heartbeat');
@@ -208,7 +235,7 @@ export function OrbConversation() {
     } else {
       void engine.setMode('calm');
     }
-  }, [voiceActive, voice.speaking, voice.thinking, status, script.running]);
+  }, [voiceActive, voice.speaking, voice.thinking, status, script.running, speech.speaking]);
 
   useEffect(() => {
     engineRef.current?.setChatOpen(chatOpen);
@@ -243,7 +270,7 @@ export function OrbConversation() {
 
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight, behavior: 'smooth' });
-  }, [messages, status, voice.transcript, script.delivered, script.showPeeks]);
+  }, [messages, status, voice.transcript, script.delivered, script.showPeeks, reveals]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -301,6 +328,42 @@ export function OrbConversation() {
     setInput('');
   };
 
+  /**
+   * The peek-click reveal (§22.3, revised): visuals first, voice over them,
+   * text last. No case-study card, no tag cloud — the gallery renders at once,
+   * the agent speaks the project description, and only after the line has been
+   * said is the model asked, for a text-only summary of the strongest points.
+   */
+  const openProjectReveal = async (card: PeekCard) => {
+    script.interrupt();
+    speech.stop();
+    setChatOpen(true);
+    // A live voice session narrates its own reveals; hand it the intent.
+    if (voiceActive) {
+      voice.sendText(`Show me ${card.name}.`);
+      return;
+    }
+    const project = portfolio?.projects.find((p) => p.id === card.projectId);
+    if (!project) {
+      send(`Show me ${card.name}.`);
+      return;
+    }
+    if (status === 'streaming' || status === 'submitted') return;
+    setReveals((prior) => [
+      ...prior,
+      { id: `reveal-${card.projectId}-${Date.now()}`, projectId: card.projectId, atMessageIndex: messages.length },
+    ]);
+    // The description is spoken, not printed — the gallery is what the visitor
+    // reads. Muted or unavailable synthesis skips straight to the summary.
+    if (!speech.muted && speech.available) {
+      await speech.say(project.summary);
+    }
+    const owner = opening?.owner.short_name ?? 'Boaz';
+    sendMessage({
+      text: `Give me a short summary of ${card.name} — the three strongest points of ${owner}'s work on it.`,
+    });
+  };
+
   const toggleVoice = () => {
     if (voiceActive || voice.state === 'connecting' || voice.state === 'requesting_permission') {
       voice.stop();
@@ -319,6 +382,19 @@ export function OrbConversation() {
       : undefined;
     setExpanded({ name, args, label: projectName ?? STAGE_LABELS[name] ?? 'evidence' });
   };
+
+  /** The reveals that happened after message `index` was the latest turn. */
+  const revealsAt = (index: number) =>
+    reveals
+      .filter((r) => r.atMessageIndex === index)
+      .map((r) => {
+        const node = evidence(r.id, 'show_gallery', { project_id: r.projectId });
+        return node ? (
+          <div key={r.id} className="msg orb has-ui">
+            {node}
+          </div>
+        ) : null;
+      });
 
   /** A rendered piece of evidence plus its expand affordance. */
   const evidence = (key: string, name: string, args: Record<string, unknown>) => {
@@ -418,10 +494,7 @@ export function OrbConversation() {
             <ProjectPeeks
               cards={peeks}
               focusLabel={peekFocus}
-              onOpen={(card) => {
-                script.interrupt();
-                send(`Show me ${card.name}.`);
-              }}
+              onOpen={(card) => void openProjectReveal(card)}
             />
           ) : null}
 
@@ -435,17 +508,24 @@ export function OrbConversation() {
             </div>
           ) : null}
 
-          {messages.map((message) => {
+          {messages.map((message, messageIndex) => {
             const text = message.parts
               .filter((part): part is { type: 'text'; text: string } => part.type === 'text')
               .map((part) => part.text)
               .join('');
 
+            // A peek opened at this point in the conversation renders its
+            // gallery here, before the turn that followed it.
+            const priorReveals = revealsAt(messageIndex);
+
             if (message.role === 'user') {
               return (
-                <div key={message.id} className="msg user" dir={directionOf(text)}>
-                  {text}
-                </div>
+                <Fragment key={message.id}>
+                  {priorReveals}
+                  <div className="msg user" dir={directionOf(text)}>
+                    {text}
+                  </div>
+                </Fragment>
               );
             }
 
@@ -462,14 +542,20 @@ export function OrbConversation() {
               })
               .filter(Boolean);
 
-            if (!text && components.length === 0) return null;
+            if (!text && components.length === 0)
+              return <Fragment key={message.id}>{priorReveals}</Fragment>;
             return (
-              <div key={message.id} className={`msg orb${components.length ? ' has-ui' : ''}`}>
-                {text ? <RichText text={text} dir={directionOf(text)} /> : null}
-                {components}
-              </div>
+              <Fragment key={message.id}>
+                {priorReveals}
+                <div className={`msg orb${components.length ? ' has-ui' : ''}`}>
+                  {text ? <RichText text={text} dir={directionOf(text)} /> : null}
+                  {components}
+                </div>
+              </Fragment>
             );
           })}
+
+          {revealsAt(messages.length)}
 
           {voice.transcript.map((entry) => {
             if (entry.role === 'user') {
@@ -505,7 +591,7 @@ export function OrbConversation() {
         </div>
 
         <div id="chatStage">
-          {expanded && portfolio ? renderComponent(expanded.name, expanded.args, portfolio) : null}
+          {expanded && portfolio ? renderComponent(expanded.name, expanded.args, portfolio, true) : null}
         </div>
 
         <form

@@ -18,16 +18,27 @@
 import '@/lib/env';
 import OpenAI from 'openai';
 import { selectOpening } from '@par/identity';
-import { identityConfig, voiceConfig } from '@par/config';
+import { PolicyEngine } from '@par/policy';
+import { identityConfig, privacyConfig, voiceConfig } from '@par/config';
+import { getAgent } from '@/lib/agent';
 
 export const runtime = 'nodejs';
 
-/** Every line the agent is allowed to say aloud, from the identity config. */
-function speakableLines(): Set<string> {
+/**
+ * Every line the agent is allowed to say aloud: the opening script from the
+ * identity config, plus the public project summaries — spoken when a visitor
+ * opens a project from the peek rail. Both are server-authored; the endpoint
+ * still refuses anything a visitor typed.
+ */
+async function speakableLines(): Promise<Set<string>> {
   const lines = new Set<string>();
   for (const variant of identityConfig.openings.variants) {
     for (const beat of variant.beats) lines.add(beat);
   }
+  const { repository } = await getAgent();
+  const policy = new PolicyEngine(privacyConfig);
+  const permitted = policy.filterForAudience(repository, 'public_visitor');
+  for (const project of permitted.projects) lines.add(project.summary);
   return lines;
 }
 
@@ -40,7 +51,7 @@ export async function POST(request: Request): Promise<Response> {
   const body = (await request.json().catch(() => ({}))) as { text?: unknown };
   const text = typeof body.text === 'string' ? body.text.trim() : '';
 
-  if (!text || !speakableLines().has(text)) {
+  if (!text || !(await speakableLines()).has(text)) {
     return Response.json({ error: 'Not a line this agent speaks.' }, { status: 400 });
   }
 
