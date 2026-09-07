@@ -19,8 +19,15 @@
  * same artifact reflows into its desktop layout with more height to use.
  */
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ProjectArtifact } from './portfolio-types';
+
+/**
+ * The artifact's expanded viewport is a real desktop, rendered at full size
+ * and scaled down to whatever width the stage actually has — so the visitor
+ * sees the desktop layout in its true proportions instead of a squeezed one.
+ */
+const DESKTOP_VIEWPORT = { width: 1280, height: 800 };
 
 export function ArtifactViewer({
   projectName,
@@ -39,6 +46,20 @@ export function ArtifactViewer({
     artifacts.find((a) => a.id === initialArtifactId) ?? artifacts[0];
   const [activeId, setActiveId] = useState(initial?.id);
   const active = artifacts.find((a) => a.id === activeId) ?? initial;
+
+  // Expanded: measure the stage and scale the fixed desktop viewport to it.
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(0);
+  useEffect(() => {
+    if (!expanded) return;
+    const el = stageRef.current;
+    if (!el) return;
+    const update = () => setScale(el.clientWidth / DESKTOP_VIEWPORT.width);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [expanded]);
 
   if (!active) return null;
 
@@ -75,16 +96,40 @@ export function ArtifactViewer({
       ) : null}
 
       <div className="p-2">
-        <iframe
-          // Remounting on change avoids showing the previous stage while the
-          // next one loads, which reads as a flicker between designs.
-          key={active.id}
-          title={`${projectName} — ${active.label}`}
-          src={active.url}
-          sandbox={sandbox}
-          loading="lazy"
-          className={`${expanded ? 'h-[68vh]' : 'h-[520px]'} w-full rounded-lg border border-[var(--color-edge)] bg-white`}
-        />
+        {expanded ? (
+          <div
+            ref={stageRef}
+            className="overflow-hidden rounded-lg border border-[var(--color-edge)] bg-white"
+            style={{ height: Math.round(DESKTOP_VIEWPORT.height * (scale || 0.5)) }}
+          >
+            <iframe
+              // Remounting on change avoids showing the previous stage while
+              // the next one loads, which reads as a flicker between designs.
+              key={active.id}
+              title={`${projectName} — ${active.label}`}
+              src={active.url}
+              sandbox={sandbox}
+              loading="lazy"
+              style={{
+                width: DESKTOP_VIEWPORT.width,
+                height: DESKTOP_VIEWPORT.height,
+                transform: `scale(${scale || 0.5})`,
+                transformOrigin: 'top left',
+                border: 0,
+              }}
+              className="bg-white"
+            />
+          </div>
+        ) : (
+          <iframe
+            key={active.id}
+            title={`${projectName} — ${active.label}`}
+            src={active.url}
+            sandbox={sandbox}
+            loading="lazy"
+            className="h-[520px] w-full rounded-lg border border-[var(--color-edge)] bg-white"
+          />
+        )}
       </div>
 
       <p className="px-3 pb-3 text-[11px] leading-relaxed text-[var(--color-ink-faint)]">

@@ -63,8 +63,12 @@ interface ExpandedSpec {
 interface ProjectReveal {
   id: string;
   projectId: string;
-  /** What to show: live artifacts when the project ships them, else media. */
-  component: 'show_artifact' | 'show_gallery';
+  /**
+   * Inline the reveal always shows highlight media; expanding it opens the
+   * live desktop artifact when the project ships one, else the gallery at
+   * its desktop renditions.
+   */
+  expandComponent: 'show_artifact' | 'show_gallery';
   atMessageIndex: number;
 }
 
@@ -356,9 +360,7 @@ export function OrbConversation() {
       {
         id: `reveal-${card.projectId}-${Date.now()}`,
         projectId: card.projectId,
-        // A project with sanitized running artifacts shows the real thing;
-        // otherwise its media gallery. HTML media inside the gallery embeds.
-        component: project.artifacts.length > 0 ? 'show_artifact' : 'show_gallery',
+        expandComponent: project.artifacts.length > 0 ? 'show_artifact' : 'show_gallery',
         atMessageIndex: messages.length,
       },
     ]);
@@ -397,7 +399,7 @@ export function OrbConversation() {
     reveals
       .filter((r) => r.atMessageIndex === index)
       .map((r) => {
-        const node = evidence(r.id, r.component, { project_id: r.projectId });
+        const node = evidence(r.id, 'show_gallery', { project_id: r.projectId }, r.expandComponent);
         return node ? (
           <div key={r.id} className="msg orb has-ui">
             {node}
@@ -405,15 +407,24 @@ export function OrbConversation() {
         ) : null;
       });
 
-  /** A rendered piece of evidence plus its expand affordance. */
-  const evidence = (key: string, name: string, args: Record<string, unknown>) => {
+  /**
+   * A rendered piece of evidence plus its expand affordance. `expandName`
+   * lets the stage open a different component than the inline one — a reveal
+   * shows highlight media inline but expands to the live desktop artifact.
+   */
+  const evidence = (
+    key: string,
+    name: string,
+    args: Record<string, unknown>,
+    expandName?: string,
+  ) => {
     if (!portfolio) return null;
     const node = renderComponent(name, args, portfolio);
     if (!node) return null;
     return (
       <div key={key} className="gen-ui">
         {node}
-        <button type="button" className="gen-cta" onClick={() => expandSpec(name, args)}>
+        <button type="button" className="gen-cta" onClick={() => expandSpec(expandName ?? name, args)}>
           Expand
         </button>
       </div>

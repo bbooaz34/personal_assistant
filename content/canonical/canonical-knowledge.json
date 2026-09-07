@@ -1436,27 +1436,24 @@
       "notes": "Cleared for public portfolio use by Zemingo (owner-reported, 2026-08-26). Standing claim rules, which the approval does NOT lift: (1) never expose intern names, private feedback or evaluation data; (2) the ~90-minute delivery claim is self-reported and unverified — attribute it explicitly to Boaz or leave it out; (3) describe the coding as AI-assisted and agent-directed, not independent full-stack engineering; (4) do not state that the final iOS 26 x Zemingo redesign shipped — that is still unconfirmed. Media is now public: the real running interface at each design stage is embedded via sanitized artifacts (see scripts/import-artifacts.ts). Names and addresses inside them are fictional replacements.",
       "media": [
         {
-          "type": "prototype",
-          "uri": "/api/artifact/internship-platform-ios26/stage-prototype.html",
-          "caption": "Functional prototype — plain Tailwind",
+          "type": "image",
+          "uri": "/api/artifact/internship-platform-ios26/highlight-prototype-desktop.jpg",
+          "mobile_uri": "/api/artifact/internship-platform-ios26/highlight-prototype-mobile.jpg",
+          "caption": "Functional prototype — the working system before any design opinion, plain Tailwind",
           "visibility": "public"
         },
         {
-          "type": "prototype",
-          "uri": "/api/artifact/internship-platform-ios26/stage-ios26.html",
-          "caption": "iOS 26 design language",
+          "type": "image",
+          "uri": "/api/artifact/internship-platform-ios26/highlight-ios26-desktop.jpg",
+          "mobile_uri": "/api/artifact/internship-platform-ios26/highlight-ios26-mobile.jpg",
+          "caption": "The same screens under the iOS 26 design language",
           "visibility": "public"
         },
         {
-          "type": "prototype",
-          "uri": "/api/artifact/internship-platform-ios26/stage-zemingo.html",
-          "caption": "Zemingo brand layer",
-          "visibility": "public"
-        },
-        {
-          "type": "prototype",
-          "uri": "/api/artifact/internship-platform-ios26/making-of.html",
-          "caption": "Making-of narrative",
+          "type": "image",
+          "uri": "/api/artifact/internship-platform-ios26/highlight-zemingo-desktop.jpg",
+          "mobile_uri": "/api/artifact/internship-platform-ios26/highlight-zemingo-mobile.jpg",
+          "caption": "The final Zemingo brand layer",
           "visibility": "public"
         }
       ]

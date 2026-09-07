@@ -216,7 +216,8 @@ export function MediaGallery({
   }
   return (
     <Panel label={`Gallery: ${project.name}`}>
-      <div className={`grid gap-1 p-1 ${expanded ? 'grid-cols-1' : 'grid-cols-2'}`}>
+      {/* A short set reads better stacked full-width; a long one as a grid. */}
+      <div className={`grid gap-1 p-1 ${expanded || project.media.length <= 3 ? 'grid-cols-1' : 'grid-cols-2'}`}>
         {project.media.map((item) => {
           // The chat column is phone-width; the expanded overlay is not. Media
           // that ships a mobile rendition uses it inline and switches to the
