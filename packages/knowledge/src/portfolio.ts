@@ -122,6 +122,11 @@ export interface ProjectPeek {
   supporting: string;
   /** Call to action on the card. */
   cta?: string;
+  /**
+   * Owner curation: true keeps this project off the opening rail entirely.
+   * It stays retrievable and showable in conversation like any other project.
+   */
+  suppressed?: boolean;
 }
 
 export interface ProjectArtifact {
@@ -132,6 +137,8 @@ export interface ProjectArtifact {
   /** Which transformation stage this shows, when it maps to one. */
   stage?: string;
   description?: string;
+  /** How the expanded viewer frames it: phone-portrait or scaled desktop. */
+  viewport?: 'mobile' | 'desktop';
   sanitized: boolean;
   visibility?: Exclude<Visibility, 'system'>;
 }

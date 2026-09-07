@@ -162,10 +162,7 @@ function axisScores(repository: KnowledgeRepository, project: Project): Record<P
   // A peek card is an invitation to look. Work that can actually be shown, and
   // work that is documented enough to survive a follow-up question, is worth
   // more at the opening than work that is only a name and a summary.
-  const evidence = repository.projectEvidence(project.id);
-  const showable = (evidence?.artifacts ?? []).some(
-    (a) => (a.visibility ?? 'public') === 'public' && a.sanitized,
-  );
+  const showable = isShowable(repository, project);
   const documented =
     (project.responsibilities?.length ?? 0) > 0 &&
     (project.outcomes?.length ?? 0) > 0;
@@ -178,6 +175,22 @@ function axisScores(repository: KnowledgeRepository, project: Project): Record<P
 
   for (const axis of Object.keys(scores) as PeekAxis[]) scores[axis] *= multiplier;
   return scores;
+}
+
+/**
+ * "Showable" means a live thing can be embedded, whichever channel carries
+ * it: a sanitized public artifact, or interactive media on the canonical
+ * project (a running prototype, a live site, a playable clip).
+ */
+function isShowable(repository: KnowledgeRepository, project: Project): boolean {
+  const evidence = repository.projectEvidence(project.id);
+  if ((evidence?.artifacts ?? []).some((a) => (a.visibility ?? 'public') === 'public' && a.sanitized))
+    return true;
+  return (project.media ?? []).some(
+    (m) =>
+      (m.visibility ?? 'public') === 'public' &&
+      (m.type === 'prototype' || m.type === 'video'),
+  );
 }
 
 function firstSentence(text: string): string {
@@ -195,9 +208,7 @@ function buildCard(
   const peek = evidence?.peek;
 
   const skills = repository.skillsDemonstratedBy(project.id).map((s) => s.name);
-  const hasArtifact = (evidence?.artifacts ?? []).some(
-    (a) => (a.visibility ?? 'public') === 'public' && a.sanitized,
-  );
+  const hasArtifact = isShowable(repository, project);
 
   return {
     projectId: project.id,
@@ -227,8 +238,12 @@ export function selectProjectPeeks({
   intentText?: string | null;
   limit?: number;
 }): PeekSelection {
-  // Policy first, as everywhere: a peek is a retrieval like any other.
-  const permitted = policy.filterForAudience(repository, audience).projects;
+  // Policy first, as everywhere: a peek is a retrieval like any other. The
+  // owner can also keep a project off the rail (peek.suppressed) without
+  // hiding it from conversation.
+  const permitted = policy
+    .filterForAudience(repository, audience)
+    .projects.filter((p) => repository.projectEvidence(p.id)?.peek?.suppressed !== true);
   if (permitted.length === 0) return { cards: [], focus: null };
 
   const scored = permitted.map((project) => ({

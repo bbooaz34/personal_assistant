@@ -213,7 +213,8 @@
   "peek": {
     "hook": "How Boaz uses AI beyond prompting.",
     "supporting": "Creative systems, custom AI workflows, identity consistency, and hands-on experimentation turned into method.",
-    "cta": "Show me"
+    "cta": "Show me",
+    "suppressed": true
   },
   "owner_commentary": [
     {

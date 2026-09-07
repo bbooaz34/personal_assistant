@@ -7,6 +7,8 @@ export interface ProjectArtifact {
   url: string;
   stage?: string;
   description?: string;
+  /** How the expanded viewer frames it: phone-portrait or scaled desktop. */
+  viewport?: 'mobile' | 'desktop';
 }
 
 export interface PortfolioProject {

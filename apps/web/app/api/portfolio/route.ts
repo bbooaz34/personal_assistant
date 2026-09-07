@@ -57,6 +57,7 @@ export async function GET(): Promise<Response> {
           url: `${uiConfig.artifactOrigin}/api/artifact/${evidence?.sourceDir ?? ''}/${a.file}`,
           ...(a.stage ? { stage: a.stage } : {}),
           ...(a.description ? { description: a.description } : {}),
+          ...(a.viewport ? { viewport: a.viewport } : {}),
         })),
       shortPitch: evidence?.presentation?.short_pitch ?? project.summary,
       followups: evidence?.presentation?.suggested_followups ?? [],

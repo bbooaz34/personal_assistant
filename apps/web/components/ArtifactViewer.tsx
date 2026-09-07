@@ -28,6 +28,8 @@ import type { ProjectArtifact } from './portfolio-types';
  * sees the desktop layout in its true proportions instead of a squeezed one.
  */
 const DESKTOP_VIEWPORT = { width: 1280, height: 800 };
+/** Mobile artifacts get a phone, not a letterboxed desktop. */
+const MOBILE_VIEWPORT = { width: 375, height: 812 };
 
 export function ArtifactViewer({
   projectName,
@@ -47,19 +49,21 @@ export function ArtifactViewer({
   const [activeId, setActiveId] = useState(initial?.id);
   const active = artifacts.find((a) => a.id === activeId) ?? initial;
 
-  // Expanded: measure the stage and scale the fixed desktop viewport to it.
+  // Expanded: measure the frame and scale the artifact's own viewport to it —
+  // a phone-portrait box for mobile artifacts, the stage's width for desktop.
+  const viewport = active?.viewport === 'mobile' ? MOBILE_VIEWPORT : DESKTOP_VIEWPORT;
   const stageRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0);
   useEffect(() => {
     if (!expanded) return;
     const el = stageRef.current;
     if (!el) return;
-    const update = () => setScale(el.clientWidth / DESKTOP_VIEWPORT.width);
+    const update = () => setScale(el.clientWidth / viewport.width);
     update();
     const observer = new ResizeObserver(update);
     observer.observe(el);
     return () => observer.disconnect();
-  }, [expanded]);
+  }, [expanded, viewport.width, active?.id]);
 
   if (!active) return null;
 
@@ -99,8 +103,14 @@ export function ArtifactViewer({
         {expanded ? (
           <div
             ref={stageRef}
-            className="overflow-hidden rounded-lg border border-[var(--color-edge)] bg-white"
-            style={{ height: Math.round(DESKTOP_VIEWPORT.height * (scale || 0.5)) }}
+            className={`overflow-hidden border border-[var(--color-edge)] bg-white ${
+              active.viewport === 'mobile' ? 'mx-auto rounded-[26px]' : 'rounded-lg'
+            }`}
+            style={
+              active.viewport === 'mobile'
+                ? { height: 'min(72vh, 760px)', aspectRatio: `${viewport.width} / ${viewport.height}` }
+                : { height: Math.round(viewport.height * (scale || 0.5)) }
+            }
           >
             <iframe
               // Remounting on change avoids showing the previous stage while
@@ -111,8 +121,8 @@ export function ArtifactViewer({
               sandbox={sandbox}
               loading="lazy"
               style={{
-                width: DESKTOP_VIEWPORT.width,
-                height: DESKTOP_VIEWPORT.height,
+                width: viewport.width,
+                height: viewport.height,
                 transform: `scale(${scale || 0.5})`,
                 transformOrigin: 'top left',
                 border: 0,

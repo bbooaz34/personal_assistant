@@ -54,30 +54,11 @@
   #rail i.done::after{transform:none}
   #rail i.run::after{transition:transform var(--t,3s) linear;transform:none}
 
-  /* end card */
-  #end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
-    text-align:center;opacity:0;transform:scale(.96);pointer-events:none;
-    transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
-  #end.on{opacity:1;transform:none;pointer-events:auto}
-  #end h1{font-size:clamp(26px,6vh,44px);font-weight:800;line-height:1.25;max-width:15ch}
-  #end p{color:rgba(255,255,255,.7);font-size:clamp(13px,2.4vh,16px);max-width:34ch}
-  .cta{border:0;border-radius:999px;padding:15px 34px;font:inherit;font-size:clamp(14px,2.6vh,17px);font-weight:500;
-    background:#fff;color:var(--blue);cursor:pointer;box-shadow:0 12px 40px rgba(0,102,255,.45);
-    transition:transform .16s var(--ease-out)}
-  @media (hover:hover) and (pointer:fine){ .cta:hover{transform:scale(1.045)} }
-  .cta:active{transform:scale(.97)}
-  .again{background:none;border:0;color:rgba(255,255,255,.65);font:inherit;font-size:13.5px;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
-  #toast{position:fixed;bottom:26px;inset-inline:0;display:flex;justify-content:center;pointer-events:none}
-  #toast span{background:rgba(255,255,255,.95);color:var(--ink);border-radius:999px;padding:10px 20px;font-size:13.5px;
-    opacity:0;transform:translateY(12px);transition:opacity .35s var(--ease-out),transform .35s var(--ease-out)}
-  #toast.on span{opacity:1;transform:none}
-
   @media (prefers-reduced-motion: reduce){
     .scene,.scene.gone{transform:none;transition:opacity .5s ease}
     .scene .card img,.scene.on .card img{transform:none;transition:none}
     .kick{transform:none}
     #wash{transition:none}
-    #end{transform:none}
   }
 </style>
 </head>
@@ -86,14 +67,7 @@
   <div id="wash"></div>
   <div id="rail" aria-hidden="true"></div>
   <div id="scenes"></div>
-  <div id="end">
-    <h1>הבנקאות העסקית,<br>בכף היד</h1>
-    <p>עוצב ונבנה על מערכת עיצוב מלאה — מהטוקנים ועד המיקרו־אינטראקציות</p>
-    <button class="cta" id="launch">השקת אב־טיפוס</button>
-    <button class="again" id="again">▶ צפו שוב</button>
-  </div>
 </div>
-<div id="toast"><span>האב־טיפוס האינטראקטיבי בדרך — בקרוב ממש כאן</span></div>
 
 <script>
 const SCENES = [
@@ -107,7 +81,6 @@ const SCENES = [
 const scenesEl = document.getElementById('scenes');
 const rail = document.getElementById('rail');
 const wash = document.getElementById('wash');
-const end = document.getElementById('end');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 SCENES.forEach((s, i) => {
@@ -127,7 +100,11 @@ function show(n){
     prev.classList.remove('on'); prev.classList.add('gone');
     document.getElementById('bar'+i).className = 'done';
   }
-  if (n >= SCENES.length) return finale();
+  // the clip loops: after the last scene the rail resets and it starts over
+  if (n >= SCENES.length) {
+    document.querySelectorAll('#rail i').forEach(b => b.className = '');
+    n = 0;
+  }
   i = n;
   const sc = document.getElementById('sc'+i);
   sc.classList.remove('gone');
@@ -141,25 +118,8 @@ function show(n){
   wash.style.transform = `translateX(${(i % 2 ? -1 : 1) * (4 + i)}%)`;
   timer = setTimeout(() => show(i + 1), reduce ? Math.min(SCENES[i].hold, 2400) : SCENES[i].hold);
 }
-function finale(){
-  end.classList.add('on');
-  document.querySelectorAll('#rail i').forEach(b => b.className = 'done');
-}
-function replay(){
-  end.classList.remove('on');
-  document.querySelectorAll('.scene').forEach(s => s.classList.remove('on','gone'));
-  document.querySelectorAll('#rail i').forEach(b => b.className = '');
-  i = -1; show(0);
-}
-
-document.getElementById('stage').addEventListener('click', e => {
-  if (e.target.closest('#end')) return;
+document.getElementById('stage').addEventListener('click', () => {
   show(i + 1); // a click skips forward; the timeline keeps flowing
-});
-document.getElementById('again').addEventListener('click', replay);
-document.getElementById('launch').addEventListener('click', () => {
-  // The interactive prototype lives beside this clip in the artifact store.
-  location.href = 'prototype.html';
 });
 
 // preload, then roll

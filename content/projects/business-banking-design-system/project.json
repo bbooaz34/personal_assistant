@@ -38,20 +38,22 @@
   ],
   "artifacts": [
     {
-      "id": "marketing-clip",
-      "label": "הקליפ השיווקי",
-      "file": "marketing-clip.html",
-      "description": "An auto-playing marketing clip designed from the app's store screens — six scenes with cinematic transitions and a closing CTA to launch the interactive prototype (in the works). Click skips ahead; the end card replays.",
-      "sanitized": true,
-      "visibility": "public"
-    },
-    {
       "id": "prototype",
       "label": "אב־טיפוס אינטראקטיבי",
       "file": "prototype.html",
       "description": "The cancel-instruction flow, playable: the screens are 1:1 exports of the Figma frames, and every hotspot, transition (move-in, move-out, slide-out, dissolve) and timed step is read from the authored prototype graph. Clicking a dead area flashes the live areas, exactly like Figma's player.",
       "sanitized": true,
-      "visibility": "public"
+      "visibility": "public",
+      "viewport": "mobile"
+    },
+    {
+      "id": "marketing-clip",
+      "label": "הקליפ השיווקי",
+      "file": "marketing-clip.html",
+      "description": "An auto-playing marketing clip designed from the app's store screens — six scenes with cinematic transitions, looping. Click skips ahead.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
     }
   ],
   "media": [],

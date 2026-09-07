@@ -1702,12 +1702,6 @@
       "visibility": "public",
       "media": [
         {
-          "type": "prototype",
-          "uri": "/api/artifact/business-banking-design-system/prototype.html",
-          "caption": "The interactive prototype — 1:1 Figma frame exports wired with the authored hotspots, transitions and timers",
-          "visibility": "public"
-        },
-        {
           "type": "video",
           "uri": "/api/artifact/business-banking-design-system/marketing-clip.html",
           "caption": "The marketing clip — six store screens, cinematic scenes, CTA launches the prototype",
