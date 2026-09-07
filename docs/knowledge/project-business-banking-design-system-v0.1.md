@@ -54,3 +54,5 @@ Owner pointed the Figma bridge at the app's cancel-instruction prototype file (a
 - Flow verified end-to-end in a browser: list → cancel → payees modal → close → back → summary → confirmation toast pair.
 
 The marketing clip's CTA now launches the prototype (verified). The owner also provided a local .fig copy of the design system as backup design data; it was not needed — the live bridge supplied everything.
+
+**v0.3 addendum — the swipe hint (owner catch).** The first card on the list screen is not a flat hotspot: it is the 'cancel order' interactive component (default/hint/swipe states). Reproduced with exported layers (the card and the ⊖ ביטול action strip travel as one unit, exactly what the authored SMART_ANIMATE morphs): on every arrival at the list the authored hint plays (to hint 620ms, back 1022ms), dragging opens the swipe state (settle 744ms), tapping the revealed action — or the card — continues to the cancel screen, and touching the card cancels the frame's 3s auto-advance so it never yanks a visitor mid-swipe. RTL gotcha fixed along the way: dir=rtl reverses flex order, so the strip is forced ltr to keep [action | card] physical order.

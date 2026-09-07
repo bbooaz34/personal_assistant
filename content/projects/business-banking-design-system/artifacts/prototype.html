@@ -26,6 +26,20 @@
   .hot::after{content:'';position:absolute;inset:0;border-radius:inherit;background:rgba(0,102,255,.22);
     outline:2px solid rgba(0,102,255,.55);opacity:0;transition:opacity .3s ease}
   #stage.hint .hot::after{opacity:1}
+  /* the swipeable first card on the list screen — the 'cancel order'
+     component's hint/swipe states, reproduced with the exported layers */
+  #swipe{position:absolute;left:4.27%;top:31.28%;width:91.47%;height:25.37%;
+    overflow:hidden;border-radius:16px;background:#f6f6f9;touch-action:pan-y;cursor:pointer}
+  /* ltr so the strip's physical order stays [action | card] under dir=rtl */
+  #swipeStrip{position:absolute;inset:0 auto 0 0;width:195.04%;height:100%;display:flex;direction:ltr;
+    transform:translateX(-48.73%);will-change:transform}
+  #swipeStrip.anim{transition:transform var(--sd,620ms) cubic-bezier(0.77,0,0.175,1)}
+  #swipeStrip img{height:100%;display:block}
+  #swipeStrip .act{width:48.73%}
+  #swipeStrip .crd{width:51.27%}
+  #swipe::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:rgba(0,102,255,.22);outline:2px solid rgba(0,102,255,.55);opacity:0;transition:opacity .3s ease}
+  #stage.hint #swipe::after{opacity:1}
   #restart{position:fixed;bottom:18px;inset-inline-start:18px;z-index:9;border:0;border-radius:999px;
     width:42px;height:42px;background:#1d1d20;color:#fff;font-size:17px;cursor:pointer;opacity:.85;
     transition:transform .16s var(--ease-out)}
@@ -41,8 +55,12 @@
    Rects are in the 375x812 frame space; transitions carry the authored
    direction and duration. */
 const SCREENS = {
-  list:    { img:'scr-list.png',    hots:[ {r:[16,254,343,206], to:'cancel', t:'movein-left', d:400} ],
+  list:    { img:'scr-list.png',    hots:[],
              auto:{ after:3000, to:'cancel', t:'movein-left', d:400 } },                       // 2037:18734
+           // the first card is not a flat hotspot: it is the 'cancel order'
+           // component — tap navigates, drag opens the swipe state, and the
+           // authored hint plays on arrival. Touching the card cancels the
+           // frame's 3s auto-advance so it never yanks a visitor mid-swipe.
   cancel:  { img:'scr-cancel.png',  hots:[ {r:[0,60,60,24],    to:'list',    t:'moveout-right', d:383},
                                            {r:[16,358,343,56], to:'payees',  t:'movein-top',    d:511},
                                            {r:[24,714,327,48], to:'summary', t:'movein-left',   d:383} ] }, // 2037:19513
@@ -101,6 +119,7 @@ async function go(key, t = 'dissolve', dur = 300){
    edge), MOVE_OUT RIGHT exits rightward — back leaves the way forward came. */
 
 stage.addEventListener('click', e => {
+  if (e.target.closest('#swipe')) return; // the swipe component handles its own pointer story
   const hot = e.target.closest('.hot');
   if (hot){
     const h = SCREENS[hot.dataset.k].hots[hot.dataset.j];
@@ -116,9 +135,73 @@ document.getElementById('restart').addEventListener('click', () => {
   current = null; go(START);
 });
 
+/* ── the 'cancel order' swipe component (2013:31670) ─────────────────────
+   Geometry from the variants: default = card at 0; hint = card +82 with the
+   action strip revealed; swipe = card +326, strip fully open. The strip and
+   card travel as one unit — that is what the authored SMART_ANIMATE morphs.
+   Timings from the file: to hint 620ms, hint back 1022ms, drag settle 744ms. */
+const STRIP = 669, ACT = 326, HINT = 82, TAP_SLOP = 8;
+const restPct = -(ACT / STRIP) * 100, hintPct = -((ACT - HINT) / STRIP) * 100, openPct = 0;
+const listEl = document.getElementById('scr-list');
+listEl.insertAdjacentHTML('beforeend',
+  `<div id="swipe"><div id="swipeStrip">
+     <img class="act" src="swipe-action.png" alt="">
+     <img class="crd" src="swipe-card.png" alt="הפקדה לפיקדון — גררו לביטול, הקישו לפרטים">
+   </div></div>`);
+const swipe = document.getElementById('swipe');
+const strip = document.getElementById('swipeStrip');
+let open = false, hintTimer = null;
+
+const setX = (pct, dur) => {
+  strip.classList.toggle('anim', dur != null && !reduce);
+  if (dur != null) strip.style.setProperty('--sd', dur + 'ms');
+  strip.style.transform = `translateX(${pct}%)`;
+};
+
+function playHint(){
+  clearTimeout(hintTimer);
+  if (reduce) return;
+  setX(hintPct, 620);                        // AFTER_TIMEOUT → hint, SMART_ANIMATE 620ms
+  hintTimer = setTimeout(() => setX(restPct, 1022), 800); // hint → default, 1022ms
+}
+
+let px0 = null, dragged = false, startPct = restPct;
+swipe.addEventListener('pointerdown', e => {
+  clearTimeout(hintTimer); clearTimeout(timer); // a touch owns the card: stop hint + auto-advance
+  px0 = e.clientX; dragged = false; startPct = open ? openPct : restPct;
+  strip.classList.remove('anim');
+  swipe.setPointerCapture(e.pointerId);
+});
+swipe.addEventListener('pointermove', e => {
+  if (px0 === null) return;
+  const dx = e.clientX - px0;
+  if (Math.abs(dx) > TAP_SLOP) dragged = true;
+  const pctPerPx = 100 / (swipe.offsetWidth * (STRIP / 343));
+  setX(Math.min(openPct, Math.max(restPct, startPct + dx * pctPerPx)), null);
+});
+swipe.addEventListener('pointerup', e => {
+  if (px0 === null) return;
+  const dx = e.clientX - px0; px0 = null;
+  if (!dragged){
+    if (!open) return go('cancel', 'movein-left', 400);     // authored tap → ביטול הוראה
+    // open card: tapping the revealed ביטול action confirms; the card closes
+    if (e.target.closest('.act')) return go('cancel', 'movein-left', 400);
+    open = false; setX(restPct, 744);
+    return;
+  }
+  open = dx > swipe.offsetWidth * 0.3;                      // ON_DRAG → swipe state
+  setX(open ? openPct : restPct, 744);                      // settle, SMART_ANIMATE 744ms
+});
+
+// the hint is part of arriving at the list — replay it on every entry
+const origGo = go;
+go = async function(key, t, d){
+  await origGo(key, t, d);
+  if (key === 'list'){ open = false; setX(restPct, null); setTimeout(playHint, 450); }
+};
 let loaded = 0;
-const all = Object.values(SCREENS);
-all.forEach(s => { const im = new Image(); im.onload = im.onerror = () => { if (++loaded === all.length) go(START); }; im.src = s.img; });
+const all = [...Object.values(SCREENS).map(s=>s.img), 'swipe-card.png', 'swipe-action.png'];
+all.forEach(src => { const im = new Image(); im.onload = im.onerror = () => { if (++loaded === all.length) go(START); }; im.src = src; });
 </script>
 </body>
 </html>
