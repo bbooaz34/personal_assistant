@@ -55,12 +55,12 @@
    Rects are in the 375x812 frame space; transitions carry the authored
    direction and duration. */
 const SCREENS = {
-  list:    { img:'scr-list.png',    hots:[],
-             auto:{ after:3000, to:'cancel', t:'movein-left', d:400 } },                       // 2037:18734
-           // the first card is not a flat hotspot: it is the 'cancel order'
+  list:    { img:'scr-list.png',    hots:[] },                                                 // 2037:18734
+           // The first card is not a flat hotspot: it is the 'cancel order'
            // component — tap navigates, drag opens the swipe state, and the
-           // authored hint plays on arrival. Touching the card cancels the
-           // frame's 3s auto-advance so it never yanks a visitor mid-swipe.
+           // authored hint plays on arrival. The file's 3s auto-advance is
+           // deliberately NOT implemented: the owner wants navigation to
+           // happen only on a user trigger (2026-09-07).
   cancel:  { img:'scr-cancel.png',  hots:[ {r:[0,60,60,24],    to:'list',    t:'moveout-right', d:383},
                                            {r:[16,358,343,56], to:'payees',  t:'movein-top',    d:511},
                                            {r:[24,714,327,48], to:'summary', t:'movein-left',   d:383} ] }, // 2037:19513
