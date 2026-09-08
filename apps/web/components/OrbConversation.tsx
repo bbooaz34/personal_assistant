@@ -414,6 +414,31 @@ export function OrbConversation() {
       });
 
   /**
+   * What "Generate live view" opens for a piece of inline evidence.
+   *
+   * A case study is prose about the work; the live view is the work. Every
+   * other component either has an expanded mode of its own or has nothing
+   * richer to show, so only `show_project` is remapped, to the best evidence
+   * the project actually carries: the staged transformation, else the running
+   * artifact, else its media. A project with none of those expands to itself,
+   * because there is genuinely nothing to run.
+   *
+   * Without this the button expanded the case study into the same case study,
+   * one size larger — offering to bring the work to life and enlarging the
+   * text instead.
+   */
+  const expandTargetFor = (name: string, args: Record<string, unknown>): string => {
+    if (name !== 'show_project') return name;
+    const id = typeof args.project_id === 'string' ? args.project_id : undefined;
+    const project = id ? portfolio?.projects.find((p) => p.id === id) : undefined;
+    if (!project) return name;
+    if (project.transformation.length > 0) return 'show_transformation';
+    if (project.artifacts.length > 0) return 'show_artifact';
+    if (project.media.length > 0) return 'show_gallery';
+    return name;
+  };
+
+  /**
    * A rendered piece of evidence plus its expand affordance. `expandName`
    * lets the stage open a different component than the inline one — a reveal
    * shows highlight media inline but expands to the live desktop artifact.
@@ -430,7 +455,7 @@ export function OrbConversation() {
     return (
       <div key={key} className="gen-ui">
         {node}
-        <button type="button" className="gen-cta" onClick={() => expandSpec(expandName ?? name, args)}>
+        <button type="button" className="gen-cta" onClick={() => expandSpec(expandName ?? expandTargetFor(name, args), args)}>
           <span className="spark" aria-hidden>✦</span>
           Generate live view
         </button>
