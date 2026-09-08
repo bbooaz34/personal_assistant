@@ -88,6 +88,19 @@ const VOICE_FAILURE_STATUS: Record<VoiceFailureReason, string> = {
   unsupported_browser: 'this browser does not support live voice — text works everywhere',
 };
 
+/**
+ * Components that draw themselves differently when expanded (see
+ * `renderComponent`'s `expanded` flag). Everything else renders the same node
+ * at both sizes, so expanding it is only a magnification.
+ */
+const EXPANDS_RICHER = new Set([
+  'show_artifact',
+  'show_transformation',
+  'show_gallery',
+  'show_timeline',
+  'show_cv_section',
+]);
+
 const STAGE_LABELS: Record<string, string> = {
   show_project: 'case study',
   show_artifact: 'live artifact',
@@ -442,6 +455,12 @@ export function OrbConversation() {
    * A rendered piece of evidence plus its expand affordance. `expandName`
    * lets the stage open a different component than the inline one — a reveal
    * shows highlight media inline but expands to the live desktop artifact.
+   *
+   * The affordance is only offered when there is something to open: either
+   * the stage shows a different component than the inline one, or the
+   * component draws itself differently when expanded. Four of the portfolio
+   * projects carry no artifacts, no stages and no media, and on those the
+   * button used to promise a live view and enlarge the same prose.
    */
   const evidence = (
     key: string,
@@ -452,13 +471,17 @@ export function OrbConversation() {
     if (!portfolio) return null;
     const node = renderComponent(name, args, portfolio);
     if (!node) return null;
+    const target = expandName ?? expandTargetFor(name, args);
+    const offersLiveView = target !== name || EXPANDS_RICHER.has(target);
     return (
       <div key={key} className="gen-ui">
         {node}
-        <button type="button" className="gen-cta" onClick={() => expandSpec(expandName ?? expandTargetFor(name, args), args)}>
-          <span className="spark" aria-hidden>✦</span>
-          Generate live view
-        </button>
+        {offersLiveView ? (
+          <button type="button" className="gen-cta" onClick={() => expandSpec(target, args)}>
+            <span className="spark" aria-hidden>✦</span>
+            Generate live view
+          </button>
+        ) : null}
       </div>
     );
   };
