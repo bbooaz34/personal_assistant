@@ -40,6 +40,51 @@
   #swipe::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
     background:rgba(0,102,255,.22);outline:2px solid rgba(0,102,255,.55);opacity:0;transition:opacity .3s ease}
   #stage.hint #swipe::after{opacity:1}
+  /* ── the לחתימה screen (page 'פרוטוטייפ חתימה'): the Sign swipe card,
+        the 'בחר הכל' multi-select and its sticky footer, from the file ── */
+  #stage{container-type:size}
+  /* the white sheet shows behind the card as it slides — in the file nothing
+     fills the swipe state's backdrop but the page itself */
+  #signSwipe{position:absolute;left:4.27%;top:29.31%;width:91.47%;height:25.62%;
+    overflow:hidden;border-radius:16px;touch-action:pan-y;cursor:pointer;background:#fff}
+  #signSwipe::before{content:'';position:absolute;inset:0;z-index:2;border-radius:inherit;pointer-events:none;
+    border:1.5px solid #0066ff;opacity:0;transition:opacity .15s ease}
+  #signSwipe.sel::before{opacity:1}
+  #signSwipe::after{content:'';position:absolute;inset:0;z-index:3;border-radius:inherit;pointer-events:none;
+    background:rgba(0,102,255,.22);outline:2px solid rgba(0,102,255,.55);opacity:0;transition:opacity .3s ease}
+  #stage.hint #signSwipe::after{opacity:1}
+  #signStrip{position:absolute;inset:0 auto 0 0;width:147.81%;height:100%;direction:ltr;will-change:transform}
+  #signStrip.anim{transition:transform var(--sd,992ms) cubic-bezier(0.77,0,0.175,1)}
+  #signStrip .act{position:absolute;left:0;top:0;width:32.35%;height:100%}
+  #signStrip .crd{position:absolute;left:32.35%;top:0;width:67.65%;height:100%}
+  #signStrip img{width:100%;height:100%;display:block;pointer-events:none}
+  /* checkboxes: the checked state is the file's own 'Checked Fill' export,
+     shown over the base screen's unchecked box */
+  .sgCb{position:absolute;cursor:pointer;z-index:4}
+  /* #stage prefix outweighs the '#signStrip img' sizing for the in-card box */
+  #stage .sgCb img{position:absolute;left:20%;top:20%;width:60%;height:60%;opacity:0;transition:opacity .15s ease;pointer-events:none}
+  #stage .sgCb.on img{opacity:1}
+  .sgBorder{position:absolute;border:1.5px solid #0066ff;border-radius:16px;opacity:0;pointer-events:none;transition:opacity .15s ease}
+  .sgBorder.on{opacity:1}
+  /* the multi-select footer: sticky, with the file's shadow and button */
+  #signFooter{position:absolute;left:0;right:0;bottom:0;height:14.04%;z-index:5;background:#fff;
+    box-shadow:0 -15px 20px rgba(186,202,221,.30);transform:translateY(105%);
+    transition:transform 300ms var(--ease-out);pointer-events:none}
+  #signFooter.on{transform:translateY(0);pointer-events:auto}
+  /* button and toast are Figma exports, not redrawn text — the counter's
+     eight states and the toast were rendered in the file's own type
+     (SimplerPro_Leumi) and exported like every screen */
+  #signBtn{position:absolute;left:6.4%;right:6.4%;top:14%;height:42.2%;border:0;padding:0;
+    background:none;cursor:pointer}
+  #signBtn img{width:100%;height:100%;display:block}
+  #signBtn:active{transform:scale(.985)}
+  #signHome{position:absolute;left:32.13%;width:35.73%;bottom:7%;height:4.4%;border-radius:999px;background:#1d1d20}
+  /* the select-all toast (component 1:19776), exported with its authored
+     amber shadow — the img extends past the 343×52 slot to carry it */
+  #signToast{position:absolute;left:4.27%;bottom:16.5%;width:91.47%;height:6.4%;z-index:6;pointer-events:none;
+    opacity:0;transform:translateY(8px);transition:opacity 250ms var(--ease-out),transform 250ms var(--ease-out)}
+  #signToast.on{opacity:1;transform:translateY(0)}
+  #signToast img{position:absolute;left:-4.66%;top:-23.08%;width:109.91%;height:165.4%;max-width:none}
 </style>
 </head>
 <body>
@@ -50,7 +95,11 @@
    Rects are in the 375x812 frame space; transitions carry the authored
    direction and duration. */
 const SCREENS = {
-  list:    { img:'scr-list.png',    hots:[] },                                                 // 2037:18734
+  list:    { img:'scr-list.png',    hots:[ {r:[196,740,84,70], to:'sign', t:'dissolve', d:250} ] }, // 2037:18734 — the חתימות tab in the nav bar
+           // The לחתימה screen (file 'חתימות', frame 8293:85134): its Sign
+           // swipe card and the 'בחר הכל' multi-select are wired below —
+           // the פעולות tab returns to the instructions list.
+  sign:    { img:'scr-sign.png',    hots:[ {r:[118,740,76,70], to:'list', t:'dissolve', d:250} ] }, // 8293:85134
            // The first card is not a flat hotspot: it is the 'cancel order'
            // component — tap navigates, drag opens the swipe state, and the
            // authored hint plays on arrival. The file's 3s auto-advance is
@@ -114,7 +163,8 @@ async function go(key, t = 'dissolve', dur = 300){
    edge), MOVE_OUT RIGHT exits rightward — back leaves the way forward came. */
 
 stage.addEventListener('click', e => {
-  if (e.target.closest('#swipe')) return; // the swipe component handles its own pointer story
+  // the swipe components, checkboxes and footer handle their own pointer story
+  if (e.target.closest('#swipe, #signSwipe, .sgCb, #signFooter')) return;
   const hot = e.target.closest('.hot');
   if (hot){
     const h = SCREENS[hot.dataset.k].hots[hot.dataset.j];
@@ -183,14 +233,131 @@ swipe.addEventListener('pointerup', e => {
   setX(open ? openPct : restPct, 744);                      // settle, SMART_ANIMATE 744ms
 });
 
-// the hint is part of arriving at the list — replay it on every entry
+/* ── the לחתימה screen: the Sign swipe card + 'בחר הכל' (file 8293:41275) ──
+   Strip geometry from the Sign variants: action strip 164 (חתימה + סירוב),
+   card 343, so the travel space is 507. The authored hint opens to 149 after
+   0.5s (SMART_ANIMATE 992ms QUICK) and settles back (1022ms GENTLE).
+   Select-all follows the 'סימון בחר הכל' spec (page 'לחתימה', 1:19741):
+   checking it marks every card, and the sticky multi-select footer rises with
+   the חתימה button counting selected out of the 8 pending instructions. */
+const S_STRIP = 507, S_ACT = 164, S_HINT = 149;
+const sRest = -(S_ACT/S_STRIP)*100, sHint = -((S_ACT-S_HINT)/S_STRIP)*100, sOpen = 0;
+const SIGN_TOTAL = 8, SIGN_OFFSCREEN = 5; // 3 cards on screen, 5 below the fold
+const signEl = document.getElementById('scr-sign');
+signEl.insertAdjacentHTML('beforeend', `
+  <div id="signSwipe"><div id="signStrip">
+    <img class="act" src="sign-actions.png" alt="">
+    <div class="crd"><img src="sign-card.png" alt="העברה לחשבונות אחרים — גררו לחתימה או לסירוב">
+      <div class="sgCb" data-c="c1" style="left:86%;top:3.85%;width:11.66%;height:19.23%"><img src="cb-checked.png" alt=""></div>
+    </div>
+  </div></div>
+  <div class="sgBorder" data-b="c2" style="left:4.27%;top:56.4%;width:91.47%;height:25.62%"></div>
+  <div class="sgBorder" data-b="c3" style="left:4.27%;top:84.0%;width:91.47%;height:25.62%"></div>
+  <div class="sgCb" data-c="all" style="left:87.2%;top:23.4%;width:10.67%;height:4.93%"><img src="cb-checked.png" alt=""></div>
+  <div class="sgCb" data-c="c2" style="left:82.93%;top:57.39%;width:10.67%;height:4.93%"><img src="cb-checked.png" alt=""></div>
+  <div class="sgCb" data-c="c3" style="left:82.93%;top:84.98%;width:10.67%;height:4.93%"><img src="cb-checked.png" alt=""></div>
+  <div id="signToast" role="status" aria-label="נבחרו 8 הוראות"><img src="sign-toast.png" alt=""></div>
+  <div id="signFooter"><button id="signBtn" type="button" aria-label="חתימה (8/8)"><img src="sign-btn-8.png" alt=""></button><span id="signHome"></span></div>`);
+const signSwipe = document.getElementById('signSwipe');
+const signStrip = document.getElementById('signStrip');
+const signFooter = document.getElementById('signFooter');
+const signBtn = document.getElementById('signBtn');
+let sOpenState = false, sHintTimer = null;
+
+const setSX = (pct, dur) => {
+  signStrip.classList.toggle('anim', dur != null && !reduce);
+  if (dur != null) signStrip.style.setProperty('--sd', dur + 'ms');
+  signStrip.style.transform = `translateX(${pct}%)`;
+};
+function playSignHint(){
+  clearTimeout(sHintTimer);
+  if (reduce) return;
+  setSX(sHint, 992);                                   // AFTER_TIMEOUT 0.5s → hint, SMART_ANIMATE 992ms
+  sHintTimer = setTimeout(() => setSX(sRest, 1022), 1050); // hint → default, 1022ms
+}
+setSX(sRest, null); // the card starts closed over the strip
+
+/* select-all state: 'בחר הכל' selects the maximum of the whole list, so the
+   counter jumps to 8/8; unchecking a visible card releases it one by one. */
+const signSel = { c1:false, c2:false, c3:false };
+let signHidden = 0;
+const signCount = () => signHidden + Object.values(signSel).filter(Boolean).length;
+function signSync(){
+  const n = signCount();
+  for (const k of ['c1','c2','c3'])
+    signEl.querySelector(`.sgCb[data-c="${k}"]`).classList.toggle('on', signSel[k]);
+  signEl.querySelector('.sgCb[data-c="all"]').classList.toggle('on', n === SIGN_TOTAL);
+  signEl.querySelector('.sgBorder[data-b="c2"]').classList.toggle('on', signSel.c2);
+  signEl.querySelector('.sgBorder[data-b="c3"]').classList.toggle('on', signSel.c3);
+  signSwipe.classList.toggle('sel', signSel.c1);
+  signFooter.classList.toggle('on', n > 0);
+  if (n > 0){
+    signBtn.querySelector('img').src = `sign-btn-${n}.png`;
+    signBtn.setAttribute('aria-label', `חתימה (${n}/${SIGN_TOTAL})`);
+  }
+}
+const signToast = document.getElementById('signToast');
+let signToastTimer = null;
+function showSignToast(){
+  clearTimeout(signToastTimer);
+  signToast.classList.add('on');
+  signToastTimer = setTimeout(() => signToast.classList.remove('on'), 3000);
+}
+signEl.querySelectorAll('.sgCb').forEach(cb => {
+  cb.addEventListener('pointerdown', e => e.stopPropagation());
+  cb.addEventListener('click', e => {
+    e.stopPropagation();
+    const k = cb.dataset.c;
+    if (k === 'all'){
+      const on = signCount() !== SIGN_TOTAL;
+      signSel.c1 = signSel.c2 = signSel.c3 = on;
+      signHidden = on ? SIGN_OFFSCREEN : 0;
+      if (on) showSignToast();
+    } else {
+      signSel[k] = !signSel[k];
+    }
+    signSync();
+  });
+});
+
+/* the Sign card's swipe: drag opens the חתימה/סירוב strip, tap closes it */
+let sPx0 = null, sDragged = false, sStartPct = sRest;
+signSwipe.addEventListener('pointerdown', e => {
+  if (e.target.closest('.sgCb')) return;
+  clearTimeout(sHintTimer); clearTimeout(timer);
+  sPx0 = e.clientX; sDragged = false; sStartPct = sOpenState ? sOpen : sRest;
+  signStrip.classList.remove('anim');
+  signSwipe.setPointerCapture(e.pointerId);
+});
+signSwipe.addEventListener('pointermove', e => {
+  if (sPx0 === null) return;
+  const dx = e.clientX - sPx0;
+  if (Math.abs(dx) > TAP_SLOP) sDragged = true;
+  const pctPerPx = 100 / (signSwipe.offsetWidth * (S_STRIP / 343));
+  setSX(Math.min(sOpen, Math.max(sRest, sStartPct + dx * pctPerPx)), null);
+});
+signSwipe.addEventListener('pointerup', e => {
+  if (sPx0 === null) return;
+  const dx = e.clientX - sPx0; sPx0 = null;
+  if (!sDragged){
+    if (sOpenState){ sOpenState = false; setSX(sRest, 744); } // any tap settles the open card
+    return;
+  }
+  sOpenState = dx > signSwipe.offsetWidth * 0.3;
+  setSX(sOpenState ? sOpen : sRest, 744);
+});
+
+// arrival hints are part of entering a screen — replay them on every entry
 const origGo = go;
 go = async function(key, t, d){
   await origGo(key, t, d);
   if (key === 'list'){ open = false; setX(restPct, null); setTimeout(playHint, 450); }
+  if (key === 'sign'){ sOpenState = false; setSX(sRest, null); sHintTimer = setTimeout(playSignHint, 500); }
 };
 let loaded = 0;
-const all = [...Object.values(SCREENS).map(s=>s.img), 'swipe-card.png', 'swipe-action.png'];
+const all = [...Object.values(SCREENS).map(s=>s.img), 'swipe-card.png', 'swipe-action.png',
+             'sign-card.png', 'sign-actions.png', 'cb-checked.png', 'sign-toast.png',
+             ...Array.from({length: 8}, (_, i) => `sign-btn-${i + 1}.png`)];
 all.forEach(src => { const im = new Image(); im.onload = im.onerror = () => { if (++loaded === all.length) go(START); }; im.src = src; });
 </script>
 </body>
