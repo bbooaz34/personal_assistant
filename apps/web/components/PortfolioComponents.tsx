@@ -246,6 +246,12 @@ export function MediaGallery({
                   title={item.caption || project.name}
                   src={src}
                   sandbox={sandbox}
+                  // A framed page gets none of these by default, so a site
+                  // built on muted autoplaying background video — which is
+                  // what the Heights homepage is — stalls on its poster and
+                  // iOS paints a play button over every one of them. They do
+                  // nothing when tapped: the block is policy, not gesture.
+                  allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
                   loading="lazy"
                   className={`${expanded ? 'h-[68vh]' : 'h-[520px]'} w-full rounded-lg border border-[var(--color-edge)] bg-white`}
                 />
@@ -482,14 +488,14 @@ export function CareerExpanded({
                 <p key={claim} className="mt-0.5 text-sm leading-relaxed">{claim}</p>
               ))}
               {projects.length > 0 ? (
-                <div className="mt-2.5 grid gap-2 sm:grid-cols-2">{projects.map(card)}</div>
+                <div className="mt-2.5 grid grid-cols-1 gap-2 sm:grid-cols-2">{projects.map(card)}</div>
               ) : null}
             </section>
           ))}
           {unclaimed.length > 0 ? (
             <section>
               <p className="text-xs text-[var(--color-ink-faint)]">Client &amp; independent work</p>
-              <div className="mt-2.5 grid gap-2 sm:grid-cols-2">{unclaimed.map(card)}</div>
+              <div className="mt-2.5 grid grid-cols-1 gap-2 sm:grid-cols-2">{unclaimed.map(card)}</div>
             </section>
           ) : null}
         </div>
@@ -514,7 +520,7 @@ export function ProjectComparison({
         ) : (
           <h3 className="text-base font-medium">Side by side</h3>
         )}
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {projects.map((project) => (
             <div key={project.id} className="rounded-lg border border-[var(--color-edge)] p-3">
               <p className="text-sm font-medium">{project.name}</p>

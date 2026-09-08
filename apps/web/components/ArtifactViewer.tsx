@@ -138,6 +138,7 @@ export function ArtifactViewer({
               title={`${projectName} — ${active.label}`}
               src={active.url}
               sandbox={sandbox}
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
               loading="lazy"
               style={{
                 position: 'absolute',
@@ -158,6 +159,7 @@ export function ArtifactViewer({
             title={`${projectName} — ${active.label}`}
             src={active.url}
             sandbox={sandbox}
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
             loading="lazy"
             className="h-[520px] w-full rounded-lg border border-[var(--color-edge)] bg-white"
           />
