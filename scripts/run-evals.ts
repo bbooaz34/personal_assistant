@@ -15,7 +15,7 @@ import { join } from 'node:path';
 import { loadKnowledge } from '@par/knowledge';
 import { Agent } from '@par/agent';
 import { createSession } from '@par/analytics';
-import { agentConfig } from '@par/config';
+import { agentConfig, identityConfig } from '@par/config';
 
 interface EvalExpectation {
   policy: 'allow' | 'refuse' | 'injection';
@@ -32,6 +32,43 @@ interface EvalCase {
   expect: EvalExpectation;
 }
 
+/**
+ * Extra assertions for individual starter prompts, keyed by the prompt text.
+ *
+ * The prompts themselves are never written down here — they are read from
+ * `identityConfig`, so every prompt the product ships is covered the moment
+ * it is added, and none can drift out of test. This map only says what a
+ * *particular* prompt must retrieve beyond "something".
+ */
+type StarterExpectations = Record<string, Omit<EvalExpectation, 'policy'>>;
+
+function slug(text: string): string {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 48);
+}
+
+/**
+ * Builds one case per starter prompt in the opening script.
+ *
+ * These are the only questions the product itself puts in front of a visitor.
+ * A starter prompt that retrieves nothing is not a weak answer, it is a
+ * guaranteed first impression of an agent that knows nothing — so the floor
+ * for every one of them is that it retrieves at all.
+ */
+function starterCases(extra: StarterExpectations): EvalCase[] {
+  const cases: EvalCase[] = [];
+  for (const variant of identityConfig.openings.variants) {
+    for (const prompt of variant.starter_prompts) {
+      cases.push({
+        id: `starter_${variant.id}_${slug(prompt)}`,
+        question: prompt,
+        note: `Starter prompt on the "${variant.id}" opening, read from identityConfig.`,
+        expect: { policy: 'allow', evidenceEmpty: false, ...(extra[prompt] ?? {}) },
+      });
+    }
+  }
+  return cases;
+}
+
 const root = process.cwd();
 
 async function main(): Promise<void> {
@@ -42,7 +79,28 @@ async function main(): Promise<void> {
 
   const agent = new Agent(agentConfig, repository);
   const raw = await readFile(join(root, 'evals', 'recruiter-eval-set.json'), 'utf8');
-  const { cases } = JSON.parse(raw) as { cases: EvalCase[] };
+  const { cases: fileCases, starterExpectations = {} } = JSON.parse(raw) as {
+    cases: EvalCase[];
+    starterExpectations?: StarterExpectations;
+  };
+
+  const derived = starterCases(starterExpectations);
+
+  // An expectation keyed to a prompt that no longer exists is silent rot: the
+  // assertion simply stops running and the suite still reports all green. Edit
+  // a starter prompt and this says so, loudly, instead.
+  const prompts = new Set(derived.map((c) => c.question));
+  const orphaned = Object.keys(starterExpectations).filter((p) => !prompts.has(p));
+  if (orphaned.length) {
+    console.error(
+      'starterExpectations refers to prompts that are not in identityConfig any more:\n' +
+        orphaned.map((p) => `  ${JSON.stringify(p)}`).join('\n') +
+        '\nUpdate the keys in evals/recruiter-eval-set.json to match the current prompts.',
+    );
+    process.exit(1);
+  }
+
+  const cases = [...fileCases, ...derived];
 
   let passed = 0;
   const failures: string[] = [];

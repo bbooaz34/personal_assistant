@@ -1,5 +1,5 @@
 {
-  "description": "Regression set for the retrieval and policy layers (design doc §33). These cases run without a model: they assert what the agent is permitted to know and what it retrieves, which is where the failures that matter actually live. Model-dependent answer quality needs a separate, LLM-judged suite. The `starter_*` cases mirror the starter prompts in config/identity.config.ts verbatim: they are the only questions the product itself puts in front of a visitor, so a starter prompt that retrieves nothing is a guaranteed first impression of an agent that knows nothing. Keep them in step when those prompts change.",
+  "description": "Regression set for the retrieval and policy layers (design doc §33). These cases run without a model: they assert what the agent is permitted to know and what it retrieves, which is where the failures that matter actually live. Model-dependent answer quality needs a separate, LLM-judged suite. The starter-prompt cases are not listed here: they are generated from the prompts in config/identity.config.ts, so every prompt the product ships is covered as soon as it is added and none can drift out of test. Each must retrieve something; `starterExpectations` below adds what a particular prompt must retrieve beyond that, keyed by the prompt text.",
   "cases": [
     {
       "id": "fintech_experience",
@@ -271,71 +271,34 @@
         "policy": "allow",
         "evidenceExcludes": []
       }
-    },
-    {
-      "id": "starter_tell_me_about",
-      "question": "Tell me about Boaz.",
-      "note": "Starter prompt 1 of 3 on the default opening (config/identity.config.ts). The likeliest first thing anyone ever asks, and it returned nothing until the 'overview' intent existed: its content words are stopwords and the owner's name appears in no claim, so BM25 scored the whole corpus zero. No id is asserted — a broad question has no single right answer, only the requirement that it answer at all.",
-      "expect": {
-        "policy": "allow",
-        "evidenceEmpty": false
-      }
-    },
-    {
-      "id": "starter_ai_work",
-      "question": "Show me his AI work.",
-      "note": "Starter prompt 2 of 3. Must reach the AI-native methodology, not just any project.",
-      "expect": {
-        "policy": "allow",
-        "evidenceEmpty": false,
-        "evidenceIncludesAny": [
-          "fact_genai_core_methodology",
-          "fact_ai_toolchain",
-          "fact_internship_platform_ai_native_delivery"
-        ]
-      }
-    },
-    {
-      "id": "starter_hiring_design_lead",
-      "question": "I'm hiring a product design lead.",
-      "note": "Starter prompt 3 of 3. A statement rather than a question, and the one a recruiter is most likely to click. Must reach the leadership evidence.",
-      "expect": {
-        "policy": "allow",
-        "evidenceEmpty": false,
-        "evidenceIncludesAny": [
-          "fact_leadership_scope",
-          "fact_zemingo_team_scope",
-          "fact_zemingo_responsibilities"
-        ]
-      }
-    },
-    {
-      "id": "starter_pick_up_where_we_left_off",
-      "question": "Pick up where we left off.",
-      "note": "Starter prompt 1 of 2 on the returning opening. Has no lexical anchor and session state supplies none — `alreadyShown` feeds novelty, which orders results but cannot lift anything over the relevance floor. Handled by the 'continuation' intent.",
-      "expect": {
-        "policy": "allow",
-        "evidenceEmpty": false
-      }
-    },
-    {
-      "id": "starter_something_different",
-      "question": "Show me something different.",
-      "note": "Starter prompt 2 of 2 on the returning opening. Asks to see work, so the bundle must carry projects and not answer a request to look at something with facts alone.",
-      "expect": {
-        "policy": "allow",
-        "evidenceEmpty": false,
-        "evidenceIncludesAny": [
-          "project_mastercard_virtual_city",
-          "project_caesarstone_visualizer",
-          "project_byondxr_rebrand",
-          "project_lightricks_younger_me",
-          "project_hiper_mister_h",
-          "project_internship_platform_ios26",
-          "project_heights_telecom_website",
-          "project_business_banking_design_system"
-        ]
-      }
     }
-  ]
+  ],
+  "starterExpectations": {
+    "Show me his AI work.": {
+      "evidenceIncludesAny": [
+        "fact_genai_core_methodology",
+        "fact_ai_toolchain",
+        "fact_internship_platform_ai_native_delivery"
+      ]
+    },
+    "I'm hiring a product design lead.": {
+      "evidenceIncludesAny": [
+        "fact_leadership_scope",
+        "fact_zemingo_team_scope",
+        "fact_zemingo_responsibilities"
+      ]
+    },
+    "Show me something different.": {
+      "evidenceIncludesAny": [
+        "project_mastercard_virtual_city",
+        "project_caesarstone_visualizer",
+        "project_byondxr_rebrand",
+        "project_lightricks_younger_me",
+        "project_hiper_mister_h",
+        "project_internship_platform_ios26",
+        "project_heights_telecom_website",
+        "project_business_banking_design_system"
+      ]
+    }
+  }
 }
