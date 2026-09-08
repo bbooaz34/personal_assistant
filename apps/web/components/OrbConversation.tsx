@@ -21,6 +21,7 @@ import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { VoiceFailureReason } from '@par/voice';
+import { ContactMethods } from './ContactMethods';
 import { EntryScreen } from './EntryScreen';
 import { OrbStage } from './orb/OrbStage';
 import { ProjectPeeks, type PeekCard } from './ProjectPeeks';
@@ -36,7 +37,12 @@ interface Opening {
   beats: string[];
   starterPrompts: string[];
   peeks: PeekCard[];
-  owner: { name: string; short_name: string; headline: string };
+  owner: {
+    name: string;
+    short_name: string;
+    headline: string;
+    contact?: { linkedin?: string; email?: string; phone?: string };
+  };
   agentName: string;
   selfReference: string;
 }
@@ -475,6 +481,11 @@ export function OrbConversation() {
         <h1>{opening?.owner.name ?? 'Boaz Ben Eli'}</h1>
         <p>{opening?.agentName ?? 'EBOS'}</p>
       </div>
+
+      <ContactMethods
+        owner={opening?.owner.short_name ?? 'Boaz'}
+        contact={opening?.owner.contact}
+      />
 
       <div ref={chatRef} id="chat" className={`${chatOpen ? 'open' : 'closed'}${expanded ? ' expanded' : ''}`}>
         <div id="chatHead">

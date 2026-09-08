@@ -28,6 +28,15 @@ export interface BehaviourProfile {
   max_consecutive_questions: number;
 }
 
+export interface OwnerContact {
+  /** Full profile URL, e.g. "https://www.linkedin.com/in/…". */
+  linkedin?: string;
+  /** Plain address; the UI builds the mailto: link. */
+  email?: string;
+  /** International format, e.g. "+972501234567"; the UI builds the tel: link. */
+  phone?: string;
+}
+
 export interface OwnerProfile {
   /** The person represented. Used for third-person phrasing throughout. */
   name: string;
@@ -35,6 +44,8 @@ export interface OwnerProfile {
   short_name: string;
   headline: string;
   positioning_statement: string;
+  /** Direct ways to reach the owner. Only configured methods are shown. */
+  contact?: OwnerContact;
 }
 
 export interface VisualState {

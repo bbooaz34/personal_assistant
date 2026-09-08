@@ -19,6 +19,16 @@ export const identityConfig: AgentIdentity = {
     positioning_statement:
       'AI-native multidisciplinary design leader combining product design, creative direction, ' +
       'team leadership, and generative AI as a core working methodology.',
+    /**
+     * Shown as icon buttons on the main screen. Anything set here is public —
+     * the opening endpoint serves it to every visitor. Only configured methods
+     * render, so the phone button appears the moment a number is added.
+     */
+    contact: {
+      linkedin: 'https://www.linkedin.com/in/bbooaz/',
+      email: 'bbooaz@gmail.com',
+      phone: '+972524891775',
+    },
   },
 
   name: 'EBOS',
