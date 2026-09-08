@@ -3,21 +3,55 @@
     The agent's presence, reduced to a favicon. Same abstract orb as
     AgentPresence rather than a monogram or a face: the tab icon is the first
     place the "represents, does not impersonate" distinction shows up (§21).
-    Colours are hex approximations of the oklch accent tokens in globals.css,
-    since a favicon has to render everywhere.
+
+    The palette is the orb's own, not an approximation of something else:
+    the violet #8c66ff, pink #ff5ec8 and cyan #59e8ff custom properties from
+    globals.css, over its daylight ground #eef0f7. The layering follows the
+    CSS fallback orb in globals.css (#fallback .orb), which is the design's
+    own flat rendering of the WebGL presence — violet body, pink mass through
+    the middle, a cyan lift at the upper left, all inside a soft halo.
+
+    Everything is one gradient stack on three circles, because at 16px the
+    wisps and cloud detail of the real orb collapse into noise; what has to
+    survive is the colour and the glow.
+
+    favicon.ico and apple-icon.png in this directory are rasterised from this
+    file. Regenerate them when it changes, or the tab will keep showing the
+    old mark to every browser that asks for .ico first.
   -->
   <defs>
-    <radialGradient id="orb" cx="38%" cy="32%" r="72%">
-      <stop offset="0%" stop-color="#e8fbff"/>
-      <stop offset="42%" stop-color="#3fc9dc"/>
-      <stop offset="100%" stop-color="#1b5f6b"/>
+    <radialGradient id="ground" cx="16" cy="14" r="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#eef0f7"/>
     </radialGradient>
-    <radialGradient id="halo" cx="38%" cy="32%" r="60%">
-      <stop offset="0%" stop-color="#3fc9dc" stop-opacity="0.55"/>
-      <stop offset="100%" stop-color="#3fc9dc" stop-opacity="0"/>
+    <!-- box-shadow: 0 0 60px rgba(140,102,255,.55), 0 0 160px rgba(255,94,200,.3) -->
+    <radialGradient id="halo" cx="16" cy="16" r="15" gradientUnits="userSpaceOnUse">
+      <stop offset="55%" stop-color="#8c66ff" stop-opacity="0.45"/>
+      <stop offset="78%" stop-color="#b98cff" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#ff5ec8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- radial-gradient(circle at 50% 50%, #8c66ff, #241a52 75%) -->
+    <radialGradient id="body" cx="16" cy="16" r="10" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#9a72ff"/>
+      <stop offset="62%" stop-color="#8358f2"/>
+      <stop offset="100%" stop-color="#5b2ec9"/>
+    </radialGradient>
+    <!-- radial-gradient(circle at 68% 65%, rgba(255,94,200,.9), transparent 55%) -->
+    <radialGradient id="mass" cx="16.4" cy="16.9" r="11.4" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff5ec8" stop-opacity="0.97"/>
+      <stop offset="48%" stop-color="#ff5ec8" stop-opacity="0.74"/>
+      <stop offset="100%" stop-color="#ff5ec8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- radial-gradient(circle at 35% 30%, rgba(89,232,255,.85), transparent 45%) -->
+    <radialGradient id="lift" cx="12.2" cy="11.5" r="7.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#59e8ff" stop-opacity="0.80"/>
+      <stop offset="55%" stop-color="#59e8ff" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#59e8ff" stop-opacity="0"/>
     </radialGradient>
   </defs>
-  <rect width="32" height="32" rx="8" fill="#17181d"/>
-  <circle cx="16" cy="16" r="13" fill="url(#halo)"/>
-  <circle cx="16" cy="16" r="8" fill="url(#orb)"/>
+  <rect width="32" height="32" rx="8" fill="url(#ground)"/>
+  <circle cx="16" cy="16" r="15" fill="url(#halo)"/>
+  <circle cx="16" cy="16" r="10" fill="url(#body)"/>
+  <circle cx="16" cy="16" r="10" fill="url(#mass)"/>
+  <circle cx="16" cy="16" r="10" fill="url(#lift)"/>
 </svg>
