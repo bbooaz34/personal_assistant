@@ -28,7 +28,9 @@ export function OrbStage({
     if (!canvas) return;
 
     // The UI waits for the orb: wordmark and pill rise in at the reveal.
-    document.body.classList.add('pre-reveal');
+    // The class is already on <body> from the server-rendered markup — adding
+    // it here would be a frame too late, after the browser has painted the
+    // interface it is meant to hide.
 
     const engine = new OrbEngine(
       canvas,

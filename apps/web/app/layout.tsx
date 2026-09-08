@@ -25,8 +25,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600&family=IBM+Plex+Mono:wght@400&family=Noto+Sans+Hebrew:wght@400;500&display=swap"
         />
+        {/* Without scripting nothing will ever remove `pre-reveal`, and the
+            interface would stay hidden for good. */}
+        <noscript>
+          <style>{`.pre-reveal #wordmark, .pre-reveal #contact, .pre-reveal #chat {
+            opacity: 1; transform: none; pointer-events: auto;
+          }`}</style>
+        </noscript>
       </head>
-      <body className="antialiased">{children}</body>
+      {/* `pre-reveal` is set here, in the server-rendered markup, rather than
+          by the orb on mount: an effect only runs after the first paint, so
+          the wordmark, contact methods and conversation pill were painted at
+          full opacity for a frame and then hidden. The orb removes the class
+          when its entry flight reaches the reveal; nothing ever adds it. */}
+      <body className="antialiased pre-reveal">{children}</body>
     </html>
   );
 }
