@@ -18,6 +18,7 @@ import type { RetrievableKind } from './types.js';
 
 export type IntentName =
   | 'overview'
+  | 'continuation'
   | 'current_role'
   | 'career_history'
   | 'education'
@@ -66,6 +67,19 @@ const RULES: IntentRule[] = [
       /\b(?:tell|talk)\s+(?:me\s+)?(?:a\s+bit\s+)?(?:more\s+)?about\s+(?:him|himself|boaz|yourself)\b|\bwho\s+(?:is|are)\s+(?:he|boaz|you)\b|\bwhat\s+does\s+he\s+do\b|\b(?:r[ée]sum[ée]|cv|curriculum\s+vitae)\b|\b(?:introduce|overview|summar\w+|profile|bio)\b|ספר לי על|מי הוא|קורות חיים/i,
     categories: ['identity', 'career', 'responsibility', 'working_style'],
     kinds: ['fact', 'skill', 'project'],
+  },
+  {
+    // "Pick up where we left off" — the returning visitor's starter prompt.
+    // Like the overview question it has no lexical anchor, and session state
+    // does not supply one: `alreadyShown` feeds the novelty signal, which
+    // orders results but cannot lift anything over the relevance floor. So
+    // the intent has to say "anything worth showing", and novelty then puts
+    // what the visitor has not already seen at the top.
+    name: 'continuation',
+    pattern:
+      /\bpick up where\b|\bwhere we left off\b|\b(?:carry on|keep going|go on)\b|\bcontinue\b|\b(?:what|anything)\s+else\b|נמשיך|מאיפה שעצרנו/i,
+    categories: ['portfolio'],
+    kinds: ['project', 'fact'],
   },
   {
     name: 'current_role',

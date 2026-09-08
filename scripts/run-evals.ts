@@ -84,6 +84,14 @@ async function main(): Promise<void> {
       problems.push(`evidence: expected nothing to clear the relevance floor, got [${retrievedIds.join(', ')}]`);
     }
 
+    // The mirror case, and the reason it is spelled out rather than left to
+    // `evidenceIncludesAny`: for a broad question there is no single id that
+    // must appear, only the requirement that *something* did. Asserting ids
+    // there would encode today's ranking and break on every knowledge edit.
+    if (testCase.expect.evidenceEmpty === false && plan.bundle.empty) {
+      problems.push('evidence: expected the question to retrieve something, got nothing');
+    }
+
     if (problems.length === 0) {
       passed += 1;
       console.log(`  PASS  ${testCase.id}`);
