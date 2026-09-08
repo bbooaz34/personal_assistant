@@ -23,6 +23,8 @@ import { identityConfig, privacyConfig, voiceConfig } from '@par/config';
 import { getAgent } from '@/lib/agent';
 
 export const runtime = 'nodejs';
+// Synthesis of a long project summary can outlive a serverless default budget.
+export const maxDuration = 30;
 
 /**
  * Every line the agent is allowed to say aloud: the opening script from the
