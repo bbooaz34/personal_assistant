@@ -42,6 +42,19 @@ body {
 
 [dir="rtl"] { text-align: right; }
 
+/* No visible scrollbars anywhere: everything scrollable lives inside glass,
+   and a rendered track is the one element the material can't absorb.
+   Scrolling itself is untouched. */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 /* ── the scene ─────────────────────────────────────────────────────────── */
 #stage {
   position: fixed;
@@ -673,10 +686,11 @@ body {
   z-index: 20;
   display: grid;
   place-items: center;
-  /* the held first frame, blurred: the scene is already there, out of focus */
-  backdrop-filter: blur(26px) saturate(1.25);
-  -webkit-backdrop-filter: blur(26px) saturate(1.25);
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.5), rgba(238, 240, 247, 0.62));
+  /* the held first frame behind glass: the cloudscape stays visible, softly
+     out of focus, rather than washed out to white */
+  backdrop-filter: blur(7px) saturate(1.6);
+  -webkit-backdrop-filter: blur(7px) saturate(1.6);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(238, 240, 247, 0.12));
   transition: opacity 900ms var(--ease-out), backdrop-filter 900ms var(--ease-out);
 }
 #entry.leaving {

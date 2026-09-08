@@ -49,6 +49,10 @@ export function ArtifactViewer({
   const [activeId, setActiveId] = useState(initial?.id);
   const active = artifacts.find((a) => a.id === activeId) ?? initial;
 
+  // Restarting is a remount: the nonce joins the iframe key, so the prototype
+  // reboots at its first screen instead of wherever the visitor wandered to.
+  const [reloadNonce, setReloadNonce] = useState(0);
+
   // Expanded: measure the frame and scale the artifact's own viewport to it —
   // a phone-portrait box for mobile artifacts, the stage's width for desktop.
   const viewport = active?.viewport === 'mobile' ? MOBILE_VIEWPORT : DESKTOP_VIEWPORT;
@@ -91,6 +95,19 @@ export function ArtifactViewer({
             </button>
           );
         })}
+        <button
+          type="button"
+          onClick={() => setReloadNonce((n) => n + 1)}
+          aria-label="Restart the prototype from its first screen"
+          title="Restart"
+          className="ms-auto flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs text-[var(--color-ink-muted)] transition hover:bg-[var(--color-surface-raised)] hover:text-[var(--color-ink)]"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+          </svg>
+          restart
+        </button>
       </div>
 
       {active.description ? (
@@ -117,7 +134,7 @@ export function ArtifactViewer({
               // the next one loads, which reads as a flicker between designs.
               // Absolutely anchored: in this RTL document the unscaled frame
               // would otherwise lay out flush right and clip once scaled.
-              key={active.id}
+              key={`${active.id}-${reloadNonce}`}
               title={`${projectName} — ${active.label}`}
               src={active.url}
               sandbox={sandbox}
@@ -137,7 +154,7 @@ export function ArtifactViewer({
           </div>
         ) : (
           <iframe
-            key={active.id}
+            key={`${active.id}-${reloadNonce}`}
             title={`${projectName} — ${active.label}`}
             src={active.url}
             sandbox={sandbox}

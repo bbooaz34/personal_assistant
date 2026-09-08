@@ -71,6 +71,21 @@ function buildCsp(origin: string): string {
   ].join('; ');
 }
 
+/**
+ * The app hides every scrollbar (globals.css) — a rendered track is the one
+ * element the glass can't absorb. Artifacts are separate documents inside
+ * iframes, out of that stylesheet's reach, so the same rule is injected here
+ * at serve time rather than edited into every committed artifact file.
+ */
+const HIDE_SCROLLBARS =
+  '<style>*{scrollbar-width:none;-ms-overflow-style:none}*::-webkit-scrollbar{display:none;width:0;height:0}</style>';
+
+function injectScrollbarHiding(html: string): string {
+  const head = html.match(/<head[^>]*>/i);
+  if (head) return html.replace(head[0], `${head[0]}${HIDE_SCROLLBARS}`);
+  return `${HIDE_SCROLLBARS}${html}`;
+}
+
 export async function GET(
   request: Request,
   context: { params: Promise<{ path: string[] }> },
@@ -104,8 +119,12 @@ export async function GET(
     return new Response('Not found', { status: 404 });
   }
 
-  const body = await readFile(target);
-  return new Response(new Uint8Array(body), {
+  const file = await readFile(target);
+  const body =
+    extension === '.html'
+      ? new TextEncoder().encode(injectScrollbarHiding(file.toString('utf-8')))
+      : new Uint8Array(file);
+  return new Response(body, {
     headers: {
       'content-type': contentType,
       'content-security-policy': buildCsp(new URL(request.url).origin),
