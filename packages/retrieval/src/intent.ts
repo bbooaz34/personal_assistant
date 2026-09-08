@@ -17,6 +17,7 @@ import type { FactCategory } from '@par/knowledge';
 import type { RetrievableKind } from './types.js';
 
 export type IntentName =
+  | 'overview'
   | 'current_role'
   | 'career_history'
   | 'education'
@@ -48,6 +49,24 @@ interface IntentRule extends Intent {
  * language is a gap, not a limitation (§24).
  */
 const RULES: IntentRule[] = [
+  {
+    // The broadest question there is, and the one most visitors open with —
+    // including the starter prompt the entry screen ships ("Tell me about
+    // Boaz."). It has no lexical anchor at all: the useful words are
+    // stopwords, and the owner's own name appears in no claim, because every
+    // claim is *about* him. Without this rule the corpus scores zero across
+    // the board and the agent truthfully reports that it has nothing.
+    //
+    // The pattern deliberately requires the person as the object of the
+    // question. "Tell me about him" is an overview; "tell me about the
+    // internship platform" is a question about one project and must keep
+    // ranking on its own terms.
+    name: 'overview',
+    pattern:
+      /\b(?:tell|talk)\s+(?:me\s+)?(?:a\s+bit\s+)?(?:more\s+)?about\s+(?:him|himself|boaz|yourself)\b|\bwho\s+(?:is|are)\s+(?:he|boaz|you)\b|\bwhat\s+does\s+he\s+do\b|\b(?:r[ée]sum[ée]|cv|curriculum\s+vitae)\b|\b(?:introduce|overview|summar\w+|profile|bio)\b|ספר לי על|מי הוא|קורות חיים/i,
+    categories: ['identity', 'career', 'responsibility', 'working_style'],
+    kinds: ['fact', 'skill', 'project'],
+  },
   {
     name: 'current_role',
     pattern: /\b(right now|now|currently|current(ly)?|today|these days|at the moment|at present|present role|doing now|up to)\b|עכשיו|כרגע|היום/i,
