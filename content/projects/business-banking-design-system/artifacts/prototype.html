@@ -79,6 +79,38 @@
   #signBtn img{width:100%;height:100%;display:block}
   #signBtn:active{transform:scale(.985)}
   #signHome{position:absolute;left:32.13%;width:35.73%;bottom:7%;height:4.4%;border-radius:999px;background:#1d1d20}
+  /* ── the תמונת מצב screen: a real scrolling snapshot whose balance cards
+        expand in place (file 'תמונת מצב', frames 30015:9379/9403/9699) ── */
+  #snapScroll{position:absolute;inset:0 0 9.11% 0;overflow-y:auto;overscroll-behavior:contain;z-index:1;
+    background:#f9fafb}
+  /* height:auto everywhere — the generic .screen img rule stretches to 100% */
+  #snapScroll img{width:100%;height:auto;display:block;pointer-events:none}
+  .snapCard{position:relative;overflow:hidden;cursor:pointer;transition:height 480ms var(--ease-drawer)}
+  .snapCard img{position:absolute;top:0;left:0;transition:opacity 240ms ease}
+  .snapCard .openImg{opacity:0}
+  .snapCard.open .openImg{opacity:1}
+  .snapCard.open .closedImg{opacity:0}
+  /* the header floats: transparent at rest, white with the authored shadow
+     once the page has scrolled under it */
+  #snapHead{position:absolute;top:0;left:0;width:100%;height:auto;z-index:3;pointer-events:none;
+    box-shadow:0 4px 20px rgba(186,202,221,.4);opacity:0;transition:opacity 200ms ease}
+  #snapHead.on{opacity:1}
+  #snapNav{position:absolute;left:0;bottom:0;width:100%;height:auto;z-index:3}
+  #scr-snap .hot{z-index:4}
+  /* the ריכוז יתרות bars — the design system's Account-Snapshot_graphs
+     component — grow bottom-up from their shared baseline when the open
+     chart scrolls into view; each bar is its own exported layer over the
+     bar-less base (amounts and labels live below the bars, in the base) */
+  #snapSum .bar{position:absolute;left:14.93%;top:24.39%;width:70.4%;height:auto;
+    opacity:0;clip-path:inset(100% 0 0 0);pointer-events:none}
+  #snapSum.open .bar{opacity:1}
+  #snapSum.grown .bar{clip-path:inset(0 0 0 0);transition:clip-path 800ms var(--ease-out)}
+  #snapSum.grown .barCredit{transition-delay:140ms}
+  @media (prefers-reduced-motion: reduce){
+    .snapCard{transition:none}
+    #snapSum .bar{clip-path:none}
+    #snapSum.grown .bar{transition:none}
+  }
   /* the select-all toast (component 1:19776), exported with its authored
      amber shadow — the img extends past the 343×52 slot to carry it */
   #signToast{position:absolute;left:4.27%;bottom:16.5%;width:91.47%;height:6.4%;z-index:6;pointer-events:none;
@@ -95,11 +127,17 @@
    Rects are in the 375x812 frame space; transitions carry the authored
    direction and duration. */
 const SCREENS = {
-  list:    { img:'scr-list.png',    hots:[ {r:[196,740,84,70], to:'sign', t:'dissolve', d:250} ] }, // 2037:18734 — the חתימות tab in the nav bar
+  list:    { img:'scr-list.png',    hots:[ {r:[196,740,84,70], to:'sign', t:'dissolve', d:250},
+                                           {r:[272,740,72,70], to:'snap', t:'dissolve', d:250} ] }, // 2037:18734 — nav bar tabs
            // The לחתימה screen (file 'חתימות', frame 8293:85134): its Sign
            // swipe card and the 'בחר הכל' multi-select are wired below —
            // the פעולות tab returns to the instructions list.
-  sign:    { img:'scr-sign.png',    hots:[ {r:[118,740,76,70], to:'list', t:'dissolve', d:250} ] }, // 8293:85134
+  sign:    { img:'scr-sign.png',    hots:[ {r:[118,740,76,70], to:'list', t:'dissolve', d:250},
+                                           {r:[272,740,72,70], to:'snap', t:'dissolve', d:250} ] }, // 8293:85134
+           // The תמונת מצב snapshot (file 'תמונת מצב'): built from slices
+           // below as a scrolling page — no full-screen image of its own.
+  snap:    { img:null,              hots:[ {r:[118,740,76,70], to:'list', t:'dissolve', d:250},
+                                           {r:[196,740,84,70], to:'sign', t:'dissolve', d:250} ] }, // 30015:9379
            // The first card is not a flat hotspot: it is the 'cancel order'
            // component — tap navigates, drag opens the swipe state, and the
            // authored hint plays on arrival. The file's 3s auto-advance is
@@ -120,7 +158,7 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 for (const [key, s] of Object.entries(SCREENS)) {
   const el = document.createElement('div');
   el.className = 'screen'; el.id = 'scr-' + key;
-  el.innerHTML = `<img src="${s.img}" alt="">` + s.hots.map((h, j) =>
+  el.innerHTML = (s.img ? `<img src="${s.img}" alt="">` : '') + s.hots.map((h, j) =>
     `<div class="hot" data-k="${key}" data-j="${j}" style="left:${(h.r[0]/375*100).toFixed(2)}%;top:${(h.r[1]/812*100).toFixed(2)}%;width:${(h.r[2]/375*100).toFixed(2)}%;height:${(h.r[3]/812*100).toFixed(2)}%"></div>`
   ).join('');
   stage.appendChild(el);
@@ -347,6 +385,84 @@ signSwipe.addEventListener('pointerup', e => {
   setSX(sOpenState ? sOpen : sRest, 744);
 });
 
+/* ── the תמונת מצב screen: scroll + expanding balance cards ──────────────
+   The page is the file's full frame, sliced so the three authored expandables
+   swap state in place: מטבעות חוץ (82 ↔ 378), כרטיסי אשראי (82 ↔ 564, the
+   card stack), and ריכוז יתרות (60 ↔ 316) — the design system's
+   Account-Snapshot_graphs card (from 'סכומים גדולים'): bars on a shared
+   baseline, amounts and labels beneath them, and the מידע-נוסף link. The
+   header is the component's two states: transparent at rest, white with its
+   shadow once content scrolls under. */
+const snapEl = document.getElementById('scr-snap');
+snapEl.insertAdjacentHTML('beforeend', `
+  <div id="snapScroll">
+    <img src="snap-hero.png" alt="יתרות עו״ש שקלים">
+    <div class="snapCard" id="snapFx" role="button" aria-expanded="false" aria-label="מטבעות חוץ">
+      <img class="closedImg" src="snap-fx-closed.png" alt=""><img class="openImg" src="snap-fx-open.png" alt=""></div>
+    <div class="snapCard" id="snapCc" role="button" aria-expanded="false" aria-label="כרטיסי אשראי">
+      <img class="closedImg" src="snap-cc-closed.png" alt=""><img class="openImg" src="snap-cc-open.png" alt=""></div>
+    <img src="snap-rows.png" alt="">
+    <div class="snapCard" id="snapSum" role="button" aria-expanded="false" aria-label="ריכוז יתרות">
+      <img class="closedImg" src="snap-sum-closed.png" alt=""><img class="openImg" src="snap-sum-open.png" alt="">
+      <img class="bar barDebit" src="snap-bar-debit.png" alt="סך יתרות חובה">
+      <img class="bar barCredit" src="snap-bar-credit.png" alt="סך יתרות זכות"></div>
+    <img src="snap-mid.png" alt="מוצרי שוק הכסף">
+    <img src="snap-tail.png" alt="">
+  </div>
+  <img id="snapHead" src="snap-header.png" alt="">
+  <img id="snapNav" src="snap-nav.png" alt="">`);
+const snapScroll = document.getElementById('snapScroll');
+const snapHead = document.getElementById('snapHead');
+// slice heights @2x over a 750-wide image
+const SNAP_H = { snapFx:[188,780], snapCc:[188,1152], snapSum:[144,656] };
+function snapSize(){
+  const w = snapScroll.clientWidth;
+  for (const id of Object.keys(SNAP_H)){
+    const el = document.getElementById(id);
+    el.style.height = (SNAP_H[id][el.classList.contains('open') ? 1 : 0] / 750 * w) + 'px';
+  }
+}
+new ResizeObserver(snapSize).observe(snapScroll);
+snapSize();
+const snapSum = document.getElementById('snapSum');
+/* The bars enter by growing from the baseline (a bottom-up reveal, so the
+   type never distorts). Removing .grown snaps them shut instantly; adding it
+   back plays the growth. */
+function growSumBars(){
+  snapSum.classList.remove('grown');
+  void snapSum.offsetWidth;
+  requestAnimationFrame(() => snapSum.classList.add('grown'));
+}
+for (const id of Object.keys(SNAP_H)){
+  const el = document.getElementById(id);
+  el.addEventListener('click', e => {
+    e.stopPropagation();
+    // only the card's own header row collapses an open card — the body holds
+    // content (rows, the card stack, the chart) that should not swallow taps
+    const zone = SNAP_H[id][0] / 750 * el.clientWidth;
+    if (el.classList.contains('open') && e.offsetY > zone) return;
+    const opening = !el.classList.contains('open');
+    el.classList.toggle('open');
+    el.setAttribute('aria-expanded', opening);
+    snapSize();
+    if (el === snapSum){
+      if (opening) setTimeout(growSumBars, 180); // once the height is underway
+      else snapSum.classList.remove('grown');
+    }
+  });
+}
+// scrolling away and back replays the growth — the reveal belongs to arrival
+new IntersectionObserver((entries) => {
+  for (const en of entries){
+    if (!snapSum.classList.contains('open')) continue;
+    if (en.intersectionRatio >= 0.6 && !snapSum.classList.contains('grown')) growSumBars();
+    else if (en.intersectionRatio <= 0.05 && snapSum.classList.contains('grown')) snapSum.classList.remove('grown');
+  }
+}, { root: snapScroll, threshold: [0.05, 0.6] }).observe(snapSum);
+snapScroll.addEventListener('scroll', () => {
+  snapHead.classList.toggle('on', snapScroll.scrollTop > 8);
+});
+
 // arrival hints are part of entering a screen — replay them on every entry
 const origGo = go;
 go = async function(key, t, d){
@@ -355,9 +471,13 @@ go = async function(key, t, d){
   if (key === 'sign'){ sOpenState = false; setSX(sRest, null); sHintTimer = setTimeout(playSignHint, 500); }
 };
 let loaded = 0;
-const all = [...Object.values(SCREENS).map(s=>s.img), 'swipe-card.png', 'swipe-action.png',
+const all = [...Object.values(SCREENS).map(s=>s.img).filter(Boolean), 'swipe-card.png', 'swipe-action.png',
              'sign-card.png', 'sign-actions.png', 'cb-checked.png', 'sign-toast.png',
-             ...Array.from({length: 8}, (_, i) => `sign-btn-${i + 1}.png`)];
+             ...Array.from({length: 8}, (_, i) => `sign-btn-${i + 1}.png`),
+             'snap-hero.png', 'snap-fx-closed.png', 'snap-fx-open.png', 'snap-cc-closed.png',
+             'snap-cc-open.png', 'snap-rows.png', 'snap-mid.png', 'snap-sum-closed.png',
+             'snap-sum-open.png', 'snap-bar-debit.png', 'snap-bar-credit.png',
+             'snap-tail.png', 'snap-header.png', 'snap-nav.png'];
 all.forEach(src => { const im = new Image(); im.onload = im.onerror = () => { if (++loaded === all.length) go(START); }; im.src = src; });
 </script>
 </body>
