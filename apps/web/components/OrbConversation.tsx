@@ -619,7 +619,18 @@ export function OrbConversation() {
 
       <div ref={chatRef} id="chat" className={`${chatOpen ? 'open' : 'closed'}${expanded ? ' expanded' : ''}`}>
         <div id="chatHead">
-          <span className="headTitle">{expanded ? expanded.label : 'conversation'}</span>
+          {/*
+            The owner's name, shown only where the wordmark on the scene has
+            had to give way to this panel — the expanded view at any width, and
+            the whole open panel on a phone. The identity moves into the header
+            rather than disappearing with the mark that used to carry it; which
+            of those two cases applies is a question about the viewport, so CSS
+            decides it and this always renders.
+          */}
+          <span className="headLeft">
+            <span id="chatOwner">{opening?.owner.name ?? 'Boaz Ben Eli'}</span>
+            <span className="headTitle">{expanded ? expanded.label : 'conversation'}</span>
+          </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             {voiceActive ? (
               <button type="button" onClick={voice.toggleMute} aria-pressed={voice.muted}>

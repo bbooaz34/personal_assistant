@@ -355,10 +355,40 @@ body:has(#chat.open.expanded) #wordmark { opacity: 0; }
   opacity: 0;
   pointer-events: none;
 }
+/* the left half of the header: the name, then what is being looked at */
+#chatHead .headLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* without this the title cannot shrink and the ellipsis never engages */
+  min-width: 0;
+}
 #chatHead .headTitle {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+/*
+ * The wordmark, relocated.
+ *
+ * It appears exactly where the one on the scene has had to give way — the
+ * expanded panel at any width, and the whole open panel below 620px — so the
+ * name is never in both places at once and never in neither. It holds its
+ * width and lets the artifact's label truncate instead: the label is a
+ * description and survives an ellipsis, a name does not.
+ */
+#chatOwner {
+  display: none;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--color-ink);
+  padding-inline-end: 10px;
+  border-inline-end: 1px solid rgba(110, 90, 200, 0.22);
+}
+#chat.open.expanded #chatOwner { display: block; }
+@media (max-width: 620px) {
+  #chat.open #chatOwner { display: block; }
 }
 #chat.open #chatHead {
   opacity: 1;
