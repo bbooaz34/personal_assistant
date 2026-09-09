@@ -423,7 +423,13 @@ export const FRAG = `#version 300 es
       // the sphere shows faintly through the near one. Two curved samples
       // drifting against each other is what reads as depth.
       if (uCrystal > 0.001 && uVideoReady > 0.5) {
-        float ri = 0.40;                    // inner sphere, held clear of the shell
+        // The body is a sphere of radius 0.80 with a 0.14 frosted inset, so the
+        // clear gap runs from about 0.66 out to the shell. At 0.62 the film
+        // sphere fills the ball and still sits inside that gap rather than
+        // pushing through the surface. Scaled by uReveal because that uniform
+        // carries the body's own size — the entry flight and the docked mini
+        // orb both shrink through it, and a fixed radius would burst out.
+        float ri = 0.62 * max(uReveal, 0.02);
         vec3 oc = ro - gBob;
         float bq = dot(oc, rd);
         float cq = dot(oc, oc) - ri * ri;
