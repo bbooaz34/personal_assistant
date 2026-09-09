@@ -36,6 +36,8 @@ import type { Portfolio } from './portfolio-types';
 interface Opening {
   beats: string[];
   starterPrompts: string[];
+  /** The stretch of the script the orb spends as a crystal ball, if any. */
+  projection: { video: string; from_beat: number; until_beat: number } | null;
   peeks: PeekCard[];
   owner: {
     name: string;
@@ -139,6 +141,22 @@ export function OrbConversation() {
   const [revealed, setRevealed] = useState(false);
 
   const engineRef = useRef<OrbEngine | null>(null);
+  const filmRef = useRef<HTMLVideoElement | null>(null);
+  /**
+   * A film looping inside the orb is exactly the kind of motion this setting
+   * exists to stop, so the crystal ball is simply never opened. The orb keeps
+   * talking through those beats as it always did.
+   */
+  const [allowFilm, setAllowFilm] = useState(true);
+  /** Set once the element reports it cannot play the file at all. */
+  const [filmBroken, setFilmBroken] = useState(false);
+  useEffect(() => {
+    const query = matchMedia('(prefers-reduced-motion: reduce)');
+    const apply = () => setAllowFilm(!query.matches);
+    apply();
+    query.addEventListener('change', apply);
+    return () => query.removeEventListener('change', apply);
+  }, []);
   // Read at connect time, so hitting Talk mid-conversation does not make the
   // agent introduce itself all over again.
   const conversationStartedRef = useRef(false);
@@ -175,6 +193,19 @@ export function OrbConversation() {
   // The agent opens the conversation itself. Voice, when connected, delivers
   // its own scripted greeting through the realtime model, so the typed script
   // stands down rather than talking over it.
+  // The engine holds the element, not the URL: the video decodes on the main
+  // thread and is uploaded as a texture each frame, so there is exactly one
+  // of it and React never re-creates it mid-script.
+  useEffect(() => {
+    const engine = engineRef.current;
+    if (!engine) return;
+    // `filmBroken` belongs in here, not just in the error handler: this effect
+    // re-runs on reveal, and without it a film that had already failed was
+    // handed straight back to the engine on the next run.
+    const usable = allowFilm && !filmBroken && opening?.projection;
+    engine.setProjection(usable ? filmRef.current : null);
+  }, [opening, allowFilm, filmBroken, revealed]);
+
   const script = useOpeningScript({
     beats: opening?.beats ?? null,
     hasPeeks: peeks.length > 0,
@@ -190,12 +221,26 @@ export function OrbConversation() {
       // over the scene; the orb is the thing to look at, not a chat box.
       void engineRef.current?.setMode('speaking');
     },
+    onBeat: (index) => {
+      // The orb is itself while it introduces itself, a crystal ball for the
+      // beats about Boaz, and itself again to hand over to the work. An
+      // interrupted script reports -1, which closes the glass like any other
+      // beat outside the window.
+      const film = opening?.projection;
+      const showFilm =
+        allowFilm &&
+        Boolean(film) &&
+        index >= (film?.from_beat ?? 0) &&
+        index < (film?.until_beat ?? 0);
+      engineRef.current?.setCrystal(showFilm);
+    },
     onPeeks: () => {
       // The work needs somewhere to live: this is where the panel opens.
       setChatOpen(true);
     },
     onFinish: () => {
       void engineRef.current?.setMode('calm');
+      engineRef.current?.setCrystal(false);
     },
   });
 
@@ -491,6 +536,43 @@ export function OrbConversation() {
 
   return (
     <>
+      {/*
+        Never displayed directly — the orb samples it as a texture. It still has
+        to be a real, playing element in the document for the browser to decode
+        it, so it is parked at zero opacity rather than `display: none`, which
+        some browsers treat as permission to stop decoding altogether.
+      */}
+      {opening?.projection && allowFilm && !filmBroken ? (
+        <video
+          ref={filmRef}
+          // Before `src`, which is the only order in which it takes effect.
+          // Without it a browser can decide the frames are cross-origin — a
+          // redirect, a proxy, a CDN in front of the app — and sampling one
+          // into WebGL then throws a SecurityError on every frame. Same-origin
+          // requests ignore this entirely, so it costs nothing in the normal
+          // case and is the whole fix in the abnormal one.
+          crossOrigin="anonymous"
+          src={opening.projection.video}
+          // A film that will not load is not worth degrading the orb for: drop
+          // it and let the script play over the orb exactly as it used to.
+          onError={() => setFilmBroken(true)}
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+          tabIndex={-1}
+          style={{
+            position: 'fixed',
+            width: 2,
+            height: 2,
+            opacity: 0,
+            pointerEvents: 'none',
+            top: 0,
+            left: 0,
+          }}
+        />
+      ) : null}
       <OrbStage
         engineRef={engineRef}
         hooks={{

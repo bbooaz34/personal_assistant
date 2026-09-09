@@ -8,8 +8,11 @@
  * and the orb as the frame's only coloured light. See docs/ARCHITECTURE.md
  * ("The face") for how the uniforms are driven.
  *
- * Deliberately untouched: this file is the design. Behavioural integration
- * happens in engine.ts, which only writes uniforms.
+ * Behavioural integration happens in engine.ts, which mostly only writes
+ * uniforms. The one addition to the original design is the crystal ball
+ * (`uCrystal`, `uVideo`): projecting a film inside the body needs a sampler in
+ * the fragment shader, which no uniform written from outside can stand in for.
+ * Everything else here is still the orb as it was given.
  */
 
 export const VERT = `#version 300 es
@@ -40,6 +43,10 @@ export const FRAG = `#version 300 es
                            // the shrunken orb at the chat header
   uniform float uDock;     // 1 while docked: damps bob and displacement so
                            // the mini orb stays inside its porthole
+  uniform float uCrystal;  // 0 orb -> 1 crystal ball: violet dims, film plays
+  uniform sampler2D uVideo;
+  uniform float uVideoAspect; // width / height of the projected film
+  uniform float uVideoReady;  // 0 until the first frame has been uploaded
 
   out vec4 outColor;
 
@@ -313,7 +320,9 @@ export const FRAG = `#version 300 es
     // the orb's light on its surroundings, shared by clouds, sky and the
     // screen-edge wash
     vec3 orbLight = mix(cViolet, cPink, 0.4 + 0.4 * uPulse)
-                  * (0.6 + 2.4 * uEnergy + 2.0 * uKick);
+                  * (0.6 + 2.4 * uEnergy + 2.0 * uKick)
+                  // a crystal ball does not floodlight the room it is in
+                  * (1.0 - uCrystal * 0.75);
 
     // daylight sky: pre-tonemap values above 1 so the roll-off lands on
     // white at the zenith and a faint cool lavender at the horizon
@@ -332,16 +341,23 @@ export const FRAG = `#version 300 es
       float mixB = 0.5 + 0.5 * sin(pos.y * 3.1 + pos.x * 1.3 + uTime * 0.5);
       vec3 skin = mix(cViolet, cPink, mixA);
       skin = mix(skin, cCyan, 0.35 * mixB * mixB);
+      // Crystal ball: the violet drains out of the body until only a nearly
+      // colourless shell is left, so the film inside is the one coloured thing
+      // in the sphere. The shell itself is untouched — the rim, the fresnel
+      // and the transmitted sky are what still say "glass".
+      skin = mix(skin, vec3(0.70, 0.73, 0.82), uCrystal * 0.88);
 
       vec3 pl = pos - gBob;
 
       // dark translucent core, luminous rim
-      vec3 core = skin * 0.015;
+      // the near-black core is what gives the orb its depth; a crystal ball
+      // wants a milky one instead, so the film has something to sit against
+      vec3 core = skin * mix(0.015, 0.16, uCrystal);
       vec3 rim  = skin * (0.10 + 2.4 * fres);
 
       // ridges (positive displacement) glow like filaments
       float filament = smoothstep(0.25, 0.85, hitDisp);
-      rim += cPink * filament * (0.35 + 1.3 * uPulse);
+      rim += cPink * filament * (0.35 + 1.3 * uPulse) * (1.0 - uCrystal * 0.9);
 
       vec3 lightDir = look * normalize(vec3(0.55, 0.7, 0.5));
       float diff = max(dot(n, lightDir), 0.0);
@@ -361,6 +377,11 @@ export const FRAG = `#version 300 es
       vec3 tint = skin / (max(max(skin.r, skin.g), skin.b) + 1e-3);
       // the 0.8 keeps the outer layer 20% less transparent than raw glass
       vec3 through = skyBehind * pow(tint, vec3(thick * 2.0 + 0.3)) * exp(-thick * 1.1) * 0.8;
+      // A crystal ball is still glass: most of the sky has to keep coming
+      // through or the shell reads as stone. Only a little is taken here —
+      // the film blocks its own patch further down, which is the part that
+      // was washing it out.
+      through *= 1.0 - uCrystal * 0.22;
 
       col = core + rim * bright + skin * diff * 0.04 + through;
       // soft self-light through the thin edges
@@ -369,7 +390,7 @@ export const FRAG = `#version 300 es
       // interior: march on through the translucent body accumulating light
       // from the vines, self-shadowed by absorption so depth reads
       vec3 anchor2 = mix(anchorFor(uShapeA), anchorFor(uShapeB), uMorph);
-      float vineGain = 0.75 + 1.7 * uPulse + 2.0 * uKick;
+      float vineGain = (0.75 + 1.7 * uPulse + 2.0 * uKick) * (1.0 - uCrystal * 0.92);
       float dt = 1.5 / 38.0;
       // no per-pixel jitter: neighbouring rays must sample at the same
       // depths or the decorrelation paints stipple across the interior.
@@ -377,7 +398,9 @@ export const FRAG = `#version 300 es
       // free of banding.
       float trans = 1.0;
       vec3 vines = vec3(0.0);
-      for (int i = 0; i < 38; i++) {
+      // uniform branch: once the vines are dark there is nothing to gather,
+      // and the interior march is the most expensive thing in the frame
+      for (int i = 0; i < (uCrystal > 0.97 ? 0 : 38); i++) {
         vec3 vp = pos + rd * (float(i) + 0.5) * dt - gBob;
         if (length(vp) > 1.6) break;
         // vines live wherever the current body is: the analytic shape SDF
@@ -393,12 +416,72 @@ export const FRAG = `#version 300 es
       }
       col += vines * vineGain;
 
+      // The film lives on a transparent sphere suspended inside the shell,
+      // not on a flat card across the middle. That is the whole difference
+      // between a crystal ball and a picture in a bubble: the image curves
+      // with the surface, compresses as it turns away, and the far side of
+      // the sphere shows faintly through the near one. Two curved samples
+      // drifting against each other is what reads as depth.
+      if (uCrystal > 0.001 && uVideoReady > 0.5) {
+        float ri = 0.40;                    // inner sphere, held clear of the shell
+        vec3 oc = ro - gBob;
+        float bq = dot(oc, rd);
+        float cq = dot(oc, oc) - ri * ri;
+        float h = bq * bq - cq;
+        if (h > 0.0) {
+          float sh = sqrt(h);
+          // the two crossings: the surface facing us and the one behind it
+          vec3 pNear = ro + rd * (-bq - sh) - gBob;
+          vec3 pFar  = ro + rd * (-bq + sh) - gBob;
+          vec3 right = normalize(cross(vec3(0.0, 1.0, 0.0), rd));
+          vec3 upv = cross(rd, right);
+
+          vec2 qN = vec2(dot(pNear, right), dot(pNear, upv)) / ri;
+          vec2 qF = vec2(dot(pFar, right), dot(pFar, upv)) / ri;
+
+          // How square-on the surface is under this pixel: 1 dead centre,
+          // 0 at the silhouette. The mask is this rather than a flat disc,
+          // so the film thins out exactly as the sphere turns away — the
+          // edge is the geometry, which is why it is soft without being
+          // vague about where the sphere is.
+          float face = sqrt(max(0.0, 1.0 - dot(qN, qN)));
+
+          // the shell bends what is behind it, hardest at grazing angles
+          vec2 bend = vec2(dot(n, right), dot(n, upv)) * 0.05 * fres;
+          // cover: the film matches the sphere's height and is cropped in
+          // width, so a wide frame is never letterboxed inside a round body
+          vec2 uvN = vec2((qN.x + bend.x) * 0.5 / max(uVideoAspect, 0.001),
+                          (qN.y + bend.y) * 0.5) + 0.5;
+          vec2 uvF = vec2(qF.x * 0.5 / max(uVideoAspect, 0.001), qF.y * 0.5) + 0.5;
+
+          vec3 near = texture(uVideo, clamp(uvN, 0.0, 1.0)).rgb;
+          vec3 far  = texture(uVideo, clamp(uvF, 0.0, 1.0)).rgb;
+          vec3 film = near + far * 0.22;    // the sphere is transparent, not painted
+
+          // The falloff runs the entire way from the middle of the sphere
+          // to its silhouette, so there is no radius at which the film stops
+          // — it only ever thins. Keying it to how square-on the surface is
+          // puts a ring at the silhouette, because that term collapses in the
+          // last few percent of the radius; keying it to the radius itself
+          // is what removes the circle.
+          float r = length(qN);
+          float cover = 1.0 - smoothstep(0.10, 1.0, r);
+          col = mix(col, film * (1.05 + 0.35 * fres), cover * uCrystal * 0.9);
+
+          // The inner sphere's own glass, as a wide bloom rather than an
+          // edge. A tight power here draws precisely the hard ring the mask
+          // was softened to avoid; this is only enough to say there is a
+          // second curved surface in there.
+          col += vec3(0.62, 0.68, 0.85) * pow(1.0 - face, 2.0) * uCrystal * 0.07;
+        }
+      }
     }
 
     // accumulated halo: kept gentle, since additive glow mostly saturates
     // against a bright sky and reads best where the clouds catch it
     vec3 haloTint = mix(cViolet, cPink, 0.45 + 0.45 * uPulse);
     haloTint = mix(haloTint, cCyan, 0.25 * uKick);
+    haloTint = mix(haloTint, vec3(0.72, 0.76, 0.86), uCrystal * 0.85);
     float haloGain = hit ? 0.25 : 0.55;
     col += haloTint * glow * haloGain * (0.55 + 1.6 * uEnergy + 1.2 * uKick);
 

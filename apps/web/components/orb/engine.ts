@@ -128,6 +128,16 @@ export class OrbEngine {
   // scene placement
   private chatOpen = false;
   private expanded = false;
+  /** 0 orb, 1 crystal ball; eased, never snapped. */
+  private crystal = 0;
+  private crystalTarget = 0;
+  private video: HTMLVideoElement | null = null;
+  private videoTex: WebGLTexture | null = null;
+  private videoAspect = 16 / 9;
+  private videoReady = false;
+  private projectionFailed = false;
+  /** When the glass started opening, so a film that never arrives can time out. */
+  private crystalSince = 0;
   private dock = 0;
   private sceneShift = 0;
   private sceneShiftY = 0;
@@ -180,9 +190,24 @@ export class OrbEngine {
     gl.useProgram(prog);
 
     for (const name of ['uRes', 'uTime', 'uPulse', 'uEnergy', 'uLook', 'uKick', 'uZoom',
-                        'uShapeA', 'uShapeB', 'uMorph', 'uReveal', 'uBurst', 'uShift', 'uShiftY', 'uDock']) {
+                        'uShapeA', 'uShapeB', 'uMorph', 'uReveal', 'uBurst', 'uShift', 'uShiftY', 'uDock',
+                        'uCrystal', 'uVideo', 'uVideoAspect', 'uVideoReady']) {
       this.uniforms[name] = gl.getUniformLocation(prog, name);
     }
+
+    // The projection surface. Nothing is uploaded until a film is attached and
+    // the crystal ball is actually being asked for, so the common case — an orb
+    // that never becomes a crystal ball — pays for one unused texture object.
+    this.videoTex = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, this.videoTex);
+    // no mipmaps and clamped edges: the film is non-power-of-two and a wrapped
+    // sample would fold the far side of the frame into the rim
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.uniform1i(this.uniforms.uVideo!, 0);
 
     this.observer = new ResizeObserver(() => this.resize());
     this.observer.observe(canvas);
@@ -217,6 +242,9 @@ export class OrbEngine {
   }
 
   destroy(): void {
+    if (this.gl && this.videoTex) this.gl.deleteTexture(this.videoTex);
+    this.videoTex = null;
+    this.video = null;
     this.destroyed = true;
     cancelAnimationFrame(this.raf);
     this.observer?.disconnect();
@@ -268,6 +296,63 @@ export class OrbEngine {
 
   /** The panel is open: glide the orb into the left two-thirds. */
   setChatOpen(open: boolean): void { this.chatOpen = open; }
+
+  /**
+   * Hands the orb a film to hold.
+   *
+   * Attaching does not show anything: `setCrystal` is what opens the glass.
+   * Passing null releases the element and drops the last uploaded frame, so a
+   * later crystal ball cannot flash a stale image before the video decodes.
+   */
+  setProjection(video: HTMLVideoElement | null): void {
+    this.video = video;
+    this.videoReady = false;
+    this.projectionFailed = false;
+    if (video && video.videoWidth > 0) {
+      this.videoAspect = video.videoWidth / Math.max(1, video.videoHeight);
+    }
+  }
+
+  /**
+   * Turns the body to clear glass and back.
+   *
+   * The film is played and paused here rather than by the caller: the
+   * transition and the playback are one thing, and a video left running behind
+   * an opaque orb is just a decode nobody sees.
+   */
+  setCrystal(on: boolean): void {
+    if (this.destroyed) return;
+    this.crystalTarget = on && this.video && !this.projectionFailed ? 1 : 0;
+    this.crystalSince = this.crystalTarget === 1 ? performance.now() : 0;
+    const video = this.video;
+    if (!video) return;
+    if (on) {
+      // muted + inline: autoplay policy lets this through, and the agent is
+      // talking over it anyway
+      void video.play().catch(() => undefined);
+    } else {
+      video.pause();
+    }
+  }
+
+  get crystalAmount(): number { return this.crystal; }
+
+  /**
+   * Gives up on the film and eases back to the orb.
+   *
+   * Deliberately returns to violet rather than holding the clear shell: a
+   * crystal ball with nothing inside it is a bug on screen, whereas the orb
+   * carrying on through those beats is simply the interface as it was before
+   * any of this existed.
+   */
+  private abandonProjection(): void {
+    if (this.projectionFailed) return;
+    this.projectionFailed = true;
+    this.video?.pause();
+    this.video = null;
+    this.videoReady = false;
+    this.crystalTarget = 0;
+  }
 
   /** The panel is expanded: dock the orb into the header porthole. */
   setExpanded(expanded: boolean): void {
@@ -497,6 +582,8 @@ export class OrbEngine {
       gl0.uniform1f(U0.uShapeA!, 0);
       gl0.uniform1f(U0.uShapeB!, 0);
       gl0.uniform1f(U0.uMorph!, 1);
+      gl0.uniform1f(U0.uCrystal!, 0);
+      gl0.uniform1f(U0.uVideoReady!, 0);
       gl0.drawArrays(gl0.TRIANGLES, 0, 3);
       this.raf = requestAnimationFrame((n) => this.frame(n));
       return;
@@ -592,6 +679,49 @@ export class OrbEngine {
       if (this.shapeB === this.idleShape) this.morphTo(0);
       this.idleShape = 0;
     }
+
+    // Crystal ball. The ease is deliberately slower than the shape morph:
+    // the body is not changing form, it is losing its colour, and that reads
+    // as a dissolve rather than a transformation.
+    this.crystal += (this.crystalTarget - this.crystal) * Math.min(1, 2.2 * dt);
+    if (this.crystal < 0.0005 && this.crystalTarget === 0) this.crystal = 0;
+
+    // A film that has produced no frame by the time the glass is open is not
+    // going to: a blocked fetch, a codec the browser will not decode, a stall.
+    // Whatever the cause, the shell is standing there empty, which looks like
+    // a broken orb rather than a deliberate one — so give the film a moment
+    // and then take the violet back.
+    if (this.crystalTarget === 1 && !this.videoReady && this.crystalSince > 0
+        && now - this.crystalSince > 1500) {
+      this.abandonProjection();
+    }
+
+    const video = this.video;
+    if (video && this.crystal > 0.001 && video.readyState >= 2 /* HAVE_CURRENT_DATA */) {
+      if (video.videoWidth > 0) {
+        this.videoAspect = video.videoWidth / Math.max(1, video.videoHeight);
+      }
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, this.videoTex);
+      // the shader reads y upward from the sphere's centre; the video's own
+      // origin is its top-left, so the flip happens here rather than in glsl
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      try {
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
+        this.videoReady = true;
+      } catch {
+        // A video the browser considers cross-origin taints the context and
+        // throws a SecurityError here, every frame, forever. Uncaught, that
+        // takes the whole render loop with it and the orb freezes mid-scene —
+        // so a film that cannot be sampled ends the projection instead of
+        // ending the animation.
+        this.abandonProjection();
+      }
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+    }
+    gl.uniform1f(U.uCrystal!, this.crystal);
+    gl.uniform1f(U.uVideoAspect!, this.videoAspect);
+    gl.uniform1f(U.uVideoReady!, this.videoReady ? 1 : 0);
 
     this.morphT = Math.min(1, this.morphT + dt / MORPH_SECONDS);
     if (this.morphT >= 1) this.shapeA = this.shapeB; // settled: one SDF evaluation

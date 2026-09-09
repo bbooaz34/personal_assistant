@@ -42,6 +42,7 @@ export function useOpeningScript({
   enabled,
   say,
   onStart,
+  onBeat,
   onPeeks,
   onFinish,
 }: {
@@ -55,6 +56,13 @@ export function useOpeningScript({
    */
   say?: (text: string) => Promise<boolean>;
   onStart?: () => void;
+  /**
+   * Fired as each beat begins, before it is spoken.
+   *
+   * The scene is staged against the script rather than against a clock: a beat
+   * ends when the sentence ends, and the only place that is known is here.
+   */
+  onBeat?: (index: number, text: string) => void;
   /**
    * Fired when the script reaches the project peeks.
    *
@@ -70,8 +78,8 @@ export function useOpeningScript({
   const [phase, setPhase] = useState<OpeningPhase>('waiting');
   const abandoned = useRef(false);
   const started = useRef(false);
-  const callbacks = useRef({ onStart, onPeeks, onFinish });
-  callbacks.current = { onStart, onPeeks, onFinish };
+  const callbacks = useRef({ onStart, onBeat, onPeeks, onFinish });
+  callbacks.current = { onStart, onBeat, onPeeks, onFinish };
   /**
    * Held in a ref, never in the effect's dependencies.
    *
@@ -86,6 +94,10 @@ export function useOpeningScript({
     if (phase === 'done' || phase === 'abandoned') return;
     abandoned.current = true;
     setPhase('abandoned');
+    // -1 is "no beat is being spoken". Anything staged against the script has
+    // to be told the script stopped, or an interrupted opening leaves the
+    // scene dressed for a line nobody is going to hear.
+    callbacks.current.onBeat?.(-1, '');
   }, [phase]);
 
   useEffect(() => {
@@ -109,6 +121,7 @@ export function useOpeningScript({
       for (const [index, text] of beats.entries()) {
         if (cancelled || abandoned.current) return;
         setDelivered((current) => [...current, { id: `beat-${index}`, text }]);
+        callbacks.current.onBeat?.(index, text);
         // A spoken beat ends when the sentence ends; only a silent one needs
         // a timer.
         const spoken = sayRef.current ? await sayRef.current(text) : false;

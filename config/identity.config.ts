@@ -85,27 +85,41 @@ export const identityConfig: AgentIdentity = {
         id: 'default',
         when: 'default',
         beats: [
-          "Hey! I'm EBOS \u2014 Boaz's AI agent. I know his work pretty well, so you can ask me " +
-            'anything about him \u2014 just talk to me or type.',
-          // The bilingual line is its own beat so it gets its own breath, and
-          // so the caption can flip direction for it (§24).
-          '\u05d5\u05d0\u05e4\u05e9\u05e8 \u05d2\u05dd \u05dc\u05d3\u05d1\u05e8 \u05d0\u05d9\u05ea\u05d9 ' +
-            '\u05d1\u05e2\u05d1\u05e8\u05d9\u05ea \u05d0\u05dd \u05d9\u05d5\u05ea\u05e8 \u05e0\u05d5\u05d7.',
-          "Boaz leads a product design team at Zemingo, but he's still very hands-on. These days " +
-            'he works AI-native \u2014 AI is part of how he designs, builds and ships.',
-          'Anyway, here are a few things I think are worth seeing.',
+          "Hey, I'm Boaz's personal assistant. He asked me to represent him and tell you " +
+            'about his professional story and work.',
+          'Boaz leads a product design team at Zemingo. He is a manager, but still completely hands-on.',
+          'He designs AI-native, lives and breathes technology, and creates AI-based design workflows ' +
+            'for the studio and the wider organization.',
+          'So you can ask me anything about Boaz. I can answer, and of course show you his selected work.',
+          'Anyway, here are a few projects worth seeing.',
         ],
         starter_prompts: [
           'Tell me about Boaz.',
           'Show me his AI work.',
           "I'm hiring a product design lead.",
         ],
+        /**
+         * The orb becomes a crystal ball for the middle of the script.
+         *
+         * Beat 0 is the agent introducing itself, and beat 4 hands over to the
+         * work — both of those are the orb's own moments. Beats 1 to 3 are the
+         * ones about Boaz, and that is where the violet dims to clear glass and
+         * the film plays inside the shell.
+         *
+         * Indices, not copy matching: rewriting a line must never silently
+         * break the transition. If you add or reorder beats, move these.
+         */
+        projection: {
+          video: '/media/crystal-ball.mp4',
+          from_beat: 1,
+          until_beat: 4,
+        },
       },
       {
         id: 'returning',
         when: 'returning',
         beats: [
-          "Hey, welcome back. Everything from last time is still here \u2014 and here's what I'd " +
+          "Hey, welcome back. Everything from last time is still here — and here's what I'd " +
             'point at today.',
         ],
         starter_prompts: ['Pick up where we left off.', 'Show me something different.'],

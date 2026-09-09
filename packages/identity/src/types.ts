@@ -103,6 +103,28 @@ export interface Opening {
    * is a sentence the interface has already answered.
    */
   starter_prompts: string[];
+  /**
+   * A film projected inside the orb while part of the opening is spoken.
+   *
+   * The orb dims its violet to clear glass and becomes a crystal ball for the
+   * stretch of the script that is about the owner rather than about the agent,
+   * then returns to itself for the hand-off to the work.
+   *
+   * Beat indices rather than matched copy: the text is rewritten often, and a
+   * transition keyed to a substring would fail silently the first time a word
+   * changed. `from_beat` is inclusive, `until_beat` exclusive — the beat that
+   * restores the orb.
+   */
+  projection?: OpeningProjection;
+}
+
+export interface OpeningProjection {
+  /** Served from the web app's public directory. Muted; it plays under speech. */
+  video: string;
+  /** First beat shown as a crystal ball (inclusive). */
+  from_beat: number;
+  /** The beat that turns the orb back (exclusive). */
+  until_beat: number;
 }
 
 export interface OpeningSet {

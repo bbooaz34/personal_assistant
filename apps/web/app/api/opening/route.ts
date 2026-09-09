@@ -30,6 +30,8 @@ export async function GET(request: Request): Promise<Response> {
   return Response.json({
     beats: opening.beats,
     starterPrompts: opening.starter_prompts,
+    // Optional: the stretch of the script the orb spends as a crystal ball.
+    projection: opening.projection ?? null,
     peeks: peeks.cards,
     focus: peeks.focus,
     owner: identityConfig.owner,
