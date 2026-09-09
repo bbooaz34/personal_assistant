@@ -12,6 +12,7 @@ import { RealtimeSession } from '@openai/agents-realtime';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { VoiceConnectionState, VoiceFailureReason, VoiceEvidenceResponse } from '@par/voice';
 import { createVoiceAgent, type VoiceComponentCall } from '@/lib/voice-session';
+import { reportVoiceTurn } from '@/lib/session-beacon';
 
 export interface VoiceTranscriptEntry {
   id: string;
@@ -87,13 +88,53 @@ export function useVoiceSession({
   const contextRef = useRef(getSessionContext);
   contextRef.current = getSessionContext;
 
+  // --- transcript persistence (docs/DATA-COLLECTION.md) -------------------
+  //
+  // A spoken turn's text arrives in pieces: `history_updated` fires repeatedly
+  // and an item's transcript fills in as the audio is recognised. Reporting on
+  // every update would store a dozen fragments of one sentence, so a turn is
+  // held until its text stops changing.
+  //
+  // The debounce alone is not enough — a visitor who never pauses would have
+  // nothing written until they stopped talking — so a max-wait forces a flush
+  // during continuous speech, and `stop` and `pagehide` catch the tail.
+  const pendingTurns = useRef<Map<string, { role: 'user' | 'assistant'; text: string }>>(new Map());
+  const reportedTurns = useRef<Set<string>>(new Set());
+  const voiceSeq = useRef(0);
+  const flushTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const lastFlush = useRef(Date.now());
+
+  const flushTranscript = useCallback(() => {
+    clearTimeout(flushTimer.current);
+    lastFlush.current = Date.now();
+    for (const [id, item] of pendingTurns.current) {
+      if (reportedTurns.current.has(id) || !item.text.trim()) continue;
+      // Reported once. A transcript correction that lands after this is lost,
+      // which is a better failure than the same sentence stored twice.
+      reportedTurns.current.add(id);
+      reportVoiceTurn(item.role, item.text, voiceSeq.current++);
+    }
+  }, []);
+
+  // The last turn of a session is the one a closing tab would take with it.
+  useEffect(() => {
+    const onHide = () => flushTranscript();
+    window.addEventListener('pagehide', onHide);
+    document.addEventListener('visibilitychange', onHide);
+    return () => {
+      window.removeEventListener('pagehide', onHide);
+      document.removeEventListener('visibilitychange', onHide);
+    };
+  }, [flushTranscript]);
+
   const stop = useCallback(() => {
+    flushTranscript();
     sessionRef.current?.close();
     sessionRef.current = null;
     setState('disconnected');
     setSpeaking(false);
     setMuted(false);
-  }, []);
+  }, [flushTranscript]);
 
   // A live microphone must not outlive the page.
   useEffect(() => () => sessionRef.current?.close(), []);
@@ -205,6 +246,15 @@ export function useVoiceSession({
         entries.push({ id, role, text, components });
       }
       setTranscript(entries);
+
+      for (const entry of entries) {
+        if (reportedTurns.current.has(entry.id)) continue;
+        pendingTurns.current.set(entry.id, { role: entry.role, text: entry.text });
+      }
+      // Stable for 1.2s, or 6s since the last flush during unbroken speech.
+      clearTimeout(flushTimer.current);
+      if (Date.now() - lastFlush.current > 6000) flushTranscript();
+      else flushTimer.current = setTimeout(flushTranscript, 1200);
     });
 
     try {

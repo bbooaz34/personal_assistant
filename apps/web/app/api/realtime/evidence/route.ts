@@ -16,6 +16,7 @@ import { createSession, type SessionState } from '@par/analytics';
 import { agentConfig } from '@par/config';
 import type { VoiceEvidenceResponse } from '@par/voice';
 import { getAgent } from '@/lib/agent';
+import { parseVisitorSession } from '@/lib/session';
 
 export const runtime = 'nodejs';
 
@@ -41,11 +42,9 @@ export async function POST(request: Request): Promise<Response> {
 
   // Client-supplied session state can only narrow what the agent asks about.
   // Audience is decided here and is never taken from the request.
+  const visitor = parseVisitorSession(body.session);
   const session: SessionState = {
-    ...createSession(
-      typeof body.session?.id === 'string' ? body.session.id : 'voice',
-      body.session?.startedAt ?? new Date().toISOString(),
-    ),
+    ...createSession(visitor.id, visitor.startedAt),
     recruiter: {
       name: null,
       company: typeof body.session?.recruiter?.company === 'string' ? body.session.recruiter.company : null,

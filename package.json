@@ -18,6 +18,7 @@
     "knowledge:validate": "node --experimental-strip-types scripts/validate-knowledge.ts",
     "knowledge:merge": "node --experimental-strip-types scripts/merge-knowledge.ts",
     "eval": "node --experimental-strip-types scripts/run-evals.ts",
+    "insights": "node --experimental-strip-types scripts/insights.ts",
     "clean": "rm -rf packages/*/dist packages/*/*.tsbuildinfo config/dist config/*.tsbuildinfo apps/web/.next",
     "artifacts:import": "node --experimental-strip-types scripts/import-artifacts.ts",
     "voice:smoke": "node scripts/voice-smoke.mjs"

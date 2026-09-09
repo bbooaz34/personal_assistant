@@ -925,6 +925,16 @@ body:has(#chat.open.expanded) #wordmark { opacity: 0; }
   text-transform: none;
   color: var(--color-ink-faint);
 }
+/* The recording notice. Legible without competing with the invitation above
+   it: a visitor should be able to read it, not have to hunt for it. */
+#entryInner .entryPrivacy {
+  margin-top: 14px;
+  max-width: 30rem;
+  font-size: 10.5px;
+  line-height: 1.5;
+  opacity: 0.82;
+  text-wrap: balance;
+}
 
 /* ── opening caption: the agent speaking while the panel is still closed ── */
 #caption {

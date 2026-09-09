@@ -75,11 +75,24 @@ and Hebrew quality has been checked only through the text pipeline.
 LiveKit remains deferred, per §23.6 — revisit only for telephony, multi-party
 audio, or provider abstraction.
 
-## Phase 7 — Conversation intelligence — **types only**
+## Phase 7 — Conversation intelligence — **built, unproven against live data**
 
-`SessionSummary` separates what the visitor stated from what the model inferred,
-and `computeSessionMetrics` derives the countable half deterministically. No
-storage and no summarization pass yet.
+Conversations persist to Supabase: sessions, turns, interaction events and
+post-session summaries, with the owner-side decision trace on every turn
+(`docs/DATA-COLLECTION.md`). Text and voice both write; contact details are
+redacted at the store boundary; raw turns are purged after 30 days on two
+independent schedules, and the entry screen says so.
+
+The summary pass runs on idle and keeps the split the types always described:
+what the visitor stated stays separate from what a model inferred, and the
+countable half — duration, refusals, shown versus opened — is computed rather
+than asked of a model.
+
+Unproven because every verification so far ran against a PostgREST mock. That
+shows the app sends correct rows; it does not show the live schema accepts
+them. The first real conversation is the test. Failures are swallowed by
+design, so they surface as `[store] …` warnings in the logs rather than as a
+broken page.
 
 ## Phase 8 — Owner dashboard — **not started**
 
@@ -112,8 +125,9 @@ Ordered by impact, not by phase number.
    asks. The internship platform shows what a documented project buys.
 3. **Close the two open claims** — whether the redesign shipped, and the ~90
    minute delivery time. Both currently constrain what the agent may say.
-4. **Persist voice transcripts.** The session captures them; nothing stores
-   them, so Phase 7's summary has no voice input yet.
+4. **Confirm rows are landing.** The pipeline is written and mock-verified but
+   has never met the real database. One conversation against the live project
+   settles it.
 5. **Session extraction (Phase 4).** Without it, the personalization that
    justifies the whole premise is only half-wired.
 6. **Semantic retrieval.** Mainly for Hebrew, where lexical matching does

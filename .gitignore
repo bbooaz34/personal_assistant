@@ -26,3 +26,10 @@ content/staging/
 
 # Local editor/tooling config.
 .claude/
+
+# Supabase project credentials. The database password and any CLI state stay
+# local; the repository holds migrations and nothing else.
+supabase/password.*
+supabase/.temp/
+supabase/.branches/
+.supabase/

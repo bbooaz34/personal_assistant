@@ -35,7 +35,7 @@ export interface TurnPlan {
   allowedProjectIds: Set<string>;
   allowedSkillIds: Set<string>;
   /** Owner-side trace of what policy withheld. Never sent to the visitor. */
-  audit: { withheldCount: number; policyReason: string };
+  audit: { withheldCount: number; policyReason: string; policyTopic: string | null };
 }
 
 export class Agent {
@@ -96,6 +96,10 @@ export class Agent {
       audit: {
         withheldCount: this.policy.filterForAudience(this.repository, audience).withheld.length,
         policyReason: decision.reason,
+        // The reason is prose meant for a human; the topic is what a query
+        // groups by when you ask which rules fire most and whether any of
+        // them are refusing questions they should not.
+        policyTopic: decision.rule?.topic ?? null,
       },
     };
 
