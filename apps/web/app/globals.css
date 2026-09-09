@@ -625,18 +625,18 @@ body {
   padding-inline-start: 2px;
 }
 .peek {
-  appearance: none;
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 3px;
   width: 100%;
   text-align: start;
-  padding: 12px 14px;
+  /* the stage runs edge to edge, so the padding moves to the body */
+  padding: 0;
+  overflow: hidden;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.7);
   background: rgba(255, 255, 255, 0.5);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 2px 8px rgba(80, 60, 160, 0.07);
-  cursor: pointer;
   font: inherit;
   transition: background 180ms var(--ease-out), transform 180ms var(--ease-out),
     box-shadow 180ms var(--ease-out);
@@ -648,8 +648,67 @@ body {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 6px 16px rgba(80, 60, 160, 0.12);
   }
 }
-.peek:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
-.peek:active { transform: scale(0.995); }
+.peek:has(.peek-cta:active) { transform: scale(0.995); }
+
+/* The running interface, held at a glance's size. */
+.peek-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: rgba(246, 244, 255, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+}
+/* a phone layout scaled into a wide crop is mostly empty margin */
+.peek-stage-mobile { aspect-ratio: 3 / 2; }
+.peek-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/*
+ * Four times the size at a quarter scale: the artifact lays itself out as if
+ * it had a desktop viewport and is then shrunk, instead of being handed a
+ * 300px-wide window and reflowing into a phone layout that is not the work.
+ */
+.peek-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400%;
+  height: 400%;
+  transform: scale(0.25);
+  transform-origin: top left;
+  border: 0;
+  /* inert: the card is the control, the frame is the picture */
+  pointer-events: none;
+}
+.peek-stage-mobile .peek-frame {
+  width: 200%;
+  height: 200%;
+  transform: scale(0.5);
+}
+.peek-source {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+.peek-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 11px 14px 13px;
+}
 .peek-name {
   display: flex;
   align-items: center;
@@ -671,13 +730,33 @@ body {
 }
 .peek-hook { font-size: 13px; line-height: 1.45; color: var(--color-ink-muted); }
 .peek-supporting { font-size: 11.5px; line-height: 1.5; color: var(--color-ink-faint); }
+/*
+ * The card's one real control, stretched over the whole card by its own
+ * pseudo-element. One tab stop, one hit target, and no interactive element
+ * nested inside another — which is what an embed in a button would have been.
+ */
 .peek-cta {
+  align-self: flex-start;
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
   margin-top: 4px;
+  font: inherit;
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-accent);
+  cursor: pointer;
 }
+.peek-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+}
+.peek-cta:focus-visible { outline: none; }
+.peek-cta:focus-visible::after { outline: 2px solid var(--cyan); outline-offset: 2px; }
 
 /* ── entry gate ────────────────────────────────────────────────────────── */
 #entry {

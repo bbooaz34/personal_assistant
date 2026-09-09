@@ -62,7 +62,27 @@ export interface PeekCard {
   axis: PeekAxis;
   /** True when the real running interface can be embedded. */
   hasArtifact: boolean;
+  /**
+   * The live thing the card shows, when there is one.
+   *
+   * Deliberately not a URL: this package knows what evidence exists, not where
+   * the web app serves it from. The route assembles the address, exactly as it
+   * already does for the portfolio's artifacts.
+   */
+  preview: PeekPreview | null;
+  /** Still frame to hold while the embed loads, or to show in its place. */
+  poster: string | null;
   verified: boolean;
+}
+
+export interface PeekPreview {
+  /** `artifact` is ours to serve; `external` is a live site we only point at. */
+  kind: 'artifact' | 'external';
+  /** `<sourceDir>/<file>` for an artifact, the absolute uri for an external one. */
+  path: string;
+  /** How the frame is proportioned: a phone layout does not survive a wide crop. */
+  viewport: 'mobile' | 'desktop';
+  label: string;
 }
 
 export interface PeekSelection {
@@ -167,9 +187,15 @@ function axisScores(repository: KnowledgeRepository, project: Project): Record<P
     (project.responsibilities?.length ?? 0) > 0 &&
     (project.outcomes?.length ?? 0) > 0;
 
+  // Showable is weighted far above the other two because the rail now embeds
+  // the running interface on every card. A project with nothing to embed does
+  // not merely read as less inviting there — it leaves a hole where the other
+  // cards have a working product. The cost is accepted and worth stating: work
+  // that was never captured as an artifact will rarely reach the opening, and
+  // the way to bring a project back is to give it something to show.
   const multiplier =
     1 +
-    (showable ? 0.5 : 0) +
+    (showable ? 1.6 : 0) +
     (documented ? 0.35 : 0) +
     (project.verification_status === 'verified' ? 0.2 : 0);
 
@@ -191,6 +217,46 @@ function isShowable(repository: KnowledgeRepository, project: Project): boolean 
       (m.visibility ?? 'public') === 'public' &&
       (m.type === 'prototype' || m.type === 'video'),
   );
+}
+
+/**
+ * The one live thing a card should show.
+ *
+ * A sanitized artifact wins over a live site: it is ours, it is on our origin,
+ * and it cannot change under us. Among artifacts, the *last* staged one wins:
+ * stages run from the plain first build to the finished product, so the first
+ * of them is the deliberately unstyled prototype — the one thing on the
+ * project that would argue against the work if shown alone.
+ */
+function choosePreview(
+  repository: KnowledgeRepository,
+  project: Project,
+): PeekPreview | null {
+  const evidence = repository.projectEvidence(project.id);
+  const artifacts = (evidence?.artifacts ?? []).filter(
+    (a) => (a.visibility ?? 'public') === 'public' && a.sanitized,
+  );
+  const staged = artifacts.filter((a) => Boolean(a.stage));
+  const chosen = staged[staged.length - 1] ?? artifacts[0];
+  if (chosen && evidence?.sourceDir) {
+    return {
+      kind: 'artifact',
+      path: `${evidence.sourceDir}/${chosen.file}`,
+      viewport: chosen.viewport === 'mobile' ? 'mobile' : 'desktop',
+      label: chosen.label,
+    };
+  }
+
+  const live = (project.media ?? []).find(
+    (m) =>
+      (m.visibility ?? 'public') === 'public' &&
+      (m.type === 'prototype' || m.type === 'video') &&
+      /^https?:\/\//.test(m.uri),
+  );
+  if (live) {
+    return { kind: 'external', path: live.uri, viewport: 'desktop', label: live.caption ?? project.name };
+  }
+  return null;
 }
 
 function firstSentence(text: string): string {
@@ -220,6 +286,8 @@ function buildCard(
     cta: peek?.cta ?? cta,
     axis,
     hasArtifact,
+    preview: choosePreview(repository, project),
+    poster: project.thumbnail ?? null,
     verified: project.verification_status === 'verified',
   };
 }

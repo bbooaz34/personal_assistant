@@ -12,6 +12,7 @@ import { PolicyEngine } from '@par/policy';
 import { selectProjectPeeks } from '@par/retrieval';
 import { privacyConfig } from '@par/config';
 import { getAgent } from '@/lib/agent';
+import { toWirePeek } from '@/lib/peek-wire';
 
 export const runtime = 'nodejs';
 
@@ -36,5 +37,5 @@ export async function POST(request: Request): Promise<Response> {
   // which would make the rail churn on every unrelated message.
   if (!selection.focus) return Response.json({ cards: [], focus: null });
 
-  return Response.json({ cards: selection.cards, focus: selection.focus });
+  return Response.json({ cards: selection.cards.map(toWirePeek), focus: selection.focus });
 }

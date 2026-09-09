@@ -656,6 +656,7 @@ export function OrbConversation() {
             <ProjectPeeks
               cards={peeks}
               focusLabel={peekFocus}
+              sandbox={portfolio?.embedSandbox ?? 'allow-scripts'}
               onOpen={(card) => void openProjectReveal(card)}
             />
           ) : null}

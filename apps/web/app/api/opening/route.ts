@@ -12,6 +12,7 @@ import { PolicyEngine } from '@par/policy';
 import { selectProjectPeeks } from '@par/retrieval';
 import { identityConfig, privacyConfig } from '@par/config';
 import { getAgent } from '@/lib/agent';
+import { toWirePeek } from '@/lib/peek-wire';
 
 export const runtime = 'nodejs';
 
@@ -32,7 +33,7 @@ export async function GET(request: Request): Promise<Response> {
     starterPrompts: opening.starter_prompts,
     // Optional: the stretch of the script the orb spends as a crystal ball.
     projection: opening.projection ?? null,
-    peeks: peeks.cards,
+    peeks: peeks.cards.map(toWirePeek),
     focus: peeks.focus,
     owner: identityConfig.owner,
     agentName: identityConfig.name,
