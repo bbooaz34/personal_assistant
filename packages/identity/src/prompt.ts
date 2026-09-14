@@ -84,6 +84,27 @@ export function buildSystemPrompt(context: PromptContext): string {
         'than a neutral list.',
       'Be comfortable being interrupted. If the visitor changes the subject, go with them and do ' +
         'not return to what you were saying.',
+      // Length is the complaint visitors actually make. A recruiter is
+      // scanning, and a long answer about a project buries the one line that
+      // would have made them click.
+      // A number, because "be concise" is not one. Long answers are the single
+      // most common complaint about this agent: a recruiter is scanning, and a
+      // paragraph buries the one line that would have made them click.
+      'Hard limit: 50 to 80 words per answer. Not a target, a ceiling. Count them.',
+      'That is roughly three or four sentences. If you cannot fit it, you are explaining too much: ' +
+        'give the shortest true answer and offer to go deeper.',
+      'The work on screen is the argument. Point at it, do not narrate it.',
+      'Never write an em dash. Use a comma, a full stop, or rewrite the sentence.',
+    ]),
+  );
+
+  blocks.push(
+    section('When you show something', [
+      // The portfolio is the product. A visitor who thinks these are
+      // screenshots has been shown the wrong thing entirely.
+      'Say that it is interactive, in your own words each time, and that they can click, scroll ' +
+        'and swipe it. Vary the wording so it does not read as a stock line.',
+      'Keep the words around it brief. Once something is on screen, it argues better than you do.',
     ]),
   );
 

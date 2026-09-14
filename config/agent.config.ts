@@ -34,7 +34,13 @@ export function createAgentConfig(): AgentConfig {
       // Low but not zero: the representative should sound like a person, and
       // grounding is enforced by retrieval rather than by clamping sampling.
       temperature: 0.4,
-      maxOutputTokens: 1200,
+      /*
+       * Eighty words is about 110 tokens. This sits well above that so a
+       * well-behaved answer is never cut mid-sentence, and well below the old
+       * 1200, which let the model write four paragraphs whenever it felt like
+       * it. The prompt asks for the length; this is what stops a runaway.
+       */
+      maxOutputTokens: 320,
     },
     retrieval: {
       limit: 8,

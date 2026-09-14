@@ -295,7 +295,16 @@ export class OrbEngine {
   }
 
   /** The panel is open: glide the orb into the left two-thirds. */
-  setChatOpen(open: boolean): void { this.chatOpen = open; }
+  /**
+   * The panel opening changes what the orb is for, and therefore what it is
+   * worth spending on. Resizing here is the point: the render budget below
+   * depends on this.
+   */
+  setChatOpen(open: boolean): void {
+    if (this.chatOpen === open) return;
+    this.chatOpen = open;
+    this.resize();
+  }
 
   /**
    * Hands the orb a film to hold.
@@ -377,7 +386,19 @@ export class OrbEngine {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let w = Math.round(this.canvas.clientWidth * dpr);
     let h = Math.round(this.canvas.clientHeight * dpr);
-    const budget = 3.4e6; // raymarching pays per pixel
+    /*
+     * Raymarching pays per pixel, and frame rate tracks the pixel count almost
+     * linearly: on this machine 2.7M ran at 12fps and 1.1M at 20fps.
+     *
+     * With the panel closed the orb is the whole scene and gets the full
+     * budget. With it open the visitor is reading and typing, the orb is
+     * beside the conversation rather than in front of it, and a soft glowing
+     * body is the most forgiving thing there is to render at lower resolution.
+     * Frame rate is not forgiving at all: at 12fps a typed character waits
+     * most of a tenth of a second to appear, which is what "typing is slow"
+     * actually was.
+     */
+    const budget = this.chatOpen ? 1.0e6 : 3.4e6;
     const area = w * h;
     if (area > budget) {
       const s = Math.sqrt(budget / area);

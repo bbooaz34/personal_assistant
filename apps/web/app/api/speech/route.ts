@@ -21,6 +21,7 @@ import { selectOpening } from '@par/identity';
 import { PolicyEngine } from '@par/policy';
 import { identityConfig, privacyConfig, voiceConfig } from '@par/config';
 import { getAgent } from '@/lib/agent';
+import { APP_SPOKEN_LINES } from '@/lib/lines';
 
 export const runtime = 'nodejs';
 // Synthesis of a long project summary can outlive a serverless default budget.
@@ -28,9 +29,9 @@ export const maxDuration = 30;
 
 /**
  * Every line the agent is allowed to say aloud: the opening script from the
- * identity config, plus the public project summaries — spoken when a visitor
- * opens a project from the peek rail. Both are server-authored; the endpoint
- * still refuses anything a visitor typed.
+ * identity config, the public project summaries — spoken when a visitor opens
+ * a project from the peek rail — and the interface's own lines. All are
+ * server-authored; the endpoint still refuses anything a visitor typed.
  */
 async function speakableLines(): Promise<Set<string>> {
   const lines = new Set<string>();
@@ -41,6 +42,9 @@ async function speakableLines(): Promise<Set<string>> {
   const policy = new PolicyEngine(privacyConfig);
   const permitted = policy.filterForAudience(repository, 'public_visitor');
   for (const project of permitted.projects) lines.add(project.summary);
+  // Lines the interface itself speaks, such as what the stage is showing.
+  // Server-authored like the rest, so the same rule covers them.
+  for (const line of APP_SPOKEN_LINES) lines.add(line);
   return lines;
 }
 

@@ -23,6 +23,7 @@ import { agentConfig } from '@par/config';
 import { getAgent } from '@/lib/agent';
 import { hasCredentials, resolveModel } from '@/lib/model';
 import { parseVisitorSession } from '@/lib/session';
+import { noEmDashes } from '@/lib/no-em-dash';
 import { getSessionStore } from '@/lib/session-store';
 import { openSession, recordAnswer, recordQuestion } from '@/lib/conversation-log';
 import { readProvenance } from '@/lib/telemetry';
@@ -214,6 +215,8 @@ export async function POST(request: Request): Promise<Response> {
     messages: convertToModelMessages(body.messages),
     tools,
     temperature: agentConfig.model.temperature ?? 0.4,
+    // The prompt asks for this as well; this is what makes it true.
+    experimental_transform: noEmDashes(),
     ...(agentConfig.model.maxOutputTokens ? { maxOutputTokens: agentConfig.model.maxOutputTokens } : {}),
     // Awaited by the SDK before the stream closes, which is what keeps the
     // function alive long enough for the write to land. By this point every
