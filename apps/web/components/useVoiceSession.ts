@@ -34,10 +34,14 @@ export interface UseVoiceSession {
   /**
    * The project the agent is currently talking about, or null.
    *
-   * Set when the agent renders a project component — a deliberate act of
-   * presenting one, rather than merely having retrieved it — and cleared the
-   * moment the visitor asks something new, so a follow-up about something else
-   * does not inherit the last answer's subject.
+   * Set as soon as a turn retrieves project evidence, and again if a project
+   * component is rendered. Retrieval is the earlier and broader of the two:
+   * the agent frequently discusses a project without showing a card, and
+   * waiting for the card meant most spoken answers never counted as project
+   * talk at all.
+   *
+   * Cleared the moment the visitor starts a new turn, so a follow-up about
+   * something else does not inherit the last answer's subject.
    */
   projectFocus: string | null;
   start: () => Promise<void>;
@@ -201,6 +205,11 @@ export function useVoiceSession({
         onEvidence: (payload: VoiceEvidenceResponse) => {
           if (!payload.allowed) return;
           for (const id of payload.showableProjectIds) showableIds.current.add(id);
+          // Retrieval, not rendering, is what decides the answer is about
+          // project work: the agent often talks a project through without
+          // showing a card, and that is still project talk.
+          const project = payload.evidence.find((item) => item.kind === 'project');
+          if (project) setProjectFocus(project.id);
         },
         onComponent: (call) => {
           const projectId = call.args.project_id;
