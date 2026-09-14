@@ -75,7 +75,7 @@ and Hebrew quality has been checked only through the text pipeline.
 LiveKit remains deferred, per §23.6 — revisit only for telephony, multi-party
 audio, or provider abstraction.
 
-## Phase 7 — Conversation intelligence — **built, unproven against live data**
+## Phase 7 — Conversation intelligence — **live**
 
 Conversations persist to Supabase: sessions, turns, interaction events and
 post-session summaries, with the owner-side decision trace on every turn
@@ -88,11 +88,14 @@ what the visitor stated stays separate from what a model inferred, and the
 countable half — duration, refusals, shown versus opened — is computed rather
 than asked of a model.
 
-Unproven because every verification so far ran against a PostgREST mock. That
-shows the app sends correct rows; it does not show the live schema accepts
-them. The first real conversation is the test. Failures are swallowed by
-design, so they surface as `[store] …` warnings in the logs rather than as a
-broken page.
+Verified in production on 2026-09-14: a conversation against the deployed site
+wrote its session, turns and decision trace to Supabase and read back intact.
+The schema accepts what the application sends.
+
+Still outstanding: `CRON_SECRET` is unset on the deployment, so neither
+scheduled job runs through its route. Retention then rests entirely on pg_cron
+having installed cleanly, and the entry screen promises a 30-day window — so
+one of the two needs to be known-good.
 
 ## Phase 8 — Owner dashboard — **not started**
 
@@ -125,9 +128,9 @@ Ordered by impact, not by phase number.
    asks. The internship platform shows what a documented project buys.
 3. **Close the two open claims** — whether the redesign shipped, and the ~90
    minute delivery time. Both currently constrain what the agent may say.
-4. **Confirm rows are landing.** The pipeline is written and mock-verified but
-   has never met the real database. One conversation against the live project
-   settles it.
+4. **Set `CRON_SECRET` on the deployment.** Without it the purge and summary
+   routes refuse every request, and the retention promise on the entry screen
+   depends on pg_cron alone.
 5. **Session extraction (Phase 4).** Without it, the personalization that
    justifies the whole premise is only half-wired.
 6. **Semantic retrieval.** Mainly for Hebrew, where lexical matching does
