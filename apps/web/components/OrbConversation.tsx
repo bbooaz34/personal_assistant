@@ -24,10 +24,12 @@ import type { VoiceFailureReason } from '@par/voice';
 import { ContactMethods } from './ContactMethods';
 import { EntryScreen } from './EntryScreen';
 import { OrbStage } from './orb/OrbStage';
+import { Composer } from './Composer';
 import { ProjectPeeks, type PeekCard } from './ProjectPeeks';
 import { useOpeningScript } from './useOpeningScript';
 import { useSpeech } from './useSpeech';
 import type { OrbEngine } from './orb/engine';
+import { LIVE_ASSET_LINE } from '@/lib/lines';
 import { getClientSession } from '@/lib/session-client';
 import { reportEvent } from '@/lib/session-beacon';
 import { renderComponent } from './PortfolioComponents';
@@ -137,7 +139,6 @@ export function OrbConversation() {
   const [opening, setOpening] = useState<Opening | null>(null);
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
   const [voiceSettings, setVoiceSettings] = useState<VoiceSettings | null>(null);
-  const [input, setInput] = useState('');
   const [chatOpen, setChatOpen] = useState(false);
   const [expanded, setExpanded] = useState<ExpandedSpec | null>(null);
   const [status_, setStatus] = useState<string | null>(null);
@@ -158,6 +159,19 @@ export function OrbConversation() {
    * exists to stop, so the crystal ball is simply never opened. The orb keeps
    * talking through those beats as it always did.
    */
+  /**
+   * Narrow enough that the expanded stage is barely bigger than the message
+   * it came from. Matches the width at which the panel already goes
+   * full-bleed, so the two agree about what counts as a phone.
+   */
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const query = matchMedia('(max-width: 620px)');
+    const apply = () => setNarrow(query.matches);
+    apply();
+    query.addEventListener('change', apply);
+    return () => query.removeEventListener('change', apply);
+  }, []);
   const [allowFilm, setAllowFilm] = useState(true);
   /** Set once the element reports it cannot play the file at all. */
   const [filmBroken, setFilmBroken] = useState(false);
@@ -195,6 +209,16 @@ export function OrbConversation() {
   const { messages, sendMessage, status, error } = useChat({ transport });
 
   const speech = useSpeech();
+  /**
+   * The turn state as it is *now*.
+   *
+   * `status` in a handler is whatever it was when that handler was created.
+   * `openProjectReveal` waits on a spoken summary for ten seconds or more
+   * before it sends anything, by which point the captured value describes a
+   * conversation that has moved on.
+   */
+  const statusRef = useRef(status);
+  statusRef.current = status;
 
   const voice = useVoiceSession({
     enabledComponents: voiceSettings?.enabledComponents ?? [],
@@ -258,7 +282,8 @@ export function OrbConversation() {
     // Only close the glass on the way *out* of the project film. Calling it
     // unconditionally would fight the opening script, which drives the crystal
     // ball per beat from `onBeat`.
-    if (projectFilmOn.current) {
+    const wasShowing = projectFilmOn.current;
+    if (wasShowing) {
       projectFilmOn.current = false;
       engine.setCrystal(false);
     }
@@ -267,7 +292,23 @@ export function OrbConversation() {
     // re-runs on reveal, and without it a film that had already failed was
     // handed straight back to the engine on the next run.
     const usable = allowFilm && !filmBroken && opening?.projection;
-    engine.setProjection(usable ? filmRef.current : null);
+    const next = usable ? filmRef.current : null;
+
+    if (!wasShowing) {
+      engine.setProjection(next);
+      return;
+    }
+
+    /*
+     * The glass closes over about half a second, and the shader keeps sampling
+     * the texture the whole way down. Swapping the element now uploads the
+     * other film's first frame into a body that is still transparent, so the
+     * designer's film appears to end on a freeze-frame of the opening one.
+     *
+     * Hand the new element over only once the body is solid again.
+     */
+    const settle = setTimeout(() => engine.setProjection(next), 700);
+    return () => clearTimeout(settle);
   }, [showProjectFilm, opening, allowFilm, filmBroken, revealed]);
 
   const script = useOpeningScript({
@@ -315,7 +356,7 @@ export function OrbConversation() {
     const summaries = peeks
       .map((card) => portfolio.projects.find((p) => p.id === card.projectId)?.summary)
       .filter((s): s is string => Boolean(s));
-    if (summaries.length > 0) speech.prefetch(summaries);
+    if (summaries.length > 0) speech.prefetch([...summaries, LIVE_ASSET_LINE]);
     // speech.prefetch is stable; peeks/portfolio are what actually change.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [portfolio, peeks]);
@@ -402,9 +443,98 @@ export function OrbConversation() {
     }
   }, [voice.transcript]);
 
+  /**
+   * Follow the conversation as it grows.
+   *
+   * Smooth scrolling is wrong while a reply is streaming: this effect runs on
+   * every chunk, and each run restarts an animation the previous one had not
+   * finished, so the log lurches instead of moving. Streaming follows the text
+   * instantly, and only a settled turn gets the smooth glide.
+   *
+   * A visitor who has scrolled up to re-read something is not pulled back down.
+   * Being yanked away mid-sentence is the same complaint as jumping text, from
+   * the other direction.
+   */
+  /**
+   * Whether the visitor is following the conversation or has scrolled back.
+   *
+   * Recorded from actual scrolling, not measured after new content arrives.
+   * Measuring afterwards conflates the two cases: a gallery landing at the
+   * bottom puts the view hundreds of pixels from the end, which reads
+   * identically to someone having scrolled up, and the reveal they just asked
+   * for then never scrolls into view.
+   */
+  const following = useRef(true);
   useEffect(() => {
-    logRef.current?.scrollTo({ top: logRef.current.scrollHeight, behavior: 'smooth' });
-  }, [messages, status, voice.transcript, script.delivered, script.showPeeks, reveals]);
+    const log = logRef.current;
+    if (!log) return;
+    /*
+     * Only an upward scroll stops the follow.
+     *
+     * Distance-from-bottom alone is not enough: evidence growing below the
+     * view increases it without the visitor touching anything, which reads as
+     * "they scrolled away" and abandons them mid-reveal. `scrollTop` moving
+     * back is the one signal that only a person produces.
+     */
+    let lastTop = log.scrollTop;
+    const onScroll = () => {
+      const top = log.scrollTop;
+      if (top < lastTop - 4) following.current = false;
+      else if (log.scrollHeight - top - log.clientHeight < 140) following.current = true;
+      lastTop = top;
+    };
+    log.addEventListener('scroll', onScroll, { passive: true });
+    return () => log.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const followToBottom = useCallback((smooth: boolean) => {
+    const log = logRef.current;
+    if (!log || !following.current) return;
+    log.scrollTo({ top: log.scrollHeight, behavior: smooth ? 'smooth' : 'auto' });
+  }, []);
+
+  /**
+   * Go to the end of the conversation because the visitor just asked for
+   * something, and resume following it.
+   *
+   * Scrolling back to read is the one case the follow deliberately does not
+   * override. Clicking a suggestion or sending a message is not that case: it
+   * is a request for something new, and leaving them looking at the old thing
+   * is the whole complaint.
+   *
+   * Repeated across a few frames on purpose. The panel may be opening in the
+   * same commit, and the evidence that lands has images and iframes that
+   * settle a beat later; one scroll on click arrives before the thing it is
+   * meant to reveal.
+   */
+  const jumpToEnd = useCallback(() => {
+    following.current = true;
+    const log = logRef.current;
+    if (!log) return;
+    const jump = () => log.scrollTo({ top: log.scrollHeight, behavior: 'auto' });
+    jump();
+    requestAnimationFrame(jump);
+    setTimeout(jump, 160);
+  }, []);
+
+  useEffect(() => {
+    // Instant while streaming: this runs on every chunk, and a smooth scroll
+    // restarted before the last one finished is what made the log lurch.
+    followToBottom(!(status === 'streaming' || status === 'submitted'));
+  }, [messages, status, voice.transcript, script.delivered, script.showPeeks, reveals, followToBottom]);
+
+  /**
+   * Evidence grows after it is inserted: images decode, iframes lay out, a
+   * gallery gets taller a beat after it appears. Scrolling once when it mounts
+   * leaves the visitor above the thing they opened, so follow the growth too.
+   */
+  useEffect(() => {
+    const log = logRef.current;
+    if (!log || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(() => followToBottom(false));
+    for (const child of Array.from(log.children)) observer.observe(child);
+    return () => observer.disconnect();
+  }, [messages.length, reveals.length, voice.transcript.length, followToBottom]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -451,15 +581,14 @@ export function OrbConversation() {
     speech.stop();
     refreshPeeks(trimmed);
     setChatOpen(true);
+    jumpToEnd();
     // Typing during a voice call stays in the same conversation (§23.4).
     if (voiceActive) {
       voice.sendText(trimmed);
-      setInput('');
       return;
     }
     if (status === 'streaming' || status === 'submitted') return;
     sendMessage({ text: trimmed });
-    setInput('');
   };
 
   /**
@@ -472,6 +601,7 @@ export function OrbConversation() {
     script.interrupt();
     speech.stop();
     setChatOpen(true);
+    jumpToEnd();
     // A live voice session narrates its own reveals; hand it the intent.
     if (voiceActive) {
       voice.sendText(`Show me ${card.name}.`);
@@ -504,9 +634,19 @@ export function OrbConversation() {
         setSpokenProject(null);
       }
     }
+    // Checked again here, not just before the speech. A visitor who asked
+    // their own question while this was talking has said something more
+    // relevant than the summary, and firing a second request into a turn
+    // already in flight is what produced duplicate messages in the log.
+    if (statusRef.current === 'streaming' || statusRef.current === 'submitted') return;
+
     const owner = opening?.owner.short_name ?? 'Boaz';
     sendMessage({
-      text: `Give me a short summary of ${card.name} — the three strongest points of ${owner}'s work on it.`,
+      text: `Give me a short summary of ${card.name}, the three strongest points of ${owner}'s work on it.`,
+      // The visitor clicked a card; they did not type this. It has to reach
+      // the model, but showing it back to them as their own message is a lie
+      // about what just happened.
+      metadata: { hidden: true },
     });
   };
 
@@ -535,6 +675,17 @@ export function OrbConversation() {
       ...(projectId ? { project_id: projectId } : {}),
     });
 
+    // The one thing a visitor cannot tell by looking, and the thing the whole
+    // portfolio rests on. Skipped during a voice call: the realtime agent is
+    // already narrating, and two voices at once is worse than not saying it.
+    if (!voiceActive && !speech.muted && speech.available) {
+      // Stop whatever is mid-sentence first. `say` does not: it starts a second
+      // Audio and forgets the first, so the summary and this line talked over
+      // each other and neither was audible.
+      speech.stop();
+      void speech.say(LIVE_ASSET_LINE);
+    }
+
     setExpanded({ name, args, label: projectName ?? STAGE_LABELS[name] ?? 'evidence' });
   };
 
@@ -552,7 +703,7 @@ export function OrbConversation() {
       });
 
   /**
-   * What "Generate live view" opens for a piece of inline evidence.
+   * What "Expand view" opens for a piece of inline evidence.
    *
    * A case study is prose about the work; the live view is the work. Every
    * other component either has an expanded mode of its own or has nothing
@@ -594,17 +745,52 @@ export function OrbConversation() {
     expandName?: string,
   ) => {
     if (!portfolio) return null;
-    const node = renderComponent(name, args, portfolio);
-    if (!node) return null;
     const target = expandName ?? expandTargetFor(name, args);
     const offersLiveView = target !== name || EXPANDS_RICHER.has(target);
+    /*
+     * Always render the visual, never the card about it.
+     *
+     * `show_project` draws a ProjectCard: a name, a company, a paragraph, some
+     * tags. It carries no image even when the project owns four artifacts, so
+     * the agent asking to "show" a project produced a block of prose that
+     * reads as evidence and shows nothing. `expandTargetFor` already knows
+     * which component actually has the pixels; use it for the inline render
+     * too, not only behind the expand button.
+     *
+     * A project with nothing to show cannot reach this point: the resolver
+     * refuses a show_* call on one.
+     */
+    const inline = offersLiveView ? target : name;
+    const node = renderComponent(inline, args, portfolio) ?? renderComponent(name, args, portfolio);
+    if (!node) return null;
+
+    /*
+     * The name and one line, above the work.
+     *
+     * The visual components carry their title in an aria-label and nothing
+     * visible, so with the ProjectCard gone a shown artifact arrived unlabelled
+     * and the visitor had to infer what they were looking at from the pixels.
+     * This is the card's one useful part kept, and the paragraph of prose that
+     * made it read as evidence dropped.
+     */
+    const headedProject = (() => {
+      const id = typeof args.project_id === 'string' ? args.project_id : undefined;
+      return id ? portfolio.projects.find((p) => p.id === id) : undefined;
+    })();
+
     return (
       <div key={key} className="gen-ui">
+        {headedProject ? (
+          <header className="gen-head">
+            <h3>{headedProject.name}</h3>
+            <p>{headedProject.shortPitch}</p>
+          </header>
+        ) : null}
         {node}
-        {offersLiveView ? (
+        {offersLiveView && !narrow ? (
           <button type="button" className="gen-cta" onClick={() => expandSpec(target, args)}>
             <span className="spark" aria-hidden>✦</span>
-            Generate live view
+            Expand view
           </button>
         ) : null}
       </div>
@@ -794,6 +980,15 @@ export function OrbConversation() {
           ) : null}
 
           {messages.map((message, messageIndex) => {
+            /*
+             * The position is part of the key, not just the id.
+             *
+             * The log only ever grows, so this is as stable as the id alone,
+             * and it means a repeated id cannot make React duplicate or drop a
+             * turn. The cause of repeats is fixed above; this is so the log
+             * stays readable if another one ever appears.
+             */
+            const key = `${message.id}:${messageIndex}`;
             const text = message.parts
               .filter((part): part is { type: 'text'; text: string } => part.type === 'text')
               .map((part) => part.text)
@@ -804,12 +999,17 @@ export function OrbConversation() {
             const priorReveals = revealsAt(messageIndex);
 
             if (message.role === 'user') {
+              // A request the app made on the visitor's behalf still has to
+              // carry its reveals; only the bubble is withheld.
+              const hidden = (message.metadata as { hidden?: boolean } | undefined)?.hidden;
               return (
-                <Fragment key={message.id}>
+                <Fragment key={key}>
                   {priorReveals}
-                  <div className="msg user" dir={directionOf(text)}>
-                    {text}
-                  </div>
+                  {hidden ? null : (
+                    <div className="msg user" dir={directionOf(text)}>
+                      {text}
+                    </div>
+                  )}
                 </Fragment>
               );
             }
@@ -828,9 +1028,9 @@ export function OrbConversation() {
               .filter(Boolean);
 
             if (!text && components.length === 0)
-              return <Fragment key={message.id}>{priorReveals}</Fragment>;
+              return <Fragment key={key}>{priorReveals}</Fragment>;
             return (
-              <Fragment key={message.id}>
+              <Fragment key={key}>
                 {priorReveals}
                 <div className={`msg orb${components.length ? ' has-ui' : ''}`}>
                   {text ? <RichText text={text} dir={directionOf(text)} /> : null}
@@ -881,50 +1081,15 @@ export function OrbConversation() {
             : null}
         </div>
 
-        <form
-          id="chatForm"
-          onSubmit={(e) => {
-            e.preventDefault();
-            send(input);
-          }}
-        >
-          <button
-            type="button"
-            id="micBtn"
-            className={voiceActive ? 'listening' : undefined}
-            aria-label={voiceActive ? 'End the voice conversation' : 'Start a voice conversation'}
-            aria-pressed={voiceActive}
-            onClick={toggleVoice}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <rect x="9" y="2" width="6" height="12" rx="3" />
-              <path d="M5 10v1a7 7 0 0 0 14 0v-1" />
-              <path d="M12 18v4" />
-            </svg>
-          </button>
-          <input
-            id="chatInput"
-            type="text"
-            value={input}
-            onChange={(e) => {
-              // Typing is an interruption: the script stops where it is.
-              if (e.target.value) script.interrupt();
-              setInput(e.target.value);
-            }}
-            onFocus={() => setChatOpen(true)}
-            placeholder={status_ ?? DEFAULT_PLACEHOLDER}
-            className={status_ ? 'status' : undefined}
-            aria-label={status_ ?? 'Message'}
-            autoComplete="off"
-            dir={directionOf(input)}
-          />
-          <button type="submit" id="sendBtn" aria-label="Send">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M5 12h14" />
-              <path d="M13 6l6 6-6 6" />
-            </svg>
-          </button>
-        </form>
+        <Composer
+          placeholder={DEFAULT_PLACEHOLDER}
+          status={status_}
+          voiceActive={voiceActive}
+          onSubmit={send}
+          onTyping={script.interrupt}
+          onFocus={() => setChatOpen(true)}
+          onToggleVoice={toggleVoice}
+        />
       </div>
     </>
   );

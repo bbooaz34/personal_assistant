@@ -436,6 +436,31 @@ body:has(#chat.open.expanded) #wordmark { opacity: 0; }
   transition: opacity 240ms var(--ease-out) 300ms;
 }
 
+/* ── generated evidence: the name and one line above the work ─────────── */
+.gen-head {
+  padding: 2px 2px 8px;
+}
+.gen-head h3 {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+.gen-head p {
+  /* One line, and only one: it labels the work rather than describing it.
+     The artifact below is doing the arguing. */
+  margin: 2px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--color-ink-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
 /* ── bubbles ───────────────────────────────────────────────────────────── */
 .msg {
   max-width: 88%;
@@ -444,8 +469,21 @@ body:has(#chat.open.expanded) #wordmark { opacity: 0; }
   font-size: 13.5px;
   line-height: 1.5;
   color: var(--color-ink);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  /*
+   * No backdrop-filter here, deliberately.
+   *
+   * A bubble sits inside #chat, which is already frosted at 28px. Blurring an
+   * already-blurred backdrop adds almost nothing to look at and costs a whole
+   * backdrop root per bubble — and there is one bubble per message, so the
+   * cost grew with the conversation. Measured on this scene: 13.7fps with
+   * these, 25.5fps without. Removing the panel's own blur instead bought
+   * nothing (14.1fps), because that one is a single root over a static
+   * backdrop.
+   *
+   * That frame rate is why typing felt slow. Input handling was never the
+   * problem; at 13fps a typed character waits most of a tenth of a second for
+   * a frame to show it in.
+   */
   transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
 }
 .msg.user {

@@ -148,7 +148,31 @@ export class Agent {
     return resolveToolCall(call, {
       allowedProjectIds: plan.allowedProjectIds,
       allowedSkillIds: plan.allowedSkillIds,
+      projectsWithVisuals: this.projectsWithVisuals(),
     });
+  }
+
+  /**
+   * Projects with something to look at.
+   *
+   * Computed once and cached: knowledge is immutable for the life of the
+   * process, so this cannot change between turns.
+   */
+  private visualProjects: Set<string> | null = null;
+  private projectsWithVisuals(): Set<string> {
+    if (this.visualProjects) return this.visualProjects;
+    const ids = new Set<string>();
+    for (const project of this.repository.base.projects) {
+      const media = (project.media ?? []).some((m) => (m.visibility ?? 'public') === 'public');
+      const evidence = this.repository.projectEvidence(project.id);
+      const artifacts = (evidence?.artifacts ?? []).some(
+        (a) => (a.visibility ?? 'public') === 'public' && a.sanitized,
+      );
+      const stages = (evidence?.transformation?.stages ?? []).length > 0;
+      if (media || artifacts || stages) ids.add(project.id);
+    }
+    this.visualProjects = ids;
+    return ids;
   }
 
   /** Whether another clarifying question is permitted (§20). */
@@ -183,6 +207,16 @@ function toEvidenceViews(bundle: EvidenceBundle, repository: KnowledgeRepository
         text +=
           `\n  Embeddable artifacts (the real running interface — prefer show_artifact over describing these): ` +
           artifacts.map((a) => `${a.id} "${a.label}"`).join(', ');
+      }
+
+      // Without this the model reaches for show_project, is refused, and the
+      // visitor gets a sentence promising something that never arrives.
+      const media = (item as { media?: unknown[] }).media ?? [];
+      const stages = repository.projectEvidence(scored.id)?.transformation?.stages ?? [];
+      if (!artifacts?.length && media.length === 0 && stages.length === 0) {
+        text +=
+          '\n  NOTHING TO SHOW for this project: no artifact, no media, no stages. Do not call a ' +
+          'show_* component on it, and do not offer to show it. Talk about it in words instead.';
       }
 
       // What the owner said publicly about this work. Handing the model his

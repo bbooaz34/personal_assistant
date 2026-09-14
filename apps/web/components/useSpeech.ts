@@ -58,7 +58,14 @@ export function useSpeech(): Speech {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ text }),
       });
-      if (!response.ok) throw new Error(String(response.status));
+      if (!response.ok) {
+        // 400 means this particular line is not one the server will speak. That
+        // is a fact about the line, not about synthesis — marking speech
+        // unavailable would silence every legitimate line for the rest of the
+        // session because of one bad request.
+        if (response.status === 400) return null;
+        throw new Error(String(response.status));
+      }
       const url = URL.createObjectURL(await response.blob());
       cache.current.set(text, url);
       return url;

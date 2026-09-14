@@ -24,7 +24,28 @@ export interface ResolutionContext {
   /** Project ids present in this turn's evidence bundle. */
   allowedProjectIds: Set<string>;
   allowedSkillIds: Set<string>;
+  /**
+   * Projects that have something to look at: a sanitized public artifact, or
+   * approved media. Omitted, the rule does not apply.
+   */
+  projectsWithVisuals?: Set<string>;
 }
+
+/**
+ * Components whose whole purpose is to put a project on screen.
+ *
+ * `show_project` is the one that matters. The others already fall back to
+ * nothing when there is no content, but a rule enforced here is a rule rather
+ * than a rendering accident.
+ */
+const PROJECT_VISUAL_TOOLS: ReadonlySet<string> = new Set<UIToolName>([
+  'show_project',
+  'show_gallery',
+  'show_artifact',
+  'show_transformation',
+  'show_video',
+  'show_prototype',
+]);
 
 export type ResolutionResult =
   | { ok: true; call: ResolvedToolCall }
@@ -81,6 +102,20 @@ export function resolveToolCall(call: ToolCall, context: ResolutionContext): Res
     }
 
     args[parameter.name] = value;
+  }
+
+  // A project with nothing to look at must not be presented as though there
+  // were. Showing a card with a name and a paragraph reads as evidence, and
+  // the four undocumented projects have none. The agent can still talk about
+  // them; it just cannot put one on screen.
+  if (context.projectsWithVisuals && PROJECT_VISUAL_TOOLS.has(call.name)) {
+    const projectId = args.project_id;
+    if (typeof projectId === 'string' && !context.projectsWithVisuals.has(projectId)) {
+      return {
+        ok: false,
+        reason: `${call.name}: "${projectId}" has no approved visual to show`,
+      };
+    }
   }
 
   return { ok: true, call: { name: call.name, component: definition.component, args } };
