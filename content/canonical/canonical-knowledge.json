@@ -1382,7 +1382,16 @@
       ],
       "verification_status": "needs_verification",
       "visibility": "public",
-      "notes": "Multi-market deployment is the strongest product-thinking signal available for this project. Needs a case study to substantiate it."
+      "notes": "Multi-market deployment is the strongest product-thinking signal available for this project. Needs a case study to substantiate it.",
+      "media": [
+        {
+          "type": "video",
+          "uri": "/media/caesarstone-visualizer.mp4",
+          "mobile_uri": "/media/caesarstone-visualizer-mobile.mp4",
+          "caption": "The Caesarstone visualizer running — surfaces across styles, layouts and settings",
+          "visibility": "public"
+        }
+      ]
     },
     {
       "id": "project_byondxr_rebrand",

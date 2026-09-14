@@ -27,7 +27,17 @@
       "notes": "Multi-market deployment is confirmed. Which markets, and the scale of each, are not documented."
     }
   ],
-  "media": [],
+  "media": [
+    {
+      "id": "media_visualizer_hero",
+      "type": "video",
+      "purpose": "Show the product actually running. The work is surfaces rendered across styles and settings, and a still frame cannot demonstrate that a visualizer visualizes.",
+      "uri": "/media/caesarstone-visualizer.mp4",
+      "mobile_uri": "/media/caesarstone-visualizer-mobile.mp4",
+      "caption": "The Caesarstone visualizer running — surfaces across styles, layouts and settings",
+      "visibility": "public"
+    }
+  ],
   "conversation_hooks": [
     {
       "recruiter_intent": "Assess product thinking rather than visual output",
@@ -40,7 +50,9 @@
         "multi-market"
       ],
       "agent_response_goal": "This is the strongest product-side example available: a shipped commercial product with real deployment constraints, not a concept piece.",
-      "recommended_media_ids": []
+      "recommended_media_ids": [
+        "media_visualizer_hero"
+      ]
     },
     {
       "recruiter_intent": "Assess experience shipping to production",
@@ -52,7 +64,9 @@
         "localization"
       ],
       "agent_response_goal": "Emphasise that this ran in multiple markets, which is a different discipline from a one-off experience.",
-      "recommended_media_ids": []
+      "recommended_media_ids": [
+        "media_visualizer_hero"
+      ]
     }
   ],
   "presentation": {

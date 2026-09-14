@@ -196,8 +196,22 @@ export function TransformationView({
   );
 }
 
-/** Media that runs rather than displays: an HTML artifact, a live site, a video embed. */
+/** A video file we host ourselves, rather than a player on someone else's page. */
+function isVideoFile(item: { uri: string }): boolean {
+  return /\.(mp4|webm|mov)($|\?)/i.test(item.uri);
+}
+
+/**
+ * Media that runs rather than displays: an HTML artifact, a live site, a video
+ * embed.
+ *
+ * A self-hosted file is excluded: framing an `.mp4` leaves the browser to
+ * invent its own player inside the sandbox — no poster, no inline playback on
+ * iOS, and a control bar that belongs to a document we are not styling. It gets
+ * a real `<video>` below instead.
+ */
 function isEmbeddableMedia(item: { type: string; uri: string }): boolean {
+  if (isVideoFile(item)) return false;
   return item.type === 'prototype' || item.type === 'video' || /\.html?($|\?)/.test(item.uri);
 }
 
@@ -255,6 +269,31 @@ export function MediaGallery({
                   loading="lazy"
                   className={`${expanded ? 'h-[68vh]' : 'h-[520px]'} w-full rounded-lg border border-[var(--color-edge)] bg-white`}
                 />
+              </figure>
+            );
+          }
+          if (isVideoFile(item)) {
+            return (
+              <figure
+                key={item.uri}
+                className="col-span-full overflow-hidden rounded-lg bg-[var(--color-ground)]"
+              >
+                <video
+                  src={src}
+                  controls
+                  // Without this iOS takes the video fullscreen on play, which
+                  // throws the visitor out of the conversation to watch it.
+                  playsInline
+                  // Enough to paint the first frame as its own poster; the file
+                  // itself only downloads if the visitor asks for it.
+                  preload="metadata"
+                  className="h-auto w-full rounded-lg"
+                />
+                {item.caption ? (
+                  <figcaption className="px-3 py-2 text-xs text-[var(--color-ink-faint)]">
+                    {item.caption}
+                  </figcaption>
+                ) : null}
               </figure>
             );
           }
