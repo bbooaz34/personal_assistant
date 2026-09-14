@@ -13,6 +13,7 @@ import { selectProjectPeeks } from '@par/retrieval';
 import { identityConfig, privacyConfig } from '@par/config';
 import { getAgent } from '@/lib/agent';
 import { toWirePeek } from '@/lib/peek-wire';
+import { getSessionStore } from '@/lib/session-store';
 
 export const runtime = 'nodejs';
 
@@ -38,5 +39,9 @@ export async function GET(request: Request): Promise<Response> {
     owner: identityConfig.owner,
     agentName: identityConfig.name,
     selfReference: identityConfig.self_reference,
+    // Drives the entry-screen notice. Sent from the server because the client
+    // cannot know whether a store is configured — and a page that claims to be
+    // recording when it is not is its own kind of dishonesty.
+    recording: getSessionStore().enabled,
   });
 }

@@ -94,6 +94,7 @@ Rules:
 - Separate what the visitor stated from what you inferred. Put stated things in "stated" with a quote where possible; put conclusions in "interpreted" with a confidence and the basis for it.
 - Do not present an inference as a fact. If you are guessing at their concern, say so and score it honestly.
 - Note every question the agent could not answer. Those are the owner's knowledge gaps and they are the most actionable part of this summary.
+- Exclude anything the agent declined on purpose. A closed topic is a policy working, not a gap to fill, and listing it puts an item on the owner's backlog that can never be closed. Refused questions are listed for you explicitly; leave them out of "unanswered".
 - Recommend one concrete follow-up, or null if there is nothing worth recommending.
 - Be brief. The owner is scanning, not reading.
 `.trim();

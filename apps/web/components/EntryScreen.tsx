@@ -16,6 +16,7 @@ export function EntryScreen({
   agentName,
   selfReference,
   leaving,
+  recording,
   onEnter,
 }: {
   owner: string;
@@ -24,6 +25,8 @@ export function EntryScreen({
   selfReference: string;
   /** True once dismissed: the overlay fades and unblurs before unmounting. */
   leaving: boolean;
+  /** Whether conversations are actually being stored. Never claimed when false. */
+  recording: boolean;
   onEnter: () => void;
 }) {
   return (
@@ -37,6 +40,11 @@ export function EntryScreen({
           Start the conversation
         </button>
         <p className="entryNote">Sound on, if you can. It is part of it.</p>
+        {recording ? (
+          <p className="entryNote entryPrivacy">
+            Conversations are recorded to help improve the agent. Transcripts are deleted after 30 days.
+          </p>
+        ) : null}
       </div>
     </div>
   );

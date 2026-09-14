@@ -28,6 +28,8 @@ import { ProjectPeeks, type PeekCard } from './ProjectPeeks';
 import { useOpeningScript } from './useOpeningScript';
 import { useSpeech } from './useSpeech';
 import type { OrbEngine } from './orb/engine';
+import { getClientSession } from '@/lib/session-client';
+import { reportEvent } from '@/lib/session-beacon';
 import { renderComponent } from './PortfolioComponents';
 import { RichText } from './RichText';
 import { useVoiceSession } from './useVoiceSession';
@@ -47,6 +49,8 @@ interface Opening {
   };
   agentName: string;
   selfReference: string;
+  /** Whether conversations are being stored, so the entry notice tells the truth. */
+  recording?: boolean;
 }
 
 interface VoiceSettings {
@@ -164,7 +168,13 @@ export function OrbConversation() {
   const logRef = useRef<HTMLDivElement>(null);
   const statusTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  const transport = useMemo(() => new DefaultChatTransport({ api: '/api/chat' }), []);
+  // `body` is resolved per request, so the session travels with every turn
+  // without the transport having to be rebuilt. Both paths send the same id:
+  // a visitor who starts typing and then hits Talk stays one conversation.
+  const transport = useMemo(
+    () => new DefaultChatTransport({ api: '/api/chat', body: () => ({ session: getClientSession() }) }),
+    [],
+  );
   const { messages, sendMessage, status, error } = useChat({ transport });
 
   const speech = useSpeech();
@@ -173,7 +183,7 @@ export function OrbConversation() {
     enabledComponents: voiceSettings?.enabledComponents ?? [],
     voice: voiceSettings?.voice ?? 'marin',
     agentName: opening?.agentName ?? 'EBOS',
-    getSessionContext: () => ({}),
+    getSessionContext: () => ({ ...getClientSession() }),
     conversationStarted: () => conversationStartedRef.current,
   });
   const voiceActive = voice.state === 'connected';
@@ -455,6 +465,15 @@ export function OrbConversation() {
     const projectName = projectId
       ? portfolio?.projects.find((p) => p.id === projectId)?.name
       : undefined;
+
+    // The strongest interest signal there is. Being shown a project is
+    // something the agent decided; opening one is something the visitor did,
+    // and only the second says anything about what they came for.
+    reportEvent(projectId ? 'project_opened' : 'component_expanded', {
+      component: name,
+      ...(projectId ? { project_id: projectId } : {}),
+    });
+
     setExpanded({ name, args, label: projectName ?? STAGE_LABELS[name] ?? 'evidence' });
   };
 
@@ -592,6 +611,7 @@ export function OrbConversation() {
           agentName={opening?.agentName ?? 'EBOS'}
           selfReference={opening?.selfReference ?? "Boaz's AI agent"}
           leaving={entryLeaving}
+          recording={opening?.recording ?? false}
           onEnter={enter}
         />
       ) : null}
