@@ -35,6 +35,15 @@ import { RichText } from './RichText';
 import { useVoiceSession } from './useVoiceSession';
 import type { Portfolio } from './portfolio-types';
 
+/**
+ * The film the orb shows while the agent talks through a project over voice.
+ *
+ * Not configurable the way the opening projection is: that one is part of a
+ * script whose beat indices have to move with the copy, whereas this is a fixed
+ * behaviour with nothing to tune.
+ */
+const PROJECT_FILM = '/media/project-film.mp4';
+
 interface Opening {
   beats: string[];
   starterPrompts: string[];
@@ -162,6 +171,8 @@ export function OrbConversation() {
   // Read at connect time, so hitting Talk mid-conversation does not make the
   // agent introduce itself all over again.
   const conversationStartedRef = useRef(false);
+  const projectFilmRef = useRef<HTMLVideoElement>(null);
+  const [projectFilmBroken, setProjectFilmBroken] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
   const statusTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -204,15 +215,50 @@ export function OrbConversation() {
   // The engine holds the element, not the URL: the video decodes on the main
   // thread and is uploaded as a texture each frame, so there is exactly one
   // of it and React never re-creates it mid-script.
+  /**
+   * The orb becomes a crystal ball while the agent talks through a project out
+   * loud — the same move the opening script makes, for the same reason: while
+   * the agent is speaking there is nothing to read, so the orb is what the
+   * visitor is looking at.
+   *
+   * Held for the whole answer rather than the sentence that names the project.
+   * The film loops, so its own length has nothing to do with how long it runs.
+   */
+  const showProjectFilm =
+    voiceActive && voice.speaking && voice.projectFocus !== null && allowFilm && !projectFilmBroken;
+
+  // Which film the engine is holding. It takes one element at a time, and the
+  // two are never wanted at once: the opening script does not run during voice.
+  const projectFilmOn = useRef(false);
   useEffect(() => {
     const engine = engineRef.current;
     if (!engine) return;
+
+    if (showProjectFilm) {
+      projectFilmOn.current = true;
+      // Re-attached on every answer rather than once. The engine gives up on a
+      // film it cannot sample within a moment and latches that failure, and
+      // `setProjection` is the only thing that clears it — so attaching once
+      // would mean a single bad start disables the film for the whole session.
+      engine.setProjection(projectFilmRef.current);
+      engine.setCrystal(true);
+      return;
+    }
+
+    // Only close the glass on the way *out* of the project film. Calling it
+    // unconditionally would fight the opening script, which drives the crystal
+    // ball per beat from `onBeat`.
+    if (projectFilmOn.current) {
+      projectFilmOn.current = false;
+      engine.setCrystal(false);
+    }
+
     // `filmBroken` belongs in here, not just in the error handler: this effect
     // re-runs on reveal, and without it a film that had already failed was
     // handed straight back to the engine on the next run.
     const usable = allowFilm && !filmBroken && opening?.projection;
     engine.setProjection(usable ? filmRef.current : null);
-  }, [opening, allowFilm, filmBroken, revealed]);
+  }, [showProjectFilm, opening, allowFilm, filmBroken, revealed]);
 
   const script = useOpeningScript({
     beats: opening?.beats ?? null,
@@ -559,6 +605,37 @@ export function OrbConversation() {
         it, so it is parked at zero opacity rather than `display: none`, which
         some browsers treat as permission to stop decoding altogether.
       */}
+      {/*
+        The project film. Mounted on the same terms as the opening one — a real
+        playing element the orb samples, parked at zero size rather than
+        `display: none` — but kept as its own node rather than swapping `src` on
+        one: a source change tears down the decoder, and the crystal ball would
+        open onto a blank frame every time the agent started an answer.
+      */}
+      {allowFilm && !projectFilmBroken ? (
+        <video
+          ref={projectFilmRef}
+          crossOrigin="anonymous"
+          src={PROJECT_FILM}
+          onError={() => setProjectFilmBroken(true)}
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+          tabIndex={-1}
+          style={{
+            position: 'fixed',
+            width: 2,
+            height: 2,
+            opacity: 0,
+            pointerEvents: 'none',
+            left: 0,
+            bottom: 0,
+          }}
+        />
+      ) : null}
+
       {opening?.projection && allowFilm && !filmBroken ? (
         <video
           ref={filmRef}

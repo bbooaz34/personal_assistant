@@ -31,6 +31,15 @@ export interface UseVoiceSession {
   thinking: boolean;
   muted: boolean;
   transcript: VoiceTranscriptEntry[];
+  /**
+   * The project the agent is currently talking about, or null.
+   *
+   * Set when the agent renders a project component — a deliberate act of
+   * presenting one, rather than merely having retrieved it — and cleared the
+   * moment the visitor asks something new, so a follow-up about something else
+   * does not inherit the last answer's subject.
+   */
+  projectFocus: string | null;
   start: () => Promise<void>;
   stop: () => void;
   toggleMute: () => void;
@@ -80,11 +89,13 @@ export function useVoiceSession({
   const [thinking, setThinking] = useState(false);
   const [muted, setMuted] = useState(false);
   const [transcript, setTranscript] = useState<VoiceTranscriptEntry[]>([]);
+  const [projectFocus, setProjectFocus] = useState<string | null>(null);
 
   const sessionRef = useRef<RealtimeSession | null>(null);
   const showableIds = useRef<Set<string>>(new Set());
   const componentsByTurn = useRef<Map<string, VoiceComponentCall[]>>(new Map());
   const latestAssistantId = useRef<string | null>(null);
+  const latestUserId = useRef<string | null>(null);
   const contextRef = useRef(getSessionContext);
   contextRef.current = getSessionContext;
 
@@ -129,6 +140,7 @@ export function useVoiceSession({
 
   const stop = useCallback(() => {
     flushTranscript();
+    setProjectFocus(null);
     sessionRef.current?.close();
     sessionRef.current = null;
     setState('disconnected');
@@ -191,6 +203,8 @@ export function useVoiceSession({
           for (const id of payload.showableProjectIds) showableIds.current.add(id);
         },
         onComponent: (call) => {
+          const projectId = call.args.project_id;
+          if (typeof projectId === 'string' && projectId) setProjectFocus(projectId);
           const turnId = latestAssistantId.current ?? 'pending';
           const existing = componentsByTurn.current.get(turnId) ?? [];
           if (!existing.some((c) => c.id === call.id)) {
@@ -233,6 +247,11 @@ export function useVoiceSession({
         const id = (item as { itemId?: string; id?: string }).itemId ?? (item as { id?: string }).id ?? '';
         if (!id) continue;
         if (role === 'assistant') latestAssistantId.current = id;
+        if (role === 'user' && id !== latestUserId.current) {
+          // A new question: whatever the last answer was about no longer holds.
+          latestUserId.current = id;
+          setProjectFocus(null);
+        }
 
         // Carry over any components attached before this turn had an id.
         const pending = componentsByTurn.current.get('pending');
@@ -282,5 +301,5 @@ export function useVoiceSession({
     sessionRef.current.sendMessage(trimmed);
   }, []);
 
-  return { state, failure, speaking, thinking, muted, transcript, start, stop, toggleMute, sendText };
+  return { state, failure, speaking, thinking, muted, transcript, projectFocus, start, stop, toggleMute, sendText };
 }
