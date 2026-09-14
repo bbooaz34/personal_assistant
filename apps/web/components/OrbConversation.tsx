@@ -49,8 +49,6 @@ interface Opening {
   };
   agentName: string;
   selfReference: string;
-  /** Whether conversations are being stored, so the entry notice tells the truth. */
-  recording?: boolean;
 }
 
 interface VoiceSettings {
@@ -611,7 +609,6 @@ export function OrbConversation() {
           agentName={opening?.agentName ?? 'EBOS'}
           selfReference={opening?.selfReference ?? "Boaz's AI agent"}
           leaving={entryLeaving}
-          recording={opening?.recording ?? false}
           onEnter={enter}
         />
       ) : null}

@@ -81,7 +81,8 @@ Conversations persist to Supabase: sessions, turns, interaction events and
 post-session summaries, with the owner-side decision trace on every turn
 (`docs/DATA-COLLECTION.md`). Text and voice both write; contact details are
 redacted at the store boundary; raw turns are purged after 30 days on two
-independent schedules, and the entry screen says so.
+independent schedules. There is no visitor-facing notice — one shipped and was
+removed because it rendered late, so disclosure is currently unhandled.
 
 The summary pass runs on idle and keeps the split the types always described:
 what the visitor stated stays separate from what a model inferred, and the
@@ -94,8 +95,7 @@ The schema accepts what the application sends.
 
 Still outstanding: `CRON_SECRET` is unset on the deployment, so neither
 scheduled job runs through its route. Retention then rests entirely on pg_cron
-having installed cleanly, and the entry screen promises a 30-day window — so
-one of the two needs to be known-good.
+having installed cleanly — so one of the two needs to be known-good.
 
 ## Phase 8 — Owner dashboard — **not started**
 
@@ -129,8 +129,7 @@ Ordered by impact, not by phase number.
 3. **Close the two open claims** — whether the redesign shipped, and the ~90
    minute delivery time. Both currently constrain what the agent may say.
 4. **Set `CRON_SECRET` on the deployment.** Without it the purge and summary
-   routes refuse every request, and the retention promise on the entry screen
-   depends on pg_cron alone.
+   routes refuse every request, and retention then depends on pg_cron alone.
 5. **Session extraction (Phase 4).** Without it, the personalization that
    justifies the whole premise is only half-wired.
 6. **Semantic retrieval.** Mainly for Hebrew, where lexical matching does
