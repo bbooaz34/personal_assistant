@@ -29,9 +29,16 @@ schema rather than promises made about it:
   from visitor text before insert. The agent already refuses to discuss contact
   information; there is no reason to warehouse it.
 
-A one-line notice on the entry screen states that conversations are recorded to
-improve the agent. Collecting quietly would be the thing that makes this
-indefensible.
+There is deliberately no notice on the entry screen. One existed and was
+removed: it rendered after the opening request resolved, so it appeared as a
+late shift under the invitation rather than as part of the page.
+
+That leaves disclosure unhandled rather than solved, and it is the weakest
+point in the posture described above. The other four properties still hold, and
+they are the ones enforced by the schema rather than by copy — but a visitor is
+currently not told. If disclosure is wanted again, `git revert` on the commit
+that removed it restores the notice, the `recording` flag on `/api/opening`
+that gated it, and its styling.
 
 ## Prerequisite: session identity
 
@@ -285,17 +292,10 @@ second pass finds nothing left. The route requires `CRON_SECRET` and refuses
 every request when it is unset, because an unauthenticated endpoint that deletes
 rows is worse than no fallback at all.
 
-Retention is stated on the entry screen, so it should not quietly depend on one
-database extension being enabled.
-
-## The notice
-
-One line on the entry screen: *"Conversations are recorded to help improve the
-agent. Transcripts are deleted after 30 days."*
-
-It renders only when a store is actually configured — `/api/opening` reports
-`recording`, and a fresh clone with no Supabase keys shows nothing, because a
-page that claims to be recording when it is not is its own kind of dishonesty.
+Retention is not announced anywhere visitor-facing, so it is a property of the
+system rather than a promise to anyone. It should still not depend on a single
+database extension being enabled: the 30-day window is the main thing keeping
+verbatim recruiter messages from accumulating indefinitely.
 
 ## Build order
 
@@ -306,7 +306,7 @@ page that claims to be recording when it is not is its own kind of dishonesty.
 4. **Text write path** — user turn pre-stream, assistant turn via `after()`.
 5. **Voice write path** — `POST /api/session/turn`.
 6. **Events** — wire the existing `InteractionEvent` emitters.
-7. **Retention job + entry-screen notice.** Ship with or before first real traffic.
+7. **Retention job.** Ship with or before first real traffic.
 8. **Summary pass** — completes Phase 7.
 9. **`knowledge_gaps` view** and the standing queries.
 
