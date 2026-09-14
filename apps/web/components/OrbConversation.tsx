@@ -171,6 +171,14 @@ export function OrbConversation() {
   // Read at connect time, so hitting Talk mid-conversation does not make the
   // agent introduce itself all over again.
   const conversationStartedRef = useRef(false);
+  /**
+   * The project being spoken about outside a voice session.
+   *
+   * Opening a peek speaks the project's summary through the browser's own
+   * synthesis rather than the realtime model, so it never touches the voice
+   * session — which is why clicking a project used to leave the orb closed.
+   */
+  const [spokenProject, setSpokenProject] = useState<string | null>(null);
   const projectFilmRef = useRef<HTMLVideoElement>(null);
   const [projectFilmBroken, setProjectFilmBroken] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
@@ -224,8 +232,10 @@ export function OrbConversation() {
    * Held for the whole answer rather than the sentence that names the project.
    * The film loops, so its own length has nothing to do with how long it runs.
    */
-  const showProjectFilm =
-    voiceActive && voice.speaking && voice.projectFocus !== null && allowFilm && !projectFilmBroken;
+  const speakingAboutProject = voiceActive
+    ? voice.speaking && voice.projectFocus !== null
+    : speech.speaking && spokenProject !== null;
+  const showProjectFilm = speakingAboutProject && allowFilm && !projectFilmBroken;
 
   // Which film the engine is holding. It takes one element at a time, and the
   // two are never wanted at once: the opening script does not run during voice.
@@ -485,7 +495,14 @@ export function OrbConversation() {
     // The description is spoken, not printed — the gallery is what the visitor
     // reads. Muted or unavailable synthesis skips straight to the summary.
     if (!speech.muted && speech.available) {
-      await speech.say(project.summary);
+      setSpokenProject(card.projectId);
+      try {
+        await speech.say(project.summary);
+      } finally {
+        // In a finally because an interrupted line still has to close the
+        // glass; left set, the orb would stay glass for the next thing spoken.
+        setSpokenProject(null);
+      }
     }
     const owner = opening?.owner.short_name ?? 'Boaz';
     sendMessage({
