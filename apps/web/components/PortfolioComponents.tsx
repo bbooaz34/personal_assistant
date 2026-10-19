@@ -454,8 +454,14 @@ export function CareerExpanded({
   const unclaimed = portfolio.projects.filter((p) => !claimed.has(p.id));
 
   const card = (p: PortfolioProject) => {
+    // Video is excluded as well as pages: this feeds an <img>, and a project
+    // with a clip but no thumbnail was putting an .mp4 in its src, which draws
+    // a broken-image icon where the card should show the work.
     const mediaThumb = p.media.find(
-      (m) => !/\.html?($|\?)/.test(m.mobile_uri ?? m.uri) && m.type !== 'prototype',
+      (m) =>
+        !/\.html?($|\?)/.test(m.mobile_uri ?? m.uri) &&
+        m.type !== 'prototype' &&
+        m.type !== 'video',
     );
     const thumbSrc = p.thumbnail ?? (mediaThumb ? (mediaThumb.mobile_uri ?? mediaThumb.uri) : null);
     const interactive = p.artifacts.length > 0 || p.media.some((m) => m.type === 'prototype' || m.type === 'video');

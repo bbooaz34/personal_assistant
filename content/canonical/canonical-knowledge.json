@@ -1468,7 +1468,8 @@
           "caption": "The Caesarstone visualizer running — surfaces across styles, layouts and settings",
           "visibility": "public"
         }
-      ]
+      ],
+      "thumbnail": "/api/artifact/caesarstone-visualizer/thumb.webp"
     },
     {
       "id": "project_byondxr_rebrand",
@@ -2001,7 +2002,7 @@
           "visibility": "public"
         }
       ],
-      "thumbnail": null
+      "thumbnail": "/api/artifact/aura-monitor/thumb.webp"
     }
   ],
   "relationships": [
