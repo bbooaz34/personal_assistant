@@ -105,6 +105,24 @@
       "uri": "https://www.youtube.com/@ByondXR",
       "date": "2026-09-07",
       "notes": "Public videos on ByondXR's channel showing both experiences running; provided by the owner as project media. Mastercard: youtube.com/watch?v=3SNXfebPrQI. LEGO: youtube.com/watch?v=X8s90JGfaBY."
+    },
+    {
+      "id": "source_manual_confirmation_2026_10_19",
+      "type": "manual",
+      "name": "Owner review session, 2026-10-19",
+      "authority_level": 1,
+      "uri": null,
+      "date": "2026-10-19",
+      "notes": "Boaz confirmed authorship and art direction of both WellNet directions, the presentation rule for the client, and that all data in the prototypes is invented."
+    },
+    {
+      "id": "source_wellnet_prototypes_2026_10_19",
+      "type": "document",
+      "name": "WellNet direction prototypes, built from source",
+      "authority_level": 1,
+      "uri": null,
+      "date": "2026-10-19",
+      "notes": "The two direction prototypes themselves, built from the client project's working tree and sanitised of the client's name before publication. Primary evidence for what was designed."
     }
   ],
   "entities": [
@@ -396,6 +414,19 @@
       "type": "company",
       "name": "A major Israeli bank",
       "description": "Confidential banking client of Zemingo. The client's identity is deliberately withheld from all public presentation; the agent must not confirm or deny guesses.",
+      "visibility": "public"
+    },
+    {
+      "id": "company_confidential_wellness_marketplace",
+      "type": "company",
+      "name": "A complementary-medicine marketplace",
+      "description": "Confidential client of Zemingo, operating WellNet. The client organisation's identity is deliberately withheld from all public presentation; the agent must not confirm or deny guesses. The WellNet product brand may be named.",
+      "visibility": "public"
+    },
+    {
+      "id": "industry_health_wellness",
+      "type": "industry",
+      "name": "Health & Wellness",
       "visibility": "public"
     }
   ],
@@ -1749,6 +1780,43 @@
       "notes": "Owner-confirmed 2026-09-07: built by his Zemingo design team with him leading; delivered / mostly done. PRESENTATION RULE: the client is confidential — say 'a major Israeli bank', never a name, and do not confirm or deny guesses. The showcase is the marketing clip (built from the app's store screens) plus an interactive prototype whose screens are 1:1 Figma exports wired from the authored prototype graph; the clip's CTA launches the prototype. All data is placeholder. No outcome metrics — do not claim any.",
       "delivered_via_company_id": "company_zemingo",
       "thumbnail": "/api/artifact/business-banking-design-system/slide-cover.jpg"
+    },
+    {
+      "id": "project_wellnet_design_directions",
+      "name": "WellNet — Two Brand Directions",
+      "company_id": "company_confidential_wellness_marketplace",
+      "role_ids": [
+        "role_design_team_leader"
+      ],
+      "summary": "Two brand directions for WellNet, a complementary-medicine marketplace, led and art-directed by Boaz at Zemingo and designed by him hands-on. Living Earth is organic — a mark that moves, soft overlapping organic shapes, and eight treatment objects modelled in 3D and rendered live in the browser. Dot is the geometric counterpart, a constructed mark with flat vector illustration. Each was built out as a complete working prototype over the same pages, flow and content, so the client chose a design language by using it rather than by reading boards. After seeing both, the client asked for a combined version.",
+      "skill_ids": [
+        "skill_creative_direction",
+        "skill_visual_identity_design",
+        "skill_ux_ui_design",
+        "skill_design_systems",
+        "skill_team_leadership"
+      ],
+      "tool_ids": [
+        "tool_figma",
+        "tool_claude_code"
+      ],
+      "industry_ids": [
+        "industry_health_wellness"
+      ],
+      "sources": [
+        {
+          "source_id": "source_manual_confirmation_2026_10_19",
+          "reliability": 0.95
+        },
+        {
+          "source_id": "source_wellnet_prototypes_2026_10_19",
+          "reliability": 0.9
+        }
+      ],
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "Authorship, the client's response and the presentation rule are owner-confirmed. The case-study copy was drafted from the prototypes themselves and has not been read by Boaz; flip to verified once it has.",
+      "media": []
     }
   ],
   "relationships": [
@@ -2154,6 +2222,66 @@
       "confidence": 1,
       "source_ids": [
         "source_manual_confirmation_2026_09_07"
+      ]
+    },
+    {
+      "id": "rel_boaz_worked_on_wellnet_directions",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_on",
+      "to_id": "project_wellnet_design_directions",
+      "confidence": 0.95,
+      "source_ids": [
+        "source_manual_confirmation_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_wellnet_demonstrates_creative_direction",
+      "from_id": "project_wellnet_design_directions",
+      "type": "demonstrates_skill",
+      "to_id": "skill_creative_direction",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_wellnet_prototypes_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_wellnet_demonstrates_visual_identity",
+      "from_id": "project_wellnet_design_directions",
+      "type": "demonstrates_skill",
+      "to_id": "skill_visual_identity_design",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_wellnet_prototypes_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_wellnet_demonstrates_design_systems",
+      "from_id": "project_wellnet_design_directions",
+      "type": "demonstrates_skill",
+      "to_id": "skill_design_systems",
+      "confidence": 0.85,
+      "source_ids": [
+        "source_wellnet_prototypes_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_wellnet_delivered_via_zemingo",
+      "from_id": "project_wellnet_design_directions",
+      "type": "related_to",
+      "to_id": "company_zemingo",
+      "confidence": 1,
+      "source_ids": [
+        "source_manual_confirmation_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_wellnet_belongs_to_health_wellness",
+      "from_id": "project_wellnet_design_directions",
+      "type": "belongs_to_industry",
+      "to_id": "industry_health_wellness",
+      "confidence": 1,
+      "source_ids": [
+        "source_manual_confirmation_2026_10_19"
       ]
     }
   ],

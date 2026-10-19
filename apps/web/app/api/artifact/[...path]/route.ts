@@ -33,6 +33,10 @@ const CONTENT_TYPES: Record<string, string> = {
   '.webp': 'image/webp',
   '.svg': 'image/svg+xml',
   '.json': 'application/json',
+  // Binary glTF. An artifact built around 3D models loads them through a
+  // loader that fetches each file by name; without a content type here the
+  // route refuses them and the scene renders empty.
+  '.glb': 'model/gltf-binary',
 };
 
 /**

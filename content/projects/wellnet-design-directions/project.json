@@ -1,0 +1,145 @@
+{
+  "id": "project_wellnet_design_directions",
+  "name": "WellNet — Two Brand Directions",
+  "status": "draft",
+  "organization": "A complementary-medicine marketplace (client, via Zemingo)",
+  "context": "A client engagement at Zemingo for a complementary-medicine marketplace. WellNet is the consumer product: a place to find and book certified practitioners. The client organisation is never named publicly — the agent says 'a complementary-medicine marketplace' and does not confirm or deny guesses. The WellNet product brand may be named, because the wordmark is the subject of the work. Both directions were designed against the same product, the same content and the same flows, so what differs between them is the design language and nothing else.",
+  "role": "Design lead and art director",
+  "summary": "Two brand directions for WellNet, each built out as a working prototype of the whole product rather than a moodboard. Living Earth leans organic: a mark that breathes, soft overlapping organic shapes, and 3D treatment objects rendered in the browser. Dot is the disciplined counterpart, built on a geometric mark and flat vector illustration. The same pages, the same booking flow and the same content sit underneath both, which is the point — the client could click through two complete products and choose a language, not a picture.",
+  "challenge": "A brand direction shown as a set of boards asks the client to imagine the product. Two directions shown that way asks them to imagine two, and to hold both in mind at once. The approach here was to build each one all the way through — home, search, practitioner profiles, booking, the therapist and admin areas — so the choice was made against something real. The cost is that everything has to be produced twice; the benefit is that the decision is about how the product feels to use, not about which board is prettier.",
+  "skills_demonstrated": [
+    "Creative Direction",
+    "Visual Identity Design",
+    "UX/UI Design",
+    "Design Systems",
+    "Team Leadership"
+  ],
+  "tools": [
+    "Figma",
+    "Claude Code"
+  ],
+  "evidence": [
+    {
+      "id": "evidence_direction_living_earth",
+      "type": "prototype",
+      "label": "Living Earth — running prototype",
+      "uri": "/api/artifact/wellnet-design-directions/earth/index.html",
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Built from the direction's own source tree. The organic mark, the overlapping organic shapes and eight 3D treatment objects are the parts unique to this direction."
+    },
+    {
+      "id": "evidence_direction_dot",
+      "type": "prototype",
+      "label": "Dot — running prototype",
+      "uri": "/api/artifact/wellnet-design-directions/dot/index.html",
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "The geometric counterpart, from its own source tree. Its distinguishing work is the dot mark and a set of flat vector treatment illustrations in place of the 3D objects."
+    },
+    {
+      "id": "evidence_owner_confirmation",
+      "type": "manual_confirmation",
+      "label": "Owner-confirmed role, authorship and presentation rule (2026-10-19)",
+      "uri": null,
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Boaz confirmed that he led and art-directed the work and designed both directions hands-on; that the client asked for a combined version after seeing them; and that the client organisation is not to be named while the WellNet product brand may be. He also confirmed that all practitioner, patient and booking data in the prototypes is invented."
+    },
+    {
+      "id": "evidence_photo_licensing",
+      "type": "source_document",
+      "label": "Photo credits (Openverse / Wikimedia, CC0 and BY-SA)",
+      "uri": null,
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Category and gallery photography is sourced via Openverse, resized only. Several images are BY-SA and name a creator; the credit table ships with each artifact at assets/photos/CREDITS.md. If these prototypes are ever presented outside this portfolio, that attribution has to travel with them."
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "earth",
+      "label": "כיוון 1 · Living Earth",
+      "file": "earth/index.html",
+      "description": "The organic direction, running. A mark that moves, soft overlapping organic shapes behind the content, and eight treatment objects modelled in 3D and rendered live in the browser rather than shot as images. Hebrew, right-to-left, the full product from home through booking.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
+    },
+    {
+      "id": "dot",
+      "label": "כיוון 2 · Dot",
+      "file": "dot/index.html",
+      "description": "The geometric direction, running. A constructed dot mark and flat vector illustrations for each treatment category, against the same pages and the same flow as Living Earth — which is what makes the two comparable.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
+    }
+  ],
+  "media": [],
+  "conversation_hooks": [
+    {
+      "recruiter_intent": "Assess brand and visual identity work",
+      "trigger_topics": [
+        "brand",
+        "identity",
+        "visual identity",
+        "logo",
+        "wordmark",
+        "art direction",
+        "brand direction",
+        "rebrand"
+      ],
+      "agent_response_goal": "Show both directions and invite a comparison. The argument worth making is that each was built out as a working product rather than presented as boards, so the client chose a language by using it. Never name the client organisation; WellNet itself may be named.",
+      "recommended_media_ids": []
+    },
+    {
+      "recruiter_intent": "Assess design-system thinking",
+      "trigger_topics": [
+        "design system",
+        "tokens",
+        "component library",
+        "consistency",
+        "theming",
+        "design language"
+      ],
+      "agent_response_goal": "Use the pair as evidence: the same components, pages and flows carry two different design languages, which only works if the system underneath is separated from its surface. Offer to open them side by side.",
+      "recommended_media_ids": []
+    },
+    {
+      "recruiter_intent": "Assess breadth and volume of output",
+      "trigger_topics": [
+        "scope",
+        "output",
+        "speed",
+        "productivity",
+        "how much",
+        "ai workflow",
+        "agentic"
+      ],
+      "agent_response_goal": "Two complete prototypes of the same product, produced in parallel so a client could choose between them. Worth noting as an example of what AI-assisted production makes affordable that would previously have been scoped away.",
+      "recommended_media_ids": []
+    }
+  ],
+  "presentation": {
+    "default_component": "show_artifact",
+    "short_pitch": "Two brand directions for WellNet, each built out as a complete working prototype rather than a set of boards — so the client chose a design language by using it.",
+    "long_pitch": "Two brand directions for WellNet, a complementary-medicine marketplace, led and art-directed by Boaz at Zemingo and designed by him hands-on. Living Earth is the organic one: a mark that moves, soft overlapping organic shapes, and eight treatment objects modelled in 3D and rendered live in the browser. Dot is its disciplined counterpart, a constructed geometric mark with flat vector illustration. Both run the same pages, the same booking flow and the same content, so the only variable is the design language. That is the argument of the piece: rather than asking the client to imagine two products from boards, each direction was built all the way through and handed over to be clicked. After seeing both, the client asked for a combined version.",
+    "suggested_followups": [
+      "Want to open Living Earth or Dot first, or see them side by side?",
+      "I can also talk through what had to be true of the underlying system for the same product to carry two languages."
+    ]
+  },
+  "peek": {
+    "hook": "Two brand directions, both built as working products.",
+    "supporting": "Rather than boards, each direction for this wellness marketplace was built out end to end — same flows, same content, two design languages — and handed to the client to click through.",
+    "cta": "Compare them"
+  },
+  "open_questions": [
+    "The combined direction the client asked for after this review is not in hand and is not represented here.",
+    "Team composition for the engagement is not recorded.",
+    "Whether the practitioner portraits (from the prototype's portrait set, originally pravatar.cc) are cleared for portfolio use has not been confirmed; the category and gallery photography is CC-licensed and credited.",
+    "BY-SA photography requires attribution wherever it is displayed. The credit file ships inside each artifact but is not surfaced in the running page — decide whether the prototypes need a visible credits link.",
+    "The two prototypes are ~25 MB of built output committed to the repository. If that becomes a problem, the alternative is hosting them at ARTIFACT_ORIGIN instead."
+  ]
+}

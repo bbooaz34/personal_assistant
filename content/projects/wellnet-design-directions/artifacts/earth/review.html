@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מעבר על התיקונים — WellNet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700&family=Noto+Sans+Hebrew:wdth,wght@62.5..100,400..900&display=swap">
+<style>
+  :root {
+    --ground: #f8f9f6; --surface: #fff; --surface-2: #f2f4ef;
+    --ink: #21251f; --ink-soft: #5b6159; --ink-faint: #656c64;
+    --line: #e4e7e0; --line-strong: #cfd5cb;
+    --sage: #698368; --sage-deep: #4d6350; --sage-wash: #eaf0e8;
+    --purple: #8f1cc9; --purple-wash: #f5e9fd;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #151814; --surface: #1d211c; --surface-2: #232823;
+      --ink: #eef0ea; --ink-soft: #a8b0a6; --ink-faint: #969e94;
+      --line: #2c322b; --line-strong: #3b423a;
+      --sage: #9fbb9d; --sage-deep: #b9cdb7; --sage-wash: #202821;
+      --purple: #cf9bf2; --purple-wash: #291b31;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: "Assistant", system-ui, sans-serif; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .doc {
+    max-width: 58rem; margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1rem, 4vw, 2.5rem) 5rem;
+    display: flex; flex-direction: column; gap: 2.75rem;
+  }
+  h1, h2, h3 {
+    font-family: "Noto Sans Hebrew", "Assistant", system-ui, sans-serif;
+    font-stretch: 75%; line-height: 1.15; margin: 0; text-wrap: balance;
+  }
+  h1 { font-size: clamp(2rem, 5vw, 2.6rem); font-weight: 700; }
+  h2 { font-size: 1.45rem; font-weight: 600; }
+  h3 { font-size: 1.05rem; font-weight: 600; }
+  .eyebrow {
+    font-size: 0.8rem; letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--sage); font-weight: 600;
+  }
+  p { margin: 0; }
+  .lede { color: var(--ink-soft); font-size: 1.1rem; max-width: 62ch; }
+  header { display: flex; flex-direction: column; gap: 0.9rem; }
+  .server {
+    border-inline-start: 3px solid var(--purple); background: var(--purple-wash);
+    padding: 0.8rem 1rem; border-radius: 0 10px 10px 0;
+    font-size: 0.85rem; color: var(--ink-soft); max-width: 62ch;
+  }
+  code {
+    direction: ltr; unicode-bidi: isolate; white-space: nowrap;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.86em;
+    background: var(--surface-2); border-radius: 4px; padding: 0.05em 0.3em;
+  }
+  section { display: flex; flex-direction: column; gap: 1rem; }
+  .sec-head {
+    display: flex; align-items: baseline; gap: 0.7rem; flex-wrap: wrap;
+    padding-block-end: 0.6rem; border-block-end: 1px solid var(--line-strong);
+  }
+  .sec-head .count { margin-inline-start: auto; font-size: 0.8rem; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+
+  /* fixes */
+  .fixes { display: flex; flex-direction: column; gap: 0.6rem; }
+  .fix {
+    background: var(--surface); border: 1px solid var(--line);
+    border-inline-start: 4px solid var(--sage); border-radius: 4px 12px 12px 4px;
+    padding: 0.9rem 1.05rem; display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .fix-head { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+  .n {
+    font-family: ui-monospace, Menlo, monospace; font-size: 0.78rem; font-weight: 700;
+    color: var(--sage-deep); background: var(--sage-wash);
+    padding: 0.1rem 0.4rem; border-radius: 4px; font-variant-numeric: tabular-nums;
+  }
+  .side {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em;
+    padding: 0.12rem 0.5rem; border-radius: 999px;
+    background: var(--surface-2); color: var(--ink-faint); white-space: nowrap;
+  }
+  .fix p { font-size: 0.9rem; color: var(--ink-soft); max-width: 66ch; }
+  .fix p b { color: var(--ink); font-weight: 600; }
+  .look { font-size: 0.85rem; }
+  .look::before {
+    content: "מה לבדוק"; font-weight: 700; color: var(--sage-deep);
+    font-size: 0.7rem; letter-spacing: 0.04em; margin-inline-end: 0.45rem;
+  }
+  .go {
+    align-self: flex-start; display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.85rem; font-weight: 600; text-decoration: none;
+    color: #fff; background: var(--sage-deep);
+    padding: 0.42rem 0.9rem; border-radius: 999px; margin-top: 0.15rem;
+  }
+  .go:hover { background: var(--sage); }
+  .go::after { content: "←"; }
+
+  /* screen lists */
+  .cols { display: grid; gap: 0.6rem; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
+  .cols a {
+    display: flex; flex-direction: column; gap: 0.1rem;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 0.6rem 0.8rem; text-decoration: none; color: var(--ink); font-size: 0.9rem;
+  }
+  .cols a:hover { border-color: var(--sage); background: var(--sage-wash); }
+  .cols a span {
+    font-family: ui-monospace, Menlo, monospace; font-size: 0.7rem;
+    color: var(--ink-faint); direction: ltr; unicode-bidi: isolate;
+  }
+  .cols a em { font-style: normal; font-size: 0.72rem; color: var(--sage-deep); font-weight: 600; }
+  a:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
+  footer {
+    border-block-start: 1px solid var(--line-strong); padding-block-start: 1.1rem;
+    font-size: 0.82rem; color: var(--ink-faint); max-width: 62ch;
+  }
+  footer a { color: var(--sage-deep); }
+  #reset {
+    font: inherit; font-weight: 600; cursor: pointer;
+    color: #fff; background: var(--sage-deep); border: 0;
+    padding: 0.25rem 0.7rem; border-radius: 999px;
+  }
+  #reset:hover { background: var(--sage); }
+  #reset:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
+  #reset-done { color: var(--sage-deep); font-weight: 600; margin-inline-start: 0.4rem; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <header>
+    <span class="eyebrow">פרוטוטייפ · fix/form-validation</span>
+    <h1>מעבר על התיקונים</h1>
+    <p class="lede">
+      16 התיקונים משני סבבי ההערות, כל אחד עם קישור ישר למסך ומה להסתכל בו — ומתחתיהם כל 41
+      המסכים, מסודרים לפי צד.
+    </p>
+    <p class="server">
+      הדף הזה מוגש מהדב־סרבר של הפרוטוטייפ. אם הקישורים לא נפתחים, השרת כבוי — להריץ
+      <code>npm run dev --prefix prototype -- --port 5174</code> ולחזור לכאן.
+    </p>
+    <p class="server" style="border-inline-start-color: var(--sage); background: var(--sage-wash)">
+      מצב הקליניקה נשמר בדפדפן, ומצב שמור מלפני 31.8 שובר את מסך השאלון (פער C6 בביקורת).
+      אם מסך מציג נתונים שנראים לא במקום — לאפס כאן, ואז לרענן את המסך:
+      <button id="reset" type="button">איפוס המצב השמור</button>
+      <span id="reset-done" hidden>אופס ✓</span>
+    </p>
+  </header>
+
+  <section>
+    <div class="sec-head">
+      <h2>התיקונים</h2>
+      <span class="count">16</span>
+    </div>
+
+    <div class="fixes">
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">1</span><h3>הצ׳קבוקס בעזיבת ההסדר</h3><span class="side">מטפל</span></div>
+        <p>
+          שורש הבעיה היה טוקן: <code>--input</code> (אפור 4% ) שימש כמסגרת של כל פקד שמצויר כקו,
+          וכשהדיאלוג עצמו זכוכית — הריבוע נעלם. הוספתי טוקן <code>--control-border</code> והחלתי
+          אותו על הצ׳קבוקס ועל הרדיו. בנוסף ההתחייבות עברה לשורה ממוסגרת, והכפתור
+          <b>לא מושבת יותר</b> — לחיצה בלי אישור מציגה שגיאה אינליין, לפי §7 ב-PRD.
+        </p>
+        <p class="look">שיווק → להצטרף להסדר (3 שלבים) → "עזוב הסדר". הצ׳קבוקס צריך להיראות; לחיצה על "עזוב הסדר" בלי לסמן צריכה להאדים את השורה ולהציג שגיאה.</p>
+        <a class="go" href="/dashboard/marketing?demo=paid">שיווק</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">2</span><h3>חץ החזרה בדריל־דאון מטופל</h3><span class="side">מטפל</span></div>
+        <p>
+          החץ הופיע אחרי הטקסט, כלומר בצד השמאלי של התווית. ב-RTL החץ מוביל בתחילת השורה ומצביע
+          ימינה. תיקנתי גם את אותו דפוס הפוך בזרימת ההצטרפות להסדר.
+        </p>
+        <p class="look">"חזרה לרשימת המטופלים" בראש הכרטיס — החץ מימין לטקסט.</p>
+        <a class="go" href="/dashboard/patients/p1?demo=paid">תיק מטופל</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">3</span><h3>יישור הניווט ביומן</h3><span class="side">מטפל</span></div>
+        <p>
+          בדקתי שוב וקיבלתי את ההצעה: ניווט השבוע שייך לתאריך שהוא מזיז, ולכן הוא יושב עם הכותרת
+          בתחילת כיוון הקריאה (ימין), והפעולות על השבוע בקצה השני — הסדר של Google Calendar,
+          ממוסמר לשפה. החצים הפכו אייקון־בלבד (48px, עקבי עם כלל גובה הכפתור) כדי שהניווט לא ידחוק
+          את הכותרת.
+        </p>
+        <p class="look">ראש היומן: כותרת ותאריך בימין, מיד לידם ‹ היום ›, ובשמאל "מבצע רגע אחרון" ו"תור חדש".</p>
+        <a class="go" href="/dashboard?demo=paid">יומן</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">4</span><h3>התמונה והפרטים בצד ימין</h3><span class="side">מטופל</span></div>
+        <p>
+          זהות המטפל (תמונה, שם, דירוג, כתובת, ניסיון, תגיות) עברה לכותרת העמוד בתחילת כיוון
+          הקריאה, והכרטיס השמאלי הצטמצם ל-reserve box אמיתי: מחיר, הערת הייעוץ הראשוני, שני
+          ה-CTA ומספר העוסק. במובייל התמונה מעל והפרטים ברוחב מלא.
+        </p>
+        <p class="look">בדסקטופ — שם ופרטים בימין ליד התמונה, לא בעמודה השמאלית. להצר את החלון ולראות שהמובייל מסתדר.</p>
+        <a class="go" href="/therapists/liat-berkovich">עמוד מטפל</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">5</span><h3>התמונות החתוכות</h3><span class="side">מטופל</span></div>
+        <p>
+          כל הפורטרטים בפרויקט הם קבצים <b>מרובעים (400×400)</b>, וכל מסגרת לא־מרובעת חתכה פנים —
+          בעמוד המטפל זו הייתה רצועה של 160px, ובכרטיסים גובה קבוע שחתך שליש. עברתי למסגרת מרובעת
+          בשני המקומות, כלומר אפס חיתוך. הכרטיסים יצאו גבוהים יותר — זה שינוי שכדאי שתאשרי.
+        </p>
+        <p class="look">רשימת הקטגוריה: פנים שלמות בכל הכרטיסים (במיוחד נועה שפירא ויעל אברהמי, שהיו הגרועים). ואז לשקול אם גובה הכרטיס מתאים.</p>
+        <a class="go" href="/categories/reflexology">רפלקסולוגיה</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">6</span><h3>החלק העליון של כרטיסיית הסיכום</h3><span class="side">מטופל</span></div>
+        <p>
+          באג אמיתי ולא עניין של ריווח: לרכיב <code>Card</code> יש כלל
+          <code>has-[&gt;img:first-child]:pt-0</code> — נועד לתמונת קאבר במלוא הרוחב — והאווטאר
+          היה הילד הראשון, ולכן הפדינג העליון נמחק. עטפתי את השורה ב-div.
+        </p>
+        <p class="look">הכרטיסייה בראש שלב 1: ריווח שווה מעל ומתחת לאווטאר.</p>
+        <a class="go" href="/therapists/liat-berkovich/book">הזמנת תור · שלב 1</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">7</span><h3>"נקה הכל" שנעלם בגלילה</h3><span class="side">מטופל</span></div>
+        <p>
+          עכשיו רק רצועת הצ׳יפים נגללת. שני הפקדים שממסגרים אותה — הכניסה לכל הפילטרים והאיפוס —
+          מוצמדים מחוץ למכל הנגלל, עם מפריד. זה הסדר של Airbnb, ועובד גם בדסקטופ וגם במובייל.
+        </p>
+        <p class="look">להפעיל "מבצעי רגע אחרון" ואז לגלול את רצועת הצ׳יפים — "נקה הכל" נשאר במקומו בשמאל. לבדוק גם ברוחב מובייל.</p>
+        <a class="go" href="/categories/reflexology">עמוד קטגוריה</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">8</span><h3>פופ־אפ כל הפילטרים בדסקטופ</h3><span class="side">מטופל</span></div>
+        <p>
+          התרחב מ-576px ל-<b>768px</b>. קבוצות הצ׳יפים נפרשות לשלוש עמודות במקום להתעטף, וכל הסט
+          נראה עם פחות גלילה.
+        </p>
+        <p class="look">"פילטרים" בדסקטופ — רוחב הדיאלוג ומספר העמודות ב"התמחויות".</p>
+        <a class="go" href="/categories/reflexology">עמוד קטגוריה</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">9</span><h3>יישור שגיאת בחירת המכסה</h3><span class="side">מטפל</span></div>
+        <p>
+          התיקון של גיל עצמו: השגיאה "יש לבחור מכסה חודשית כדי להמשיך" הייתה על
+          <code>justify-end</code>, שב-RTL דוחף אותה לשמאל בזמן שכל הסקשן מיושר לימין. העברתי
+          אותה לתחילת השורה, מיושרת עם השאלה שמעליה.
+        </p>
+        <p class="look">שיווק → "הצטרף להסדר" → "המשך" בלי לבחור מכסה. השגיאה מיושרת לימין.</p>
+        <a class="go" href="/dashboard/marketing?demo=paid">שיווק</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">10</span><h3>גובה השדות = גובה הכפתורים</h3><span class="side">רוחבי</span></div>
+        <p>
+          השדה בעמוד החיפוש היה <b>32px</b> ליד כפתור של <b>48px</b>. תיקנתי את זה רוחבית ולא
+          במסך אחד: <code>Input</code>, <code>Textarea</code> ו-<code>Select</code> של הספרייה עברו
+          לגובה אחד, ואיתם <b>13 מחרוזות שדה מקומיות</b> שהיו מפוזרות ב-h-7 / h-9 / h-10 / h-11.
+          כל שדה באפליקציה הוא עכשיו 48px, זהה לכפתור, וכולם קיבלו מסגרת נראית.
+        </p>
+        <p class="look">עמוד החיפוש: השדה והכפתור באותו גובה בדיוק. ואז פילטרים בדסקטופ, פופאפ תור חדש, וסרגלי הסינון באדמין — אותו גובה בכל מקום.</p>
+        <a class="go" href="/search?q=zzz">עמוד חיפוש</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">11</span><h3>הסכום ב"פרטים ואישור"</h3><span class="side">מטופל</span></div>
+        <p>
+          הסכום היה בסגול המותג, כלומר נראה כמו פעולה. הוא נתון — עבר לשחור.
+          בדרך גם תיקנתי את מה שנראה בצילום שלך: כניסה ישירה ל-<code>/book/details</code> בלי
+          הזמנה בתהליך הציגה סיכום ריק על ₪0. עכשיו זה מפנה חזרה לשלב 1.
+        </p>
+        <p class="look">הסכום בכרטיסיית הסיכום שחור. (צריך להיכנס דרך שלב 1 כדי להגיע לשם.)</p>
+        <a class="go" href="/therapists/liat-berkovich/book">הזמנת תור</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">12</span><h3>נגישות השדות בפופאפ "תור חדש"</h3><span class="side">מטפל</span></div>
+        <p>
+          שלוש בעיות שהצטברו לאותו מסך: התוויות <b>לא היו מקושרות לשדות</b> (אין
+          <code>htmlFor</code>, אין <code>id</code>) — כלומר קורא מסך לא יודע איזו תווית שייכת
+          לאיזה שדה; המסגרות היו על טוקן שנעלם על משטח הזכוכית; והגבהים היו 36px. תיקנתי את
+          שלושתן: <b>7 תוויות מקושרות</b>, מסגרות נראות, וגובה 48. אותו טיפול ניתן גם לשדות
+          התשלום ולשם הפרטי בהזמנה — 12 תוויות בסך הכול.
+        </p>
+        <p class="look">יומן → "תור חדש". לשדות יש מסגרת נראית, וקליק על תווית מעביר פוקוס לשדה שלה.</p>
+        <a class="go" href="/dashboard?demo=paid">יומן</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">13</span><h3>פאנל האדמין — לוגו, כפתורים וגרפים</h3><span class="side">אדמין</span></div>
+        <p>
+          הלוגו נבדק ותקין (<code>logo-short.png</code>, המארק והוורדמארק בגרדיאנט המותג).
+          ערכת הצבע הסאגית של הפאנל הייתה כתובה בהקסים מועתקים — עברה לטוקנים, וכפתור ההתנתקות
+          עבר מ-<code>red-600</code> גנרי לטוקן ה-destructive. הגרפים עברו לצבעוניות המותג:
+          שלושת ערוצי ההכנסה מצוירים ב-<code>chart-1/3/4</code> (סאגי, סאגי בהיר, סגול בהיר),
+          וסקאלת הסטטיסטיקות היא סאגי / אדום / נייטרלי במקום ירוק־אדום־אפור־כחלחל גנרי.
+        </p>
+        <p class="look">דוח הכנסות: הגרף המוערם והמקרא. סטטיסטיקות: שלושת האחוזים למעלה.</p>
+        <a class="go" href="/admin/revenue">דוח הכנסות</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">14</span><h3>עמוד נחיתה · ביטול תור</h3><span class="side">מטופל · מיניסייט</span></div>
+        <p>
+          עוצב מחדש על המותג: הוורדמארק הטקסטואלי הוחלף בלוגו האמיתי, הקלפים עברו לשפת הכרטיס של
+          המערכת עם קו הגרדיאנט, וכל האדומים והאפורים־כחלחלים שהגיעו מ-main עברו לטוקנים.
+          <b>היררכיית ההרס</b> קיבלה סדר: השלב הראשון מרוכך, האישור הסופי מלא ואדום, והדרך
+          חזרה שקטה. ארבעת המצבים עוצבו — פעיל, נעול (בתוך 24 שעות), אישור, והצלחה.
+        </p>
+        <p class="look">לעבור על ארבעת המצבים: <code>/cancel/demo</code> (פעיל, וללחוץ "בטל תור" לאישור), <code>/cancel/locked</code> (נעול), <code>/cancel/xyz</code> (קישור לא תקין).</p>
+        <a class="go" href="/cancel/demo">ביטול תור</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">15</span><h3>עמוד נחיתה · דירוג וביקורת</h3><span class="side">מטופל · מיניסייט</span></div>
+        <p>
+          אותו טיפול: לוגו, שפת כרטיס אחת, והאייקון שהיה ב-<code>blue-100</code> מחוץ לפלטה עבר
+          לטוקן. הכוכבים הריקים קיבלו מסגרת שנקראת כפקד ולא כדקורציה, וכפתור השליחה
+          <b>אינו מושבת יותר</b> — לחיצה בלי דירוג מסמנת את הכוכבים ומציגה שגיאה, לפי §7 ב-PRD.
+          ארבעת המצבים עוצבו — דירוג, תודה, "כבר השארת ביקורת", וקישור לא תקין.
+        </p>
+        <p class="look"><code>/review/demo</code> — ללחוץ "שלח ביקורת" בלי לבחור דירוג. ואז <code>/review/done</code> (כבר דורג) ו-<code>/review/xyz</code> (לא תקין).</p>
+        <a class="go" href="/review/demo">דירוג וביקורת</a>
+      </article>
+
+      <article class="fix">
+        <div class="fix-head"><span class="n">16</span><h3>המצב השמור בדפדפן שבר את מסך השאלון</h3><span class="side">מטפל</span></div>
+        <p>
+          נמצא בזמן חיבור הקישורים לדף הזה: <code>STORAGE_VERSION</code> עמד על 2 מאז 15.7, אבל
+          מודל שליחת השאלונים התחלף ב-31.8 (<code>tpl-*</code> → <code>dq-*</code>) בלי מיגרציה.
+          כל דפדפן שפתח את הפרוטוטייפ לפני 31.8 קיבל "הטופס לא נמצא" בכל קישור שאלון. הגרסה
+          עלתה ל-3, והקוד כבר יודע להתעלם ממצב בגרסה שונה.
+        </p>
+        <p class="look">מסך השאלון נטען עם התוכן שלו. אם הוא עוד מציג "הטופס לא נמצא" — לאפס את המצב השמור בכפתור למעלה.</p>
+        <a class="go" href="/q/snd-2">מילוי שאלון</a>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>צד מטופל</h2>
+      <span class="count">20 מסכים</span>
+    </div>
+    <div class="cols">
+      <a href="/"><strong>דף הבית</strong><span>/</span></a>
+      <a href="/search?q=zzz"><strong>חיפוש ותוצאות</strong><span>/search</span><em>תוקן · 10</em></a>
+      <a href="/therapists"><strong>כל המטפלים</strong><span>/therapists</span></a>
+      <a href="/categories/reflexology"><strong>עמוד קטגוריה</strong><span>/categories/reflexology</span><em>תוקן · 5, 7, 8</em></a>
+      <a href="/therapists/liat-berkovich"><strong>עמוד מטפל</strong><span>/therapists/:slug</span><em>תוקן · 4, 5</em></a>
+      <a href="/therapists/liat-berkovich/book"><strong>הזמנה · מועד וטיפול</strong><span>/book</span><em>תוקן · 6</em></a>
+      <a href="/therapists/liat-berkovich/book"><strong>הזמנה · פרטים ואישור</strong><span>/book/details</span><em>תוקן · 11</em></a>
+      <a href="/therapists/liat-berkovich/book/payment"><strong>הזמנה · תשלום</strong><span>/book/payment</span></a>
+      <a href="/therapists/liat-berkovich/book/confirmed"><strong>הזמנה · אישור</strong><span>/book/confirmed</span></a>
+      <a href="/account"><strong>החשבון שלי</strong><span>/account</span></a>
+      <a href="/messages"><strong>ההודעות שלי</strong><span>/messages</span></a>
+      <a href="/login"><strong>התחברות</strong><span>/login</span></a>
+      <a href="/about"><strong>אודות</strong><span>/about</span></a>
+      <a href="/complementary-medicine"><strong>רפואה משלימה</strong><span>/complementary-medicine</span></a>
+      <a href="/terms"><strong>תקנון</strong><span>/terms</span></a>
+      <a href="/privacy"><strong>פרטיות</strong><span>/privacy</span></a>
+      <a href="/cancellation-policy"><strong>מדיניות ביטולים</strong><span>/cancellation-policy</span></a>
+      <a href="/accessibility"><strong>נגישות</strong><span>/accessibility</span></a>
+      <a href="/therapist-register"><strong>הצטרפות מטפל (שיווקי)</strong><span>/therapist-register</span></a>
+      <a href="/style-guide"><strong>Style guide</strong><span>/style-guide</span></a>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>צד מטפל</h2>
+      <span class="count">9 מסכים</span>
+    </div>
+    <div class="cols">
+      <a href="/dashboard?demo=paid"><strong>יומן</strong><span>/dashboard</span><em>תוקן · 3</em></a>
+      <a href="/dashboard/patients?demo=paid"><strong>מטופלים</strong><span>/dashboard/patients</span></a>
+      <a href="/dashboard/patients/p1?demo=paid"><strong>תיק מטופל</strong><span>/dashboard/patients/p1</span><em>תוקן · 2</em></a>
+      <a href="/dashboard/messages?demo=paid"><strong>הודעות</strong><span>/dashboard/messages</span></a>
+      <a href="/dashboard/marketing?demo=paid"><strong>שיווק והסדרים</strong><span>/dashboard/marketing</span><em>תוקן · 1, 9</em></a>
+      <a href="/dashboard/revenue?demo=paid"><strong>הכנסות</strong><span>/dashboard/revenue</span></a>
+      <a href="/dashboard/settings?demo=paid"><strong>הגדרות</strong><span>/dashboard/settings</span></a>
+      <a href="/therapist-login"><strong>התחברות מטפל</strong><span>/therapist-login</span></a>
+      <a href="/therapist-register/apply"><strong>טופס הרשמה</strong><span>/therapist-register/apply</span></a>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>אדמין</h2>
+      <span class="count">8 מסכים</span>
+    </div>
+    <div class="cols">
+      <a href="/admin/therapists"><strong>ניהול מטפלים</strong><span>/admin/therapists</span></a>
+      <a href="/admin/marketing"><strong>שיווקי</strong><span>/admin/marketing</span></a>
+      <a href="/admin/reviews"><strong>ביקורות</strong><span>/admin/reviews</span></a>
+      <a href="/admin/revenue"><strong>דוח הכנסות</strong><span>/admin/revenue</span><em>תוקן · 13</em></a>
+      <a href="/admin/statistics"><strong>סטטיסטיקות</strong><span>/admin/statistics</span><em>תוקן · 13</em></a>
+      <a href="/admin/questionnaires"><strong>שאלוני קבלה</strong><span>/admin/questionnaires</span></a>
+      <a href="/admin/patients"><strong>מטופלים</strong><span>/admin/patients</span></a>
+      <a href="/admin/documents"><strong>מסמכים</strong><span>/admin/documents</span></a>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>מיניסייטים (קישור בטוקן)</h2>
+      <span class="count">4 מסכים · 5 מצבים</span>
+    </div>
+    <div class="cols">
+      <a href="/cancel/demo"><strong>ביטול תור</strong><span>/cancel/demo</span><em>עוצב · 14</em></a>
+      <a href="/cancel/locked"><strong>ביטול תור · חלון נעול</strong><span>/cancel/locked</span></a>
+      <a href="/review/demo"><strong>הוספת ביקורת</strong><span>/review/demo</span><em>עוצב · 15</em></a>
+      <a href="/q/snd-2"><strong>מילוי שאלון</strong><span>/q/snd-2</span><em>תוקן · 16</em></a>
+      <a href="/cancellation-requests"><strong>בקשות ביטול</strong><span>/cancellation-requests</span></a>
+    </div>
+  </section>
+
+  <footer>
+    הדף הזה הוא עזר לסבב הביקורת ואפשר למחוק אותו (<code>prototype/public/review.html</code>).
+    רשימת הפערים הרוחביים שנשארו יושבת ב-<code>qa/design-consistency-audit.md</code>.
+  </footer>
+
+</div>
+<script>
+  // Clears the prototype's persisted state so every screen loads from the mocks.
+  document.getElementById('reset').addEventListener('click', () => {
+    Object.keys(localStorage)
+      .filter((k) => k.startsWith('wellnet'))
+      .forEach((k) => localStorage.removeItem(k));
+    document.getElementById('reset-done').hidden = false;
+  });
+</script>
+</body>
+</html>
