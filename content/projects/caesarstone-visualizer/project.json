@@ -88,6 +88,7 @@
   "peek": {
     "hook": "A product that shipped to several markets, not a concept piece.",
     "supporting": "Product decisions, UX, and 3D visualization under real commercial constraints.",
-    "cta": "Explore this project"
+    "cta": "Explore this project",
+    "suppressed": true
   }
 }
