@@ -50,6 +50,57 @@ const DEFAULT_REFUSAL =
   'That falls outside what I can share. I can talk about professional experience, ' +
   'projects, skills, and how they map to a role you are hiring for.';
 
+/** Letters and digits in any script — the characters a word may not be glued to. */
+const WORD_CHAR = '[\\p{L}\\p{N}]';
+
+const HEBREW = /[\u0590-\u05ff]/;
+
+/**
+ * Hebrew writes the definite article, "and", and several prepositions as single
+ * letters glued to the front of the word, so "השכר" and "ומשכורת" are the same
+ * question as "שכר". Anchoring a Hebrew needle at both ends would drop every
+ * one of those, so the front lets these letters through and the back is left
+ * open — Hebrew attaches possessives too, and "שכרו" is still his salary.
+ * Anchoring the front is what matters anyway: it is what stops 'גיל' ("age")
+ * from firing inside 'רגיל' ("ordinary").
+ */
+const HEBREW_PROCLITICS = 'בהוכלמש';
+
+const NEEDLE_PATTERNS = new Map<string, RegExp>();
+
+/**
+ * Compiles a `matches` needle into a pattern that only fires on a whole word.
+ *
+ * This used to be `haystack.includes(needle)`, which closed topics on questions
+ * that had nothing to do with them: 'rate' fires inside "demonstrates",
+ * "corporate" and "integrate", 'earn' inside "learning", 'nda' inside
+ * "standard" and "boundaries". "Which project demonstrates his systems
+ * thinking?" came back as "I don't discuss compensation" — on a site whose
+ * whole purpose is answering that question.
+ *
+ * The breadth in config/privacy.config.ts is deliberate and this keeps it: a
+ * needle still matches anywhere in the question, in any phrasing, and the lists
+ * are still free to over-reach. What it stops is breadth nobody chose, arriving
+ * from an accident of English spelling. Multi-word needles are anchored the
+ * same way and behave as they did — their internal spaces already made them
+ * specific enough that no real question matched them by accident.
+ *
+ * Cached because a needle's pattern never changes and this runs on every turn.
+ */
+function wholeWord(needle: string): RegExp {
+  const cached = NEEDLE_PATTERNS.get(needle);
+  if (cached) return cached;
+
+  const literal = needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = HEBREW.test(needle)
+    ? `(?<!${WORD_CHAR})[${HEBREW_PROCLITICS}]{0,2}${literal}`
+    : `(?<!${WORD_CHAR})${literal}(?!${WORD_CHAR})`;
+
+  const compiled = new RegExp(pattern, 'u');
+  NEEDLE_PATTERNS.set(needle, compiled);
+  return compiled;
+}
+
 export class PolicyEngine {
   constructor(private readonly config: PolicyConfig) {}
 
@@ -142,7 +193,7 @@ export class PolicyEngine {
 
     const haystack = question.toLowerCase();
     const matched = this.config.topics.filter((rule) =>
-      rule.matches.some((needle) => haystack.includes(needle)),
+      rule.matches.some((needle) => wholeWord(needle).test(haystack)),
     );
     if (matched.length === 0) {
       return { allowed: true, reason: 'no closed-topic rule matched' };

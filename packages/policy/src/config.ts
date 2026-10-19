@@ -26,9 +26,12 @@ export interface TopicRule {
   topic: string;
   access: TopicAccess;
   /**
-   * Lowercase substrings and phrases that indicate a question is about this
-   * topic. Matching is deliberately broad: over-refusing a compensation
-   * question is a far cheaper mistake than answering one.
+   * Lowercase words and phrases that indicate a question is about this topic.
+   * Matching is deliberately broad: over-refusing a compensation question is a
+   * far cheaper mistake than answering one. It is broad in the list and not in
+   * the matcher, though — an entry matches whole words only, so a short one
+   * like 'rate' cannot be found inside "demonstrates". Write out the
+   * inflections a question would actually use.
    */
   matches: string[];
   /** What the agent says instead. Keeps refusals consistent and non-defensive. */

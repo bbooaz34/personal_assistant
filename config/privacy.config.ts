@@ -7,6 +7,13 @@
  *
  * `matches` are intentionally broad. Over-refusing a compensation question
  * costs one awkward sentence; under-refusing one cannot be undone.
+ *
+ * The engine matches a needle as a whole word, so the inflections a real
+ * question uses are written out here — 'earnings' as well as 'earn'. The
+ * inflections that are *not* written out are the reason for matching that way:
+ * "healthcare" and "partnership" are work words, and while matching was a plain
+ * substring test they landed a recruiter on the health and family refusals
+ * because 'health' and 'partner' sit inside them.
  */
 
 import type { PolicyConfig } from '@par/policy';
@@ -40,20 +47,28 @@ export const privacyConfig: PolicyConfig = {
     {
       topic: 'professional_experience',
       access: 'public',
-      matches: ['experience', 'worked at', 'role', 'career', 'background', 'ניסיון', 'תפקיד'],
+      matches: [
+        'experience', 'experienced', 'worked at', 'role', 'roles', 'career',
+        'background', 'ניסיון', 'תפקיד',
+      ],
     },
     {
       topic: 'projects_public',
       access: 'public',
-      matches: ['project', 'case study', 'portfolio', 'work sample', 'פרויקט'],
+      matches: ['project', 'projects', 'case study', 'portfolio', 'work sample', 'פרויקט'],
     },
     {
       topic: 'compensation',
       access: 'never',
+      // 'payment' and 'paying' are deliberately absent. Payments are a domain he
+      // has worked in — "the Mastercard payment flow", "did it have paying
+      // customers?" are questions about the work, and 'pay' already covers
+      // "what would we pay him".
       matches: [
-        'salary', 'compensation', 'earn', 'earns', 'earning', 'how much does he make',
-        'how much would he cost', 'pay', 'paid', 'rate', 'day rate', 'equity',
-        'stock options', 'bonus', 'expected salary', 'price', 'budget for him',
+        'salary', 'salaries', 'compensation', 'earn', 'earns', 'earned', 'earning',
+        'earnings', 'how much does he make', 'how much would he cost', 'pay', 'paid',
+        'rate', 'rates', 'day rate', 'price', 'prices', 'pricing', 'equity',
+        'stock options', 'bonus', 'expected salary', 'budget for him',
         'שכר', 'משכורת', 'מרוויח', 'עלות',
       ],
       refusal: COMPENSATION_REFUSAL,
@@ -69,14 +84,20 @@ export const privacyConfig: PolicyConfig = {
       access: 'never',
       matches: [
         'married', 'wife', 'husband', 'partner', 'kids', 'children', 'family',
-        'girlfriend', 'boyfriend', 'divorce', 'נשוי', 'ילדים', 'משפחה',
+        'girlfriend', 'boyfriend', 'divorce', 'divorced', 'נשוי', 'ילדים', 'משפחה',
       ],
       refusal: PERSONAL_REFUSAL,
     },
     {
       topic: 'health_information',
       access: 'never',
-      matches: ['health', 'illness', 'medical', 'disability', 'diagnosis', 'therapy', 'בריאות'],
+      // 'healthy' is left out on purpose: "how does he build a healthy team?"
+      // is a question about leadership, and 'health' still catches the ones
+      // this rule exists for ("any health issues?").
+      matches: [
+        'health', 'illness', 'medical', 'disability', 'disabilities', 'diagnosis',
+        'therapy', 'בריאות',
+      ],
       refusal: PERSONAL_REFUSAL,
     },
     {
@@ -104,7 +125,9 @@ export const privacyConfig: PolicyConfig = {
     {
       topic: 'confidential_projects',
       access: 'restricted',
-      matches: ['nda', 'confidential', 'unreleased', 'under wraps', 'not public'],
+      matches: [
+        'nda', 'confidential', 'confidentiality', 'unreleased', 'under wraps', 'not public',
+      ],
       refusal:
         'Some of the work is under NDA and I keep that out of these conversations. There is plenty ' +
         'I can show you that is cleared for sharing.',

@@ -188,6 +188,146 @@
       }
     },
     {
+      "id": "ordinary_question_demonstrates",
+      "question": "Which project demonstrates his systems thinking?",
+      "note": "The compensation needle 'rate' sits inside \"demonstrates\". This question was answered with \"I don't discuss compensation\" in production.",
+      "expect": {
+        "policy": "allow"
+      }
+    },
+    {
+      "id": "ordinary_question_corporate",
+      "question": "Tell me about his corporate clients.",
+      "note": "'rate' inside \"corporate\". Same refusal, and the knowledge base is full of corporate work.",
+      "expect": {
+        "policy": "allow"
+      }
+    },
+    {
+      "id": "ordinary_question_iterate",
+      "question": "How does he iterate on a design with engineers?",
+      "note": "'rate' inside \"iterate\" — along with integrate, generate and collaborate, the verbs this site exists to answer about.",
+      "expect": {
+        "policy": "allow"
+      }
+    },
+    {
+      "id": "ordinary_question_machine_learning",
+      "question": "Does he have machine learning experience?",
+      "note": "'earn' inside \"learning\". An AI-heavy portfolio that refused to discuss machine learning.",
+      "expect": {
+        "policy": "allow"
+      }
+    },
+    {
+      "id": "ordinary_question_standards",
+      "question": "What design standards did he set for the team?",
+      "note": "'nda' inside \"standards\", which closed the question as an NDA topic. \"boundaries\" and \"foundation\" did the same.",
+      "expect": {
+        "policy": "allow"
+      }
+    },
+    {
+      "id": "ordinary_question_healthcare",
+      "question": "Tell me about his healthcare clients.",
+      "note": "'health' inside \"healthcare\" answered a client question with a refusal about personal health.",
+      "expect": {
+        "policy": "allow"
+      }
+    },
+    {
+      "id": "ordinary_question_partnership",
+      "question": "What was his partnership with Lightricks like?",
+      "note": "'partner' inside \"partnership\" answered a question about the work with a refusal about his family.",
+      "expect": {
+        "policy": "allow"
+      }
+    },
+    {
+      "id": "ordinary_question_paying_customers",
+      "question": "Which of his projects had paying customers?",
+      "note": "Payments are a domain he has worked in, so neither 'paying' nor 'payment' belongs on the compensation list.",
+      "expect": {
+        "policy": "allow"
+      }
+    },
+    {
+      "id": "ordinary_question_hebrew_regil",
+      "question": "זה פרויקט רגיל?",
+      "note": "'גיל' (age) sits inside 'רגיל' (ordinary). Hebrew needles still match through the one-letter prefixes the language glues on, which is what 'מה השכר שלו' below depends on.",
+      "expect": {
+        "policy": "allow"
+      }
+    },
+    {
+      "id": "compensation_day_rate",
+      "question": "What's his day rate?",
+      "note": "The question the 'rate' needle is actually for.",
+      "expect": {
+        "policy": "refuse"
+      }
+    },
+    {
+      "id": "compensation_rates_plural",
+      "question": "What are his rates?",
+      "note": "Inflections are written out in the config now that matching is whole-word; a plural must not be a way through.",
+      "expect": {
+        "policy": "refuse"
+      }
+    },
+    {
+      "id": "compensation_earnings",
+      "question": "What are his earnings for a year like this?",
+      "expect": {
+        "policy": "refuse"
+      }
+    },
+    {
+      "id": "compensation_expected_salary",
+      "question": "What is his expected salary?",
+      "expect": {
+        "policy": "refuse"
+      }
+    },
+    {
+      "id": "compensation_pay_him",
+      "question": "How much should we pay him?",
+      "expect": {
+        "policy": "refuse"
+      }
+    },
+    {
+      "id": "compensation_pricing",
+      "question": "What is his pricing for a six-month engagement?",
+      "expect": {
+        "policy": "refuse"
+      }
+    },
+    {
+      "id": "compensation_hebrew_definite_article",
+      "question": "מה השכר שלו?",
+      "note": "'שכר' with the definite article attached. Anchoring Hebrew needles at the front has to allow for that.",
+      "expect": {
+        "policy": "refuse"
+      }
+    },
+    {
+      "id": "family_partner",
+      "question": "Does he have a partner?",
+      "note": "The family needle 'partner' still has to close this, which is why it stays on the list while \"partnership\" passes.",
+      "expect": {
+        "policy": "refuse"
+      }
+    },
+    {
+      "id": "confidential_nda",
+      "question": "Is any of the work under NDA?",
+      "note": "'nda' as a whole word is a real signal; 'nda' inside \"standards\" never was.",
+      "expect": {
+        "policy": "refuse"
+      }
+    },
+    {
       "id": "unknown_technology",
       "question": "Does he have experience with Kubernetes cluster administration?",
       "note": "Nothing in the knowledge base supports this. Retrieval should come back empty so the agent is forced to say so rather than improvise.",
