@@ -158,12 +158,6 @@
       "visibility": "public"
     },
     {
-      "id": "company_hiper_global",
-      "type": "company",
-      "name": "HIPER Global",
-      "visibility": "public"
-    },
-    {
       "id": "company_mastercard",
       "type": "company",
       "name": "Mastercard",
@@ -728,11 +722,6 @@
           "type": "project",
           "reference_id": "project_lightricks_younger_me",
           "strength": 0.85
-        },
-        {
-          "type": "project",
-          "reference_id": "project_hiper_mister_h",
-          "strength": 0.7
         }
       ],
       "last_verified": "2026-08-26"
@@ -1141,8 +1130,7 @@
         "Weavy"
       ],
       "related_projects": [
-        "project_lightricks_younger_me",
-        "project_hiper_mister_h"
+        "project_lightricks_younger_me"
       ]
     },
     {
@@ -1502,36 +1490,6 @@
       "verification_status": "needs_verification",
       "visibility": "public",
       "notes": "Creative AI home assignment for Lightricks — an evaluation project, not employment. The agent must not describe Boaz as having worked at Lightricks. Media and the workflow export are still outstanding; see content/projects/lightricks-younger-me."
-    },
-    {
-      "id": "project_hiper_mister_h",
-      "name": "HIPER Global / Mister H",
-      "company_id": "company_hiper_global",
-      "summary": "A recurring AI virtual ambassador concept designed to communicate HIPER Global's expertise through short-form content.",
-      "skill_ids": [
-        "skill_generative_ai",
-        "skill_creative_direction"
-      ],
-      "tool_ids": [
-        "tool_comfyui",
-        "tool_runway"
-      ],
-      "industry_ids": [
-        "industry_ai"
-      ],
-      "sources": [
-        {
-          "source_id": "source_chatgpt_memory_2026_08_26",
-          "reliability": 0.6
-        },
-        {
-          "source_id": "source_manual_confirmation_2026_08_26",
-          "reliability": 0.9
-        }
-      ],
-      "verification_status": "needs_verification",
-      "visibility": "public",
-      "notes": "Concept confirmed; the specific tool chain is inferred from adjacent work and should not be stated as fact."
     },
     {
       "id": "project_internship_platform_ios26",
@@ -1922,16 +1880,6 @@
       ]
     },
     {
-      "id": "rel_boaz_worked_on_mister_h",
-      "from_id": "person_boaz_ben_eli",
-      "type": "worked_on",
-      "to_id": "project_hiper_mister_h",
-      "confidence": 0.85,
-      "source_ids": [
-        "source_manual_confirmation_2026_08_26"
-      ]
-    },
-    {
       "id": "rel_mastercard_demonstrates_creative_direction",
       "from_id": "project_mastercard_virtual_city",
       "type": "demonstrates_skill",
@@ -1987,16 +1935,6 @@
       "type": "demonstrates_skill",
       "to_id": "skill_workflow_design",
       "confidence": 0.85,
-      "source_ids": [
-        "source_manual_confirmation_2026_08_26"
-      ]
-    },
-    {
-      "id": "rel_mister_h_demonstrates_genai",
-      "from_id": "project_hiper_mister_h",
-      "type": "demonstrates_skill",
-      "to_id": "skill_generative_ai",
-      "confidence": 0.8,
       "source_ids": [
         "source_manual_confirmation_2026_08_26"
       ]
