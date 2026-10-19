@@ -1003,3 +1003,148 @@ body:has(#chat.open.expanded) #wordmark { opacity: 0; }
 @media (max-width: 620px) {
   #caption { bottom: 116px; }
 }
+
+/* ── artifacts that take the screen ────────────────────────────────────── */
+/*
+ * The behaviour every artifact in the chat column shares (see
+ * `ArtifactStage`): the panel is a phone-width column, so the first scroll
+ * inside an artifact promotes it to the whole viewport, and a pull back past
+ * its top returns it. `ArtifactStage` owns the gestures; this owns the layout,
+ * because what changes is the panel — not the artifact, which is deliberately
+ * the same node before and after and so never reloads on the way in.
+ */
+.gen-stage { display: flex; flex-direction: column; min-width: 0; }
+.gen-stage > .gen-stage-scroll { min-width: 0; }
+
+/*
+ * The shield over a docked, sandboxed frame.
+ *
+ * Transparent on purpose: while docked the frame is a picture of the work, and
+ * this is the control. It carries the one word that explains why a click lands
+ * here instead of in the prototype.
+ */
+.stage-shield {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 10px;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+  font: inherit;
+}
+.stage-shield > span {
+  pointer-events: none;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(22, 18, 44, 0.5);
+  color: rgba(255, 255, 255, 0.92);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  transition: opacity 180ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .stage-shield:hover > span { opacity: 1; }
+}
+.stage-shield:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: -3px;
+  border-radius: 10px;
+}
+
+/* the panel becomes the viewport */
+#chat.open.immersive {
+  --chat-w: 100vw;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  height: 100dvh;
+  border-radius: 0;
+  -webkit-mask: none;
+  mask: none;
+  /* more solid than the open panel: the scene behind it is no longer the
+     subject, and glass this large turns the artifact milky */
+  background: linear-gradient(155deg,
+    rgba(255, 255, 255, 0.74),
+    rgba(255, 255, 255, 0.62));
+}
+
+/*
+ * The chrome steps aside, and comes back once the visitor has scrolled a
+ * little further in — so a full-screen artifact is genuinely full screen, and
+ * the way out is one gesture away rather than hidden.
+ */
+#chat.open.immersive #chatHead,
+#chat.open.immersive #chatForm {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 240ms var(--ease-out);
+}
+#chat.open.immersive.chrome #chatHead,
+#chat.open.immersive.chrome #chatForm {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* the log is the artifact: everything else in the conversation stands down */
+#chat.open.immersive #chatLog {
+  margin-top: 0;
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+}
+#chat.open.immersive #chatLog > *:not(:has(.gen-stage.is-immersive)) { display: none; }
+#chat.open.immersive #chatLog > .msg:has(.gen-stage.is-immersive) {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+#chat.open.immersive .gen-ui { flex: 1 1 auto; min-height: 0; margin: 0; gap: 0; }
+#chat.open.immersive .gen-head { padding: 12px 20px 8px; }
+/* once the header is back it floats over the top of the panel */
+#chat.open.immersive.chrome .gen-head { padding-top: 46px; }
+/* expanding from full screen would be a smaller view, not a bigger one */
+#chat.open.immersive .gen-cta { display: none; }
+
+.gen-stage.is-immersive { flex: 1 1 auto; min-height: 0; }
+.gen-stage.is-immersive > .gen-stage-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  /* the panel behind it must not start scrolling when this reaches its end */
+  overscroll-behavior: contain;
+  padding: 0 clamp(8px, 3vw, 40px) 16px;
+}
+/* prose at 1600px is unreadable; the work still gets as much as it can use */
+.gen-stage.is-immersive > .gen-stage-scroll > * {
+  max-width: min(1200px, 100%);
+  margin-inline: auto;
+}
+
+/*
+ * The work uses the room it just took. These heights are deliberately tied to
+ * the viewport rather than to the frame's docked height: a running artifact is
+ * responsive and reflows into whatever it is given.
+ */
+.gen-stage.is-immersive .artifact-frame { height: max(58dvh, calc(100dvh - 236px)); }
+.gen-stage.is-immersive .artifact-reel,
+.gen-stage.is-immersive .artifact-still {
+  max-height: calc(100dvh - 180px);
+  object-fit: contain;
+}

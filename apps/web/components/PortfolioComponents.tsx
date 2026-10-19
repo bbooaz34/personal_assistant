@@ -19,6 +19,7 @@
  */
 
 import { ArtifactViewer } from './ArtifactViewer';
+import { StageGestureShield } from './ArtifactStage';
 import type { CVData, Portfolio, PortfolioProject, PortfolioSkill, TimelineEntry } from './portfolio-types';
 
 function Panel({ children, label }: { children: React.ReactNode; label: string }) {
@@ -189,7 +190,7 @@ export function TransformationView({
             artifacts={project.artifacts}
             sandbox={sandbox}
             expanded={expanded}
-            inlineVideo={project.media.find((m) => m.type === 'video' && !/^https?:/.test(m.uri)) ?? null}
+            inlineVideo={inlineReel(project)}
           />
         </div>
       ) : null}
@@ -200,6 +201,19 @@ export function TransformationView({
 /** A video file we host ourselves, rather than a player on someone else's page. */
 function isVideoFile(item: { uri: string }): boolean {
   return /\.(mp4|webm|mov)($|\?)/i.test(item.uri);
+}
+
+/**
+ * The clip a project leads with in the chat column, or nothing.
+ *
+ * `type: 'video'` alone is not enough. A project may point that type at the
+ * HTML artifact that *contains* its clip — the banking marketing clip is six
+ * animated slides, not a file — and a `<video>` handed an `.html` src paints a
+ * dead black player with a 0:00 timeline. Only a real video file we serve
+ * ourselves qualifies; everything else keeps the iframe it needs.
+ */
+function inlineReel(project: PortfolioProject): PortfolioProject['media'][number] | null {
+  return project.media.find((m) => m.type === 'video' && !/^https?:/.test(m.uri) && isVideoFile(m)) ?? null;
 }
 
 /**
@@ -256,7 +270,10 @@ export function MediaGallery({
           // responsive page its mobile and desktop layouts for free.
           if (isEmbeddableMedia(item)) {
             return (
-              <figure key={item.uri} className="col-span-full overflow-hidden rounded-lg bg-[var(--color-ground)]">
+              <figure
+                key={item.uri}
+                className="relative col-span-full overflow-hidden rounded-lg bg-[var(--color-ground)]"
+              >
                 <iframe
                   title={item.caption || project.name}
                   src={src}
@@ -268,8 +285,13 @@ export function MediaGallery({
                   // nothing when tapped: the block is policy, not gesture.
                   allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
                   loading="lazy"
-                  className={`${expanded ? 'h-[68vh]' : 'h-[520px]'} w-full rounded-lg border border-[var(--color-edge)] bg-white`}
+                  className={`artifact-frame ${
+                    expanded ? 'h-[68vh]' : 'h-[520px]'
+                  } w-full rounded-lg border border-[var(--color-edge)] bg-white`}
                 />
+                {/* Same reason as in ArtifactViewer: an opaque-origin frame
+                    cannot hand this document the scroll it is listening for. */}
+                <StageGestureShield label={item.caption || project.name} />
               </figure>
             );
           }
@@ -288,7 +310,7 @@ export function MediaGallery({
                   // Enough to paint the first frame as its own poster; the file
                   // itself only downloads if the visitor asks for it.
                   preload="metadata"
-                  className="h-auto w-full rounded-lg"
+                  className="artifact-reel h-auto w-full rounded-lg"
                 />
                 {item.caption ? (
                   <figcaption className="px-3 py-2 text-xs text-[var(--color-ink-faint)]">
@@ -301,7 +323,11 @@ export function MediaGallery({
           return (
             <figure key={item.uri} className="overflow-hidden rounded-lg bg-[var(--color-ground)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt={item.caption ?? project.name} className="h-auto w-full" />
+              <img
+                src={src}
+                alt={item.caption ?? project.name}
+                className="artifact-still h-auto w-full"
+              />
             </figure>
           );
         })}
@@ -615,7 +641,7 @@ export function renderComponent(
       if (!project || project.artifacts.length === 0) return null;
       // A project that recorded itself leads with that in the chat column and
       // keeps the artifacts for the stage, where they have room to be read.
-      const reel = project.media.find((m) => m.type === 'video' && !/^https?:/.test(m.uri));
+      const reel = inlineReel(project);
       return (
         <ArtifactViewer
           projectName={project.name}
@@ -623,7 +649,7 @@ export function renderComponent(
           sandbox={portfolio.embedSandbox}
           initialArtifactId={typeof args.artifact_id === 'string' ? args.artifact_id : undefined}
           expanded={expanded}
-          inlineVideo={reel ?? null}
+          inlineVideo={reel}
         />
       );
     }

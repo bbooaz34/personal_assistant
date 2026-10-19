@@ -20,6 +20,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { StageGestureShield } from './ArtifactStage';
 import type { ProjectArtifact } from './portfolio-types';
 
 /**
@@ -177,18 +178,29 @@ export function ArtifactViewer({
             playsInline
             controls
             aria-label={inlineVideo.caption ?? projectName}
-            className="w-full rounded-lg border border-[var(--color-edge)] bg-black"
+            className="artifact-reel w-full rounded-lg border border-[var(--color-edge)] bg-black"
           />
         ) : (
-          <iframe
-            key={`${active.id}-${reloadNonce}`}
-            title={`${projectName} — ${active.label}`}
-            src={active.url}
-            sandbox={sandbox}
-            allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-            loading="lazy"
-            className="h-[520px] w-full rounded-lg border border-[var(--color-edge)] bg-white"
-          />
+          /*
+           * Docked in the chat column, this frame is covered by the stage's
+           * shield: it runs in an opaque origin, so a scroll inside it is
+           * invisible to this document and the artifact could never answer the
+           * gesture that is meant to give it the screen. The shield reads it
+           * instead, and disappears once the artifact is full screen — which
+           * is also when clicking around in a prototype is worth doing.
+           */
+          <div className="relative">
+            <iframe
+              key={`${active.id}-${reloadNonce}`}
+              title={`${projectName} — ${active.label}`}
+              src={active.url}
+              sandbox={sandbox}
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+              loading="lazy"
+              className="artifact-frame h-[520px] w-full rounded-lg border border-[var(--color-edge)] bg-white"
+            />
+            <StageGestureShield label={`${projectName} — ${active.label}`} />
+          </div>
         )}
       </div>
 

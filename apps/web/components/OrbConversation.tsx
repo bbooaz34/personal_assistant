@@ -33,6 +33,7 @@ import { LIVE_ASSET_LINE } from '@/lib/lines';
 import { getClientSession } from '@/lib/session-client';
 import { reportEvent } from '@/lib/session-beacon';
 import { renderComponent } from './PortfolioComponents';
+import { ArtifactStage } from './ArtifactStage';
 import { RichText } from './RichText';
 import { useVoiceSession } from './useVoiceSession';
 import type { Portfolio } from './portfolio-types';
@@ -141,6 +142,16 @@ export function OrbConversation() {
   const [voiceSettings, setVoiceSettings] = useState<VoiceSettings | null>(null);
   const [chatOpen, setChatOpen] = useState(false);
   const [expanded, setExpanded] = useState<ExpandedSpec | null>(null);
+  /**
+   * The artifact that has taken the screen, if any (see `ArtifactStage`).
+   *
+   * One at a time, keyed by the same key the evidence is rendered under, and
+   * owned here rather than inside the stage because what it changes is the
+   * panel: the whole thing becomes the viewport, and its header and composer
+   * step aside until `stageChrome` asks for them back.
+   */
+  const [immersive, setImmersive] = useState<string | null>(null);
+  const [stageChrome, setStageChrome] = useState(false);
   const [status_, setStatus] = useState<string | null>(null);
   const [peeks, setPeeks] = useState<PeekCard[]>([]);
   const [peekFocus, setPeekFocus] = useState<string | null>(null);
@@ -420,6 +431,11 @@ export function OrbConversation() {
     engineRef.current?.setExpanded(Boolean(expanded));
   }, [expanded]);
 
+  // Each artifact earns the chrome back on its own terms, from hidden.
+  useEffect(() => {
+    setStageChrome(false);
+  }, [immersive]);
+
   // Voice failures surface where the eye already is: the input placeholder.
   useEffect(() => {
     if (voice.failure) showStatus(VOICE_FAILURE_STATUS[voice.failure]);
@@ -487,9 +503,17 @@ export function OrbConversation() {
     return () => log.removeEventListener('scroll', onScroll);
   }, []);
 
+  /*
+   * An artifact holding the screen is not following anything: the log is the
+   * artifact, and scrolling it to the bottom mid-read would be the follow
+   * reaching into a view it no longer owns.
+   */
+  const immersiveRef = useRef<string | null>(null);
+  immersiveRef.current = immersive;
+
   const followToBottom = useCallback((smooth: boolean) => {
     const log = logRef.current;
-    if (!log || !following.current) return;
+    if (!log || !following.current || immersiveRef.current) return;
     log.scrollTo({ top: log.scrollHeight, behavior: smooth ? 'smooth' : 'auto' });
   }, []);
 
@@ -510,7 +534,7 @@ export function OrbConversation() {
   const jumpToEnd = useCallback(() => {
     following.current = true;
     const log = logRef.current;
-    if (!log) return;
+    if (!log || immersiveRef.current) return;
     const jump = () => log.scrollTo({ top: log.scrollHeight, behavior: 'auto' });
     jump();
     requestAnimationFrame(jump);
@@ -539,12 +563,13 @@ export function OrbConversation() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
-      if (expanded) setExpanded(null);
+      if (immersive) setImmersive(null);
+      else if (expanded) setExpanded(null);
       else if (chatOpen) setChatOpen(false);
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [expanded, chatOpen]);
+  }, [immersive, expanded, chatOpen]);
 
   /**
    * Re-select the peek rail when the visitor names what they are hiring for.
@@ -581,6 +606,8 @@ export function OrbConversation() {
     speech.stop();
     refreshPeeks(trimmed);
     setChatOpen(true);
+    // The answer arrives in the log, which an immersive artifact is covering.
+    setImmersive(null);
     jumpToEnd();
     // Typing during a voice call stays in the same conversation (§23.4).
     if (voiceActive) {
@@ -601,6 +628,7 @@ export function OrbConversation() {
     script.interrupt();
     speech.stop();
     setChatOpen(true);
+    setImmersive(null);
     jumpToEnd();
     // A live voice session narrates its own reveals; hand it the intent.
     if (voiceActive) {
@@ -686,6 +714,7 @@ export function OrbConversation() {
       void speech.say(LIVE_ASSET_LINE);
     }
 
+    setImmersive(null);
     setExpanded({ name, args, label: projectName ?? STAGE_LABELS[name] ?? 'evidence' });
   };
 
@@ -786,7 +815,19 @@ export function OrbConversation() {
             <p>{headedProject.shortPitch}</p>
           </header>
         ) : null}
-        {node}
+        <ArtifactStage
+          label={headedProject?.name ?? STAGE_LABELS[inline] ?? 'evidence'}
+          immersive={immersive === key}
+          onImmerse={() => setImmersive(key)}
+          onRelease={() => setImmersive(null)}
+          onChrome={(shown) => {
+            // Only the artifact that holds the screen speaks for the chrome:
+            // evidence arriving below it must not fade the header back in.
+            if (immersiveRef.current === key) setStageChrome(shown);
+          }}
+        >
+          {node}
+        </ArtifactStage>
         {offersLiveView && !narrow ? (
           <button type="button" className="gen-cta" onClick={() => expandSpec(target, args)}>
             <span className="spark" aria-hidden>✦</span>
@@ -914,7 +955,13 @@ export function OrbConversation() {
         contact={opening?.owner.contact}
       />
 
-      <div ref={chatRef} id="chat" className={`${chatOpen ? 'open' : 'closed'}${expanded ? ' expanded' : ''}`}>
+      <div
+        ref={chatRef}
+        id="chat"
+        className={`${chatOpen ? 'open' : 'closed'}${expanded ? ' expanded' : ''}${
+          immersive ? ' immersive' : ''
+        }${immersive && stageChrome ? ' chrome' : ''}`}
+      >
         <div id="chatHead">
           {/*
             The owner's name, shown only where the wordmark on the scene has
@@ -926,7 +973,9 @@ export function OrbConversation() {
           */}
           <span className="headLeft">
             <span id="chatOwner">{opening?.owner.name ?? 'Boaz Ben Eli'}</span>
-            <span className="headTitle">{expanded ? expanded.label : 'conversation'}</span>
+            <span className="headTitle">
+              {expanded ? expanded.label : immersive ? 'full screen' : 'conversation'}
+            </span>
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             {voiceActive ? (
@@ -937,8 +986,20 @@ export function OrbConversation() {
             <button
               type="button"
               id="chatClose"
-              aria-label={expanded ? 'Close the expanded view' : 'Close chat'}
-              onClick={() => (expanded ? setExpanded(null) : setChatOpen(false))}
+              aria-label={
+                immersive
+                  ? 'Leave the full-screen artifact'
+                  : expanded
+                    ? 'Close the expanded view'
+                    : 'Close chat'
+              }
+              onClick={() =>
+                immersive
+                  ? setImmersive(null)
+                  : expanded
+                    ? setExpanded(null)
+                    : setChatOpen(false)
+              }
             >
               &times;
             </button>
