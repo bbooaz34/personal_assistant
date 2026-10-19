@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>An Object Without a Name</title>
+  <style>:root{--bg:#0e0f11;--ink:#ece7de;--muted:#9a958c;--line:#33363b;--btn:#1c1e22}*{box-sizing:border-box}body{background:var(--bg);color:var(--ink);margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}main{flex-wrap:wrap;align-items:flex-start;gap:24px;padding:20px;display:flex}canvas{aspect-ratio:3/2;cursor:grab;touch-action:none;border-radius:6px;width:960px;max-width:100%;height:auto;display:block}canvas:active{cursor:grabbing}aside{flex-direction:column;gap:16px;width:300px;display:flex}h1{margin:0;font-size:20px}p{color:var(--muted);margin:0}.row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}button{font:inherit;color:var(--ink);border:1px solid var(--line);background:var(--btn);cursor:pointer;border-radius:6px;padding:6px 12px}button:disabled{opacity:.4;cursor:default}input{font:inherit;color:var(--ink);background:var(--btn);border:1px solid var(--line);border-radius:6px;width:130px;padding:5px 8px}label{color:var(--muted);font-size:13px}#stats{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px}[data-error]{color:#ffd2c8;background:#3a1712;border:1px solid #7a2e22;border-radius:6px;padding:10px 12px;display:none}[data-error].show{display:block}</style>
+  <script type="module" crossorigin src="./assets/index-B8_qCP_f.js"></script>
+</head>
+<body>
+  <main>
+    <canvas id="view" aria-label="3D form: drag to orbit, scroll to zoom"></canvas>
+    <aside>
+      <div>
+        <h1>An Object Without a Name</h1>
+        <p>A body grows from a small kernel. A pattern spreads across its skin and lifts it into relief. Drag to walk around it; scroll to come closer.</p>
+      </div>
+      <div data-error role="alert"></div>
+      <div class="row">
+        <button id="start">Start</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+        <button id="capture">Save PNG</button>
+      </div>
+      <div class="row">
+        <label for="seed">Seed</label>
+        <input id="seed" spellcheck="false">
+        <button id="newseed" title="Pick a new random seed and reset">New seed</button>
+      </div>
+      <div id="stats"></div>
+    </aside>
+  </main>
+</body>
+</html>

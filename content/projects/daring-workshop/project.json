@@ -1,0 +1,438 @@
+{
+  "id": "project_daring_workshop",
+  "name": "DARING — A Generative Design Workshop",
+  "status": "draft",
+  "organization": "Zemingo (internal workshop)",
+  "context": "DARING is a one-hour workshop for Zemingo's product designers, held on 6 October 2026: \"A creative workshop for AI-native designers\". Nine generative-design challenges, each outside a designer's usual discipline — procedural typography, invented speech, procedural 3D, computer vision, material simulation, articulated physics, procedural space, image expansion and textile logic — each shipped as a small starter that already runs on a participant's Mac. For the day the format became nine stations around one table: set the stations up first, walk between them, then make something new.",
+  "role": "Design Team Leader and workshop facilitator. Designed the workshop and its look, including the DARING key visual and the 3D ribbon, wrote all its content, and directed the build of the nine starters, their tests and the participant pages with Claude Code.",
+  "summary": "A one-hour generative-design workshop for Zemingo's designers, built as nine stations. Each station is a working starter with a seed, Start/Pause/Reset, named parameters to edit and a recovery path, tested before the day with automated Playwright acceptance tests and a human check; eight were GO and one (live image generation) was labelled NO-GO for lack of a provider, with a labelled fallback. Participants got a get-ready page the day before and a stations page for the day; the plan was to set the stations up around one table, walk between them, then make something new. The owner reported the workshop as a success and planned to run it again for another team.",
+  "skills_demonstrated": [
+    "AI-native Design",
+    "Generative AI",
+    "Team Leadership",
+    "Directing Autonomous Implementation",
+    "Creative Direction",
+    "3D & Immersive Experience Design"
+  ],
+  "tools": [
+    "Claude Code",
+    "Three.js",
+    "MediaPipe",
+    "Playwright"
+  ],
+  "process": [
+    {
+      "step": 1,
+      "title": "Feasibility before building",
+      "description": "The nine briefs were assessed before anything was built: each challenge got the smallest version that keeps its creative premise, pinned dependencies, and a GO / CONDITIONAL / NO-GO / UNTESTED status. No silent substitutions — a fallback had to be labelled in the interface and in the report, with what it costs the concept.",
+      "media_ids": []
+    },
+    {
+      "step": 2,
+      "title": "A contract every starter keeps",
+      "description": "Every starter shares one contract: Start, Pause and Reset, a visible seed, readable error messages, bounds as named constants in one config file, a seeded random generator and a fixed timestep so the same seed reproduces the same state, offline operation, and no secret in browser code.",
+      "media_ids": [
+        "media_station_01",
+        "media_station_05"
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Tested twice: by machine and by eye",
+      "description": "Each station passed automated acceptance tests in real Chrome (determinism, offline, pause, a fresh install) and then a human check by the facilitator, phrased so that yes means pass. Only then was it committed and tagged known-good.",
+      "media_ids": [
+        "media_station_03",
+        "media_station_07",
+        "media_station_09"
+      ]
+    },
+    {
+      "step": 4,
+      "title": "Pages for the participants",
+      "description": "A get-ready page sent the day before — ten steps on a Mac, each ending in a check — and the stations page for the day, both finished in Hebrew, right to left, in the style of the DARING key visual he designed, with the poster's ribbon rebuilt as live 3D in the hero.",
+      "media_ids": [
+        "media_stations_page"
+      ]
+    },
+    {
+      "step": 5,
+      "title": "Stations around one table",
+      "description": "For the day the format changed from one challenge each to nine stations: set up a station each on the participants' laptops, walk between them, stop where something catches you, then make something new and show it.",
+      "media_ids": [
+        "media_day_long_table",
+        "media_day_corner_station",
+        "media_day_table_clip",
+        "media_day_wordmark_clip",
+        "media_day_loom_clip"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence_starters_repo",
+      "type": "source_document",
+      "label": "The workshop repository — nine starters, tests, participant pages",
+      "uri": null,
+      "verification_status": "verified",
+      "visibility": "private",
+      "notes": "Zemingo's Bitbucket repository zemingo/daring-workshop (local checkout daring-starters). The facilitator's work ends at e519810 (2026-10-06); later commits on main by participants (04 squishies, 09 photo weaving, a 06 rhythm change) are theirs and are not part of this project's artifacts. Private company repository, so not linked."
+    },
+    {
+      "id": "evidence_feasibility_report",
+      "type": "source_document",
+      "label": "Feasibility report — the GO / NO-GO matrix and how it was tested",
+      "uri": null,
+      "verification_status": "verified",
+      "visibility": "private",
+      "notes": "REPORT.md in the workshop repository: the environment (one MacBook Pro M4 Pro, real Chrome, the GPU renderer string), the matrix with measured install and first-frame times, the participant checklist, what remained unproven, and a rehearsal script. Status on 2026-10-05: eight challenges GO; 08 NO-GO for live generation (no provider), with its prepared-image reveal and the participant's-own-images mode verified."
+    },
+    {
+      "id": "evidence_acceptance_tests",
+      "type": "source_document",
+      "label": "Automated acceptance tests and their screenshots",
+      "uri": null,
+      "verification_status": "verified",
+      "visibility": "private",
+      "notes": "Playwright 1.63.0 specs under harness/tests, one per challenge, run headed in installed Chrome, with screenshots and recordings in harness/evidence. The station images in this project are taken from that evidence."
+    },
+    {
+      "id": "evidence_owner_statements",
+      "type": "manual_confirmation",
+      "label": "Owner statements and confirmation (October 2026)",
+      "uri": null,
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Boaz, in the Claude Code sessions that built the workshop: he chose the stations format (nine stations around one big table — set them up first, then walk between them, then make something new); after the workshop he said it was really successful (\"היה ממש מוצלח\") and that he would run it again about a week later for another team; on 2026-10-19 he asked for it to be added to the portfolio. On 2026-10-19 he confirmed his role as Design Team Leader and facilitator of the workshop, and that he designed it and wrote its content."
+    },
+    {
+      "id": "evidence_workshop_media",
+      "type": "image",
+      "label": "Photos and videos from the day, faces blurred",
+      "uri": null,
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "Six photos and three short videos taken on 6 October 2026 by the owner, all used here. Every face was blurred before publication, on this machine with macOS Vision face and person detection plus regions added by eye after checking every photo and frames across every clip; a webcam preview and a woven portrait on screen in the photos were blurred too, as was a browser bookmark that named another, confidential client. On 2026-10-19 the owner decided to publish them this way and accepted that participants' work and browser windows are visible. Audio was removed from the videos."
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "stations-page",
+      "label": "התחנות",
+      "file": "workshop/index.html",
+      "description": "The workshop page: the one-hour agenda, how to set up your station, and the nine stations with their raw briefs. Hover a brief to read the English original. The ribbon in the hero is the DARING key visual rebuilt as procedural 3D in Three.js — a knotted chrome form of stacked plates — and it answers the pointer's light.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
+    },
+    {
+      "id": "get-ready-page",
+      "label": "מתכוננים",
+      "file": "workshop/get-ready.html",
+      "description": "The get-ready page, in its final Hebrew version: ten steps to prepare a Mac — Node, Git, Chrome, Bitbucket access, the download, a test drive, the AI assistant, camera and microphone — each ending in a check. The camera test cannot run inside this frame.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
+    },
+    {
+      "id": "station-01",
+      "label": "01 · מילה שבורחת ממי שכתב אותה",
+      "file": "stations/01-typography/index.html",
+      "description": "A Word That Escapes. Type a word: it starts legible, then grows, drifts and connects on its own. Press Start; change the word or the seed and press Reset.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
+    },
+    {
+      "id": "station-03",
+      "label": "03 · חפץ בלי שם",
+      "file": "stations/03-object-without-name/index.html",
+      "description": "An Object Without a Name. A body grows from a small kernel while a pattern spreads across its skin and lifts it into relief. Drag to walk around it; scroll to come closer.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
+    },
+    {
+      "id": "station-05",
+      "label": "05 · חומר עם זיכרון",
+      "file": "stations/05-material-memory/index.html",
+      "description": "Material with Memory. Press the surface: it gives way, partly recovers, and remembers. Press the same spot again and it answers differently. Choose tender, brittle or resilient.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
+    },
+    {
+      "id": "station-06",
+      "label": "06 · מכונה שמוצאת הליכה",
+      "file": "stations/06-gait/index.html",
+      "description": "A Machine That Finds a Gait. Five rigid parts and four motorised hinges under gravity and friction. No walk is animated: whatever gait appears comes from the body meeting the ground.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
+    },
+    {
+      "id": "station-07",
+      "label": "07 · חלל שגדל מאחורי הדלת",
+      "file": "stations/07-space-behind-door/index.html",
+      "description": "A Space That Grows Behind the Door. Each doorway leads to a room that did not exist until you stepped in, built from the route you took. Click the floor to walk; click a doorway to go through.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
+    },
+    {
+      "id": "station-08",
+      "label": "08 · תמונה שממציאה את מה שמחוצה לה",
+      "file": "stations/08-image-outside/index.html",
+      "description": "An Image That Invents Its Outside. Three reveals that zoom out from one picture into the wider world around it, each changing what the picture means. Runs in its prepared-images mode, labelled as not generating.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
+    },
+    {
+      "id": "station-09",
+      "label": "09 · נול עם מוטציות",
+      "file": "stations/09-loom/index.html",
+      "description": "A Loom with Mutations. A fabric grows one row at a time from an editable motif; rare mutations are inherited by the rows that follow, and a strip beside the cloth traces their lineage.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
+    }
+  ],
+  "media": [
+    {
+      "id": "media_stations_page",
+      "type": "prototype",
+      "purpose": "Let the visitor open the workshop page itself: the agenda, the setup step and the nine stations with their briefs.",
+      "uri": "/api/artifact/daring-workshop/workshop/index.html",
+      "caption": "The workshop page — nine stations and their briefs",
+      "visibility": "public"
+    },
+    {
+      "id": "media_station_01",
+      "type": "image",
+      "purpose": "Show what this station produces, captured during the automated tests before the workshop.",
+      "uri": "/api/artifact/daring-workshop/gallery/station-01.jpg",
+      "caption": "01 · A word that escapes — DARING, fifteen seconds after it starts to drift",
+      "visibility": "public"
+    },
+    {
+      "id": "media_station_02",
+      "type": "image",
+      "purpose": "Show what this station produces, captured during the automated tests before the workshop.",
+      "uri": "/api/artifact/daring-workshop/gallery/station-02.jpg",
+      "caption": "02 · Interpreter for a world that does not exist — a phrase answered in invented syllables",
+      "visibility": "public"
+    },
+    {
+      "id": "media_station_03",
+      "type": "image",
+      "purpose": "Show what this station produces, captured during the automated tests before the workshop.",
+      "uri": "/api/artifact/daring-workshop/gallery/station-03.jpg",
+      "caption": "03 · An object without a name — the grown body, orbited",
+      "visibility": "public"
+    },
+    {
+      "id": "media_station_04",
+      "type": "image",
+      "purpose": "Show what this station produces, captured during the automated tests before the workshop.",
+      "uri": "/api/artifact/daring-workshop/gallery/station-04.jpg",
+      "caption": "04 · Mirror of another creature — the creature dancing your recorded clips",
+      "visibility": "public"
+    },
+    {
+      "id": "media_station_05",
+      "type": "image",
+      "purpose": "Show what this station produces, captured during the automated tests before the workshop.",
+      "uri": "/api/artifact/daring-workshop/gallery/station-05.jpg",
+      "caption": "05 · A material with memory — the brittle surface after repeated presses",
+      "visibility": "public"
+    },
+    {
+      "id": "media_station_06",
+      "type": "image",
+      "purpose": "Show what this station produces, captured during the automated tests before the workshop.",
+      "uri": "/api/artifact/daring-workshop/gallery/station-06.jpg",
+      "caption": "06 · A machine that finds a gait — the creature after a minute of walking",
+      "visibility": "public"
+    },
+    {
+      "id": "media_station_07",
+      "type": "image",
+      "purpose": "Show what this station produces, captured during the automated tests before the workshop.",
+      "uri": "/api/artifact/daring-workshop/gallery/station-07.jpg",
+      "caption": "07 · A space that grows behind the door — the fourth room, a courtyard",
+      "visibility": "public"
+    },
+    {
+      "id": "media_station_08",
+      "type": "image",
+      "purpose": "Show what this station produces, captured during the automated tests before the workshop.",
+      "uri": "/api/artifact/daring-workshop/gallery/station-08.jpg",
+      "caption": "08 · An image that invents its outside — midway through the second reveal",
+      "visibility": "public"
+    },
+    {
+      "id": "media_station_09",
+      "type": "image",
+      "purpose": "Show what this station produces, captured during the automated tests before the workshop.",
+      "uri": "/api/artifact/daring-workshop/gallery/station-09.jpg",
+      "caption": "09 · A loom with mutations — a hundred rows, with inherited mutations",
+      "visibility": "public"
+    },
+    {
+      "id": "media_day_long_table",
+      "type": "image",
+      "purpose": "Show the workshop as it happened: the stations format in the room. Faces are blurred.",
+      "uri": "/api/artifact/daring-workshop/gallery/day-long-table.jpg",
+      "caption": "On the day — leaning over the long table, a station on every laptop",
+      "visibility": "public"
+    },
+    {
+      "id": "media_day_by_the_window",
+      "type": "image",
+      "purpose": "Show the workshop as it happened: the stations format in the room. Faces are blurred.",
+      "uri": "/api/artifact/daring-workshop/gallery/day-by-the-window.jpg",
+      "caption": "On the day — trying a station by the window",
+      "visibility": "public"
+    },
+    {
+      "id": "media_day_around_the_table",
+      "type": "image",
+      "purpose": "Show the workshop as it happened: the stations format in the room. Faces are blurred.",
+      "uri": "/api/artifact/daring-workshop/gallery/day-around-the-table.jpg",
+      "caption": "On the day — working around the table",
+      "visibility": "public"
+    },
+    {
+      "id": "media_day_station_04",
+      "type": "image",
+      "purpose": "Show the workshop as it happened: the stations format in the room. Faces are blurred.",
+      "uri": "/api/artifact/daring-workshop/gallery/day-station-04-creature.jpg",
+      "caption": "On the day — station 04, the creature that mirrors you, on a participant's laptop",
+      "visibility": "public"
+    },
+    {
+      "id": "media_day_corner_station",
+      "type": "image",
+      "purpose": "Show the workshop as it happened: the stations format in the room. Faces are blurred.",
+      "uri": "/api/artifact/daring-workshop/gallery/day-corner-station.jpg",
+      "caption": "On the day — gathered around one station in the corner of the room",
+      "visibility": "public"
+    },
+    {
+      "id": "media_day_loom_portrait",
+      "type": "image",
+      "purpose": "Show the workshop as it happened: the stations format in the room. Faces are blurred.",
+      "uri": "/api/artifact/daring-workshop/gallery/day-loom-portrait.jpg",
+      "caption": "On the day — the loom weaving a portrait at the head of the table",
+      "visibility": "public"
+    },
+    {
+      "id": "media_day_table_clip",
+      "type": "video",
+      "purpose": "Show the stations in use on the day, including what participants made of them. Faces are blurred.",
+      "uri": "/media/daring-day-table.mp4",
+      "caption": "On the day — around the table, the stations running",
+      "visibility": "public"
+    },
+    {
+      "id": "media_day_wordmark_clip",
+      "type": "video",
+      "purpose": "Show the stations in use on the day, including what participants made of them. Faces are blurred.",
+      "uri": "/media/daring-day-wordmark.mp4",
+      "caption": "On the day — a participant's take on station 01, spelling זמינגו and DARING in particles",
+      "visibility": "public"
+    },
+    {
+      "id": "media_day_loom_clip",
+      "type": "video",
+      "purpose": "Show the stations in use on the day, including what participants made of them. Faces are blurred.",
+      "uri": "/media/daring-day-loom.mp4",
+      "caption": "On the day — a participant's take on the loom, weaving a photo portrait row by row",
+      "visibility": "public"
+    }
+  ],
+  "conversation_hooks": [
+    {
+      "recruiter_intent": "Assess AI-native design leadership and team enablement",
+      "trigger_topics": [
+        "workshop",
+        "team",
+        "training",
+        "enablement",
+        "leadership",
+        "ai-native",
+        "mentoring",
+        "culture"
+      ],
+      "agent_response_goal": "Present DARING as a way of moving a design team into unfamiliar, AI-assisted creative territory: nine stations, one hour, each a working starter rather than a slide. Be plain about scope: one internal workshop, reported by the owner as a success, with a second run planned for another team. The photos and clips from the day show the stations in use and what participants made of them; faces are blurred.",
+      "recommended_media_ids": [
+        "media_stations_page",
+        "media_day_long_table",
+        "media_day_table_clip",
+        "media_day_wordmark_clip",
+        "media_day_loom_clip"
+      ]
+    },
+    {
+      "recruiter_intent": "Assess range in creative coding and generative design",
+      "trigger_topics": [
+        "generative",
+        "creative coding",
+        "procedural",
+        "webgl",
+        "three.js",
+        "3d",
+        "simulation",
+        "typography",
+        "computer vision"
+      ],
+      "agent_response_goal": "Let the visitor try the stations: procedural typography, a grown 3D body, a material with memory, a walking machine, rooms that build behind you, an expanding image and a loom with mutations. Open one and offer the others; mention that speech (02) and the camera creature (04) need a microphone or camera and are shown as images.",
+      "recommended_media_ids": [
+        "media_station_01",
+        "media_station_03",
+        "media_station_07",
+        "media_station_09",
+        "media_station_02",
+        "media_station_04"
+      ]
+    },
+    {
+      "recruiter_intent": "Assess how AI-built software is directed and verified",
+      "trigger_topics": [
+        "claude code",
+        "agentic",
+        "testing",
+        "playwright",
+        "quality",
+        "verification",
+        "reliability"
+      ],
+      "agent_response_goal": "Explain the method: feasibility first, one contract for every starter, automated acceptance tests in real Chrome plus a human check per station, and labelled fallbacks instead of silent substitutions — the report says which station was NO-GO and why.",
+      "recommended_media_ids": [
+        "media_station_08",
+        "media_station_05",
+        "media_station_06"
+      ]
+    }
+  ],
+  "presentation": {
+    "default_component": "show_artifact",
+    "short_pitch": "DARING — a one-hour generative-design workshop for Zemingo's designers: nine working stations, built and tested before the day with Claude Code.",
+    "long_pitch": "An internal workshop at Zemingo that put nine generative-design challenges in front of the team — typography that escapes its author, an invented spoken language, a 3D body without a name, a creature that mirrors you, a material with memory, a machine that finds its gait, rooms that grow behind the door, an image that invents its outside, and a loom with mutations. Boaz designed it and wrote its content, facilitated it as Design Team Leader, and directed the build with Claude Code: each challenge is a small starter with the same contract and an automated test suite, checked by eye before it was declared ready. On the day the nine became stations around one table. He reports it went very well and planned a second run for another team.",
+    "suggested_followups": [
+      "Want to open a station and play with it, or see the workshop page first?",
+      "I can also explain how each station was tested before the day."
+    ]
+  },
+  "open_questions": [
+    "Attendance and the participants' own results from the day are not recorded.",
+    "Faces in the photos and videos from the day are blurred; the participants' consent to publication is not recorded.",
+    "The second run for another team (planned for about a week after 6 October 2026) is not recorded as having happened.",
+    "Stations 02 (microphone) and 04 (camera, with a MediaPipe model and WebAssembly the artifact route does not serve) cannot run inside the portfolio's sandboxed frame, so they appear only as images."
+  ],
+  "peek": {
+    "hook": "Nine generative-design stations. One hour. One table.",
+    "supporting": "A workshop for Zemingo's designers — every station a working starter, tested before the day.",
+    "cta": "Try a station"
+  }
+}

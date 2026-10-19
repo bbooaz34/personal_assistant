@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Material with Memory</title>
+  <style>:root{--bg:#f2f0ec;--ink:#1d1b19;--muted:#6b645a;--line:#d6d0c6;--btn:#fff}*{box-sizing:border-box}body{background:var(--bg);color:var(--ink);margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}main{flex-wrap:wrap;align-items:flex-start;gap:24px;padding:20px;display:flex}canvas{touch-action:none;cursor:pointer;border-radius:6px;max-width:100%;display:block}aside{flex-direction:column;gap:16px;width:300px;display:flex}h1{margin:0;font-size:20px}p{color:var(--muted);margin:0}.row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}button{font:inherit;border:1px solid var(--line);background:var(--btn);cursor:pointer;border-radius:6px;padding:6px 12px}button:disabled{opacity:.45;cursor:default}button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}input{font:inherit;border:1px solid var(--line);border-radius:6px;width:130px;padding:5px 8px}label{color:var(--muted);font-size:13px}#readout{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px}[data-error]{color:#8a1c0b;background:#fde8e4;border:1px solid #f0b4a8;border-radius:6px;padding:10px 12px;display:none}[data-error].show{display:block}</style>
+  <script type="module" crossorigin src="./assets/index-DtJOW7Ie.js"></script>
+</head>
+<body>
+  <main>
+    <canvas id="surface" aria-label="Material surface: press and drag to touch it"></canvas>
+    <aside>
+      <div>
+        <h1>Material with Memory</h1>
+        <p>Press the surface. It gives way, partly recovers, and remembers. The next press in the same place behaves differently.</p>
+      </div>
+      <div data-error role="alert"></div>
+      <div class="row">
+        <button id="start">Start</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+      </div>
+      <div>
+        <label>Material</label>
+        <div class="row" id="materials"></div>
+      </div>
+      <div class="row">
+        <label for="seed">Seed</label>
+        <input id="seed" spellcheck="false">
+        <button id="newseed" title="Pick a new random seed and reset">New seed</button>
+      </div>
+      <div id="readout"></div>
+      <p>Try it: press one spot, wait for it to settle, press the same spot again. Compare the two depths above, then press a fresh spot.</p>
+    </aside>
+  </main>
+</body>
+</html>

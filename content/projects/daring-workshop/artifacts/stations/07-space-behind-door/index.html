@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Space That Grows Behind the Door</title>
+  <style>:root{--bg:#0b0c0f;--ink:#ece7de;--muted:#9a958c;--line:#33363b;--btn:#1c1e22}*{box-sizing:border-box}body{background:var(--bg);color:var(--ink);margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}main{flex-wrap:wrap;align-items:flex-start;gap:24px;padding:20px;display:flex}canvas{aspect-ratio:8/5;cursor:pointer;touch-action:none;border-radius:6px;width:960px;max-width:100%;height:auto;display:block}aside{flex-direction:column;gap:16px;width:300px;display:flex}h1{margin:0;font-size:20px}p{color:var(--muted);margin:0}.row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}button{font:inherit;color:var(--ink);border:1px solid var(--line);background:var(--btn);cursor:pointer;border-radius:6px;padding:6px 12px}button:disabled{opacity:.4;cursor:default}input{font:inherit;color:var(--ink);background:var(--btn);border:1px solid var(--line);border-radius:6px;width:130px;padding:5px 8px}label{color:var(--muted);font-size:13px}ul{color:var(--muted);margin:0;padding-left:18px}#stats{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px}[data-error]{color:#ffd2c8;background:#3a1712;border:1px solid #7a2e22;border-radius:6px;padding:10px 12px;display:none}[data-error].show{display:block}</style>
+  <script type="module" crossorigin src="./assets/index-k_XTJ_Rj.js"></script>
+</head>
+<body>
+  <main>
+    <canvas id="view" aria-label="3D rooms: click the floor to walk, click a doorway to go through, drag to look around"></canvas>
+    <aside>
+      <div>
+        <h1>A Space That Grows Behind the Door</h1>
+        <p>Each doorway leads somewhere that did not exist until you stepped in. The way you walk shapes what comes next.</p>
+      </div>
+      <ul>
+        <li><b>Click the floor</b> to walk there.</li>
+        <li><b>Click a doorway</b> to go through it.</li>
+        <li><b>Drag</b> to look around.</li>
+      </ul>
+      <div data-error role="alert"></div>
+      <div class="row">
+        <button id="start">Start</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+      </div>
+      <div class="row">
+        <label for="seed">Seed</label>
+        <input id="seed" spellcheck="false">
+        <button id="newseed" title="Pick a new random seed and reset">New seed</button>
+      </div>
+      <div id="stats"></div>
+    </aside>
+  </main>
+</body>
+</html>

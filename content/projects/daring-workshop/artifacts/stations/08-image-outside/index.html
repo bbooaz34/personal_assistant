@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>An Image That Invents Its Outside</title>
+  <style>:root{--bg:#0e0f11;--ink:#ece7de;--muted:#9a958c;--line:#33363b;--btn:#1c1e22;--accent:#e8c468}*{box-sizing:border-box}body{background:var(--bg);color:var(--ink);margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}main{flex-wrap:wrap;align-items:flex-start;gap:24px;padding:20px;display:flex}.stage{flex-direction:column;gap:10px;width:880px;max-width:100%;display:flex}canvas{background:#000;border-radius:6px;width:100%;height:auto;display:block}aside{flex-direction:column;gap:14px;width:290px;display:flex}h1{margin:0;font-size:20px}p{color:var(--muted);margin:0}.row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}button{font:inherit;color:var(--ink);border:1px solid var(--line);background:var(--btn);cursor:pointer;border-radius:6px;padding:6px 12px}button:disabled{opacity:.4;cursor:default}button[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}#start{background:var(--accent);border-color:var(--accent);color:#1d1b19;font-weight:600}input{font:inherit;color:var(--ink);background:var(--btn);border:1px solid var(--line);border-radius:6px;width:120px;padding:5px 8px}label{color:var(--muted);font-size:13px}#mode-label{letter-spacing:.02em;border-radius:6px;padding:10px 12px;font-weight:700}#mode-label.prepared{background:var(--accent);color:#1d1b19}#mode-label.live{color:#d9c8ff;background:#2a1e3a}#mode-label.own{color:#1d1b19;background:#ff8fd0}#own-panel{flex-direction:column;gap:10px;display:flex}#own-panel[hidden]{display:none}.own-intro,.own-tip{color:var(--muted);margin:0;font-size:13px}.own-steps{flex-direction:column;gap:8px;margin:0;padding:0;list-style:none;display:flex}.own-steps li{border-top:1px solid var(--line);grid-template-columns:1fr auto;align-items:center;gap:6px 8px;padding-top:8px;display:grid}.own-name{font-size:14px;font-weight:600}.own-state{color:var(--muted);grid-column:1/-1;font-size:12px}.own-state.ok{color:#9be38a}.filebtn{font:inherit;color:var(--ink);border:1px solid var(--line);background:var(--btn);cursor:pointer;text-align:center;border-radius:6px;padding:5px 10px;font-size:13px}.filebtn input{display:none}.own-steps li.locked .filebtn,.own-steps li.locked .own-dl{opacity:.4;pointer-events:none}.own-dl{grid-column:1/-1;padding:5px 10px;font-size:13px}.own-steps li:not([data-step="0"]) .filebtn{grid-column:1/-1}#caption{min-height:24px;font-size:16px}#request{background:#1c1e22;border-radius:6px;padding:8px 12px;font-size:14px;display:none}#request.show{display:block}#request.error{color:#ffd2c8;background:#3a1712}#stats{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px}[data-error]{color:#ffd2c8;background:#3a1712;border:1px solid #7a2e22;border-radius:6px;padding:10px 12px;display:none}[data-error].show{display:block}</style>
+  <script type="module" crossorigin src="./assets/index-Din_LAuH.js"></script>
+</head>
+<body>
+  <main>
+    <div class="stage">
+      <div id="mode-label" class="prepared" role="note">PREPARED IMAGES – NOT GENERATING</div>
+      <canvas id="view" aria-label="The picture and the world revealed around it"></canvas>
+      <div id="caption" aria-live="polite"></div>
+      <div id="request" role="status"></div>
+    </div>
+    <aside>
+      <div>
+        <h1>An Image That Invents Its Outside</h1>
+        <p>Begin with one image, then reveal the larger world around it, three times. Each reveal keeps what came before and changes what it means.</p>
+      </div>
+      <div data-error role="alert"></div>
+      <div class="row">
+        <button id="mode-own" aria-pressed="false">Your images</button>
+        <button id="mode-prepared" aria-pressed="true">Prepared images</button>
+        <button id="mode-live" aria-pressed="false">Live generation</button>
+      </div>
+      <div class="row">
+        <button id="start">Reveal next</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+      </div>
+      <div class="row">
+        <label for="seed">Seed</label>
+        <input id="seed" spellcheck="false">
+        <button id="newseed" title="A new seed: the reveals drift in a different direction">New seed</button>
+      </div>
+      <div id="own-panel" hidden>
+        <p class="own-intro">Make each expansion in your own image tool (ChatGPT, Gemini, Photoshop's Generative Expand…). This page prepares what to give it and plays the reveals. Your images are saved in this folder (<code>public/my-images</code>) and go nowhere else.</p>
+        <ol class="own-steps">
+          <li data-step="0"><span class="own-name">Start image</span><label class="filebtn">Choose image<input type="file" accept="image/png,image/jpeg,image/webp"></label><span class="own-state"></span></li>
+          <li data-step="1"><span class="own-name">Expansion 1</span><button class="own-dl" type="button">Download canvas to expand</button><label class="filebtn">Upload expanded image<input type="file" accept="image/png,image/jpeg,image/webp"></label><span class="own-state"></span></li>
+          <li data-step="2"><span class="own-name">Expansion 2</span><button class="own-dl" type="button">Download canvas to expand</button><label class="filebtn">Upload expanded image<input type="file" accept="image/png,image/jpeg,image/webp"></label><span class="own-state"></span></li>
+          <li data-step="3"><span class="own-name">Expansion 3</span><button class="own-dl" type="button">Download canvas to expand</button><label class="filebtn">Upload expanded image<input type="file" accept="image/png,image/jpeg,image/webp"></label><span class="own-state"></span></li>
+        </ol>
+        <p class="own-tip">In your tool, give it the downloaded canvas and ask it to <b>fill the transparent border</b> with the wider world, keeping the centre as it is. Save the result at the same 3:2 shape.</p>
+        <button id="own-clear" type="button">Start over</button>
+      </div>
+      <div class="row" id="live-upload">
+        <label for="upload">Your starting image (live mode)</label>
+        <input id="upload" type="file" accept="image/png,image/jpeg,image/webp" style="width: 100%">
+      </div>
+      <div id="stats"></div>
+      <p id="mode-help"></p>
+    </aside>
+  </main>
+</body>
+</html>

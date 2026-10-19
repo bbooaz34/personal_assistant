@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>DARING · מתכוננים</title>
+  <meta name="description" content="איך מכינים את המק לסדנת DARING.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="topline">
+        <span class="eyebrow">סדנה יצירתית למעצבים בעידן ה־AI</span>
+        <span class="eyebrow">מחר · 10:00</span>
+      </div>
+      <h1 class="title" dir="ltr">Daring</h1>
+      <p class="dare" dir="ltr">Dare to make.</p>
+      <div class="sculpture">
+        <img id="hero-poster" src="assets/poster.webp" alt="סרט כרום מצולע ומשנה צבעים שמתפתל בחלל שחור: הוויז׳ואל המרכזי של DARING.">
+        <canvas id="hero-3d" hidden aria-label="סרט כרום חי שמתפתל בחלל; הזיזו את העכבר כדי להזיז את האור."></canvas>
+      </div>
+      <p class="lede">תעשו משהו שלא ידעתם שאתם מסוגלים לו.</p>
+      <p class="punch holo-text">תנסו, מקסימום תצליחו.</p>
+      <div class="when" role="note">
+        <p class="eyebrow">נתראה מחר</p>
+        <p class="when-time"><span>יום שלישי, 6 באוקטובר</span> <span class="holo-text">10:00</span></p>
+        <p class="when-note">עשו את הצעדים שלמטה היום. תגיעו עם מחשב מוכן, מטען, ואוזניות חוטיות אם יש לכם.</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="before">
+      <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">מתכוננים</h2></div>
+      <p class="brief" style="margin-top:0; max-width: 46ch;">בערך עשרים דקות. עשו את זה היום, ומחר רק פותחים את המחשב ומתחילים.</p>
+      <p class="note" style="max-width: 62ch;">כל צעד נגמר בבדיקה, כדי שתדעו שזה עבד. את הפקודות מריצים ב־<b>Terminal</b> (Applications ← Utilities ← Terminal): מעתיקים, מדביקים ולוחצים Enter.</p>
+      <ol class="steps">
+        <li>
+          <h3>התקינו את Node.js</h3>
+          <p>הורידו את גרסת ה־<b>LTS</b> מהאתר <a href="https://nodejs.org" rel="noopener">nodejs.org</a> (גרסה 22.12 ומעלה) והתקינו עם הגדרות ברירת המחדל. אחר כך פתחו חלון Terminal <b>חדש</b>, העתיקו את הפקודה, הדביקו ולחצו Enter:</p>
+          <div class="cmd"><code>node -v</code><button class="copy" type="button" aria-label="העתקת הפקודה">העתקה</button></div>
+          <p class="ok">בדיקה: מופיע <code>v22.12</code> או גרסה גבוהה יותר.</p>
+        </li>
+        <li>
+          <h3>התקינו את Git</h3>
+          <p>העתיקו את הפקודה, הדביקו ב־Terminal ולחצו Enter. אם נפתח חלון שמציע להתקין את <b>command line developer tools</b>, לחצו <b>Install</b>, חכו שההתקנה תסתיים, והריצו את הפקודה שוב.</p>
+          <div class="cmd"><code>git --version</code><button class="copy" type="button" aria-label="העתקת הפקודה">העתקה</button></div>
+          <p class="ok">בדיקה: מופיעה גרסה, למשל <code>git version 2.4x</code>.</p>
+        </li>
+        <li>
+          <h3>הכינו את Chrome</h3>
+          <p>התקינו או עדכנו את <a href="https://www.google.com/chrome" rel="noopener">Google Chrome</a>. ב־Chrome פתחו <b>Settings ← System</b>, הפעילו את <b>Use graphics acceleration when available</b>, והפעילו את Chrome מחדש.</p>
+          <p class="ok">בדיקה: הקלידו <code>chrome://gpu</code> בשורת הכתובת. ליד <b>WebGL2</b> צריך להיות כתוב <b>Hardware accelerated</b>.</p>
+        </li>
+        <li>
+          <h3>קבלו גישה לסדנה</h3>
+          <p>תקבלו במייל הזמנה ל־<b>Bitbucket</b> של זמינגו. אשרו אותה והתחברו (עם חשבון Atlassian, או צרו חשבון חדש).</p>
+          <p>אחר כך צרו מפתח שמאפשר למחשב שלכם להוריד את הסדנה, <b>API token</b>:</p>
+          <p class="path">Bitbucket ← התמונה שלכם (למעלה בפינה) ← <b>Account settings</b> ← <b>Security</b> ← <b>Create and manage API tokens</b> ← <b>Create API token with scopes</b></p>
+          <p>תנו לו את השם <code>daring</code>, קבעו שיפוג אחרי הסדנה, בחרו באפליקציה <b>Bitbucket</b>, סמנו את ההרשאה <code>read:repository</code> ולחצו <b>Create token</b>. שמרו את המפתח במקום בטוח: הוא מוצג רק פעם אחת.</p>
+          <p class="ok">בדיקה: הכתובת <a href="https://bitbucket.org/zemingo/daring-workshop" rel="noopener">bitbucket.org/zemingo/daring-workshop</a> נפתחת כשאתם מחוברים.</p>
+        </li>
+        <li>
+          <h3>הורידו את הסדנה</h3>
+          <p>1. פתחו את <b>Terminal</b>. העתיקו את הפקודה, הדביקו אותה ולחצו Enter:</p>
+          <div class="cmd"><code>cd ~ && git clone https://bitbucket.org/zemingo/daring-workshop.git daring && cd daring</code><button class="copy" type="button" aria-label="העתקת הפקודה">העתקה</button></div>
+          <p>2. הטרמינל מבקש <b>Username</b>. העתיקו את זה, הדביקו ולחצו Enter:</p>
+          <div class="cmd"><code>x-bitbucket-api-token-auth</code><button class="copy" type="button" aria-label="העתקת שם המשתמש">העתקה</button></div>
+          <p>3. הטרמינל מבקש <b>Password</b>. הדביקו את ה־API token שיצרתם בצעד 4 ולחצו Enter. לא תראו כלום בזמן ההדבקה, וזה תקין.</p>
+          <p>זה מוריד את כל תשעת האתגרים לתיקייה חדשה בשם <code>daring</code>. עושים את זה רק פעם אחת.</p>
+          <p class="ok">בדיקה: אין הודעת שגיאה, ובשורה שבה מקלידים מופיע עכשיו <code>daring</code>.</p>
+        </li>
+        <li>
+          <h3>מתקינים הכל ובודקים</h3>
+          <p>מתוך התיקייה <code>daring</code>. הפקודה הראשונה צריכה אינטרנט פעם אחת (דקה או שתיים); אחרי זה הכל עובד גם בלי אינטרנט. העתיקו כל פקודה, הדביקו ולחצו Enter:</p>
+          <div class="cmd"><code>npm run setup</code><button class="copy" type="button" aria-label="העתקת הפקודה">העתקה</button></div>
+          <div class="cmd"><code>npm run check</code><button class="copy" type="button" aria-label="העתקת הפקודה">העתקה</button></div>
+          <p class="ok">בדיקה: בשורה האחרונה כתוב <b>✓ Ready</b>. ליד כל דבר שמסומן ב־✗ כתוב בדיוק איך לתקן.</p>
+        </li>
+        <li>
+          <h3>נסיעת מבחן</h3>
+          <p>לכל אתגר יש פרויקט פתיחה קטן שכבר רץ. נסו אחד: העתיקו, הדביקו ב־Terminal ולחצו Enter.</p>
+          <div class="cmd"><code>cd ~/daring/starters/09-loom && npm run dev</code><button class="copy" type="button" aria-label="העתקת הפקודה">העתקה</button></div>
+          <p>פתחו ב־<b>Chrome</b> את הכתובת שמופיעה (<code>http://localhost:5173</code>) ולחצו <b>Start</b>. כדי לעצור, לחצו <b class="keys" dir="ltr">Ctrl&nbsp;+&nbsp;C</b> ב־Terminal.</p>
+          <p class="ok">בדיקה: משהו מתחיל לצמוח על המסך.</p>
+        </li>
+        <li>
+          <h3>חברו את עוזר ה־AI שלכם</h3>
+          <p>התחברו לעוזר שאתם רגילים לכתוב איתו קוד, ופתחו בו את התיקייה <code>daring</code>. אחר כך שאלו אותו:</p>
+          <p class="quote">"בקובץ starters/09-loom/src/config.js, מה אפשר לשנות?"</p>
+          <p class="ok">בדיקה: הוא עונה על ההגדרות בקובץ. הוא רואה את הקבצים שלכם, כלומר אתם מחוברים.</p>
+          <p>אם אתם עובדים עם כלי תמונה שיודע <b>להרחיב תמונה</b>: ChatGPT או Gemini, או Generative Expand בפוטושופ, התחברו גם אליו. אחת התחנות עשויה להזדקק לו.</p>
+        </li>
+        <li>
+          <h3>תנו ל־Chrome להשתמש במצלמה ובמיקרופון</h3>
+          <p>חלק מהאתגרים מקשיבים או מסתכלים. לחצו על הכפתור, וכש־Chrome שואל, לחצו <b>Allow</b>. שום דבר לא מוקלט ולא נשלח: זה רק מראה לכם מה Chrome רואה ושומע.</p>
+          <div class="media-test">
+            <button type="button" class="media-btn">בדיקת מצלמה ומיקרופון</button>
+            <video class="media-video" playsinline muted hidden></video>
+            <div class="media-meter" hidden><div></div></div>
+            <p class="media-status" aria-live="polite"></p>
+          </div>
+          <p>אם Chrome מציג שגיאה, או שהתמונה נשארת שחורה: פתחו <b>System Settings ← Privacy &amp; Security ← Camera</b>, ואחר כך <b>Microphone</b>, והפעילו את <b>Google Chrome</b>. סגרו את Chrome לגמרי (<b class="keys" dir="ltr">⌘&nbsp;Q</b>), פתחו אותו שוב ונסו שוב.</p>
+          <p class="ok">בדיקה: אתם רואים את עצמכם, והפס זז כשאתם מדברים.</p>
+        </li>
+        <li>
+          <h3>מחר בבוקר, לפני 10:00</h3>
+          <p>עדכנו לגרסה האחרונה. זה מביא גם את דף הסדנה עם הבריפים. העתיקו, הדביקו ב־Terminal ולחצו Enter:</p>
+          <div class="cmd"><code>cd ~/daring &amp;&amp; git pull &amp;&amp; npm run setup &amp;&amp; npm run check</code><button class="copy" type="button" aria-label="העתקת הפקודה">העתקה</button></div>
+          <p>תביאו את המחשב טעון, את המטען, ואוזניות חוטיות אם יש לכם.</p>
+          <p class="ok">בדיקה: בשורה האחרונה עדיין כתוב <b>✓ Ready</b>.</p>
+        </li>
+      </ol>
+      <p class="note">התחנות והבריפים ייחשפו בסדנה.</p>
+    </section>
+
+    <footer>
+      <img src="assets/zemingo-logo.png" alt="Zemingo">
+      <p><bdi dir="ltr">Daring · Dare to make.</bdi></p>
+    </footer>
+  </main>
+  <script src="assets/hero.js" defer></script>
+  <script src="page.js"></script>
+</body>
+</html>

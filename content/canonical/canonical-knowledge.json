@@ -3,7 +3,7 @@
     "schema_version": "0.2",
     "subject_id": "person_boaz_ben_eli",
     "generated_at": "2026-08-26",
-    "generated_by": "human review of cv-extraction-v0.2 + chatgpt-export-v0.2, per canonical-v0.1-changelog; internship platform added 2026-08-26 from project export + source bundle review; internship platform cleared for public use 2026-08-26; Heights Telecom website added 2026-09-07 from the owner's Figma file at the owner's request (assets exported from Figma), pending owner confirmation of role and scope; Heights website confirmed and verified 2026-09-07 by owner (role, new-homepage phase, launch date) with Zemingo case-study and live-site sources; LinkedIn layer added 2026-09-07 at the owner's request (headline, posts, article) — career title/date conflicts with the CV left OPEN, not merged; owner decisions 2026-09-07: canonical always wins over LinkedIn on career facts (both conflicts resolved), the GPT-coach article dropped from agent knowledge, LEGO Christmas house added; business-banking design system added 2026-09-07 from the owner's Figma file at the owner's request (prototypes generated from its Transitions page); owner confirmed role, delivery status and the confidential-client presentation rule same day; owner confirmed 2026-09-07 that the Heights website and the banking design system were delivered via Zemingo under his Design Team Lead role (delivered_via added)",
+    "generated_by": "human review of cv-extraction-v0.2 + chatgpt-export-v0.2, per canonical-v0.1-changelog; internship platform added 2026-08-26 from project export + source bundle review; internship platform cleared for public use 2026-08-26; Heights Telecom website added 2026-09-07 from the owner's Figma file at the owner's request (assets exported from Figma), pending owner confirmation of role and scope; Heights website confirmed and verified 2026-09-07 by owner (role, new-homepage phase, launch date) with Zemingo case-study and live-site sources; LinkedIn layer added 2026-09-07 at the owner's request (headline, posts, article) — career title/date conflicts with the CV left OPEN, not merged; owner decisions 2026-09-07: canonical always wins over LinkedIn on career facts (both conflicts resolved), the GPT-coach article dropped from agent knowledge, LEGO Christmas house added; business-banking design system added 2026-09-07 from the owner's Figma file at the owner's request (prototypes generated from its Transitions page); owner confirmed role, delivery status and the confidential-client presentation rule same day; owner confirmed 2026-09-07 that the Heights website and the banking design system were delivered via Zemingo under his Design Team Lead role (delivered_via added); DARING workshop added 2026-10-19 at the owner's request from the workshop repository and his statements in the build sessions, pending his review of role and wording",
     "notes": "CANONICAL. Every entry here was reviewed by the owner. Facts still marked needs_verification are true to the best of current knowledge but lack an authoritative artefact; the agent presents them as unverified. Contact details, compensation and personal information are intentionally absent — they are excluded at the source, not filtered at runtime. The internship platform was cleared for public portfolio use by Zemingo (owner-reported, 2026-08-26) and is now public. Its media stays restricted until screenshots are confirmed free of intern data, and four claim rules still apply — see the project notes."
   },
   "sources": [
@@ -123,6 +123,24 @@
       "uri": null,
       "date": "2026-10-19",
       "notes": "The two direction prototypes themselves, built from the client project's working tree and sanitised of the client's name before publication. Primary evidence for what was designed."
+    },
+    {
+      "id": "source_daring_workshop_repo_2026_10_19",
+      "type": "document",
+      "name": "DARING workshop repository (Zemingo Bitbucket, zemingo/daring-workshop), read 2026-10-19",
+      "authority_level": 2,
+      "uri": null,
+      "date": "2026-10-19",
+      "notes": "The nine starters, their Playwright acceptance tests and evidence, REPORT.md (feasibility matrix, environment, checklist, unproven items) and the participant pages. The facilitator's work ends at e519810 (2026-10-06); later commits by participants are theirs. Private company repository, so not linked."
+    },
+    {
+      "id": "source_owner_statements_daring_2026_10",
+      "type": "manual",
+      "name": "Owner statements in the DARING build sessions, October 2026",
+      "authority_level": 1,
+      "uri": null,
+      "date": "2026-10-19",
+      "notes": "Recorded in the Claude Code sessions that built the workshop: Boaz chose the stations format for the day (set up nine stations around one table, walk between them, then make something new); after the workshop on 2026-10-06 he said it was really successful and that he would run it again about a week later for another team; on 2026-10-19 he asked for the workshop to be added to the portfolio. On 2026-10-19 he confirmed his role as Design Team Leader and workshop facilitator, and that he designed the workshop and wrote its content; the rest of the project text has not yet been reviewed by him."
     }
   ],
   "entities": [
@@ -421,6 +439,24 @@
       "id": "industry_health_wellness",
       "type": "industry",
       "name": "Health & Wellness",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_threejs",
+      "type": "tool",
+      "name": "Three.js",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_mediapipe",
+      "type": "tool",
+      "name": "MediaPipe",
+      "visibility": "public"
+    },
+    {
+      "id": "tool_playwright",
+      "type": "tool",
+      "name": "Playwright",
       "visibility": "public"
     }
   ],
@@ -1776,6 +1812,132 @@
       "visibility": "public",
       "notes": "Authorship, the client's response and the presentation rule are owner-confirmed. The case-study copy was drafted from the prototypes themselves and has not been read by Boaz; flip to verified once it has.",
       "media": []
+    },
+    {
+      "id": "project_daring_workshop",
+      "name": "DARING — A Generative Design Workshop",
+      "company_id": "company_zemingo",
+      "role_ids": [
+        "role_design_team_leader"
+      ],
+      "summary": "A one-hour generative-design workshop for Zemingo's product designers, held on 6 October 2026. Nine challenges outside the designers' usual disciplines, each shipped as a working starter with the same contract (seed, Start/Pause/Reset, named parameters, offline, recovery) and tested before the day with automated Playwright acceptance tests and a human check; eight were GO and live image generation was labelled NO-GO with a labelled fallback. For the day the nine became stations around one table. Boaz designed the workshop and wrote its content, facilitated it as Design Team Leader, and directed the build with Claude Code.",
+      "skill_ids": [
+        "skill_ai_native_design",
+        "skill_generative_ai",
+        "skill_team_leadership",
+        "skill_agentic_delivery",
+        "skill_creative_direction",
+        "skill_3d_immersive"
+      ],
+      "tool_ids": [
+        "tool_claude_code",
+        "tool_threejs",
+        "tool_mediapipe",
+        "tool_playwright"
+      ],
+      "industry_ids": [
+        "industry_ai"
+      ],
+      "sources": [
+        {
+          "source_id": "source_owner_statements_daring_2026_10",
+          "reliability": 0.9
+        },
+        {
+          "source_id": "source_daring_workshop_repo_2026_10_19",
+          "reliability": 0.9
+        }
+      ],
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "media": [
+        {
+          "type": "prototype",
+          "uri": "/api/artifact/daring-workshop/workshop/index.html",
+          "caption": "The workshop page — nine stations and their briefs",
+          "visibility": "public"
+        },
+        {
+          "type": "image",
+          "uri": "/api/artifact/daring-workshop/gallery/station-01.jpg",
+          "caption": "01 · A word that escapes — DARING, fifteen seconds after it starts to drift",
+          "visibility": "public"
+        },
+        {
+          "type": "image",
+          "uri": "/api/artifact/daring-workshop/gallery/station-03.jpg",
+          "caption": "03 · An object without a name — the grown body, orbited",
+          "visibility": "public"
+        },
+        {
+          "type": "image",
+          "uri": "/api/artifact/daring-workshop/gallery/station-07.jpg",
+          "caption": "07 · A space that grows behind the door — the fourth room, a courtyard",
+          "visibility": "public"
+        },
+        {
+          "type": "image",
+          "uri": "/api/artifact/daring-workshop/gallery/station-09.jpg",
+          "caption": "09 · A loom with mutations — a hundred rows, with inherited mutations",
+          "visibility": "public"
+        },
+        {
+          "type": "image",
+          "uri": "/api/artifact/daring-workshop/gallery/day-long-table.jpg",
+          "caption": "On the day — leaning over the long table, a station on every laptop",
+          "visibility": "public"
+        },
+        {
+          "type": "image",
+          "uri": "/api/artifact/daring-workshop/gallery/day-by-the-window.jpg",
+          "caption": "On the day — trying a station by the window",
+          "visibility": "public"
+        },
+        {
+          "type": "image",
+          "uri": "/api/artifact/daring-workshop/gallery/day-around-the-table.jpg",
+          "caption": "On the day — working around the table",
+          "visibility": "public"
+        },
+        {
+          "type": "image",
+          "uri": "/api/artifact/daring-workshop/gallery/day-station-04-creature.jpg",
+          "caption": "On the day — station 04, the creature that mirrors you, on a participant's laptop",
+          "visibility": "public"
+        },
+        {
+          "type": "image",
+          "uri": "/api/artifact/daring-workshop/gallery/day-corner-station.jpg",
+          "caption": "On the day — gathered around one station in the corner of the room",
+          "visibility": "public"
+        },
+        {
+          "type": "image",
+          "uri": "/api/artifact/daring-workshop/gallery/day-loom-portrait.jpg",
+          "caption": "On the day — the loom weaving a portrait at the head of the table",
+          "visibility": "public"
+        },
+        {
+          "type": "video",
+          "uri": "/media/daring-day-table.mp4",
+          "caption": "On the day — around the table, the stations running",
+          "visibility": "public"
+        },
+        {
+          "type": "video",
+          "uri": "/media/daring-day-wordmark.mp4",
+          "caption": "On the day — a participant's take on station 01, spelling זמינגו and DARING in particles",
+          "visibility": "public"
+        },
+        {
+          "type": "video",
+          "uri": "/media/daring-day-loom.mp4",
+          "caption": "On the day — a participant's take on the loom, weaving a photo portrait row by row",
+          "visibility": "public"
+        }
+      ],
+      "notes": "Added 2026-10-19 at the owner's request, built from the workshop repository and his statements in the build sessions; on 2026-10-19 he confirmed his role (Design Team Leader, workshop facilitator) and that he designed the workshop and wrote its content; the rest of the copy still needs his review. Photos and videos from the day are published with every face blurred, at the owner's decision on 2026-10-19; participants' work and browser windows are visible, which he accepted; participants' consent is not recorded. Commits after e519810 in the workshop repository were made by participants and are not presented as Boaz's work.",
+      "thumbnail": "/api/artifact/daring-workshop/thumb.jpg"
     }
   ],
   "relationships": [
@@ -2221,6 +2383,57 @@
       "confidence": 1,
       "source_ids": [
         "source_manual_confirmation_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_boaz_worked_on_daring_workshop",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_on",
+      "to_id": "project_daring_workshop",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_owner_statements_daring_2026_10",
+        "source_daring_workshop_repo_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_daring_workshop_demonstrates_ai_native_design",
+      "from_id": "project_daring_workshop",
+      "type": "demonstrates_skill",
+      "to_id": "skill_ai_native_design",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_daring_workshop_repo_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_daring_workshop_demonstrates_team_leadership",
+      "from_id": "project_daring_workshop",
+      "type": "demonstrates_skill",
+      "to_id": "skill_team_leadership",
+      "confidence": 0.85,
+      "source_ids": [
+        "source_owner_statements_daring_2026_10"
+      ]
+    },
+    {
+      "id": "rel_daring_workshop_at_zemingo",
+      "from_id": "project_daring_workshop",
+      "type": "related_to",
+      "to_id": "company_zemingo",
+      "confidence": 1,
+      "source_ids": [
+        "source_daring_workshop_repo_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_daring_workshop_demonstrates_creative_direction",
+      "from_id": "project_daring_workshop",
+      "type": "demonstrates_skill",
+      "to_id": "skill_creative_direction",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_owner_statements_daring_2026_10"
       ]
     }
   ],

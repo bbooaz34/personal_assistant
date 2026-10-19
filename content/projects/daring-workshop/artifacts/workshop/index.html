@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>DARING · הסדנה</title>
+  <meta name="description" content="תשעה אתגרים בעיצוב גנרטיבי: הבריפים, ומה צריך להביא.">
+  <link rel="stylesheet" href="style.css?v=2026-10-05-he">
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="topline">
+        <span class="eyebrow">סדנה יצירתית למעצבים בעידן ה־AI</span>
+        <span class="eyebrow">סדנה</span>
+      </div>
+      <h1 class="title" dir="ltr">Daring</h1>
+      <p class="dare" dir="ltr">Dare to make.</p>
+      <div class="sculpture">
+        <img id="hero-poster" src="assets/poster.webp" alt="סרט כרום מצולע ומשנה צבעים שמתפתל בחלל שחור: הוויז׳ואל המרכזי של DARING.">
+        <canvas id="hero-3d" hidden aria-label="סרט כרום חי שמתפתל בחלל; הזיזו את העכבר כדי להזיז את האור."></canvas>
+      </div>
+      <p class="lede">תעשו משהו שלא ידעתם שאתם מסוגלים לו.</p>
+      <p class="punch holo-text">תנסו, מקסימום תצליחו.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="session">
+      <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">שעה אחת</h2></div>
+      <table class="agenda">
+        <tr><td><bdi>0–10′</bdi></td><td>מקימים את התחנות. כל משתתף מפעיל תחנה אחת על המחשב שלו ומניח אותו על השולחן.</td></tr>
+        <tr><td><bdi>10–35′</bdi></td><td>מסתובבים בין התחנות. עוצרים איפה שמסקרן, נחשפים וחוקרים.</td></tr>
+        <tr><td><bdi>35–55′</bdi></td><td>יוצרים משהו חדש, בהשראת מה שראיתם.</td></tr>
+        <tr><td><bdi>55–60′</bdi></td><td>מראים מה יצא.</td></tr>
+      </table>
+    </section>
+
+    <section id="start">
+      <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">מקימים את התחנה</h2></div>
+      <ol class="steps">
+        <li>
+          <h3>הפעילו את התחנה שלכם</h3>
+          <p>פתחו את <b>Terminal</b>. העתיקו את הפקודה הראשונה, הדביקו אותה בטרמינל ולחצו Enter. זו הדוגמה של תחנה 07; את התיקייה של התחנה שלכם תמצאו ברשימה למטה.</p>
+          <div class="cmd"><code>cd ~/daring/starters/07-space-behind-door</code><button class="copy" type="button" aria-label="העתקת הפקודה">העתקה</button></div>
+          <p>אחר כך העתיקו גם את זו, הדביקו ולחצו Enter:</p>
+          <div class="cmd"><code>npm run dev</code><button class="copy" type="button" aria-label="העתקת הפקודה">העתקה</button></div>
+          <p>הטרמינל מציג כתובת (בדרך כלל <code>http://localhost:5173</code>). פתחו אותה ב־<b>Chrome</b>. כדי לעצור, לחצו <b class="keys" dir="ltr">Ctrl&nbsp;+&nbsp;C</b> בטרמינל.</p>
+          <p class="ok">בדיקה: התחנה רצה על המסך ומגיבה כשלוחצים על כפתור ה־Start שלה. עכשיו הניחו את המחשב על השולחן.</p>
+          <ul class="folders">
+            <li><span>01</span><code>starters/01-typography</code></li>
+            <li><span>02</span><code>starters/02-invented-speech</code></li>
+            <li><span>03</span><code>starters/03-object-without-name</code></li>
+            <li><span>04</span><code>starters/04-creature-mirror</code></li>
+            <li><span>05</span><code>starters/05-material-memory</code></li>
+            <li><span>06</span><code>starters/06-gait</code></li>
+            <li><span>07</span><code>starters/07-space-behind-door</code></li>
+            <li><span>08</span><code>starters/08-image-outside</code></li>
+            <li><span>09</span><code>starters/09-loom</code></li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+
+    <section id="challenges">
+      <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">התחנות</h2></div>
+      <p class="eyebrow lang-hint"><span class="hint-pointer">העבירו את העכבר מעל בריף</span><span class="hint-touch" hidden>הקישו על בריף</span> כדי לקרוא אותו במקור · <span class="alt-word" lang="en" dir="ltr">English</span></p>
+      <nav class="index" aria-label="התחנות">
+        <a href="#c01"><span class="i-num">01</span><span class="i-title">מילה שבורחת ממי שכתב אותה</span><span class="i-terr">טיפוגרפיה פרוצדורלית</span></a>
+        <a href="#c02"><span class="i-num">02</span><span class="i-title">מתורגמן לעולם שלא קיים</span><span class="i-terr">דיבור</span></a>
+        <a href="#c03"><span class="i-num">03</span><span class="i-title">חפץ בלי שם</span><span class="i-terr">פיסול תלת־ממדי פרוצדורלי</span></a>
+        <a href="#c04"><span class="i-num">04</span><span class="i-title">מראה של יצור אחר</span><span class="i-terr">ראייה ממוחשבת</span></a>
+        <a href="#c05"><span class="i-num">05</span><span class="i-title">חומר עם זיכרון</span><span class="i-terr">התנהגות חומרים</span></a>
+        <a href="#c06"><span class="i-num">06</span><span class="i-title">מכונה שמוצאת הליכה</span><span class="i-terr">תנועה מפרקית</span></a>
+        <a href="#c07"><span class="i-num">07</span><span class="i-title">חלל שגדל מאחורי הדלת</span><span class="i-terr">עיצוב מרחבי</span></a>
+        <a href="#c08"><span class="i-num">08</span><span class="i-title">תמונה שממציאה את מה שמחוצה לה</span><span class="i-terr">נרטיב חזותי</span></a>
+        <a href="#c09"><span class="i-num">09</span><span class="i-title">נול עם מוטציות</span><span class="i-terr">לוגיקה טקסטילית</span></a>
+      </nav>
+
+      <article class="ch" id="c01">
+        <div class="ch-side"><span class="ch-num holo-text">01</span><p class="eyebrow ch-terr">טיפוגרפיה פרוצדורלית וצורה בזמן</p></div>
+        <div>
+          <h2>מילה שבורחת ממי שכתב אותה</h2>
+          <p class="brief bi" tabindex="0"><span lang="he">הקלידו מילה וצפו בה נפתחת קריאה, ואז מתפתחת אל מעבר לשליטה הישירה שלכם. החליטו מה שורד כשהמילה משתנה: קצב, צללית, מרווחים או עקבות של האותיות שלה. בחרו לה אופי רגשי.</span><span class="alt" lang="en" dir="ltr">Enter a word and watch it begin legibly, then evolve beyond your direct control. Decide what survives as the word changes: rhythm, silhouette, spacing, or traces of its letters. Choose an emotional character.</span></p>
+          <p class="needs"><span class="eyebrow">מה צריך</span> מחשב נייד ו־Chrome.</p>
+          <details class="more">
+            <summary>כשמגיע הזמן ליצור</summary>
+            <p>הפעילו את התחנה על המחשב שלכם. העתיקו, הדביקו בטרמינל ולחצו Enter:</p>
+            <div class="cmd"><code>cd ~/daring/starters/01-typography && npm run dev</code><button class="copy" type="button" aria-label="העתקה">העתקה</button></div>
+            <p>אחר כך פתחו בעוזר ה־AI את אותה התיקייה, <code>01-typography</code>, כדי שיעבוד עליה איתכם.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="ch" id="c02">
+        <div class="ch-side"><span class="ch-num holo-text">02</span><p class="eyebrow ch-terr">דיבור, פונטיקה פרוצדורלית וסאונד אקספרסיבי</p></div>
+        <div>
+          <h2>מתורגמן לעולם שלא קיים</h2>
+          <p class="brief bi" tabindex="0"><span lang="he">אמרו משפט קצר וקבלו בחזרה שפה קולית מומצאת, שמהדהדת את המקצב ואת האנרגיה הרגשית שלו. הגדירו זהות צלילית קוהרנטית לשפה הדמיונית הזו.</span><span class="alt" lang="en" dir="ltr">Speak a short phrase and receive an invented vocal language that echoes its cadence and emotional energy. Define a coherent sonic identity for that imaginary language.</span></p>
+          <p class="needs"><span class="eyebrow">מה צריך</span> מיקרופון, אוזניות חוטיות ופינה שקטה.</p>
+          <details class="more">
+            <summary>מיקרופון</summary>
+            <p>שימו <b>אוזניות חוטיות</b> ולחצו <b>Listen</b>. התחנה עונה בהברות שהקליט מנחה הסדנה.</p>
+            <p>כדי שתדבר בקול שלכם, הקליטו 8–12 הברות (כעשר דקות, לא חובה). פתחו ב־Chrome את הכתובת הזו, עם המספר שהטרמינל הציג:</p>
+            <div class="cmd"><code>http://localhost:5173/tools/record-bank.html</code><button class="copy" type="button" aria-label="העתקה">העתקה</button></div>
+            <p class="ok">בדיקה: התחנה עונה לקול שלכם בהברות.</p>
+          </details>
+          <details class="more">
+            <summary>כשמגיע הזמן ליצור</summary>
+            <p>הפעילו את התחנה על המחשב שלכם. העתיקו, הדביקו בטרמינל ולחצו Enter:</p>
+            <div class="cmd"><code>cd ~/daring/starters/02-invented-speech && npm run dev</code><button class="copy" type="button" aria-label="העתקה">העתקה</button></div>
+            <p>אחר כך פתחו בעוזר ה־AI את אותה התיקייה, <code>02-invented-speech</code>, כדי שיעבוד עליה איתכם.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="ch" id="c03">
+        <div class="ch-side"><span class="ch-num holo-text">03</span><p class="eyebrow ch-terr">פיסול תלת־ממדי פרוצדורלי</p></div>
+        <div>
+          <h2>חפץ בלי שם</h2>
+          <p class="brief bi" tabindex="0"><span lang="he">גדלו גוף תלת־ממדי לא מוכר מתוך איכויות מנוגדות, כמו רך וחד, או חלול ודחוס. הצופה מגלה אותו כשהוא נע סביבו.</span><span class="alt" lang="en" dir="ltr">Grow an unfamiliar three-dimensional body from contrasting qualities such as soft and sharp, or hollow and dense. The viewer discovers it by moving around it.</span></p>
+          <p class="needs"><span class="eyebrow">מה צריך</span> Chrome עם האצת גרפיקה מופעלת.</p>
+          <details class="more">
+            <summary>כשמגיע הזמן ליצור</summary>
+            <p>הפעילו את התחנה על המחשב שלכם. העתיקו, הדביקו בטרמינל ולחצו Enter:</p>
+            <div class="cmd"><code>cd ~/daring/starters/03-object-without-name && npm run dev</code><button class="copy" type="button" aria-label="העתקה">העתקה</button></div>
+            <p>אחר כך פתחו בעוזר ה־AI את אותה התיקייה, <code>03-object-without-name</code>, כדי שיעבוד עליה איתכם.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="ch" id="c04">
+        <div class="ch-side"><span class="ch-num holo-text">04</span><p class="eyebrow ch-terr">ראייה ממוחשבת ואנימציה גופנית</p></div>
+        <div>
+          <h2>מראה של יצור אחר</h2>
+          <p class="brief bi" tabindex="0"><span lang="he">למדו יצור כמה מחוות דרך התנועה של הגוף שלכם, ואז צפו בו מרכיב אותן מחדש לריקוד קצר. העניקו לו אישיות דרך האופן שבו הוא מפרש את התנועה שלכם.</span><span class="alt" lang="en" dir="ltr">Teach a creature several gestures through your own movement, then watch it recombine those gestures into a short dance. Give it a personality through how it interprets your motion.</span></p>
+          <p class="needs"><span class="eyebrow">מה צריך</span> מצלמה, אור מלפנים וכמטר וחצי של מקום.</p>
+          <details class="more">
+            <summary>מצלמה</summary>
+            <p>לחצו <b>Start camera</b>, עמדו כמטר וחצי מהמחשב עם אור מלפנים, וחכו להודעה <b>Tracking your arms</b>.</p>
+            <p class="ok">בדיקה: היצור עוקב אחרי הידיים שלכם.</p>
+          </details>
+          <details class="more">
+            <summary>כשמגיע הזמן ליצור</summary>
+            <p>הפעילו את התחנה על המחשב שלכם. העתיקו, הדביקו בטרמינל ולחצו Enter:</p>
+            <div class="cmd"><code>cd ~/daring/starters/04-creature-mirror && npm run dev</code><button class="copy" type="button" aria-label="העתקה">העתקה</button></div>
+            <p>אחר כך פתחו בעוזר ה־AI את אותה התיקייה, <code>04-creature-mirror</code>, כדי שיעבוד עליה איתכם.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="ch" id="c05">
+        <div class="ch-side"><span class="ch-num holo-text">05</span><p class="eyebrow ch-terr">התנהגות חומרים, סימולציה ומשטחים דיגיטליים</p></div>
+        <div>
+          <h2>חומר עם זיכרון</h2>
+          <p class="brief bi" tabindex="0"><span lang="he">המציאו משטח שזוכר איפה נגעו בו. מגעים קודמים משנים את האופן שבו הוא מגיב בהמשך. החליטו אם החומר מרגיש עדין, שביר או עמיד.</span><span class="alt" lang="en" dir="ltr">Invent a surface that remembers where it was touched. Earlier interactions change how it responds later. Decide whether the material feels tender, brittle or resilient.</span></p>
+          <p class="needs"><span class="eyebrow">מה צריך</span> מחשב נייד ו־Chrome. עכבר עוזר.</p>
+          <details class="more">
+            <summary>כשמגיע הזמן ליצור</summary>
+            <p>הפעילו את התחנה על המחשב שלכם. העתיקו, הדביקו בטרמינל ולחצו Enter:</p>
+            <div class="cmd"><code>cd ~/daring/starters/05-material-memory && npm run dev</code><button class="copy" type="button" aria-label="העתקה">העתקה</button></div>
+            <p>אחר כך פתחו בעוזר ה־AI את אותה התיקייה, <code>05-material-memory</code>, כדי שיעבוד עליה איתכם.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="ch" id="c06">
+        <div class="ch-side"><span class="ch-num holo-text">06</span><p class="eyebrow ch-terr">תנועה מפרקית ופיזיקה</p></div>
+        <div>
+          <h2>מכונה שמוצאת הליכה</h2>
+          <p class="brief bi" tabindex="0"><span lang="he">הרכיבו יצור קטן וגלו איך המבנה שלו נע תחת כוח המשיכה וכוחות שחוזרים על עצמם. עצבו לו אישיות מגושמת או חיננית, בלי לצייר כל פריים של אנימציה.</span><span class="alt" lang="en" dir="ltr">Assemble a small creature and discover how its structure moves under gravity and repeated forces. Shape an awkward or graceful personality without drawing every animation frame.</span></p>
+          <p class="needs"><span class="eyebrow">מה צריך</span> מחשב נייד ו־Chrome.</p>
+          <details class="more">
+            <summary>כשמגיע הזמן ליצור</summary>
+            <p>הפעילו את התחנה על המחשב שלכם. העתיקו, הדביקו בטרמינל ולחצו Enter:</p>
+            <div class="cmd"><code>cd ~/daring/starters/06-gait && npm run dev</code><button class="copy" type="button" aria-label="העתקה">העתקה</button></div>
+            <p>אחר כך פתחו בעוזר ה־AI את אותה התיקייה, <code>06-gait</code>, כדי שיעבוד עליה איתכם.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="ch" id="c07">
+        <div class="ch-side"><span class="ch-num holo-text">07</span><p class="eyebrow ch-terr">עיצוב מרחבי וארכיטקטורה פרוצדורלית</p></div>
+        <div>
+          <h2>חלל שגדל מאחורי הדלת</h2>
+          <p class="brief bi" tabindex="0"><span lang="he">שוטטו בעולם קטן שבונה את החדר הבא בתגובה למסלול שלכם. חקרו איך שינויים בקנה מידה, באור ובצפיפות יוצרים ציפייה.</span><span class="alt" lang="en" dir="ltr">Walk through a small world that builds the next room in response to your route. Explore how changing scale, light and density produces anticipation.</span></p>
+          <p class="needs"><span class="eyebrow">מה צריך</span> Chrome עם האצת גרפיקה מופעלת, ועכבר או משטח מגע.</p>
+          <details class="more">
+            <summary>כשמגיע הזמן ליצור</summary>
+            <p>הפעילו את התחנה על המחשב שלכם. העתיקו, הדביקו בטרמינל ולחצו Enter:</p>
+            <div class="cmd"><code>cd ~/daring/starters/07-space-behind-door && npm run dev</code><button class="copy" type="button" aria-label="העתקה">העתקה</button></div>
+            <p>אחר כך פתחו בעוזר ה־AI את אותה התיקייה, <code>07-space-behind-door</code>, כדי שיעבוד עליה איתכם.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="ch" id="c08">
+        <div class="ch-side"><span class="ch-num holo-text">08</span><p class="eyebrow ch-terr">נרטיב חזותי, קומפוזיציה ויצירת תמונות</p></div>
+        <div>
+          <h2>תמונה שממציאה את מה שמחוצה לה</h2>
+          <p class="brief bi" tabindex="0"><span lang="he">התחילו מתמונה אחת וחשפו סביבה עולם גדול יותר שמשנה את המשמעות שלה. פתחו שלוש הרחבות עוקבות, עם רציפות ועם הפתעה.</span><span class="alt" lang="en" dir="ltr">Begin with one image and reveal a larger world that changes its meaning. Develop three successive expansions with continuity and surprise.</span></p>
+          <p class="needs"><span class="eyebrow">מה צריך</span> Chrome, תמונת פתיחה וכלי שיודע להרחיב תמונה: ChatGPT או Gemini, או Generative Expand בפוטושופ. אין לכם כלי כזה? באפליקציה יש תמונות מוכנות.</p>
+          <details class="more">
+            <summary>כשמגיע הזמן ליצור</summary>
+            <p>הפעילו את התחנה על המחשב שלכם. העתיקו, הדביקו בטרמינל ולחצו Enter:</p>
+            <div class="cmd"><code>cd ~/daring/starters/08-image-outside && npm run dev</code><button class="copy" type="button" aria-label="העתקה">העתקה</button></div>
+            <p>אחר כך פתחו בעוזר ה־AI את אותה התיקייה, <code>08-image-outside</code>, כדי שיעבוד עליה איתכם.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="ch" id="c09">
+        <div class="ch-side"><span class="ch-num holo-text">09</span><p class="eyebrow ch-terr">לוגיקה טקסטילית ומלאכה חישובית</p></div>
+        <div>
+          <h2>נול עם מוטציות</h2>
+          <p class="brief bi" tabindex="0"><span lang="he">ציירו מוטיב קטן ותנו לבד לצמוח שורה אחר שורה. וריאציות מזדמנות עוברות בירושה לשורות הבאות, ויוצרות שושלת חזותית משתנה.</span><span class="alt" lang="en" dir="ltr">Draw a small motif and let a fabric grow row by row. Occasional variations are inherited by later rows, creating a changing visual lineage.</span></p>
+          <p class="needs"><span class="eyebrow">מה צריך</span> מחשב נייד ו־Chrome.</p>
+          <details class="more">
+            <summary>כשמגיע הזמן ליצור</summary>
+            <p>הפעילו את התחנה על המחשב שלכם. העתיקו, הדביקו בטרמינל ולחצו Enter:</p>
+            <div class="cmd"><code>cd ~/daring/starters/09-loom && npm run dev</code><button class="copy" type="button" aria-label="העתקה">העתקה</button></div>
+            <p>אחר כך פתחו בעוזר ה־AI את אותה התיקייה, <code>09-loom</code>, כדי שיעבוד עליה איתכם.</p>
+          </details>
+        </div>
+      </article>
+    </section>
+
+    <section id="help">
+      <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">אם משהו נשבר</h2></div>
+      <div class="two-col">
+        <ul class="checks">
+          <li><b>קראו את ההודעה האדומה.</b><small>כל פרויקט מסביר את הבעיה במילים פשוטות: מצלמה שנחסמה, קובץ חסר, מספר לא תקין.</small></li>
+          <li><b>לחצו Reset.</b><small>אותו seed, התחלה נקייה.</small></li>
+          <li><b>בטלו את השינוי האחרון</b> בקובץ <code>src/config.js</code></li>
+        </ul>
+        <div>
+          <p class="brief" style="margin:0;">עדיין תקועים? חזרו לגרסה שעובדת.</p>
+          <p class="note">הריצו את הפקודה בתוך התיקייה של האתגר (היא מוחקת את השינויים שעשיתם בתיקייה הזו), או קראו למנחה:</p>
+          <pre>git checkout workshop-start -- .</pre>
+          <p class="note">הפרויקט חוזר בדיוק למצב שבו קיבלתם אותו. קבצים שהוספתם בעצמכם נשארים.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <img src="assets/zemingo-logo.png" alt="Zemingo">
+      <p><bdi dir="ltr">Daring · Dare to make.</bdi> · <a href="get-ready.html">עוד לא התקנתם?</a></p>
+    </footer>
+  </main>
+  <script src="assets/hero.js" defer></script>
+  <script src="page.js?v=2026-10-05-he"></script>
+</body>
+</html>

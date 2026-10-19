@@ -1,0 +1,16 @@
+{
+  "prepared": true,
+  "note": "Hand-made illustrations drawn by tools/make-prepared.mjs. NOT generated.",
+  "start": "frame-0.svg",
+  "rings": [
+    "ring-1.svg",
+    "ring-2.svg",
+    "ring-3.svg"
+  ],
+  "captions": [
+    "A sailboat on open water.",
+    "The sea is a puddle on a rainy street.",
+    "The street is a diorama on a painter's table.",
+    "The table stands in a gallery; people gather round."
+  ]
+}

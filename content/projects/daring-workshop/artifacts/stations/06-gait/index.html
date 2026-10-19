@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Machine That Finds a Gait</title>
+  <style>:root{--bg:#e9e3d7;--ink:#1d1b19;--muted:#6b645a;--line:#d2c9ba;--btn:#fff}*{box-sizing:border-box}body{background:var(--bg);color:var(--ink);margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}main{flex-wrap:wrap;align-items:flex-start;gap:24px;padding:20px;display:flex}canvas{border-radius:6px;width:960px;max-width:100%;height:auto;display:block}aside{flex-direction:column;gap:16px;width:300px;display:flex}h1{margin:0;font-size:20px}p{color:var(--muted);margin:0}.row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}button{font:inherit;border:1px solid var(--line);background:var(--btn);cursor:pointer;border-radius:6px;padding:6px 12px}button:disabled{opacity:.45;cursor:default}input{font:inherit;border:1px solid var(--line);border-radius:6px;width:130px;padding:5px 8px}label{color:var(--muted);font-size:13px}#stats{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px}[data-error]{color:#8a1c0b;background:#fde8e4;border:1px solid #f0b4a8;border-radius:6px;padding:10px 12px;display:none}[data-error].show{display:block}</style>
+  <script type="module" crossorigin src="./assets/index-BLRDZROr.js"></script>
+</head>
+<body>
+  <main>
+    <canvas id="view" aria-label="Side view of the creature"></canvas>
+    <aside>
+      <div>
+        <h1>A Machine That Finds a Gait</h1>
+        <p>Five rigid parts, four motorised hinges, gravity and friction. Each hinge repeats the same rhythm; whatever way of moving you see comes from the body meeting the ground.</p>
+      </div>
+      <div data-error role="alert"></div>
+      <div class="row">
+        <button id="start">Start</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+      </div>
+      <div class="row">
+        <label for="seed">Seed</label>
+        <input id="seed" spellcheck="false">
+        <button id="newseed" title="Pick a new random seed and reset">New seed</button>
+      </div>
+      <div id="stats"></div>
+      <p>Change the body or the rhythm in <code>src/config.js</code>, save, and watch how its character changes.</p>
+    </aside>
+  </main>
+</body>
+</html>

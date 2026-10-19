@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loom with Mutations</title>
+  <style>:root{--bg:#f4efe6;--ink:#1d1b19;--muted:#6b645a;--line:#d8cfc0;--btn:#fff}*{box-sizing:border-box}body{background:var(--bg);color:var(--ink);margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}main{flex-wrap:wrap;align-items:flex-start;gap:24px;padding:20px;display:flex}.loom{gap:6px;display:flex}canvas{border-radius:4px;display:block}aside{flex-direction:column;gap:16px;width:300px;display:flex}h1{margin:0;font-size:20px}p{color:var(--muted);margin:0}.row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}button{font:inherit;border:1px solid var(--line);background:var(--btn);cursor:pointer;border-radius:6px;padding:6px 12px}button:disabled{opacity:.45;cursor:default}input{font:inherit;border:1px solid var(--line);border-radius:6px;width:130px;padding:5px 8px}label{color:var(--muted);font-size:13px}#motif{grid-template-columns:repeat(8,28px);gap:2px;display:grid}#motif button{background:#2f4b7c;border-color:#2f4b7c;border-radius:3px;width:28px;height:28px;padding:0}#motif button[aria-pressed=true]{background:#e8dcc4;border-color:#b9ab90}#stats{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px}[data-error]{color:#8a1c0b;background:#fde8e4;border:1px solid #f0b4a8;border-radius:6px;padding:10px 12px;display:none}[data-error].show{display:block}</style>
+  <script type="module" crossorigin src="./assets/index-DKtZznnQ.js"></script>
+</head>
+<body>
+  <main>
+    <div class="loom">
+      <canvas id="fabric" aria-label="Woven fabric"></canvas>
+      <canvas id="lineage" aria-label="Mutation lineage: one line per living mutation"></canvas>
+    </div>
+    <aside>
+      <div>
+        <h1>Loom with Mutations</h1>
+        <p>The fabric grows one row at a time. Rare mutations are inherited by the rows that follow.</p>
+      </div>
+      <div data-error role="alert"></div>
+      <div class="row">
+        <button id="start">Start</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+        <button id="export">Export PNG</button>
+      </div>
+      <div class="row">
+        <label for="seed">Seed</label>
+        <input id="seed" spellcheck="false">
+        <button id="newseed" title="Pick a new random seed and reset">New seed</button>
+      </div>
+      <div>
+        <label>Motif (click to edit; cream = warp floats over)</label>
+        <div id="motif"></div>
+        <div class="row" style="margin-top:6px"><button id="motif-default">Restore motif</button></div>
+      </div>
+      <div id="stats"></div>
+      <p>The strip beside the fabric shows living mutations. A vertical line there is one mutation being inherited row after row.</p>
+    </aside>
+  </main>
+</body>
+</html>
