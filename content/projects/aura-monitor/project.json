@@ -1,0 +1,148 @@
+{
+  "id": "project_aura_monitor",
+  "name": "Aura Monitor — Designing for a 2.1-Inch Circle",
+  "status": "draft",
+  "organization": "Clearblue (client, via Zemingo)",
+  "context": "A client engagement at Zemingo for Clearblue. Aura is a connected fertility monitor with a small round display, and the work was to decide what that display shows. Unlike the other confidential client work in this portfolio, Clearblue is named openly in the delivered case study, so the agent may name it.",
+  "role": "Project lead, art direction, 3D model and viewer",
+  "summary": "Three directions for the display of a connected fertility monitor, judged on the object rather than on a board. A flat frame cannot tell you how a screen reads inside a bezel, under glass, in a hand, at the one moment a test stick slides in. So the device was modelled in 3D and wrapped in an interactive viewer that loads any of the three directions onto it, turns it, zooms it and runs the test — which let nine screens be reviewed as a product before the product existed.",
+  "challenge": "Nine screens in Figma can tell you whether they are tidy. They cannot tell you how each one reads inside the bezel, next to the others, in the order a user meets them. The brief for the model was therefore narrow and worth stating: not a manufacturing file, just believable enough that a reviewer stops looking at artwork and starts looking at a product.",
+  "skills_demonstrated": [
+    "Creative Direction",
+    "UX/UI Design",
+    "3D & Immersive Experience Design",
+    "Product Design"
+  ],
+  "tools": [
+    "Blender",
+    "Three.js",
+    "Figma"
+  ],
+  "evidence": [
+    {
+      "id": "evidence_case_study",
+      "type": "source_document",
+      "label": "Case study, as delivered",
+      "uri": "/api/artifact/aura-monitor/case-study.html",
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "The written case study: why the device was modelled, how the model was built, what the viewer made checkable, and the three directions side by side. The embedded recording was lifted out to /media so the page is not a megabyte of base64."
+    },
+    {
+      "id": "evidence_viewer",
+      "type": "prototype",
+      "label": "Interactive viewer",
+      "uri": "/api/artifact/aura-monitor/viewer.html",
+      "verification_status": "verified",
+      "visibility": "public",
+      "notes": "The viewer itself, running: turn and zoom the device, switch between the three directions, start a test. Three analytics installers were removed before publication — two script tags and an inline loader — and the font stylesheet was repointed at Google Fonts, which is also what makes the page work standalone."
+    },
+    {
+      "id": "evidence_owner_confirmation",
+      "type": "manual_confirmation",
+      "label": "Owner-supplied case study and viewer (2026-10-19)",
+      "uri": null,
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "Both files came from Boaz. Role, client and scope are as stated in the delivered case study; the portfolio copy here was drafted from those files and has not been reviewed by him."
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "case-study",
+      "label": "Case study",
+      "file": "case-study.html",
+      "description": "Why the device was built at all, how the model was made step by step, what the viewer let the team check, and the three directions compared.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
+    },
+    {
+      "id": "viewer",
+      "label": "Interactive viewer",
+      "file": "viewer.html",
+      "description": "The device in 3D with any of the three directions loaded onto its display. Turn it, zoom it, pick a direction, run a test.",
+      "sanitized": true,
+      "visibility": "public",
+      "viewport": "desktop"
+    }
+  ],
+  "media": [
+    {
+      "id": "media_aura_reel",
+      "type": "video",
+      "purpose": "The device turning with the display live, as the case study opens with it.",
+      "uri": "/media/aura-monitor.mp4",
+      "caption": "The Aura monitor rendered in Blender Cycles from the same model the viewer loads.",
+      "visibility": "public"
+    }
+  ],
+  "conversation_hooks": [
+    {
+      "recruiter_intent": "Assess 3D and device/product design",
+      "trigger_topics": [
+        "3d",
+        "blender",
+        "device",
+        "hardware",
+        "industrial",
+        "product design",
+        "render",
+        "physical"
+      ],
+      "agent_response_goal": "Lead with this: a device modelled in 3D specifically so that screen design could be judged on the object. The recording plays in the conversation and the viewer opens on the stage.",
+      "recommended_media_ids": [
+        "media_aura_reel"
+      ]
+    },
+    {
+      "recruiter_intent": "Assess design for constrained or embedded displays",
+      "trigger_topics": [
+        "small screen",
+        "wearable",
+        "embedded",
+        "watch",
+        "circular",
+        "constraint",
+        "iot",
+        "connected device"
+      ],
+      "agent_response_goal": "A 2.1-inch circle is the constraint, and the argument is about judging it in place rather than in a frame. Three directions, nine screens.",
+      "recommended_media_ids": []
+    },
+    {
+      "recruiter_intent": "Assess how options are put to a client",
+      "trigger_topics": [
+        "directions",
+        "options",
+        "concepts",
+        "client",
+        "review",
+        "decision"
+      ],
+      "agent_response_goal": "Same pattern as the WellNet work: rather than boards, the options were made testable. Worth offering both if someone is weighing how he runs a decision.",
+      "recommended_media_ids": []
+    }
+  ],
+  "presentation": {
+    "default_component": "show_artifact",
+    "short_pitch": "Three display directions for a connected fertility monitor, judged on a 3D model of the device instead of on a board.",
+    "long_pitch": "Clearblue's Aura is a connected fertility monitor with a 2.1-inch round display. Boaz led the work at Zemingo on what that display shows: three directions, nine screens. Rather than review them as flat frames, the device was modelled in Blender and wrapped in an interactive viewer that loads any direction onto it — turn it, zoom it, slide the test stick in. That let the team check the things a frame hides: whether the circle holds, whether each background works, whether the moment reads, and whether it still feels related to the app.",
+    "suggested_followups": [
+      "Want to open the viewer and turn the device, or read how the model was built?",
+      "I can also compare the three directions — App Based, Human Centered and Data Based."
+    ]
+  },
+  "peek": {
+    "hook": "A 2.1-inch circle, tested on the device before it existed.",
+    "supporting": "Three display directions for a connected fertility monitor, loaded onto a 3D model of the product so they could be judged in the hand rather than in a frame.",
+    "cta": "Turn it",
+    "suppressed": true
+  },
+  "open_questions": [
+    "Team composition for the engagement is not recorded.",
+    "Which of the three directions the client chose, and what shipped, is not recorded here.",
+    "The case study and the viewer both link to the live demo at aura-monitor.netlify.app. That site is outside this repository and can change or disappear independently of the artifacts.",
+    "Font weights for the viewer's Google Fonts stylesheet were reconstructed, since the saved copy was not in the export. If the typography looks off against the original, that is where to look."
+  ]
+}

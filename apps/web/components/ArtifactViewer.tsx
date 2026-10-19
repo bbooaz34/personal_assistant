@@ -37,12 +37,22 @@ export function ArtifactViewer({
   initialArtifactId,
   sandbox,
   expanded = false,
+  inlineVideo = null,
 }: {
   projectName: string;
   artifacts: ProjectArtifact[];
   initialArtifactId?: string;
   sandbox: string;
   expanded?: boolean;
+  /**
+   * Played in the chat column instead of framing the artifact.
+   *
+   * Some work does not survive a 336px-wide iframe: a dense case study is
+   * unreadable at that size, and a heavy prototype spends the visitor's first
+   * seconds booting. Where a project has a recording of itself, that is the
+   * better inline answer, and the artifacts are one tap away on the stage.
+   */
+  inlineVideo?: { uri: string; mobile_uri?: string; caption?: string } | null;
 }) {
   const initial =
     artifacts.find((a) => a.id === initialArtifactId) ?? artifacts[0];
@@ -69,6 +79,8 @@ export function ArtifactViewer({
     return () => observer.disconnect();
   }, [expanded, viewport.width, active?.id]);
 
+  const showsInlineVideo = !expanded && Boolean(inlineVideo);
+
   if (!active) return null;
 
   return (
@@ -76,6 +88,7 @@ export function ArtifactViewer({
       aria-label={`Artifact: ${projectName}`}
       className="my-3 overflow-hidden rounded-xl border border-[var(--color-edge)] bg-[var(--color-surface)]"
     >
+      {showsInlineVideo ? null : (
       <div className="flex flex-wrap items-center gap-1.5 border-b border-[var(--color-edge)] p-2">
         {artifacts.map((artifact) => {
           const selected = artifact.id === active.id;
@@ -109,8 +122,9 @@ export function ArtifactViewer({
           restart
         </button>
       </div>
+      )}
 
-      {active.description ? (
+      {active.description && !showsInlineVideo ? (
         <p className="px-3 pt-2.5 text-xs leading-relaxed text-[var(--color-ink-faint)]">
           {active.description}
         </p>
@@ -153,6 +167,18 @@ export function ArtifactViewer({
               className="bg-white"
             />
           </div>
+        ) : showsInlineVideo && inlineVideo ? (
+          <video
+            key={inlineVideo.uri}
+            src={inlineVideo.mobile_uri ?? inlineVideo.uri}
+            autoPlay
+            muted
+            loop
+            playsInline
+            controls
+            aria-label={inlineVideo.caption ?? projectName}
+            className="w-full rounded-lg border border-[var(--color-edge)] bg-black"
+          />
         ) : (
           <iframe
             key={`${active.id}-${reloadNonce}`}
@@ -166,11 +192,11 @@ export function ArtifactViewer({
         )}
       </div>
 
-      <p className="px-3 pb-3 text-[11px] leading-relaxed text-[var(--color-ink-faint)]">
-        This is the real interface, running. Names and addresses shown inside it are
-        placeholders — the original contained colleagues&rsquo; details and was sanitized
-        before publication.
-      </p>
+      {showsInlineVideo ? null : (
+        <p className="px-3 pb-3 text-[11px] leading-relaxed text-[var(--color-ink-faint)]">
+          This is the real interface, running.
+        </p>
+      )}
     </section>
   );
 }

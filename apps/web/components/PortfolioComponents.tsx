@@ -189,6 +189,7 @@ export function TransformationView({
             artifacts={project.artifacts}
             sandbox={sandbox}
             expanded={expanded}
+            inlineVideo={project.media.find((m) => m.type === 'video' && !/^https?:/.test(m.uri)) ?? null}
           />
         </div>
       ) : null}
@@ -606,6 +607,9 @@ export function renderComponent(
     case 'show_artifact': {
       const project = projectById(args.project_id);
       if (!project || project.artifacts.length === 0) return null;
+      // A project that recorded itself leads with that in the chat column and
+      // keeps the artifacts for the stage, where they have room to be read.
+      const reel = project.media.find((m) => m.type === 'video' && !/^https?:/.test(m.uri));
       return (
         <ArtifactViewer
           projectName={project.name}
@@ -613,6 +617,7 @@ export function renderComponent(
           sandbox={portfolio.embedSandbox}
           initialArtifactId={typeof args.artifact_id === 'string' ? args.artifact_id : undefined}
           expanded={expanded}
+          inlineVideo={reel ?? null}
         />
       );
     }

@@ -141,6 +141,15 @@
       "uri": null,
       "date": "2026-10-19",
       "notes": "Recorded in the Claude Code sessions that built the workshop: Boaz chose the stations format for the day (set up nine stations around one table, walk between them, then make something new); after the workshop on 2026-10-06 he said it was really successful and that he would run it again about a week later for another team; on 2026-10-19 he asked for the workshop to be added to the portfolio. On 2026-10-19 he confirmed his role as Design Team Leader and workshop facilitator, and that he designed the workshop and wrote its content; the rest of the project text has not yet been reviewed by him."
+    },
+    {
+      "id": "source_aura_case_study_2026_10_19",
+      "type": "case_study",
+      "name": "Aura monitor case study and interactive viewer, as delivered",
+      "authority_level": 1,
+      "uri": null,
+      "date": "2026-10-19",
+      "notes": "Both files supplied by the owner. The case study states the client, his role and the scope; the viewer is the running artifact. Analytics installers were removed before publication."
     }
   ],
   "entities": [
@@ -457,6 +466,19 @@
       "id": "tool_playwright",
       "type": "tool",
       "name": "Playwright",
+      "visibility": "public"
+    },
+    {
+      "id": "company_clearblue",
+      "type": "company",
+      "name": "Clearblue",
+      "description": "Consumer health brand; client of Zemingo. Named openly in the delivered case study, unlike the portfolio's confidential clients.",
+      "visibility": "public"
+    },
+    {
+      "id": "industry_consumer_health",
+      "type": "industry",
+      "name": "Consumer Health Devices",
       "visibility": "public"
     }
   ],
@@ -1938,6 +1960,48 @@
       ],
       "notes": "Added 2026-10-19 at the owner's request, built from the workshop repository and his statements in the build sessions; on 2026-10-19 he confirmed his role (Design Team Leader, workshop facilitator) and that he designed the workshop and wrote its content; the rest of the copy still needs his review. Photos and videos from the day are published with every face blurred, at the owner's decision on 2026-10-19; participants' work and browser windows are visible, which he accepted; participants' consent is not recorded. Commits after e519810 in the workshop repository were made by participants and are not presented as Boaz's work.",
       "thumbnail": "/api/artifact/daring-workshop/thumb.jpg"
+    },
+    {
+      "id": "project_aura_monitor",
+      "name": "Aura Monitor — Designing for a 2.1-Inch Circle",
+      "company_id": "company_clearblue",
+      "delivered_via_company_id": "company_zemingo",
+      "role_ids": [
+        "role_design_team_leader"
+      ],
+      "summary": "Three directions for the display of Clearblue's Aura, a connected fertility monitor with a 2.1-inch round screen, led by Boaz at Zemingo. Rather than review nine screens as flat frames, the device was modelled in Blender and wrapped in an interactive viewer that loads any direction onto it and runs a test — so the screens could be judged on the object, in the hand, before the object existed.",
+      "skill_ids": [
+        "skill_creative_direction",
+        "skill_ux_ui_design",
+        "skill_3d_immersive",
+        "skill_product_design"
+      ],
+      "tool_ids": [
+        "tool_blender",
+        "tool_threejs",
+        "tool_figma"
+      ],
+      "industry_ids": [
+        "industry_consumer_health"
+      ],
+      "sources": [
+        {
+          "source_id": "source_aura_case_study_2026_10_19",
+          "reliability": 0.9
+        }
+      ],
+      "verification_status": "needs_verification",
+      "visibility": "public",
+      "notes": "Client, role and scope are as stated in the delivered case study. The portfolio copy was drafted from the supplied files and has not been read by Boaz; flip to verified once it has.",
+      "media": [
+        {
+          "type": "video",
+          "uri": "/media/aura-monitor.mp4",
+          "caption": "The Aura monitor rendered in Blender Cycles from the same model the viewer loads.",
+          "visibility": "public"
+        }
+      ],
+      "thumbnail": null
     }
   ],
   "relationships": [
@@ -2434,6 +2498,66 @@
       "confidence": 0.9,
       "source_ids": [
         "source_owner_statements_daring_2026_10"
+      ]
+    },
+    {
+      "id": "rel_boaz_worked_on_aura_monitor",
+      "from_id": "person_boaz_ben_eli",
+      "type": "worked_on",
+      "to_id": "project_aura_monitor",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_aura_case_study_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_aura_demonstrates_3d",
+      "from_id": "project_aura_monitor",
+      "type": "demonstrates_skill",
+      "to_id": "skill_3d_immersive",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_aura_case_study_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_aura_demonstrates_creative_direction",
+      "from_id": "project_aura_monitor",
+      "type": "demonstrates_skill",
+      "to_id": "skill_creative_direction",
+      "confidence": 0.9,
+      "source_ids": [
+        "source_aura_case_study_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_aura_demonstrates_product_design",
+      "from_id": "project_aura_monitor",
+      "type": "demonstrates_skill",
+      "to_id": "skill_product_design",
+      "confidence": 0.85,
+      "source_ids": [
+        "source_aura_case_study_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_aura_delivered_via_zemingo",
+      "from_id": "project_aura_monitor",
+      "type": "related_to",
+      "to_id": "company_zemingo",
+      "confidence": 1,
+      "source_ids": [
+        "source_aura_case_study_2026_10_19"
+      ]
+    },
+    {
+      "id": "rel_aura_belongs_to_consumer_health",
+      "from_id": "project_aura_monitor",
+      "type": "belongs_to_industry",
+      "to_id": "industry_consumer_health",
+      "confidence": 1,
+      "source_ids": [
+        "source_aura_case_study_2026_10_19"
       ]
     }
   ],
