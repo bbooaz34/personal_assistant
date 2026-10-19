@@ -21,7 +21,7 @@ import {
 import { createSession, applyUpdate, type SessionState } from '@par/analytics';
 import { agentConfig } from '@par/config';
 import { getAgent } from '@/lib/agent';
-import { hasCredentials, resolveModel } from '@/lib/model';
+import { hasCredentials, resolveModel, resolveProviderOptions } from '@/lib/model';
 import { parseVisitorSession } from '@/lib/session';
 import { noEmDashes } from '@/lib/no-em-dash';
 import { getSessionStore } from '@/lib/session-store';
@@ -214,6 +214,7 @@ export async function POST(request: Request): Promise<Response> {
     system: plan.systemPrompt,
     messages: convertToModelMessages(body.messages),
     tools,
+    providerOptions: resolveProviderOptions(agentConfig.model),
     temperature: agentConfig.model.temperature ?? 0.4,
     // The prompt asks for this as well; this is what makes it true.
     experimental_transform: noEmDashes(),

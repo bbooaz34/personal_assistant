@@ -35,12 +35,14 @@ export function createAgentConfig(): AgentConfig {
       // grounding is enforced by retrieval rather than by clamping sampling.
       temperature: 0.4,
       /*
-       * Eighty words is about 110 tokens. This sits well above that so a
-       * well-behaved answer is never cut mid-sentence, and well below the old
-       * 1200, which let the model write four paragraphs whenever it felt like
-       * it. The prompt asks for the length; this is what stops a runaway.
+       * Eighty words is about 110 tokens, and 320 was sized for that with
+       * headroom -- back when the whole budget went to the answer. It no
+       * longer does: the model thinks before it replies and that reasoning is
+       * drawn from the same ceiling, so 320 ran out mid-sentence. This leaves
+       * room for both. The prompt still asks for the length; this only stops
+       * a runaway.
        */
-      maxOutputTokens: 320,
+      maxOutputTokens: 1200,
     },
     retrieval: {
       limit: 8,
