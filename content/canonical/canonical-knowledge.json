@@ -1785,6 +1785,7 @@
       "id": "project_wellnet_design_directions",
       "name": "WellNet — Two Brand Directions",
       "company_id": "company_confidential_wellness_marketplace",
+      "delivered_via_company_id": "company_zemingo",
       "role_ids": [
         "role_design_team_leader"
       ],
